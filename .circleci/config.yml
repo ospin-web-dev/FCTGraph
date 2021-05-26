@@ -1,0 +1,73 @@
+version: 2.1
+
+defaults: &defaults
+  working_directory: ~/FCTGraph
+  docker:
+    - image: circleci/node:14.13
+
+orbs:
+  slack: circleci/slack@3.4.1
+  codecov: codecov/codecov@1.0.5
+
+jobs:
+
+  ############################################################
+  test:
+    <<: *defaults
+
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - v1-npm-deps-{{ checksum "package.json" }}
+
+      - run: npm install
+
+      - save_cache:
+          key: v1-npm-deps-{{ checksum "package.json" }}
+          paths:
+            - package-lock.json
+            - node_modules
+
+      - run: npm run test-with-coverage
+
+      - persist_to_workspace:
+          root: ./
+          paths: ./
+
+      - slack/status:
+          fail_only: true
+          only_for_branches: master
+          channel: 'circle-ci'
+          failure_message: <!here> Pipeline for $CIRCLE_BRANCH failed in $CIRCLE_JOB! Triggered by $CIRCLE_USERNAME
+
+  ############################################################
+  report:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ./
+      - codecov/upload:
+          file: ./coverage/coverage-final.json
+
+      - slack/status:
+          fail_only: true
+          only_for_branches: master
+          channel: 'circle-ci'
+          failure_message: <!here> Pipeline for $CIRCLE_BRANCH failed in $CIRCLE_JOB! Triggered by $CIRCLE_USERNAME
+
+
+workflows:
+  version: 2.1
+  test-and-report-coverage:
+    jobs:
+      - test:
+          context:
+            - slack-communication
+      - report:
+          requires:
+            - test
+          context:
+            - slack-communication

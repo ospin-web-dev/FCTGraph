@@ -1,0 +1,56 @@
+{
+  "name": "test-omg-work",
+  "author": "danielseehausen",
+  "version": "0.0.0",
+  "description": "Graph data structure with conditional edges via 'slots' on nodes. Intended to represent physical and virtual functionalities on a device.",
+  "main": "index.js",
+  "public": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": "12.x",
+    "npm": ">=6"
+  },
+  "np": {
+    "yarn": false,
+    "contents": "src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ospin-web-dev/FCTGraph.git"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "jest",
+    "test-with-coverage": "jest -i --coverage",
+    "lint-diff": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint $LIST; fi",
+    "lint-diff-and-fix": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint --fix $LIST; fi"
+  },
+  "files": [
+    "index.js",
+    "src/"
+  ],
+  "dependencies": {
+    "joi": "^17.4.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jest-formatting": "^3.0.0",
+    "jest": "^27.0.1"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "moduleDirectories": [
+      "<rootDir>/node_modules",
+      "src"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "moduleNameMapper": {
+      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/mocks/assetMock.js"
+    }
+  }
+}
