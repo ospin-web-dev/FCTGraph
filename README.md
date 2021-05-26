@@ -16,3 +16,13 @@ TODO!
 
 **Q:** I have further questions re: the implementation
 **A:** see the test coverage!
+
+---
+
+## For Developers
+
+#### how 2 deploy m8?
+I use the `np` package, which makes things easy!
+TODO: automate this in to a pipeline that auto deploys via CI/CD on merge to master after setting back up branch protection rules
+
+
