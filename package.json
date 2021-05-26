@@ -1,10 +1,9 @@
 {
-  "name": "test-omg-work",
+  "name": "@ospin/fct-graph",
   "author": "danielseehausen",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Graph data structure with conditional edges via 'slots' on nodes. Intended to represent physical and virtual functionalities on a device.",
   "main": "index.js",
-  "public": true,
   "license": "UNLICENSED",
   "engines": {
     "node": "12.x",
@@ -13,6 +12,9 @@
   "np": {
     "yarn": false,
     "contents": "src"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "repository": {
     "type": "git",
