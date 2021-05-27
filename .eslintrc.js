@@ -1,7 +1,12 @@
 module.exports = {
-  "extends": ["airbnb-base", "plugin:jest-formatting/recommended"],
+  "extends": [
+    "airbnb-base",
+    "plugin:jest-formatting/recommended",
+    "plugin:jest/style",
+    "plugin:jest/all",
+  ],
+  "plugins": ["jest"],
   "env": { "jest": true },
-  "ignorePatterns": [".eslintrc.js"],
   "rules": {
     "import/no-extraneous-dependencies": "off",
     "array-bracket-spacing": "off",
@@ -20,5 +25,10 @@ module.exports = {
       "asyncArrow": "always"
     }],
     "no-underscore-dangle": "off",
-  }
+
+    // jest rules (all are enabled by default via the extends section above)
+    "jest/no-hooks": "off",
+    "jest/consistent-test-it": "warn",
+    "jest/prefer-expect-assertions": "off",
+  },
 }

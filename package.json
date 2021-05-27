@@ -39,14 +39,15 @@
     "eslint": "^7.27.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.23.3",
+    "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jest-formatting": "^3.0.0",
+    "faker": "^5.5.3",
     "jest": "^27.0.1"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
     "moduleDirectories": [
-      "<rootDir>/node_modules",
-      "src"
+      "<rootDir>/node_modules"
     ],
     "collectCoverageFrom": [
       "src/**/*.js"
