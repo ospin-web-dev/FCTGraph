@@ -1,6 +1,5 @@
 const Joi = require('joi')
 
-const JOIous = require('../mixins/instanceMixins/JOIous')
 const DataStream = require('../dataStreams/DataStream')
 
 class Slot {
@@ -24,11 +23,9 @@ class Slot {
     }
   }
 
-  static get ALL_UNITS() {
+  static get ALL_UNIT_VALUES() {
     return Object.values(this.UNIT_TYPE_UNIT_OPTIONS)
-      .reduce((acc, opts) => ({
-        ...acc, ...opts,
-      }), [])
+      .reduce((acc, opts) => ([ ...acc, ...opts ]), [])
   }
   /* **************************************************************** */
 
@@ -55,8 +52,18 @@ class Slot {
       dataType: Joi.string().allow(...Object.values(Slot.DATA_TYPES)).required(),
       displayType: Joi.string().allow(...Object.values(Slot.DISPLAY_TYPES)).required(),
       dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
-      unit: Joi.string().allow(...this.ALL_UNITS).required(), // inherited
+      unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(), // inherited
     })
+  }
+
+  static x(y) {
+    return {
+      name: y.name,
+      dataType: y.dataType,
+      displayType: y.displayType,
+      dataStreams: y.dataStreams,
+      unit: y.unit,
+    }
   }
 
   constructor({ name, dataType, displayType, dataStreams, unit }) {
@@ -65,8 +72,6 @@ class Slot {
     this.displayType = displayType
     this.dataStreams = dataStreams
     this.unit = unit
-
-    this.attemptStructure()
   }
 
   serialize() {
@@ -81,6 +86,4 @@ class Slot {
 
 }
 
-module.exports = (
-  JOIous(SlotUnits(Slot))
-)
+module.exports = Slot

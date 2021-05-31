@@ -1,12 +1,11 @@
 function getRandomArbitrary(min, max) {
-  return Math.random() * (max - min) + min
+  return Math.round(Math.random() * (max - min) + min)
 }
 
 class FactorySeeder {
 
-  static set Factory(targetFactory) { this.Factory = targetFactory }
-
-  static get Factory() {
+  static get _Factory() {
+    // Make use of ._Factory internally for friendlier warnings
     if (!this.Factory) {
       throw new Error('please set a valid Factory first. On:', this.name)
     }
@@ -14,23 +13,34 @@ class FactorySeeder {
     return this.Factory
   }
 
-  static seedOne(data = {}) {
-    if (typeof this.generateOne !== 'function') {
-      throw new Error('Seeder must have a valid \'_generateOne\' method. On:', this.name)
+  static _generate(data) {
+    // Make use of ._generate internally for friendlier warnings
+    if (typeof this.generate !== 'function') {
+      throw new Error('Seeder must have a valid \'generate\' method. On:', this.name)
     }
 
-    return this.Factory.new({
-      ...this._generateOne(),
+    return this.generate(data)
+  }
+
+  static generateOne(data) { return this._generate(data) }
+
+  static generateN(data = {}, times = getRandomArbitrary(2, 5)) {
+    return Array.from(Array(times)).map(() => this._generate(data))
+  }
+
+  static seedOne(data = {}) {
+    return this._Factory.new({
+      ...this._generate(),
       ...data,
     })
   }
 
   static seedMany(dataArray) {
-    return dataArray.map(this.seedOne)
+    return dataArray.map(data => this.seedOne(data))
   }
 
   static seedN(data = {}, times = getRandomArbitrary(2, 5)) {
-    // unecessary double iteration, but ensures it travels through
+    // unecessary double iteration - ensures execution travels through
     // this.seedMany, which may receive special implementation later
     const dataArray = Array.from(Array(times)).map(() => ({
       ...data,

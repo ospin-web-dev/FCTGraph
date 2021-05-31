@@ -25,7 +25,7 @@ class InSlot extends Slot {
     this.max = max
     this.defaultValue = defaultValue
 
-    this.attemptStructure()
+    this.assertStructure()
   }
 
   serialize() {
