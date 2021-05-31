@@ -20,7 +20,6 @@ class Functionality {
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       name: Joi.string().required(),
       type: Joi.string().allow(...Object.values(Functionality.TYPES)),
-      subType: Joi.string().required(),
       slots: Joi.array().items(Joi.alternatives().try(
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
@@ -40,7 +39,7 @@ class Functionality {
     this.subType = subType
     this.slots = slots.map(SlotFactory.new)
 
-    this.assertStructure()
+    this.attemptStructure()
   }
 
   serialize() {

@@ -11,4 +11,8 @@ describe('FCTGraph', () => {
     })
   })
 
+  // will not accept creation if it has funcs which aren't a specific type (no vanilla funcs)
+  //
+  // will not accept vanilla slots
+
 })

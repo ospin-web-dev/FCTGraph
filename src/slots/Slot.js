@@ -5,6 +5,33 @@ const DataStream = require('../dataStreams/DataStream')
 
 class Slot {
 
+  /* ***************************** UNITS *************************** */
+  static get UNIT_TYPES() {
+    return {
+      TEMPERATURE: 'temperature',
+      ROTATIONAL_SPEED: 'rotationalSpeed',
+      PERCENTAGE: 'percentage',
+      UNITLESS: 'unitless',
+    }
+  }
+
+  static get UNIT_TYPE_UNIT_OPTIONS() {
+    return {
+      [this.UNIT_TYPES.TEMPERATURE]: ['K', '°C', '°F'],
+      [this.UNIT_TYPES.ROTATIONAL_SPEED]: ['rpm'],
+      [this.UNIT_TYPES.PERCENTAGE]: ['%'],
+      [this.UNIT_TYPES.UNITLESS]: ['-'],
+    }
+  }
+
+  static get ALL_UNITS() {
+    return Object.values(this.UNIT_TYPE_UNIT_OPTIONS)
+      .reduce((acc, opts) => ({
+        ...acc, ...opts,
+      }), [])
+  }
+  /* **************************************************************** */
+
   static get DATA_TYPES() {
     return {
       INTEGER: 'integer',
@@ -28,7 +55,7 @@ class Slot {
       dataType: Joi.string().allow(...Object.values(Slot.DATA_TYPES)).required(),
       displayType: Joi.string().allow(...Object.values(Slot.DISPLAY_TYPES)).required(),
       dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
-      unit: Joi.string().required(),
+      unit: Joi.string().allow(...this.ALL_UNITS).required(), // inherited
     })
   }
 
@@ -39,7 +66,7 @@ class Slot {
     this.dataStreams = dataStreams
     this.unit = unit
 
-    this.assertStructure()
+    this.attemptStructure()
   }
 
   serialize() {
@@ -55,5 +82,5 @@ class Slot {
 }
 
 module.exports = (
-  JOIous(Slot)
+  JOIous(SlotUnits(Slot))
 )

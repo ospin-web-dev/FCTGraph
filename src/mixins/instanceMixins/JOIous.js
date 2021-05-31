@@ -1,10 +1,14 @@
+const Joi = require('joi')
+
 const JOIous = ReceivingClass => class extends ReceivingClass {
 
   static get isJOIous() { return true }
 
-  assertStructure() {
-    // TODO: ref key error is something with the assert method because validate works fine!
-    ReceivingClass.SCHEMA.assert(this.serialize())
+  attemptStructure() {
+    Joi.attempt(
+      this.serialize(),
+      ReceivingClass.SCHEMA,
+    )
   }
 
   validateStructure() {

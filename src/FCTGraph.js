@@ -29,7 +29,7 @@ class FCTGraph {
       new Functionality(fctData)
     ))
 
-    this.assertStructure()
+    this.attemptStructure()
   }
 
   serialize() {
