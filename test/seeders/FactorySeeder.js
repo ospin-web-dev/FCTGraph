@@ -22,11 +22,12 @@ class FactorySeeder {
     return this.generate(data)
   }
 
-  static generateOne(data) { return this._generate(data) }
+  // TODO: remove!
+  //static generateOne(data) { return this._generate(data) }
 
-  static generateN(data = {}, times = getRandomArbitrary(2, 5)) {
-    return Array.from(Array(times)).map(() => this._generate(data))
-  }
+  //static generateN(data = {}, times = getRandomArbitrary(2, 5)) {
+  //  return Array.from(Array(times)).map(() => this._generate(data))
+  //}
 
   static seedOne(data = {}) {
     return this._Factory.new({
@@ -40,7 +41,7 @@ class FactorySeeder {
   }
 
   static seedN(data = {}, times = getRandomArbitrary(2, 5)) {
-    // unecessary double iteration - ensures execution travels through
+    // double iteration :(. Ensures execution travels through
     // this.seedMany, which may receive special implementation later
     const dataArray = Array.from(Array(times)).map(() => ({
       ...data,

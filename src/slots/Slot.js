@@ -34,7 +34,7 @@ class Slot {
       INTEGER: 'integer',
       FLOAT: 'float',
       BOOLEAN: 'boolean',
-      STRING: 'string',
+      ONE_OF: 'oneOf',
     }
   }
 
