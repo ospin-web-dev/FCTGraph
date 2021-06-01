@@ -5,6 +5,7 @@
   "description": "Graph data structure with conditional edges via 'slots' on nodes. Intended to represent physical and virtual functionalities on a device.",
   "main": "index.js",
   "license": "UNLICENSED",
+  "type": "module",
   "engines": {
     "node": "12.x",
     "npm": ">=6"
@@ -21,8 +22,8 @@
     "url": "https://github.com/ospin-web-dev/FCTGraph.git"
   },
   "scripts": {
-    "start": "node index.js",
-    "test": "jest",
+    "start": "node --es-module-specifier-resolution=node index.js",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test-with-coverage": "jest -i --coverage",
     "lint-diff": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint $LIST; fi",
     "lint-diff-and-fix": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint --fix $LIST; fi"
@@ -47,8 +48,10 @@
   },
   "jest": {
     "coverageDirectory": "./coverage/",
-    "moduleDirectories": [
-      "<rootDir>/node_modules"
+    "transform": {},
+    "modulePaths": [
+      "<rootDir>/src",
+      "<rootDir>/test"
     ],
     "collectCoverageFrom": [
       "src/**/*.js"

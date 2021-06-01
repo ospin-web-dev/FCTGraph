@@ -36,7 +36,7 @@ class SlotSeeder {
     return typeGeneratorDispatch[data.type](data)
   }
 
-  static generate(data) {
+  static generate(data = {}) {
     const dataType = data.dataType || (
       faker.random.arrayElement(Object.values(Slot.DATA_TYPES))
     )
@@ -46,7 +46,6 @@ class SlotSeeder {
         SlotFactory.SUPPORTED_CLASSES.map(slotClass => slotClass.TYPE),
       )
     )
-    console.error(type)
 
     return {
       name: faker.animal.lion(),

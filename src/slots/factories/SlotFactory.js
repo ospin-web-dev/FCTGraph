@@ -35,4 +35,5 @@ class SlotFactory {
 
 }
 
-module.exports = SlotFactory
+export default SlotFactory
+//module.exports = SlotFactory

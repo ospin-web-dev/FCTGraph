@@ -7,6 +7,13 @@ module.exports = {
   ],
   "plugins": ["jest"],
   "env": { "jest": true },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["test", "src"]
+      }
+    }
+  },
   "rules": {
     "import/no-extraneous-dependencies": "off",
     "array-bracket-spacing": "off",
