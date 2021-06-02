@@ -1,21 +1,19 @@
 const TemperatureSensor = require('../TemperatureSensor')
+const PIDController = require('../PIDController')
+const HeaterActuator = require('../HeaterActuator')
+const IntervalOut = require('../IntervalOut')
+const PushOut = require('../PushOut')
 
 class FunctionalityFactory {
 
-  static get SUPPORTED_CLASSES() { return [ TemperatureSensor ] }
-
-  static get SUPPORTED_SUB_TYPES() {
-    return (
-      FunctionalityFactory.SUPPORTED_CLASSES.map(funcClass => funcClass.SUB_TYPE)
-    )
-  }
-
-  static get SUPPORTED_TYPES() {
-    return (
-      FunctionalityFactory.SUPPORTED_CLASSES.map(funcClass => (
-        Object.getPrototypeOf(funcClass).TYPE
-      ))
-    )
+  static get SUPPORTED_CLASSES() {
+    return [
+      TemperatureSensor,
+      PIDController,
+      HeaterActuator,
+      IntervalOut,
+      PushOut,
+    ]
   }
 
   static get SUPPORTED_CLASSES_SCHEMAS() {

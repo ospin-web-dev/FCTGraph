@@ -1,6 +1,8 @@
 const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
+const OutSlot = require('slots/OutSlot')
 
+// eslint-disable-next-line import/no-unresolved
 const { InSlotSeeder, OutSlotSeeder } = require('test/seeders/slots')
 
 describe('the slot factories', () => {
@@ -8,24 +10,48 @@ describe('the slot factories', () => {
   describe('new', () => {
 
     it('throws error when the type is not recognized', () => {
-      const InSlotData = InSlotSeeder.generate()
+      const inSlotData = InSlotSeeder.generate()
       const bogusType = 'merkel' // not that Angie, herself, is bogus...
 
       expect(() => {
-        SlotFactory.new({ ...InSlotData, type: bogusType })
+        SlotFactory.new({ ...inSlotData, type: bogusType })
       }).toThrow(`Slot type not supported ${bogusType}`)
     })
 
-    it('creates the correct slots when given valid data', () => {
-      // TODO: do for the 4 different data types
-      const InSlotData = InSlotSeeder.generate({ dataType: 'float', defaultValue: 300 })
-      //const OutSlotData = OutSlotSeeder.generate()
+    describe('when making InSlots', () => {
+      Object.values(InSlot.DATA_TYPES).forEach(dataType => {
+        describe(`of dataType: ${dataType}`, () => {
+          const inSlotData = InSlotSeeder.generate({ dataType })
+          const inSlot = SlotFactory.new(inSlotData)
 
-      const inSlot = SlotFactory.new(InSlotData)
-      //const outSlot = SlotFactory.new(OutSlotData)
+          it('creates the correct slot type...', () => {
+            expect(inSlot instanceof InSlot).toBe(true)
+          })
 
-      expect(inSlot instanceof InSlot).toBe(true)
-      //expect(outSlot instanceof OutSlot).toBe(true)
+          it('...which serializes back to its original data object', () => {
+            // eslint-disable-next-line jest/prefer-strict-equal
+            expect(inSlot.serialize()).toEqual(inSlotData)
+          })
+        })
+      })
+    })
+
+    describe('when making OutSlot', () => {
+      Object.values(OutSlot.DATA_TYPES).forEach(dataType => {
+        describe(`of dataType: ${dataType}`, () => {
+          const outSlotData = OutSlotSeeder.generate({ dataType })
+          const outSlot = SlotFactory.new(outSlotData)
+
+          it('creates the correct slot type...', () => {
+            expect(outSlot instanceof OutSlot).toBe(true)
+          })
+
+          it('...which serializes back to its original data object', () => {
+            // eslint-disable-next-line jest/prefer-strict-equal
+            expect(outSlot.serialize()).toEqual(outSlotData)
+          })
+        })
+      })
     })
   })
 })

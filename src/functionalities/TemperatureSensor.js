@@ -18,7 +18,6 @@ class TemperatureSensor extends Sensor {
   constructor({ subType, ...sensorData }) {
     super(sensorData)
     this.subType = subType
-    console.log({ subType, sensorData })
 
     this.assertStructure()
   }
