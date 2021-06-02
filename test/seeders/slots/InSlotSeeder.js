@@ -2,6 +2,7 @@ const faker = require('faker')
 const compose = require('@choux/compose')
 
 const SlotFactory = require('slots/factories/SlotFactory')
+const InSlot = require('slots/InSlot')
 const SlotSeeder = require('./SlotSeeder')
 const FactorySeeder = require('../FactorySeeder')
 
@@ -82,6 +83,7 @@ class InSlotSeeder extends SlotSeeder {
 
   static generate(data = {}) {
     const slotData = super.generate(data)
+    slotData.dataType = data.dataType || faker.random.arrayElement(Object.values(InSlot.DATA_TYPES))
 
     return {
       ...slotData,

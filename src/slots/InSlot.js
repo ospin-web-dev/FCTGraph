@@ -9,17 +9,27 @@ class InSlot extends Slot {
     return 'InSlot'
   }
 
+  static get DATA_TYPES() {
+    return {
+      INTEGER: 'integer',
+      FLOAT: 'float',
+      BOOLEAN: 'boolean',
+      ONE_OF: 'oneOf',
+    }
+  }
+
   static get SCHEMA() {
     return Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
+      dataType: Joi.string().allow(...Object.values(InSlot.DATA_TYPES)).required(),
       min: Joi.number().strict()
         .when('dataType', [
           {
-            is: super.DATA_TYPES.INTEGER,
+            is: InSlot.DATA_TYPES.INTEGER,
             then: Joi.required(),
           },
           {
-            is: super.DATA_TYPES.FLOAT,
+            is: InSlot.DATA_TYPES.FLOAT,
             then: Joi.required(),
             otherwise: Joi.forbidden(),
           },
@@ -31,46 +41,55 @@ class InSlot extends Slot {
         })
         .when('dataType', [
           {
-            is: super.DATA_TYPES.INTEGER,
+            is: InSlot.DATA_TYPES.INTEGER,
             then: Joi.required(),
           },
           {
-            is: super.DATA_TYPES.FLOAT,
+            is: InSlot.DATA_TYPES.FLOAT,
             then: Joi.required(),
             otherwise: Joi.forbidden(),
           },
         ]),
       defaultValue: Joi.any()
         .when('dataType', {
-          is: super.DATA_TYPES.INTEGER,
+          is: InSlot.DATA_TYPES.INTEGER,
           then: Joi.number().integer().min(Joi.ref('min')).max(Joi.ref('max'))
             .required(),
         })
         .when('dataType', {
-          is: super.DATA_TYPES.FLOAT,
+          is: InSlot.DATA_TYPES.FLOAT,
           then: Joi.number().min(Joi.ref('min')).max(Joi.ref('max')).required(),
         })
         .when('dataType', {
-          is: super.DATA_TYPES.BOOLEAN,
+          is: InSlot.DATA_TYPES.BOOLEAN,
           then: Joi.boolean().required(),
         })
         .when('dataType', {
-          is: super.DATA_TYPES.ONE_OF,
+          is: InSlot.DATA_TYPES.ONE_OF,
           then: Joi.any().valid(Joi.in('selectOptions')),
         })
         .required(),
       selectOptions: Joi.array()
         .when('dataType', {
-          is: super.DATA_TYPES.ONE_OF,
+          is: InSlot.DATA_TYPES.ONE_OF,
           then: Joi.required(),
           otherwise: Joi.forbidden(),
         }),
     }).concat(super.SCHEMA)
   }
 
-  constructor({ type, min, max, defaultValue, selectOptions, ...slotData }) {
+  constructor({
+    type,
+    dataType,
+    min,
+    max,
+    defaultValue,
+    selectOptions,
+    ...slotData
+  }) {
     super(slotData)
     this.type = type
+    this.dataType = dataType
     this.defaultValue = defaultValue
     this.min = min
     this.max = max
@@ -96,6 +115,7 @@ class InSlot extends Slot {
   serialize() {
     const dataObj = {
       type: this.type,
+      dataType: this.dataType,
       ...super.serialize(),
       ...this.serializeOptionals(),
       defaultValue: this.defaultValue,

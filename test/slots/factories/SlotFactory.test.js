@@ -19,13 +19,13 @@ describe('the slot factories', () => {
     it('creates the correct slots when given valid data', () => {
       // TODO: do for the 4 different data types
       const InSlotData = InSlotSeeder.generate({ dataType: 'float', defaultValue: 300 })
-      const OutSlotData = OutSlotSeeder.generate()
+      //const OutSlotData = OutSlotSeeder.generate()
 
       const inSlot = SlotFactory.new(InSlotData)
-      const outSlot = SlotFactory.new(OutSlotData)
+      //const outSlot = SlotFactory.new(OutSlotData)
 
       expect(inSlot instanceof InSlot).toBe(true)
-      expect(outSlot instanceof OutSlot).toBe(true)
+      //expect(outSlot instanceof OutSlot).toBe(true)
     })
   })
 })
