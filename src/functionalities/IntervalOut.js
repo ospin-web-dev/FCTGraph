@@ -1,5 +1,6 @@
 const Joi = require('joi')
 
+const JOIous = require('../mixins/instanceMixins/JOIous')
 const OutputNode = require('./OutputNode')
 
 class IntervalOut extends OutputNode {
@@ -28,4 +29,6 @@ class IntervalOut extends OutputNode {
 
 }
 
-module.exports = IntervalOut
+module.exports = (
+  JOIous(IntervalOut)
+)

@@ -27,8 +27,6 @@ class OutSlot extends Slot {
     super(slotData)
     this.type = type
     this.dataType = dataType
-
-    this.assertStructure()
   }
 
   serialize() {

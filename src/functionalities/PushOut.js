@@ -1,5 +1,6 @@
 const Joi = require('joi')
 
+const JOIous = require('../mixins/instanceMixins/JOIous')
 const OutputNode = require('./OutputNode')
 
 class PushOut extends OutputNode {
@@ -28,4 +29,6 @@ class PushOut extends OutputNode {
 
 }
 
-module.exports = PushOut
+module.exports = (
+  JOIous(PushOut)
+)

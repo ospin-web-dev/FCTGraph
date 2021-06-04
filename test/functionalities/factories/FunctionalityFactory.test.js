@@ -1,13 +1,25 @@
 const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
-const TemperatureSensor = require('functionalities/TemperatureSensor')
-
-const { TemperatureSensorSeeder } = require('test/seeders/functionalities')
+const {
+  TemperatureSensorSeeder,
+  HeaterActuatorSeeder,
+  IntervalOutSeeder,
+  PIDControllerSeeder,
+  PushOutSeeder,
+} = require('test/seeders/functionalities')
+const {
+  TemperatureSensor,
+  HeaterActuator,
+  IntervalOut,
+  PIDController,
+  PushOut,
+} = require('functionalities')
+const ObjUtils = require('utils/ObjUtils')
 
 describe('the functionality factory', () => {
 
   describe('new', () => {
 
-    it('throws error when the type is not recognized', () => {
+    it('throws useful error when the type is not recognized', () => {
       const bogusType = 'merkel' // not that Angie, herself, is bogus...
       const funcData = TemperatureSensorSeeder.generate({ type: bogusType })
 
@@ -16,7 +28,7 @@ describe('the functionality factory', () => {
       }).toThrow(`Functionality type not supported ${bogusType}`)
     })
 
-    it('throws error when the subType is not recognized', () => {
+    it('throws useful error when the subType is not recognized', () => {
       const bogusSubType = 'merkel'
       const funcData = TemperatureSensorSeeder.generate({ subType: bogusSubType })
 
@@ -25,26 +37,63 @@ describe('the functionality factory', () => {
       }).toThrow(`Functionality subType not supported ${bogusSubType}`)
     })
 
-    const subFuncs = [
+    const SUB_FUNCTIONALITY_SEEDERS = [
+      {
+        SubClass: HeaterActuator,
+        SubClassSeeder: HeaterActuatorSeeder,
+      },
+      {
+        SubClass: IntervalOut,
+        SubClassSeeder: IntervalOutSeeder,
+      },
+      {
+        SubClass: PIDController,
+        SubClassSeeder: PIDControllerSeeder,
+      },
+      {
+        SubClass: PushOut,
+        SubClassSeeder: PushOutSeeder,
+      },
       {
         SubClass: TemperatureSensor,
         SubClassSeeder: TemperatureSensorSeeder,
       },
     ]
 
-    subFuncs.forEach(({ SubClass, SubClassSeeder }) => {
+    SUB_FUNCTIONALITY_SEEDERS.forEach(({ SubClass, SubClassSeeder }) => {
 
       describe(`when making a(n) ${SubClass.name}`, () => {
         const funcSubClassData = SubClassSeeder.generate()
         const func = FunctionalityFactory.new(funcSubClassData)
+
+        it('throws error if it gets bogus data', () => {
+          const bogusName = 666
+          const badBadData = SubClassSeeder.generate({ name: bogusName })
+
+          expect(() => {
+            FunctionalityFactory.new(badBadData)
+          }).toThrow('"name" must be a string')
+        })
+
+        it('creates the expected slot instances', () => {
+          expect(func.slotTypes().sort())
+            .toStrictEqual(SubClassSeeder.SLOT_SEED_TYPES.sort())
+        })
 
         it('creates the correct functionality instance...', () => {
           expect(func instanceof SubClass).toBe(true)
         })
 
         it('...which serializes back to its original data object', () => {
-          // eslint-disable-next-line jest/prefer-strict-equal
-          expect(func.serialize()).toEqual(funcSubClassData)
+          expect(func.serialize()).toStrictEqual(funcSubClassData)
+        })
+
+        it('...which stringifies toJSON back to its original data object', () => {
+          const sortedJSONData = JSON.stringify(
+            ObjUtils.sortByKeys(funcSubClassData),
+          )
+
+          expect(JSON.stringify(func)).toStrictEqual(sortedJSONData)
         })
       })
     })

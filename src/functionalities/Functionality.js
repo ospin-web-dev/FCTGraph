@@ -36,6 +36,10 @@ class Functionality {
     }
   }
 
+  slotTypes() {
+    return this.slots.map(({ type }) => type)
+  }
+
 }
 
 module.exports = Functionality

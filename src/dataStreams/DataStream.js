@@ -16,6 +16,10 @@ class DataStream {
     })
   }
 
+  serialize() {
+    throw new Error('TODO this should also probably have types, understanding there is an averaging window size thing going on. try to convince denis')
+  }
+
 }
 
 module.exports = (

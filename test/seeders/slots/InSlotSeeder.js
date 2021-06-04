@@ -83,9 +83,25 @@ class InSlotSeeder extends SlotSeeder {
     const slotData = super.generate(data)
     slotData.dataType = data.dataType || faker.random.arrayElement(Object.values(InSlot.DATA_TYPES))
 
+    /* this method will delegate and attempt to build fake data based
+     * off of what the user has provided. e.g. if the user provided a
+     * max value, it will try to give sensible min and defaultValues.
+     * the reason all of these values are generated at once is because
+     * they are all, per the JOI SCHEMA, related
+     */
+    const { min, max, defaultValue, selectOptions } = (
+      this.generateMinMaxDefaultValueAndSelectOptionsFromData(slotData)
+    )
+
+    // this parses out keys that have undefined values
+    const optionals = InSlot.SERIALIZE_OPTIONAL_DATA({
+      min, max, selectOptions,
+    })
+
     return {
       ...slotData,
-      ...this.generateMinMaxDefaultValueAndSelectOptionsFromData(slotData),
+      ...optionals,
+      defaultValue,
       type: 'InSlot',
     }
   }

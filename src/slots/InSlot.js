@@ -18,6 +18,20 @@ class InSlot extends Slot {
     }
   }
 
+  static SERIALIZE_OPTIONAL_DATA(inSlot) {
+    const optionals = {
+      min: inSlot.min,
+      max: inSlot.max,
+      selectOptions: inSlot.selectOptions,
+    }
+
+    return Object.entries(optionals).reduce((obj, [ key, value ]) => {
+      // eslint-disable-next-line no-param-reassign
+      if (value !== undefined) obj[key] = value
+      return obj
+    }, {})
+  }
+
   static get SCHEMA() {
     return Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
@@ -94,22 +108,12 @@ class InSlot extends Slot {
     this.min = min
     this.max = max
     this.selectOptions = selectOptions
-
-    this.assertStructure()
   }
 
   serializeOptionals() {
-    const optionals = {
-      min: this.min,
-      max: this.max,
-      selectOptions: this.selectOptions,
-    }
-
-    return Object.entries(optionals).reduce((obj, [ key, value ]) => {
-      // eslint-disable-next-line no-param-reassign
-      if (value !== undefined) obj[key] = value
-      return obj
-    }, {})
+    // class method useful for seeding
+    // which is why the instance is delegating up
+    return InSlot.SERIALIZE_OPTIONAL_DATA(this)
   }
 
   serialize() {

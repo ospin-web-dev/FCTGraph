@@ -17,6 +17,10 @@ class FCTGraph {
     })
   }
 
+  static deepEquals(fctGraphA, fctGraphB) {
+    throw new Error(`implement me! ${fctGraphA} ${fctGraphB}`)
+  }
+
   constructor({
     id,
     deviceId,
@@ -30,8 +34,6 @@ class FCTGraph {
     this.functionalities = Array.isArray(functionalities)
       ? functionalities.map(FunctionalityFactory.new)
       : []
-
-    this.assertStructure()
   }
 
   serialize() {
@@ -41,6 +43,10 @@ class FCTGraph {
       deviceDefault: this.deviceDefault,
       functionalities: this.functionalities.forEach(func => func.serialize),
     }
+  }
+
+  deepEquals(otherFctGraph) {
+    return FCTGraph.deepEquals(this, otherFctGraph)
   }
 
 }

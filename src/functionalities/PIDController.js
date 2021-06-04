@@ -1,5 +1,6 @@
 const Joi = require('joi')
 
+const JOIous = require('../mixins/instanceMixins/JOIous')
 const Controller = require('./Controller')
 
 class PIDController extends Controller {
@@ -28,4 +29,6 @@ class PIDController extends Controller {
 
 }
 
-module.exports = PIDController
+module.exports = (
+  JOIous(PIDController)
+)

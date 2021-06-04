@@ -1,5 +1,6 @@
 const Joi = require('joi')
 
+const JOIous = require('../mixins/instanceMixins/JOIous')
 const Actuator = require('./Actuator')
 
 class HeaterActuator extends Actuator {
@@ -28,4 +29,6 @@ class HeaterActuator extends Actuator {
 
 }
 
-module.exports = HeaterActuator
+module.exports = (
+  JOIous(HeaterActuator)
+)

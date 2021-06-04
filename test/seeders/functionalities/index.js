@@ -1,15 +1,13 @@
-//const SensorSeeder = require('./SensorSeeder')
-//const ActuatorSeeder = require('./ActuatorSeeder')
-//const ControllerSeeder = require('./ControllerSeeder')
-//const InputNodeSeeder = require('./InputNodeSeeder')
-//const OutputNodeSeeder = require('./OutputNodeSeeder')
 const TemperatureSensorSeeder = require('./TemperatureSensorSeeder')
+const HeaterActuatorSeeder = require('./HeaterActuatorSeeder')
+const IntervalOutSeeder = require('./IntervalOutSeeder')
+const PIDControllerSeeder = require('./PIDControllerSeeder')
+const PushOutSeeder = require('./PushOutSeeder')
 
 module.exports = {
-  //SensorSeeder,
-  //ActuatorSeeder,
-  //ControllerSeeder,
-  //InputNodeSeeder,
-  //OutputNodeSeeder,
   TemperatureSensorSeeder,
+  HeaterActuatorSeeder,
+  IntervalOutSeeder,
+  PIDControllerSeeder,
+  PushOutSeeder,
 }
