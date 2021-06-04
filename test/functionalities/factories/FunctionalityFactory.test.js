@@ -1,55 +1,50 @@
 const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
-const InFunctionality = require('functionalities/InFunctionality')
-const Functionality = require('functionalities/Functionality')
+const TemperatureSensor = require('functionalities/TemperatureSensor')
 
-// eslint-disable-next-line import/no-unresolved
-const { InFunctionalitySeeder, FunctionalitySeeder } = require('test/seeders/functionalities')
+const { TemperatureSensorSeeder } = require('test/seeders/functionalities')
 
-describe('the slot factories', () => {
+describe('the functionality factory', () => {
 
   describe('new', () => {
 
     it('throws error when the type is not recognized', () => {
-      const inFunctionalityData = InFunctionalitySeeder.generate()
       const bogusType = 'merkel' // not that Angie, herself, is bogus...
+      const funcData = TemperatureSensorSeeder.generate({ type: bogusType })
 
       expect(() => {
-        FunctionalityFactory.new({ ...inFunctionalityData, type: bogusType })
+        FunctionalityFactory.new(funcData)
       }).toThrow(`Functionality type not supported ${bogusType}`)
     })
 
-    describe('when making InFunctionalitys', () => {
-      Object.values(InFunctionality.DATA_TYPES).forEach(dataType => {
-        describe(`of dataType: ${dataType}`, () => {
-          const inFunctionalityData = InFunctionalitySeeder.generate({ dataType })
-          const inFunctionality = FunctionalityFactory.new(inFunctionalityData)
+    it('throws error when the subType is not recognized', () => {
+      const bogusSubType = 'merkel'
+      const funcData = TemperatureSensorSeeder.generate({ subType: bogusSubType })
 
-          it('creates the correct slot type...', () => {
-            expect(inFunctionality instanceof InFunctionality).toBe(true)
-          })
-
-          it('...which serializes back to its original data object', () => {
-            // eslint-disable-next-line jest/prefer-strict-equal
-            expect(inFunctionality.serialize()).toEqual(inFunctionalityData)
-          })
-        })
-      })
+      expect(() => {
+        FunctionalityFactory.new(funcData)
+      }).toThrow(`Functionality subType not supported ${bogusSubType}`)
     })
 
-    describe('when making Functionality', () => {
-      Object.values(Functionality.DATA_TYPES).forEach(dataType => {
-        describe(`of dataType: ${dataType}`, () => {
-          const FunctionalityData = FunctionalitySeeder.generate({ dataType })
-          const Functionality = FunctionalityFactory.new(FunctionalityData)
+    const subFuncs = [
+      {
+        SubClass: TemperatureSensor,
+        SubClassSeeder: TemperatureSensorSeeder,
+      },
+    ]
 
-          it('creates the correct slot type...', () => {
-            expect(Functionality instanceof Functionality).toBe(true)
-          })
+    subFuncs.forEach(({ SubClass, SubClassSeeder }) => {
 
-          it('...which serializes back to its original data object', () => {
-            // eslint-disable-next-line jest/prefer-strict-equal
-            expect(Functionality.serialize()).toEqual(FunctionalityData)
-          })
+      describe(`when making a(n) ${SubClass.name}`, () => {
+        const funcSubClassData = SubClassSeeder.generate()
+        const func = FunctionalityFactory.new(funcSubClassData)
+
+        it('creates the correct functionality instance...', () => {
+          expect(func instanceof SubClass).toBe(true)
+        })
+
+        it('...which serializes back to its original data object', () => {
+          // eslint-disable-next-line jest/prefer-strict-equal
+          expect(func.serialize()).toEqual(funcSubClassData)
         })
       })
     })

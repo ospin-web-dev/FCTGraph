@@ -1,8 +1,9 @@
 const Joi = require('joi')
 
-const JOIous = require('./mixins/instanceMixins/JOIous')
-const RegexUtils = require('./utils/RegexUtils')
-const Functionality = require('./functionalities/Functionality')
+const JOIous = require('mixins/instanceMixins/JOIous')
+const RegexUtils = require('utils/RegexUtils')
+const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
+const Functionality = require('functionalities/Functionality')
 
 class FCTGraph {
 
@@ -25,9 +26,10 @@ class FCTGraph {
     this.id = id
     this.deviceId = deviceId
     this.deviceDefault = deviceDefault
-    this.functionalities = functionalities.map(fctData => (
-      new Functionality(fctData)
-    ))
+    // Avoids blowing up in the constructor. Joi gives better errors
+    this.functionalities = Array.isArray(functionalities)
+      ? functionalities.map(FunctionalityFactory.new)
+      : []
 
     this.assertStructure()
   }

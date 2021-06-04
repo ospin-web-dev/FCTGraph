@@ -1,18 +1,12 @@
 const FCTGraph = require('FCTGraph')
 
-const validSlotData = require('./seeds/slots/valid.js')
-const { SlotSeeder } = require('./seeders')
-
-describe('FCTGraph', () => {
+describe('the FCTGraph class', () => {
 
   describe('new', () => {
     it('throws if given an invalid data object', () => {
-      expect(new FCTGraph()).toThrowError()
+      expect(() => {
+        new FCTGraph({}) // eslint-disable-line
+      }).toThrow('is required')
     })
   })
-
-  // will not accept creation if it has funcs which aren't a specific type (no vanilla funcs)
-  //
-  // will not accept vanilla slots
-
 })

@@ -2,10 +2,9 @@ const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
 const OutSlot = require('slots/OutSlot')
 
-// eslint-disable-next-line import/no-unresolved
 const { InSlotSeeder, OutSlotSeeder } = require('test/seeders/slots')
 
-describe('the slot factories', () => {
+describe('the slot factory', () => {
 
   describe('new', () => {
 

@@ -1,6 +1,8 @@
 const faker = require('faker')
+const compose = require('@choux/compose')
 
 const Slot = require('slots/Slot')
+const FactorySeeder = require('test/seeders/FactorySeeder')
 
 class SlotSeeder {
 
@@ -16,4 +18,4 @@ class SlotSeeder {
 
 }
 
-module.exports = SlotSeeder
+module.exports = compose([ FactorySeeder ])(SlotSeeder)

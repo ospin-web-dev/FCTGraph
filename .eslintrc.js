@@ -10,7 +10,7 @@ module.exports = {
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["test", "src"]
+        "paths": ["./", "src"]
       }
     }
   },

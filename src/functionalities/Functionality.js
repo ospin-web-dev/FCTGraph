@@ -22,14 +22,17 @@ class Functionality {
   }) {
     this.id = id
     this.name = name
-    this.slots = slots.map(SlotFactory.new)
+    // Avoids blowing up in the constructor. Joi gives better errors
+    this.slots = Array.isArray(slots)
+      ? slots.map(SlotFactory.new)
+      : []
   }
 
   serialize() {
     return {
       id: this.id,
-      deviceId: this.deviceId,
-      slots: this.slots.forEach(slot => slot.serialize),
+      name: this.name,
+      slots: this.slots.map(slot => slot.serialize()),
     }
   }
 
