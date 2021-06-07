@@ -18,8 +18,6 @@ class PIDController extends Controller {
   constructor({ subType, ...controllerData }) {
     super(controllerData)
     this.subType = subType
-
-    this.assertStructure()
   }
 
   serialize() {

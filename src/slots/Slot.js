@@ -90,7 +90,7 @@ class Slot {
   _assertStructure() {
     // assertStructure used in children classes - use private for kinder error handling
     if (typeof this.assertStructure !== 'function') {
-      throw new Error(`${this} requires an .assertStructure method to mutate`)
+      throw new Error(`${this} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
     }
 
     this.assertStructure()

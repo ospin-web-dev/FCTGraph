@@ -18,8 +18,6 @@ class TemperatureSensor extends Sensor {
   constructor({ subType, ...sensorData }) {
     super(sensorData)
     this.subType = subType
-
-    this.assertStructure()
   }
 
   serialize() {

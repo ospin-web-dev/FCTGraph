@@ -47,7 +47,6 @@ class Functionality {
     return this.slots.filter(slot => slot.isFree())
   }
 
-
 }
 
 module.exports = Functionality

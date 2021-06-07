@@ -18,8 +18,6 @@ class HeaterActuator extends Actuator {
   constructor({ subType, ...actuatorData }) {
     super(actuatorData)
     this.subType = subType
-
-    this.assertStructure()
   }
 
   serialize() {

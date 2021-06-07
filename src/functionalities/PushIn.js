@@ -18,8 +18,6 @@ class PushIn extends InputNode {
   constructor({ subType, ...inputNodeData }) {
     super(inputNodeData)
     this.subType = subType
-
-    this.assertStructure()
   }
 
   serialize() {

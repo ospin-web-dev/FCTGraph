@@ -18,8 +18,6 @@ class IntervalOut extends OutputNode {
   constructor({ subType, ...outputNodeData }) {
     super(outputNodeData)
     this.subType = subType
-
-    this.assertStructure()
   }
 
   serialize() {
