@@ -1,22 +1,22 @@
 const Joi = require('joi')
 
 const JOIous = require('../mixins/instanceMixins/JOIous')
-const OutputNode = require('./OutputNode')
+const InputNode = require('./InputNode')
 
-class PushOut extends OutputNode {
+class PushIn extends InputNode {
 
   static get SUB_TYPE() {
-    return 'PushOut'
+    return 'PushIn'
   }
 
   static get SCHEMA() {
     return Joi.object({
-      subType: Joi.string().allow(PushOut.SUB_TYPE).required(),
+      subType: Joi.string().allow(PushIn.SUB_TYPE).required(),
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...outputNodeData }) {
-    super(outputNodeData)
+  constructor({ subType, ...inputNodeData }) {
+    super(inputNodeData)
     this.subType = subType
 
     this.assertStructure()
@@ -32,5 +32,5 @@ class PushOut extends OutputNode {
 }
 
 module.exports = (
-  JOIous(PushOut)
+  JOIous(PushIn)
 )

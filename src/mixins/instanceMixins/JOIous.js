@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const diff = require('deep-diff')
 
 const ObjUtils = require('utils/ObjUtils')
 
@@ -23,6 +24,15 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
 
   static get isJOIous() { return true }
 
+  static diff(objA, objB) {
+    return diff(objA, objB) // library returns undefined for no diffs
+  }
+
+  static deepEquals(objA, objB) {
+    const objDiff = this.diff(objA, objB)
+    return typeof objDiff === 'undefined'
+  }
+
   constructor(...args) {
     super(...args)
 
@@ -34,10 +44,6 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
       this.serialize(),
       ReceivingClass.SCHEMA,
     )
-  }
-
-  validateStructure() {
-    ReceivingClass.SCHEMA.validate(this.serialize())
   }
 
   sortAndSerialize() {

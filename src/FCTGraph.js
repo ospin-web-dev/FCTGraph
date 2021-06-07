@@ -3,7 +3,6 @@ const Joi = require('joi')
 const JOIous = require('mixins/instanceMixins/JOIous')
 const RegexUtils = require('utils/RegexUtils')
 const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
-const Functionality = require('functionalities/Functionality')
 
 class FCTGraph {
 
@@ -12,13 +11,10 @@ class FCTGraph {
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       deviceId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       deviceDefault: Joi.boolean().default(false),
-      native: Joi.boolean().default(true),
-      functionalities: Joi.array().items(Functionality.SCHEMA).default([]),
+      functionalities: Joi.array().items(Joi.alternatives().try(
+        ...FunctionalityFactory.SUPPORTED_CLASSES_SCHEMAS,
+      )).default([]),
     })
-  }
-
-  static deepEquals(fctGraphA, fctGraphB) {
-    throw new Error(`implement me! ${fctGraphA} ${fctGraphB}`)
   }
 
   constructor({
@@ -41,14 +37,15 @@ class FCTGraph {
       id: this.id,
       deviceId: this.deviceId,
       deviceDefault: this.deviceDefault,
-      functionalities: this.functionalities.forEach(func => func.serialize),
+      functionalities: this.functionalities.map(func => func.serialize()),
     }
   }
 
-  deepEquals(otherFctGraph) {
-    return FCTGraph.deepEquals(this, otherFctGraph)
-  }
+  /* *******************************************************************
+   * GRAPH ACTIONS
+   * **************************************************************** */
 
+  // TODO: method that, given a node, returns all other nodes eligible for connection
 }
 
 module.exports = (

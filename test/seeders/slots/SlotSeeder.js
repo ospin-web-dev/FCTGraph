@@ -1,10 +1,13 @@
 const faker = require('faker')
 const compose = require('@choux/compose')
 
-const Slot = require('slots/Slot')
 const FactorySeeder = require('test/seeders/FactorySeeder')
+const SlotFactory = require('slots/factories/SlotFactory')
+const Slot = require('slots/Slot')
 
 class SlotSeeder {
+
+  static get SEED_METHOD() { return SlotFactory }
 
   static generate(data = {}) {
     return {

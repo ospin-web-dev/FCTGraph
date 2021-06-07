@@ -1,10 +1,14 @@
 const Joi = require('joi')
+const { v4: uuidv4 } = require('uuid')
 
-const DataStream = require('../dataStreams/DataStream')
+const JOIous = require('mixins/instanceMixins/JOIous')
+const DataStream = require('dataStreams/DataStream')
 
 class Slot {
 
-  /* ***************************** UNITS *************************** */
+  /* *******************************************************************
+   * UNITS
+   * **************************************************************** */
   static get UNIT_TYPES() {
     return {
       TEMPERATURE: 'temperature',
@@ -60,6 +64,67 @@ class Slot {
       dataStreams: this.dataStreams,
       unit: this.unit,
     }
+  }
+
+  /* *******************************************************************
+   * GRAPH ACTIONS
+   * **************************************************************** */
+  static _assertConnectionBetweenIsPossible(slotA, slotB) {
+    if (slotA.dataType !== slotB.dataType) {
+      throw new Error(`dataTypes must match between slots:\n${slotA}\n${slotB}`)
+    }
+
+    if (slotA.unit !== slotB.unit) {
+      throw new Error(`units must match between slots:\n${slotA}\n${slotB}`)
+    }
+
+    if (slotA.type === 'OutSlot' && slotB.type !== 'InSlot') {
+      throw new Error(`Slot:${slotA}\nand Slot:\n${slotB}\nmust have complimentary types`)
+    }
+
+    if (slotA.type === 'InSlot' && slotB.type !== 'OutSlot') {
+      throw new Error(`Slot:${slotA}\nand Slot:\n${slotB}\nmust have complimentary types`)
+    }
+  }
+
+  _assertStructure() {
+    // assertStructure used in children classes - use private for kinder error handling
+    if (typeof this.assertStructure !== 'function') {
+      throw new Error(`${this} requires an .assertStructure method to mutate`)
+    }
+
+    this.assertStructure()
+  }
+
+  _forceAddConnection(dataStream) {
+    this.dataStreams.push(dataStream)
+    this._assertStructure()
+  }
+
+  _sendTo(targetSlot, opts = {}) {
+    const dataStream = new DataStream({
+      id: uuidv4(),
+      sourceSlotName: this.name,
+      sinkSlotName: targetSlot.name,
+      averagingWindowSize: opts.averagingWindowSize,
+    })
+
+    this._forceAddConnection(dataStream)
+    targetSlot._forceAddConnection(dataStream)
+  }
+
+  connect(otherSlot, opts) {
+    Slot._assertConnectionBetweenIsPossible(this, otherSlot)
+
+    const dataStream = new DataStream({
+      id: uuidv4(),
+      sourceSlotName: this.type === 'OutSlot' ? this.name : otherSlot.name,
+      sinkSlotName: this.type === 'InSlot' ? this.name : otherSlot.name,
+      averagingWindowSize: opts.averagingWindowSize,
+    })
+
+    this._forceAddConnection(dataStream)
+    otherSlot._forceAddConnection(dataStream)
   }
 
 }

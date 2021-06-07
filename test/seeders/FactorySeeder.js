@@ -4,17 +4,17 @@ function getRandomArbitrary(min, max) {
 
 class FactorySeeder {
 
-  static get _Factory() {
-    // Make use of ._Factory internally for friendlier warnings
-    if (!this.Factory) {
-      throw new Error('please set a valid Factory first. On:', this.name)
+  // Make use of ._SEED_METHOD internally for friendlier warnings
+  static get _SEED_METHOD() {
+    if (typeof this.SEED_METHOD !== 'function') {
+      throw new Error('please set a valid SEED_METHOD first. On:', this.name)
     }
 
-    return this.Factory
+    return this.SEED_METHOD
   }
 
+  // Make use of ._generate internally for friendlier warnings
   static _generate(data) {
-    // Make use of ._generate internally for friendlier warnings
     if (typeof this.generate !== 'function') {
       throw new Error('Seeder must have a valid \'generate\' method. On:', this.name)
     }
@@ -22,15 +22,8 @@ class FactorySeeder {
     return this.generate(data)
   }
 
-  // TODO: remove!
-  //static generateOne(data) { return this._generate(data) }
-
-  //static generateN(data = {}, times = getRandomArbitrary(2, 5)) {
-  //  return Array.from(Array(times)).map(() => this._generate(data))
-  //}
-
   static seedOne(data = {}) {
-    return this._Factory.new({
+    return this._SEED_METHOD({
       ...this._generate(),
       ...data,
     })

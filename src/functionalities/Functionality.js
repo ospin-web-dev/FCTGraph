@@ -22,7 +22,6 @@ class Functionality {
   }) {
     this.id = id
     this.name = name
-    // Avoids blowing up in the constructor. Joi gives better errors
     this.slots = Array.isArray(slots)
       ? slots.map(SlotFactory.new)
       : []
@@ -39,6 +38,15 @@ class Functionality {
   slotTypes() {
     return this.slots.map(({ type }) => type)
   }
+
+  /* *******************************************************************
+   * GRAPH ACTIONS
+   * **************************************************************** */
+
+  getFreeSlots() {
+    return this.slots.filter(slot => slot.isFree())
+  }
+
 
 }
 

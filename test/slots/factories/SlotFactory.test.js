@@ -15,6 +15,10 @@ describe('the slot factory', () => {
       expect(() => {
         SlotFactory.new({ ...inSlotData, type: bogusType })
       }).toThrow(`Slot type not supported ${bogusType}`)
+
+      expect(() => {
+        SlotFactory.new({ ...inSlotData, type: false })
+      }).toThrow('Slot type not supported FALSEY')
     })
 
     describe('when making InSlots', () => {

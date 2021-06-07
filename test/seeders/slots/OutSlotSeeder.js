@@ -1,12 +1,9 @@
 const faker = require('faker')
 
-const SlotFactory = require('slots/factories/SlotFactory')
 const OutSlot = require('slots/OutSlot')
 const SlotSeeder = require('./SlotSeeder')
 
 class OutSlotSeeder extends SlotSeeder {
-
-  static get Factory() { return SlotFactory }
 
   static generate(data = {}) {
     return {

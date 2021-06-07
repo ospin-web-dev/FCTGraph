@@ -1,12 +1,9 @@
 const faker = require('faker')
 
-const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
 const SlotSeeder = require('./SlotSeeder')
 
 class InSlotSeeder extends SlotSeeder {
-
-  static get Factory() { return SlotFactory }
 
   static get MIN_BOUNDS() { return { min: -90, max: 10 } }
 

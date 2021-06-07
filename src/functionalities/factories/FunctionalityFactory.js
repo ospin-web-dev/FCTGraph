@@ -3,6 +3,7 @@ const PIDController = require('../PIDController')
 const HeaterActuator = require('../HeaterActuator')
 const IntervalOut = require('../IntervalOut')
 const PushOut = require('../PushOut')
+const PushIn = require('../PushIn')
 
 class FunctionalityFactory {
 
@@ -13,6 +14,7 @@ class FunctionalityFactory {
       HeaterActuator,
       IntervalOut,
       PushOut,
+      PushIn,
     })
   }
 
@@ -32,15 +34,10 @@ class FunctionalityFactory {
     )
   }
 
-  // TODO: will be needed in schema for fctgraph
   static get SUPPORTED_CLASSES_SCHEMAS() {
     return FunctionalityFactory.SUPPORTED_CLASSES.map(
       SupportedClass => SupportedClass.SCHEMA,
     )
-  }
-
-  static classIsSupported(Class) {
-    return FunctionalityFactory.SUPPORTED_CLASSES.includes(Class)
   }
 
   static assertTypeAndSubTypeAreSupported(funcData) {
