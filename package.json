@@ -44,7 +44,8 @@
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jest-formatting": "^3.0.0",
     "faker": "^5.5.3",
-    "jest": "^27.0.1"
+    "jest": "^27.0.1",
+    "semantic-release": "^17.4.3"
   },
   "jest": {
     "coverageDirectory": "./coverage/",
