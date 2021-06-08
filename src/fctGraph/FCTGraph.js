@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const ArrayUtils = require('@choux/array-utils')
 
 const JOIous = require('mixins/instanceMixins/JOIous')
 const RegexUtils = require('utils/RegexUtils')
@@ -45,15 +46,13 @@ class FCTGraph {
    * GRAPH ACTIONS
    * **************************************************************** */
   getFctsDifference(fcts) {
-    const fctIds = fcts.map(({ id }) => id)
+    const matcher = (arr, el) => arr.some(({ id }) => id === el.id)
 
-    return this.functionalities.filter(({ id }) => (
-    ))
+    return ArrayUtils.getDifference(this.functionalities, fcts, matcher)
   }
 
   getConnectableFctsToTargetFct(targetFct) {
     const potentialFcts = this.getFctsDifference([ targetFct ])
-    console.warn({ targetFct, potentialFcts })
 
     return targetFct.filterConnectableFctsFromMany(potentialFcts)
   }

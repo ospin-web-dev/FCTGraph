@@ -89,6 +89,7 @@ describe('the FCTGraph class', () => {
 
       const [ tempSensor, pidController, heaterActuator ] = functionalities
       const result = fctGraph.getConnectableFctsToTargetFct(tempSensor)
+      // TODO: this not working. something wrong with .filterConnectableFctsFromMany or there aren't any valid connections in them at all...
       console.log(result)
 
       expect().toStrictEqual()
