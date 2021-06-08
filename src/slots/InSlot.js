@@ -36,7 +36,8 @@ class InSlot extends Slot {
     return Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
       dataType: Joi.string().allow(...Object.values(InSlot.DATA_TYPES)).required(),
-      min: Joi.number().strict()
+      tareable: Joi.boolean().default(false),
+      min: Joi.number().strict().allow(-Infinity)
         .when('dataType', [
           {
             is: InSlot.DATA_TYPES.INTEGER,
@@ -48,7 +49,7 @@ class InSlot extends Slot {
             otherwise: Joi.forbidden(),
           },
         ]),
-      max: Joi.number().strict()
+      max: Joi.number().strict().allow(Infinity)
         .when('min', {
           is: Joi.exist(),
           then: Joi.number().min(Joi.ref('min')),
@@ -82,6 +83,7 @@ class InSlot extends Slot {
           is: InSlot.DATA_TYPES.ONE_OF,
           then: Joi.any().valid(Joi.in('selectOptions')),
         })
+        .allow(null)
         .required(),
       selectOptions: Joi.array()
         .when('dataType', {
