@@ -42,9 +42,34 @@ class Functionality {
   /* *******************************************************************
    * GRAPH ACTIONS
    * **************************************************************** */
+  getConnectableSlotsToFctSlotsMapping(targetFct) {
+    /* returns {
+     *   <this.slotIdA>: [ <targetFctSlotA>, <targetFctSlotB> ],
+     *   <this.slotIdB>: [ <targetFctSlotB>, <targetFctSlotC> ],
+     *   <this.slotIdC>: [],
+     *   ...,
+     * }
+     */
+    const { slots: targetSlots } = targetFct
 
-  getFreeSlots() {
-    return this.slots.filter(slot => slot.isFree())
+    return this.slots.reduce((mapping, slot) => ({
+      [slot.id]: slot.filterConnectableSlots(targetSlots),
+      ...mapping,
+    }), {})
+  }
+
+  isPossibleToConnectToFct(targetFct) {
+    const slotsToSlotsMap = this.getConnectableSlotsToFctSlotsMapping(targetFct)
+
+    return Object.values(slotsToSlotsMap).some(possibleSlots => (
+      possibleSlots.length > 0
+    ))
+  }
+
+  filterConnectableFctsFromMany(targetFcts) {
+    return targetFcts.filter(targetFct => (
+      this.isPossibleToConnectToFct(targetFct)
+    ))
   }
 
 }

@@ -1,3 +1,4 @@
+const util = require('util')
 const Joi = require('joi')
 const diff = require('deep-diff')
 
@@ -52,6 +53,16 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
 
   toJSON() {
     return this.sortAndSerialize()
+  }
+
+  // deeper print outs while running on Node
+  toString() {
+    return util.inspect(this.toJSON(), { compact: false, depth: 4 })
+  }
+
+  // deeper print outs while running on Node
+  [util.inspect.custom]() {
+    return util.inspect(this.toJSON(), { compact: false, depth: 4 })
   }
 
 }

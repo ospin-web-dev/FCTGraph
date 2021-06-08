@@ -4,27 +4,19 @@ function getRandomArbitrary(min, max) {
 
 class FactorySeeder {
 
-  // Make use of ._SEED_METHOD internally for friendlier warnings
-  static get _SEED_METHOD() {
-    if (typeof this.SEED_METHOD !== 'function') {
-      throw new Error('please set a valid SEED_METHOD first. On:', this.name)
-    }
-
-    return this.SEED_METHOD
+  static get SEED_METHOD() {
+    // Virtual
+    throw new Error('please set a valid SEED_METHOD first. On:', this.name)
   }
 
-  // Make use of ._generate internally for friendlier warnings
-  static _generate(data) {
-    if (typeof this.generate !== 'function') {
-      throw new Error('Seeder must have a valid \'generate\' method. On:', this.name)
-    }
-
-    return this.generate(data)
+  static generate() {
+    // Virtual
+    throw new Error('Seeder must have a valid \'generate\' method. On:', this.name)
   }
 
   static seedOne(data = {}) {
-    return this._SEED_METHOD({
-      ...this._generate(),
+    return this.SEED_METHOD({
+      ...this.generate(),
       ...data,
     })
   }

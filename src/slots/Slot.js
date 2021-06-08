@@ -1,8 +1,8 @@
 const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
-const JOIous = require('mixins/instanceMixins/JOIous')
 const DataStream = require('dataStreams/DataStream')
+const SlotConnectionError = require('./SlotConnectionError')
 
 class Slot {
 
@@ -66,55 +66,49 @@ class Slot {
     }
   }
 
+  assertStructure() {
+    // Virtual
+    throw new Error(`${this} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
+  }
+
   /* *******************************************************************
-   * GRAPH ACTIONS
+   * GRAPH ACTIONS: CONNECTING SLOTS
    * **************************************************************** */
-  static _assertConnectionBetweenIsPossible(slotA, slotB) {
-    if (slotA.dataType !== slotB.dataType) {
-      throw new Error(`dataTypes must match between slots:\n${slotA}\n${slotB}`)
+  _assertConnectionBetweenIsPossible(otherSlot) {
+    if (this.dataType !== otherSlot.dataType) {
+      throw new SlotConnectionError(this, otherSlot, 'dataTypes must match between slots')
     }
 
-    if (slotA.unit !== slotB.unit) {
-      throw new Error(`units must match between slots:\n${slotA}\n${slotB}`)
+    if (this.unit !== otherSlot.unit) {
+      throw new SlotConnectionError(this, otherSlot, 'units must match between slots')
     }
 
-    if (slotA.type === 'OutSlot' && slotB.type !== 'InSlot') {
-      throw new Error(`Slot:${slotA}\nand Slot:\n${slotB}\nmust have complimentary types`)
+    if (this.type === 'OutSlot' && otherSlot.type !== 'InSlot') {
+      throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
     }
 
-    if (slotA.type === 'InSlot' && slotB.type !== 'OutSlot') {
-      throw new Error(`Slot:${slotA}\nand Slot:\n${slotB}\nmust have complimentary types`)
+    if (this.type === 'InSlot' && otherSlot.type !== 'OutSlot') {
+      throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
     }
   }
 
-  _assertStructure() {
-    // assertStructure used in children classes - use private for kinder error handling
-    if (typeof this.assertStructure !== 'function') {
-      throw new Error(`${this} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
+  _validateConnectionBetweenIsPossible(otherSlot) {
+    try {
+      this._assertConnectionBetweenIsPossible(this, otherSlot)
+      return true
+    } catch (e) {
+      if (e.name !== SlotConnectionError.NAME) throw e
+      return false
     }
-
-    this.assertStructure()
   }
 
   _forceAddConnection(dataStream) {
     this.dataStreams.push(dataStream)
-    this._assertStructure()
-  }
-
-  _sendTo(targetSlot, opts = {}) {
-    const dataStream = new DataStream({
-      id: uuidv4(),
-      sourceSlotName: this.name,
-      sinkSlotName: targetSlot.name,
-      averagingWindowSize: opts.averagingWindowSize,
-    })
-
-    this._forceAddConnection(dataStream)
-    targetSlot._forceAddConnection(dataStream)
+    this.assertStructure()
   }
 
   connect(otherSlot, opts) {
-    Slot._assertConnectionBetweenIsPossible(this, otherSlot)
+    this._assertConnectionBetweenIsPossible(this, otherSlot)
 
     const dataStream = new DataStream({
       id: uuidv4(),
@@ -125,6 +119,12 @@ class Slot {
 
     this._forceAddConnection(dataStream)
     otherSlot._forceAddConnection(dataStream)
+  }
+
+  filterConnectableSlots(slots) {
+    return slots.filter(slot => (
+      this._validateConnectionBetweenIsPossible(this, slot)
+    ))
   }
 
 }

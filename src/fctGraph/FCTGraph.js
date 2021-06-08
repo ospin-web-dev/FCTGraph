@@ -44,8 +44,20 @@ class FCTGraph {
   /* *******************************************************************
    * GRAPH ACTIONS
    * **************************************************************** */
+  getFctsDifference(fcts) {
+    const fctIds = fcts.map(({ id }) => id)
 
-  // TODO: method that, given a node, returns all other nodes eligible for connection
+    return this.functionalities.filter(({ id }) => (
+    ))
+  }
+
+  getConnectableFctsToTargetFct(targetFct) {
+    const potentialFcts = this.getFctsDifference([ targetFct ])
+    console.warn({ targetFct, potentialFcts })
+
+    return targetFct.filterConnectableFctsFromMany(potentialFcts)
+  }
+
 }
 
 module.exports = (

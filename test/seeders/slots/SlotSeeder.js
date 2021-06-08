@@ -7,7 +7,7 @@ const Slot = require('slots/Slot')
 
 class SlotSeeder {
 
-  static get SEED_METHOD() { return SlotFactory }
+  static get SEED_METHOD() { return SlotFactory.new }
 
   static generate(data = {}) {
     return {

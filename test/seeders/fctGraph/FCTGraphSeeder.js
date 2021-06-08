@@ -1,7 +1,7 @@
 const faker = require('faker')
 const compose = require('@choux/compose')
 
-const FCTGraph = require('FCTGraph')
+const FCTGraph = require('fctGraph/FCTGraph')
 const FactorySeeder = require('test/seeders/FactorySeeder')
 const {
   TemperatureSensorSeeder,
