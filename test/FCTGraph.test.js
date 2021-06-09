@@ -1,6 +1,11 @@
 const ObjUtils = require('utils/ObjUtils')
-const FCTGraphSeeder = require('test/seeders/FCTGraphSeeder')
-const FCTGraph = require('FCTGraph')
+const FCTGraphSeeder = require('test/seeders/fctGraph/FCTGraphSeeder')
+const {
+  TemperatureSensorSeeder,
+  HeaterActuatorSeeder,
+  PIDControllerSeeder,
+} = require('test/seeders/functionalities')
+const FCTGraph = require('fctGraph/FCTGraph')
 
 describe('the FCTGraph class', () => {
 
@@ -68,4 +73,27 @@ describe('the FCTGraph class', () => {
       expect(JSON.stringify(fctGraph)).toStrictEqual(sortedJSONData)
     })
   })
+
+  /* *******************************************************************
+   * GRAPH ACTIONS
+   * **************************************************************** */
+  describe.only('.getConnectableFctsToTargetFct', () => {
+    it('returns all FCTGraph fcts which can be connected to the given fct', () => {
+      const functionalities = [
+        TemperatureSensorSeeder.seedOne(),
+        PIDControllerSeeder.seedOne(),
+        HeaterActuatorSeeder.seedOne(),
+      ]
+
+      const fctGraph = FCTGraphSeeder.seedOne({ functionalities })
+
+      const [ tempSensor, pidController, heaterActuator ] = functionalities
+      const result = fctGraph.getConnectableFctsToTargetFct(tempSensor)
+      // TODO: this not working. something wrong with .filterConnectableFctsFromMany or there aren't any valid connections in them at all...
+      console.log(result)
+
+      expect().toStrictEqual()
+    })
+  })
+
 })

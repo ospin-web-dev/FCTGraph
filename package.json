@@ -32,6 +32,7 @@
     "src/"
   ],
   "dependencies": {
+    "@choux/array-utils": "^0.0.3",
     "@choux/compose": "^1.0.4",
     "deep-diff": "^1.0.2",
     "joi": "^17.4.0",

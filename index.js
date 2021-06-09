@@ -1,4 +1,4 @@
-const FCTGraph = require('./src/FCTGraph')
+const FCTGraph = require('./src/fctGraph/FCTGraph')
 
 module.exports = {
   FCTGraph,

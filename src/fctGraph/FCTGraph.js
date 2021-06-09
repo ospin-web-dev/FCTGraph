@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const ArrayUtils = require('@choux/array-utils')
 
 const JOIous = require('mixins/instanceMixins/JOIous')
 const RegexUtils = require('utils/RegexUtils')
@@ -44,8 +45,18 @@ class FCTGraph {
   /* *******************************************************************
    * GRAPH ACTIONS
    * **************************************************************** */
+  getFctsDifference(fcts) {
+    const matcher = (arr, el) => arr.some(({ id }) => id === el.id)
 
-  // TODO: method that, given a node, returns all other nodes eligible for connection
+    return ArrayUtils.getDifference(this.functionalities, fcts, matcher)
+  }
+
+  getConnectableFctsToTargetFct(targetFct) {
+    const potentialFcts = this.getFctsDifference([ targetFct ])
+
+    return targetFct.filterConnectableFctsFromMany(potentialFcts)
+  }
+
 }
 
 module.exports = (

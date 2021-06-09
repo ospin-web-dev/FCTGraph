@@ -6,7 +6,7 @@ const FactorySeeder = require('test/seeders/FactorySeeder')
 
 class FunctionalitySeeder {
 
-  static get Factory() { return FunctionalityFactory }
+  static get SEED_METHOD() { return FunctionalityFactory.new }
 
   static get SLOT_SEED_TYPES() {
     if (!Array.isArray(this.SLOT_SEEDS)) {
