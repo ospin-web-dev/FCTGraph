@@ -6,7 +6,7 @@ class HeaterActuatorSeeder extends ActuatorSeeder {
 
   static get SLOT_SEEDS() {
     return [
-      InSlotSeeder.generate({ name: 'target value', dataType: 'float' }),
+      InSlotSeeder.generate({ name: 'target value', dataType: 'float', unit: '-' }),
     ]
   }
 
@@ -17,6 +17,15 @@ class HeaterActuatorSeeder extends ActuatorSeeder {
       slots: [ ...this.SLOT_SEEDS ],
       ...data,
     }
+  }
+
+  /* *******************************************************************
+   * PRESETS
+   * **************************************************************** */
+  static generateKelvinHeater(data) {
+    const slots = [ InSlotSeeder.generateKelvinIn(data) ]
+
+    return this.generate({ slots, name: 'Kelvin Heater' })
   }
 
 }

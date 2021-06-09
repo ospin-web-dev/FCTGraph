@@ -13,7 +13,6 @@ const {
 
 class FCTGraphSeeder {
 
-  // FINISH REPLACING ALL FACTORIES WITH NEW METHODS
   static get SEED_METHOD() { return (...data) => new FCTGraph(...data) }
 
   static get FCT_SEEDS() {

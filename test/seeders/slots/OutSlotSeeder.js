@@ -14,6 +14,18 @@ class OutSlotSeeder extends SlotSeeder {
     }
   }
 
+  /* *******************************************************************
+   * PRESETS
+   * **************************************************************** */
+  static generateCelciusOut(data) {
+    return this.generate({
+      unit: '°C',
+      name: 'Celcius Out',
+      dataType: OutSlot.DATA_TYPES.FLOAT,
+      ...data,
+    })
+  }
+
 }
 
 module.exports = OutSlotSeeder

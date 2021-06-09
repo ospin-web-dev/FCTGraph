@@ -1,3 +1,4 @@
+const Slot = require('slots/Slot')
 const ControllerSeeder = require('test/seeders/functionalities/ControllerSeeder')
 const { InSlotSeeder, OutSlotSeeder } = require('test/seeders/slots')
 const PIDController = require('functionalities/PIDController')
@@ -6,9 +7,9 @@ class PIDControllerSeeder extends ControllerSeeder {
 
   static get SLOT_SEEDS() {
     return [
-      InSlotSeeder.generate({ name: 'P', dataType: 'float' }),
-      InSlotSeeder.generate({ name: 'I', dataType: 'float' }),
-      InSlotSeeder.generate({ name: 'D', dataType: 'float' }),
+      InSlotSeeder.generateUnitlessIn({ name: 'P', dataType: 'float' }),
+      InSlotSeeder.generateUnitlessIn({ name: 'I', dataType: 'float' }),
+      InSlotSeeder.generateUnitlessIn({ name: 'D', dataType: 'float' }),
       InSlotSeeder.generate({ name: 'target in', dataType: 'float' }),
       InSlotSeeder.generate({ name: 'value in', dataType: 'float' }),
       OutSlotSeeder.generate({ name: 'value out', dataType: 'float' }),
@@ -22,6 +23,21 @@ class PIDControllerSeeder extends ControllerSeeder {
       slots: [ ...this.SLOT_SEEDS ],
       ...data,
     }
+  }
+
+  /* *******************************************************************
+   * PRESETS
+   * **************************************************************** */
+  static generateTemperatureControllerCelcius(data) {
+    const slots = [
+      InSlotSeeder.generateUnitlessIn({ name: 'P', dataType: 'float' }),
+      InSlotSeeder.generateUnitlessIn({ name: 'I', dataType: 'float' }),
+      InSlotSeeder.generateUnitlessIn({ name: 'D', dataType: 'float' }),
+      InSlotSeeder.generateCelciusIn(),
+      OutSlotSeeder.generate({ name: 'value out', dataType: 'float' }),
+    ]
+
+    return this.generate({ slots, name: 'TemperaturePIDController', ...data })
   }
 
 }
