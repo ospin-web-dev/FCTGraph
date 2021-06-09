@@ -26,3 +26,4 @@ TODO!
 
 This repo is set up with semantic versioning https://semantic-release.gitbook.io/semantic-release/
 All merged pull request need to indicate the level of change (fix,feat,perf)
+
