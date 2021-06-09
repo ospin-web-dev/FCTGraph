@@ -22,6 +22,7 @@
   },
   "scripts": {
     "start": "node index.js",
+    "test-release": "npx semantic-release --dry-run",
     "test": "jest",
     "test-with-coverage": "jest -i --coverage",
     "lint-diff": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint $LIST; fi",
