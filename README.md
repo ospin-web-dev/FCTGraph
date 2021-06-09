@@ -24,6 +24,6 @@ TODO!
 
 ## Commit Message Guidelines
 
-This repo is set up with semantic versioning https://semantic-release.gitbook.io/semantic-release/
-All merged pull request need to indicate the level of change (fix,feat,perf)
+This repo is set up with semantic versioning https://semantic-release.gitbook.io/semantic-release/ to automatically keep track of the version number and the changelogs
 
+All merged pull request need to indicate the level of change (fix,feat,perf)
