@@ -8,6 +8,8 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
+      - name: PR Linter
+
       - name: Checkout
         uses: actions/checkout@v2
         with:

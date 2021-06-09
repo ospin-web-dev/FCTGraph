@@ -2,11 +2,13 @@ name: "Lint PR"
 
 on:
   pull_request_target:
+    branches:
+      -main
     types:
       - opened
       - edited
       - synchronize
-
+      - reopend
 jobs:
   main:
     runs-on: ubuntu-latest
