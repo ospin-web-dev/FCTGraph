@@ -22,5 +22,5 @@ TODO!
 ## For Developers
 TODO!
 
-
+## Commit Message Guidelines
 
