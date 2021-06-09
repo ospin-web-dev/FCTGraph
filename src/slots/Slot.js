@@ -20,12 +20,14 @@ class Slot {
 
   static get UNIT_TYPE_UNIT_OPTIONS() {
     return {
-      [this.UNIT_TYPES.TEMPERATURE]: ['K', '°C', '°F'],
-      [this.UNIT_TYPES.ROTATIONAL_SPEED]: ['rpm'],
-      [this.UNIT_TYPES.PERCENTAGE]: ['%'],
-      [this.UNIT_TYPES.UNITLESS]: ['-'],
+      [Slot.UNIT_TYPES.TEMPERATURE]: ['K', '°C', '°F'],
+      [Slot.UNIT_TYPES.ROTATIONAL_SPEED]: ['rpm'],
+      [Slot.UNIT_TYPES.PERCENTAGE]: ['%'],
+      [Slot.UNIT_TYPES.UNITLESS]: ['-'],
     }
   }
+
+  static get UNITLESS_UNIT() { return Slot.UNIT_TYPE_UNIT_OPTIONS.unitless[0] }
 
   static get ALL_UNIT_VALUES() {
     return Object.values(this.UNIT_TYPE_UNIT_OPTIONS)
@@ -71,18 +73,28 @@ class Slot {
     throw new Error(`${this} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
   }
 
+  isUnitless() { return this.unit === Slot.UNITLESS_UNIT }
+
   /* *******************************************************************
    * GRAPH ACTIONS: CONNECTING SLOTS
    * **************************************************************** */
-  _assertConnectionBetweenIsPossible(otherSlot) {
+  _assertSlotDataTypeCompatible(otherSlot) {
     if (this.dataType !== otherSlot.dataType) {
       throw new SlotConnectionError(this, otherSlot, 'dataTypes must match between slots')
     }
+  }
 
-    if (this.unit !== otherSlot.unit) {
+  _assertSlotUnitCompatible(otherSlot) {
+    if (
+      this.unit !== otherSlot.unit
+      && !this.isUnitless()
+      && !otherSlot.isUnitless()
+    ) {
       throw new SlotConnectionError(this, otherSlot, 'units must match between slots')
     }
+  }
 
+  _assertSlotTypeCompatible(otherSlot) {
     if (this.type === 'OutSlot' && otherSlot.type !== 'InSlot') {
       throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
     }
@@ -92,9 +104,16 @@ class Slot {
     }
   }
 
+  _assertConnectionBetweenIsPossible(otherSlot) {
+    this._assertSlotDataTypeCompatible(otherSlot)
+    this._assertSlotUnitCompatible(otherSlot)
+    this._assertSlotTypeCompatible(otherSlot)
+
+  }
+
   _validateConnectionBetweenIsPossible(otherSlot) {
     try {
-      this._assertConnectionBetweenIsPossible(this, otherSlot)
+      this._assertConnectionBetweenIsPossible(otherSlot)
       return true
     } catch (e) {
       if (e.name !== SlotConnectionError.NAME) throw e
@@ -107,8 +126,8 @@ class Slot {
     this.assertStructure()
   }
 
-  connect(otherSlot, opts) {
-    this._assertConnectionBetweenIsPossible(this, otherSlot)
+  connect(otherSlot, opts = {}) {
+    this._assertConnectionBetweenIsPossible(otherSlot)
 
     const dataStream = new DataStream({
       id: uuidv4(),
@@ -119,11 +138,13 @@ class Slot {
 
     this._forceAddConnection(dataStream)
     otherSlot._forceAddConnection(dataStream)
+
+    return { dataStream }
   }
 
   filterConnectableSlots(slots) {
     return slots.filter(slot => (
-      this._validateConnectionBetweenIsPossible(this, slot)
+      this._validateConnectionBetweenIsPossible(slot)
     ))
   }
 

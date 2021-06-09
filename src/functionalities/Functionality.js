@@ -53,7 +53,7 @@ class Functionality {
     const { slots: targetSlots } = targetFct
 
     return this.slots.reduce((mapping, slot) => ({
-      [slot.id]: slot.filterConnectableSlots(targetSlots),
+      [slot.name]: slot.filterConnectableSlots(targetSlots),
       ...mapping,
     }), {})
   }

@@ -55,9 +55,9 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     return this.sortAndSerialize()
   }
 
-  // deeper print outs while running on Node
+  // force same toString behavior as Node
   toString() {
-    return util.inspect(this.toJSON(), { compact: false, depth: 4 })
+    util.inspect(this)
   }
 
   // deeper print outs while running on Node

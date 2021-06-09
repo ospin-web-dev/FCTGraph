@@ -19,6 +19,15 @@ class TemperatureSensorSeeder extends SensorSeeder {
     }
   }
 
+  /* *******************************************************************
+   * PRESETS
+   * **************************************************************** */
+  static generateCelciusProducer(data) {
+    const slots = [ OutSlotSeeder.generateCelciusOut(data) ]
+
+    return this.generate({ slots, name: 'Temperature Producer' })
+  }
+
 }
 
 module.exports = TemperatureSensorSeeder

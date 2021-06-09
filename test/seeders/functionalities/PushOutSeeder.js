@@ -6,7 +6,7 @@ class PushOutSeeder extends OutputNodeSeeder {
 
   static get SLOT_SEEDS() {
     return [
-      InSlotSeeder.generate({ name: 'value in' }),
+      InSlotSeeder.generateUnitlessIn({ name: 'value in' }),
     ]
   }
 
