@@ -44,9 +44,9 @@ class Functionality {
    * **************************************************************** */
   getConnectableSlotsToFctSlotsMapping(targetFct) {
     /* returns {
-     *   <this.slotIdA>: [ <targetFctSlotA>, <targetFctSlotB> ],
-     *   <this.slotIdB>: [ <targetFctSlotB>, <targetFctSlotC> ],
-     *   <this.slotIdC>: [],
+     *   <this.slotA.name>: [ <targetFctSlotA>, <targetFctSlotB> ],
+     *   <this.slotB.name>: [ <targetFctSlotB>, <targetFctSlotC> ],
+     *   <this.slotC.name>: [],
      *   ...,
      * }
      */
