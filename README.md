@@ -15,6 +15,8 @@ This documentation is likely to remain sparse, as it is for internal use and und
 - [Class Structure and Hierarchies](#ClassStructureAndHierarchies)
 - [Factories](#Factories)
 - [Seeders](#Seeders)
+- [Contributing](#Contributing)
+- [Upcoming](#Upcoming)
 
 ---
 
@@ -109,7 +111,7 @@ const fctGraphClone = FCTGraph.new(JSON.parse(fctGraphJSON))
 
 
 ```js
-FctGraph
+FCTGraph
 
 // an FCTGraph has many Functionalities
 Functionality (virtual)
@@ -136,7 +138,7 @@ DataStream
 
 All non-virtual classes (e.g. HeaterActuator, InSlot, etc.) compose the **JOIous** module, which provides the following:
 - **post .constructor** - asserts the instance's data against the JOI SCHEMA (which provides nested data validation) as a final step
-- **.serialize** (virtual) - blows up - informing the user that the class that composed JOIous needs a .serialize method
+- **.serialize** (virtual) - blows up - informing the user that the class that composed JOIous needs a `.serialize` method
 - **.sortAndSerialize** - uses .serialize returns the (deeply) sorted object
 - **.toJSON** - uses .sortAndSerialize
 - **.toString** - inspects deeply for richer print outs
@@ -158,15 +160,48 @@ Functionalities and Slots need somewhat intelligent instantiation as they are me
 
 ## <a name="Seeders"></a>Seeders
 
+> **NOTE:** Seeders are meant for testing purposes ONLY. While they carry a high test coverage %, they (likely) don't have the 100% Green™ coverage that the rest does.
+
+The package comes with seeders which have the same class hierarchy as the primary models:
+```js
+FCTGraphSeeder
+
+FunctionalitySeeder (virtual)
+├── ActuatorSeeder (virtual)
+│   └── HeaterActuatorSeeder
+├── ControllerSeeder (virtual)
+│   └── PIDControllerSeeder
+├── InputNodeSeeder (virtual)
+│   └── PushInSeeder
+├── OutputNodeSeeder (virtual)
+│   ├── PushOutSeeder
+│   └── IntervalOutSeeder
+└── SensorSeeder (virtual)
+    └── TemperatureSensorSeeder
+
+SlotSeeder (virtual)
+├── InSlotSeeder
+└── OutSlotSeeder
+```
+
+All virtual seeders (e.g. HeaterActuatorSeeder, InSlotSeeder etc.) compose the **FactorySeeder** module, which provides the following static methods (which extend to their children):
+- **static get SEED_METHOD** (virtual) - blows up - informing the user that the class that composed FactorySeeder needs a static `.SEED_METHOD` getter. This method should used to call a constructor/factory's creation method
+- **static generate** (virtual) - blows up - informing the user that the class that composed FactorySeeder needs a static `.generate` method. This method should be used to create fake data which matches the class SCHEMA
+- **.seedOne** - expects a data object. delegates to `generate` and `SEED_METHOD`
+- **.seedMany** - expects an array of data objects
+- **.seedN** - expects an object and a count
+
 ---
 
-## Commit Message Guidelines
+## Contributing
 
-This repo is set up with semantic versioning https://semantic-release.gitbook.io/semantic-release/ to automatically keep track of the version number and the changelogs
+This repo employs the github action [semantic-release](https://semantic-release.gitbook.io/semantic-release/), which, on approved PRs to `main`, sniffs the PR title/commit message to automatically bump the semantic versioning and publish the package to NPM.
 
-All merged pull request need to indicate the level of change (fix,feat,perf)
+[All PRs to the `main` branch should indicate the semantic version change via the following rules](https://semantic-release.gitbook.io/semantic-release/#commit-message-format).
 
-## TODO:
-- reject setting any properties that can not change throughout the lifetime of an object (types, etc.)
-- disconnect
-- dataStreams reference slots instead of name (works with instantiating from slotname) and serialize to slot names
+---
+
+## Upcoming:
+- reject setting properties on the core classes that should not change throughout the lifetime of an object (`type`, `subType`, `name`, etc.)
+- disconnect connections between slots
+- dataStreams reference slots instead of just the slot name (works with instantiating from slot name) and still serialize to contain the slot names
