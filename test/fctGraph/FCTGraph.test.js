@@ -120,7 +120,7 @@ describe('the FCTGraph class', () => {
       const tempOutSlot = tempSensor.slots[0]
       const pushOutSlot = pushOut.slots[0]
 
-      const { dataStream } = tempOutSlot.connect(pushOutSlot)
+      const { dataStream } = tempOutSlot.addConnectionTo(pushOutSlot)
       expect(dataStream instanceof DataStream).toBe(true)
     })
   })
@@ -157,7 +157,7 @@ describe('the FCTGraph class', () => {
       expect(functionality.id).toMatch(RegexUtils.UUIDV4)
     })
 
-    it('if the fct graph\'s structure fails validation after the fct is added, the fct gets removed', () => {
+    it('the fct gets removed if the fct graph\'s structure fails validation after the fct is added', () => {
       const fctGraph = FCTGraphSeeder.seedOne()
       const preLength = fctGraph.functionalities.length
       const pushOutData = PushOutSeeder.generate()

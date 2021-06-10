@@ -2,6 +2,7 @@ const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
 const DataStream = require('dataStreams/DataStream')
+const { publicSuccessRes, publicErrorRes } = require('utils/publicResponses')
 const SlotConnectionError = require('./SlotConnectionError')
 
 class Slot {
@@ -121,25 +122,47 @@ class Slot {
     }
   }
 
-  _forceAddConnection(dataStream) {
+  _addDataStreamAndAssertStructure(dataStream) {
     this.dataStreams.push(dataStream)
     this.assertStructure()
   }
 
-  connect(otherSlot, opts = {}) {
-    this._assertConnectionBetweenIsPossible(otherSlot)
-
-    const dataStream = new DataStream({
+  _createDataStreamTo(otherSlot, dataStreamOpts) {
+    return new DataStream({
       id: uuidv4(),
       sourceSlotName: this.type === 'OutSlot' ? this.name : otherSlot.name,
       sinkSlotName: this.type === 'InSlot' ? this.name : otherSlot.name,
-      averagingWindowSize: opts.averagingWindowSize,
+      averagingWindowSize: dataStreamOpts.averagingWindowSize,
     })
+  }
 
-    this._forceAddConnection(dataStream)
-    otherSlot._forceAddConnection(dataStream)
+  _connectToOrThrow(otherSlot, dataStream) {
+    const thisDataStreamsLengthPre = this.dataStreams.length
+    const otherDataStreamsLengthPre = otherSlot.dataStreams.length
 
-    return { dataStream }
+    try {
+      this._addDataStreamAndAssertStructure(dataStream)
+      otherSlot._addDataStreamAndAssertStructure(dataStream)
+      return dataStream
+    } catch (e) {
+      const thisDataStreamsLengthPost = this.dataStreams.length
+      const otherDataStreamsLengthPost = otherSlot.dataStreams.length
+      if (thisDataStreamsLengthPost > thisDataStreamsLengthPre) { this.dataStreams.pop() }
+      if (otherDataStreamsLengthPost > otherDataStreamsLengthPre) { otherSlot.dataStreams.pop() }
+    }
+  }
+
+  // safe - returns a public response
+  addConnectionTo(otherSlot, dataStreamOpts = {}) {
+    try {
+      this._assertConnectionBetweenIsPossible(otherSlot)
+      const dataStream = this._createDataStreamTo(otherSlot, dataStreamOpts)
+
+      this._connectToOrThrow(otherSlot, dataStream)
+      return publicSuccessRes({ thisSlot: this, otherSlot, dataStream })
+    } catch (e) {
+      return publicErrorRes({ errorMsg: e.message, thisSlot: this, otherSlot, dataStream: null })
+    }
   }
 
   filterConnectableSlots(slots) {

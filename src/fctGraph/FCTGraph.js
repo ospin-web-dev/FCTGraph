@@ -3,8 +3,9 @@ const ArrayUtils = require('@choux/array-utils')
 const { v4: uuidv4 } = require('uuid')
 
 const JOIous = require('mixins/instanceMixins/JOIous')
-const RegexUtils = require('utils/RegexUtils')
 const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
+const RegexUtils = require('utils/RegexUtils')
+const { publicSuccessRes, publicErrorRes } = require('utils/publicResponses')
 const AddFunctionalityError = require('./AddFunctionalityError')
 
 class FCTGraph {
@@ -29,7 +30,7 @@ class FCTGraph {
     this.id = id
     this.deviceId = deviceId
     this.deviceDefault = deviceDefault
-    // Avoids blowing up in the constructor. Joi gives better errors
+    // Avoid blowing up in the constructor if non-array given for fcts. Joi will give a better error
     this.functionalities = Array.isArray(functionalities)
       ? functionalities.map(FunctionalityFactory.new)
       : []
@@ -51,13 +52,16 @@ class FCTGraph {
     const newFct = FunctionalityFactory.new({ id: uuidv4(), ...fctData })
     this.functionalities.push(newFct)
     this.assertStructure()
+
+    return newFct
   }
 
   _addFunctionalityOrThrow(fctData) {
     const preLength = this.functionalities.length
 
     try {
-      this._addFunctionalityAndAssertStructure(fctData)
+      const newFct = this._addFunctionalityAndAssertStructure(fctData)
+      return newFct
     } catch (e) {
       const postLength = this.functionalities.length
       if (postLength > preLength) { this.functionalities.pop() }
@@ -65,15 +69,14 @@ class FCTGraph {
     }
   }
 
+  // safe - returns a public response
   addFunctionality(fctData) {
     try {
-      this._addFunctionalityOrThrow(fctData)
+      const functionality = this._addFunctionalityOrThrow(fctData)
+      return publicSuccessRes({ functionality })
     } catch (e) {
-      return { error: true, errorMsg: e.message, functionality: fctData }
+      return publicErrorRes({ errorMsg: e.message, functionality: fctData })
     }
-
-    const functionality = this.functionalities[this.functionalities.length - 1]
-    return { error: false, errorMsg: null, functionality }
   }
 
   getFctsDifference(fcts) {

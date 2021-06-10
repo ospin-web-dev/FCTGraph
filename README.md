@@ -27,3 +27,5 @@ TODO!
 This repo is set up with semantic versioning https://semantic-release.gitbook.io/semantic-release/ to automatically keep track of the version number and the changelogs
 
 All merged pull request need to indicate the level of change (fix,feat,perf)
+
+## TODO: reject setting any properties that can not change throughout the lifetime of an object (types, etc.)
