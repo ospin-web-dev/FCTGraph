@@ -12,6 +12,7 @@ This documentation is likely to remain sparse, as it is for internal use and und
   - [Action](#Action)
   - [Inspection](#Inspection)
   - [From/To JSON](#FromAndToJson)
+  - [Public Methods that Mutate](#PublicMethodsThatMutate)
 - [Class Structure and Hierarchies](#ClassStructureAndHierarchies)
 - [Factories](#Factories)
 - [Seeders](#Seeders)
@@ -103,6 +104,26 @@ const fctGraphJSON = JSON.stringify(fctGraph)
 
 const fctGraphClone = FCTGraph.new(JSON.parse(fctGraphJSON))
 // -> works!
+```
+
+#### <a name="PublicMethodsThatMutate">Public Methods that Mutate
+
+Where appropriate (and hopefully whenever this package is extended) public methods which mutate instances in a major way (e.g. adding functionalities to the graph, connecting slots, etc.) return a response object. Response objects are intended to be useful in cases where a caller attempts to mutate the FCTGraph (or a portion of it) in a way that would ultimately fail data validation. The response objects will return actionable information for the caller.
+
+```js
+const failure = fctGraph.addFunctionality({ name: 123, ...validData })
+// {
+//   error: true,
+//   errorMsg: 'Failed to add fct: <fct data>. Underlying error: name must be a string',
+//   functionality: <{ ...the failed functionalities data }>,
+// }
+
+const success = fctGraph.addFunctionality({ name: 'Dr. Strangelove\'s Bunker Heater', ...validData })
+// {
+//   error: false,
+//   errorMsg: null,
+//   functionality: <the added functionality>,
+// }
 ```
 
 ---

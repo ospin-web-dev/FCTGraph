@@ -1,4 +1,4 @@
-name: "Lint PR"
+name: "Lint PR for Semantic Bump"
 
 on:
   pull_request_target:
@@ -8,7 +8,7 @@ on:
       - synchronize
       - reopend
 jobs:
-  CheckPRTitle:
+  LintPRForSemanticBump:
     runs-on: ubuntu-latest
     steps:
       # Please look up the latest version from
