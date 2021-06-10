@@ -226,3 +226,4 @@ This repo employs the github action [semantic-release](https://semantic-release.
 - reject setting properties on the core classes that should not change throughout the lifetime of an object (`type`, `subType`, `name`, etc.)
 - disconnect connections between slots
 - dataStreams reference slots instead of just the slot name (works with instantiating from slot name) and still serialize to contain the slot names
+
