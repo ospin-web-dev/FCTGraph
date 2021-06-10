@@ -26,6 +26,12 @@ class OutSlotSeeder extends SlotSeeder {
     })
   }
 
+  static seedCelciusOut(data) {
+    return this.seedOne(
+      this.generateCelciusOut(data),
+    )
+  }
+
 }
 
 module.exports = OutSlotSeeder

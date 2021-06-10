@@ -16,8 +16,7 @@ class FactorySeeder {
 
   static seedOne(data = {}) {
     return this.SEED_METHOD({
-      ...this.generate(),
-      ...data,
+      ...this.generate(data),
     })
   }
 

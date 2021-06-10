@@ -40,6 +40,15 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     this.assertStructure()
   }
 
+  serialize(data) {
+    // This looks backwards because JOIous is composed in to classes
+    // in this case it anonymously extends the base class it is composed in to
+    if (!super.serialize) {
+      throw new Error(`${this.constructor.name} requires a .serialize method`)
+    }
+    return super.serialize(data)
+  }
+
   assertStructure() {
     Joi.attempt(
       this.serialize(),
@@ -55,9 +64,8 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     return this.sortAndSerialize()
   }
 
-  // force same toString behavior as Node
   toString() {
-    util.inspect(this)
+    return util.inspect(this, { compact: false, depth: 4 })
   }
 
   // deeper print outs while running on Node

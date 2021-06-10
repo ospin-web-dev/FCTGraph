@@ -100,3 +100,4 @@ dist
 # DynamoDB Local files
 .dynamodb/
 
+.ignore

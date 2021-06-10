@@ -124,6 +124,12 @@ class InSlotSeeder extends SlotSeeder {
     })
   }
 
+  static seedCelciusIn(data) {
+    return this.seedOne(
+      this.generateCelciusIn(data),
+    )
+  }
+
   static generateKelvinIn(data) {
     return this.generate({
       unit: 'K',
