@@ -1,5 +1,5 @@
-const OutputNodeSeeder = require('test/seeders/functionalities/OutputNodeSeeder')
-const { InSlotSeeder } = require('test/seeders/slots')
+const OutputNodeSeeder = require('seeders/functionalities/OutputNodeSeeder')
+const { InSlotSeeder } = require('seeders/slots')
 const IntervalOut = require('functionalities/IntervalOut')
 
 class IntervalOutSeeder extends OutputNodeSeeder {

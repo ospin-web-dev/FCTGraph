@@ -1,6 +1,5 @@
-const Slot = require('slots/Slot')
-const ControllerSeeder = require('test/seeders/functionalities/ControllerSeeder')
-const { InSlotSeeder, OutSlotSeeder } = require('test/seeders/slots')
+const ControllerSeeder = require('seeders/functionalities/ControllerSeeder')
+const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
 const PIDController = require('functionalities/PIDController')
 
 class PIDControllerSeeder extends ControllerSeeder {

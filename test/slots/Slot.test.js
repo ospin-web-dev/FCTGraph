@@ -4,7 +4,7 @@ const Slot = require('slots/Slot')
 const InSlot = require('slots/InSlot')
 const OutSlot = require('slots/OutSlot')
 const DataStream = require('dataStreams/DataStream')
-const { InSlotSeeder, OutSlotSeeder } = require('test/seeders/slots')
+const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
 
 describe('the Slot class', () => {
 
