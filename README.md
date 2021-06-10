@@ -1,6 +1,10 @@
 [![codecov](https://codecov.io/gh/ospin-web-dev/FCTGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/ospin-web-dev/FCTGraph)
 [![Maintainability](https://api.codeclimate.com/v1/badges/ab083cc74a1fbb1d7319/maintainability)](https://codeclimate.com/repos/60ae147b04beeb018b015a77/maintainability)
 
+This documentation is likely to remain sparse, as it is for internal use and under development!
+
+---
+
 ## Table of Contents
 
 - [Use Overview](#UseOverview)
@@ -9,18 +13,14 @@
   - [Inspection](#Inspection)
   - [From/To JSON](#FromAndToJson)
 - [Class Structure and Hierarchies](#ClassStructureAndHierarchies)
+- [Factories](#Factories)
 - [Seeders](#Seeders)
 
+---
 
-## <a name="Overview"></a>Overview
+## <a name="UseOverview"></a>Use Overview
 
-This documentation is likely to remain sparse, as it is for internal use and under development.
-
-todo: mention instantiation from JSON
-todo below: mention general structure
-  - heirarchies
-  - mixins
-todo below: mention seeder structure below
+The FCTGraph functions like a traditional graph with several features on top. Most importantly, all functionalities (nodes) have many slots, which hold data about themselves. Slots connect to other slots (if they are compatible) via dataStreams (edges).
 
 The following is a selected showcase of the public functions on the various base objects of:
 - **FCTGraph** (graph)
@@ -30,7 +30,7 @@ The following is a selected showcase of the public functions on the various base
 
 #### <a name="Instantiation">Instantiation!
 ```js
-// create functionality graphs directly from JSON.stringify-able objects!
+const { FCTGraph, functionalities, slots } = require('@ospin/FCTGraph') // or import
 
 // first, let's set up some seed data. Functionalities (nodes) have many dataStreams (edges)...
 const tempOutSlotData = { name: 'temp out', type: 'OutSlot', ... } /* see OutSlot.SCHEMA */
@@ -105,8 +105,58 @@ const fctGraphClone = FCTGraph.new(JSON.parse(fctGraphJSON))
 
 ---
 
-## FAQ
+## <a name="ClassStructureAndHierarchies"></a>Class Structure and Hierarchies
+
+
+```js
+FctGraph
+
+// an FCTGraph has many Functionalities
+Functionality (virtual)
+├── Actuator (virtual)
+│   └── HeaterActuator
+├── Controller (virtual)
+│   └── PIDController
+├── InputNode (virtual)
+│   └── PushIn
+├── OutputNode (virtual)
+│   ├── PushOut
+│   └── IntervalOut
+└── Sensor (virtual)
+    └── TemperatureSensor
+
+// a Functionality has many Slots
+Slot (virtual)
+├── InSlot
+└── OutSlot
+
+// a Slot has many DataStreams
+DataStream
+```
+
+All non-virtual classes (e.g. HeaterActuator, InSlot, etc.) compose the **JOIous** module, which provides the following:
+- **post .constructor** - asserts the instance's data against the JOI SCHEMA (which provides nested data validation) as a final step
+- **.serialize** (virtual) - blows up - informing the user that the class that composed JOIous needs a .serialize method
+- **.sortAndSerialize** - uses .serialize returns the (deeply) sorted object
+- **.toJSON** - uses .sortAndSerialize
+- **.toString** - inspects deeply for richer print outs
+- **[util.inspect.custom]** - inspects deeply for richer print outs in Node
+
 ---
+
+## <a name="Factories"></a>Factories
+
+Functionalities and Slots need somewhat intelligent instantiation as they are meant to be serialized to and from JSON. For this reason, Factories exist for instantiating both Functionalities and Slots. Instantiating an FCTGraph from parsed JSON will automatically delegate to the factories as it builds the hierarchy.
+
+- **FCTGraph** delegates to the **FunctionalityFactory** when functionalities are added. The factory will attempt to find the appropriate functionality sub-class via the `type` and `subType` key values and blow up if it can not find one.
+
+- **Functionality** delegates to the **SlotFactory** when slots are added. The factory will attempt to find the appropriate slot sub-class via the `type` key value and blow up if it can not find one.
+
+**Functionalities** and **Slots** can also be created directly calling the constructors on their non-virtual classes. See [Class Structure and Hierarchies](#ClassStructureAndHierarchies)
+
+---
+
+## <a name="Seeders"></a>Seeders
 
 ---
 
