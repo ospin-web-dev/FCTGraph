@@ -1,13 +1,13 @@
 const ObjUtils = require('utils/ObjUtils')
 const RegexUtils = require('utils/RegexUtils')
-const FCTGraphSeeder = require('test/seeders/fctGraph/FCTGraphSeeder')
+const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
 const {
   TemperatureSensorSeeder,
   HeaterActuatorSeeder,
   PIDControllerSeeder,
   PushOutSeeder,
   PushInSeeder,
-} = require('test/seeders/functionalities')
+} = require('seeders/functionalities')
 const FCTGraph = require('fctGraph/FCTGraph')
 const DataStream = require('dataStreams/DataStream')
 

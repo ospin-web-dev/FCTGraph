@@ -2,7 +2,7 @@ const faker = require('faker')
 const compose = require('@choux/compose')
 
 const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
-const FactorySeeder = require('test/seeders/FactorySeeder')
+const FactorySeeder = require('seeders/FactorySeeder')
 
 class FunctionalitySeeder {
 

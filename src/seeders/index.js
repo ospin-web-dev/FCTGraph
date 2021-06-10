@@ -1,4 +1,4 @@
-const FCTGraphSeeder = require('./FCTGraphSeeder')
+const FCTGraphSeeder = require('./fctGraph/FCTGraphSeeder')
 const functionalitySeeders = require('./functionalities')
 const slotSeeders = require('./slots')
 

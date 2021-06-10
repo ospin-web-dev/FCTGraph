@@ -6,7 +6,7 @@ const {
   PIDControllerSeeder,
   PushOutSeeder,
   PushInSeeder,
-} = require('test/seeders/functionalities')
+} = require('seeders/functionalities')
 const {
   TemperatureSensor,
   HeaterActuator,

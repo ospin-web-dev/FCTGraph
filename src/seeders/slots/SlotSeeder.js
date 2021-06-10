@@ -1,7 +1,7 @@
 const faker = require('faker')
 const compose = require('@choux/compose')
 
-const FactorySeeder = require('test/seeders/FactorySeeder')
+const FactorySeeder = require('seeders/FactorySeeder')
 const SlotFactory = require('slots/factories/SlotFactory')
 const Slot = require('slots/Slot')
 

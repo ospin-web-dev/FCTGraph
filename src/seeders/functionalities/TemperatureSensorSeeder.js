@@ -1,5 +1,5 @@
-const SensorSeeder = require('test/seeders/functionalities/SensorSeeder')
-const { OutSlotSeeder } = require('test/seeders/slots')
+const SensorSeeder = require('seeders/functionalities/SensorSeeder')
+const { OutSlotSeeder } = require('seeders/slots')
 const TemperatureSensor = require('functionalities/TemperatureSensor')
 
 class TemperatureSensorSeeder extends SensorSeeder {
