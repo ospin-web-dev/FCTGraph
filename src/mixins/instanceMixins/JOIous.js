@@ -30,7 +30,7 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
   }
 
   static deepEquals(objA, objB) {
-    const objDiff = this.diff(objA, objB)
+    const objDiff = this.diff(objA.serialize(), objB.serialize())
     return typeof objDiff === 'undefined'
   }
 

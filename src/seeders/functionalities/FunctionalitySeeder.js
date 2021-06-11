@@ -16,6 +16,17 @@ class FunctionalitySeeder {
     return this.SLOT_SEEDS.map(({ type }) => type)
   }
 
+  static generateSlots(functionalityId) {
+    if (!Array.isArray(this.SLOT_SEEDS)) {
+      throw new Error(`${this.name} must have .SLOT_SEEDS to use .generateSlots`)
+    }
+
+    return this.SLOT_SEEDS.map(slotData => ({
+      ...slotData,
+      functionalityId,
+    }))
+  }
+
   static generate(data) {
     return {
       id: faker.datatype.uuid(),

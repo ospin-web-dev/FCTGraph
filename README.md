@@ -1,4 +1,4 @@
-[![codecov](https://codecov.io/gh/ospin-web-dev/FCTGraph/branch/master/graph/badge.svg)](https://codecov.io/gh/ospin-web-dev/FCTGraph)
+[![codecov](https://codecov.io/gh/ospin-web-dev/FCTGraph/branch/main/graph/badge.svg?token=RXXLX0HDAR)](https://codecov.io/gh/ospin-web-dev/FCTGraph)
 [![Maintainability](https://api.codeclimate.com/v1/badges/184840b3c795f19f837b/maintainability)](https://codeclimate.com/github/ospin-web-dev/FCTGraph/maintainability)
 
 This documentation is likely to remain sparse, as it is for internal use and under development!

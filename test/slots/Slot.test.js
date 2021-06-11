@@ -8,6 +8,20 @@ const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
 
 describe('the Slot class', () => {
 
+  // TODO: consider new test files for the following two tests, as they are In/Outslot specific
+  describe('static get .SUPPORTS_CALIBRATION', () => {
+    it('returns false for InSlot', () => { expect(InSlot.SUPPORTS_CALIBRATION).toBe(false) })
+
+    it('returns true for OutSlot', () => { expect(OutSlot.SUPPORTS_CALIBRATION).toBe(true) })
+  })
+
+  describe('static get .SUPPORTED_CALIBRATION_TYPES', () => {
+    it('returns OFFSET_SLOPE for OutSlots', () => {
+      expect(OutSlot.SUPPORTED_CALIBRATION_TYPES)
+        .toStrictEqual([ OutSlot.OFFSET_SLOPE_CALIBRATON_TYPE ])
+    })
+  })
+
   describe('.assertStructure', () => {
 
     it('blows up because Slot is a virtual class and it wants to kindly tell you that a mistake was likely made in a child that has not defined the method', () => {
@@ -120,7 +134,9 @@ describe('the Slot class', () => {
     it('unrelated dataStreams dont get removed from the slots if the first slot somehow impossibly goofs up and doesnt add the data stream but also doesn\'t blow up while the second one does add it and blows up (this test is superfluous and just to get that sweet sweet 100% coverage)', () => {
       const existingDataStream = new DataStream({
         id: uuidv4(),
+        sourceFctId: uuidv4(),
         sourceSlotName: 'this can not exist',
+        sinkFctId: uuidv4(),
         sinkSlotName: 'under normal circumstances',
       })
 
@@ -151,7 +167,9 @@ describe('the Slot class', () => {
     it('unrelated dataStreams dont get removed from the slots if the second slot fails validation when the dataStream is being added', () => {
       const existingDataStream = new DataStream({
         id: uuidv4(),
+        sourceFctId: uuidv4(),
         sourceSlotName: 'this can not exist',
+        sinkFctId: uuidv4(),
         sinkSlotName: 'under normal circumstances',
       })
 

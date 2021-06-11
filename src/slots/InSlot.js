@@ -68,22 +68,22 @@ class InSlot extends Slot {
       defaultValue: Joi.any()
         .when('dataType', {
           is: InSlot.DATA_TYPES.INTEGER,
-          then: Joi.number().integer().min(Joi.ref('min')).max(Joi.ref('max'))
-            .required(),
+          then: Joi.number().integer().min(Joi.ref('min')).max(Joi.ref('max')),
         })
         .when('dataType', {
           is: InSlot.DATA_TYPES.FLOAT,
-          then: Joi.number().min(Joi.ref('min')).max(Joi.ref('max')).required(),
+          then: Joi.number().min(Joi.ref('min')).max(Joi.ref('max')),
         })
         .when('dataType', {
           is: InSlot.DATA_TYPES.BOOLEAN,
-          then: Joi.boolean().required(),
+          then: Joi.boolean(),
         })
         .when('dataType', {
           is: InSlot.DATA_TYPES.ONE_OF,
           then: Joi.any().valid(Joi.in('selectOptions')),
         })
         .allow(null)
+        .default(null)
         .required(),
       selectOptions: Joi.array()
         .when('dataType', {

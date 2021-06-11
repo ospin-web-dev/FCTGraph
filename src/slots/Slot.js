@@ -2,10 +2,13 @@ const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
 const DataStream = require('dataStreams/DataStream')
+const RegexUtils = require('utils/RegexUtils')
 const { publicSuccessRes, publicErrorRes } = require('utils/publicResponses')
 const SlotConnectionError = require('./SlotConnectionError')
 
 class Slot {
+
+  static get SUPPORTS_CALIBRATION() { return false }
 
   /* *******************************************************************
    * UNITS
@@ -28,7 +31,7 @@ class Slot {
     }
   }
 
-  static get UNITLESS_UNIT() { return Slot.UNIT_TYPE_UNIT_OPTIONS.unitless[0] }
+  static get UNITLESS_UNIT() { return Slot.UNIT_TYPE_UNIT_OPTIONS[Slot.UNIT_TYPES.UNITLESS][0] }
 
   static get ALL_UNIT_VALUES() {
     return Object.values(this.UNIT_TYPE_UNIT_OPTIONS)
@@ -47,14 +50,16 @@ class Slot {
   static get SCHEMA() {
     return Joi.object({
       name: Joi.string().required(),
+      functionalityId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       displayType: Joi.string().allow(...Object.values(Slot.DISPLAY_TYPES)).required(),
       dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
       unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(), // inherited
     })
   }
 
-  constructor({ name, displayType, dataStreams, unit }) {
+  constructor({ name, functionalityId, displayType, dataStreams, unit }) {
     this.name = name
+    this.functionalityId = functionalityId
     this.displayType = displayType
     this.dataStreams = dataStreams
     this.unit = unit
@@ -63,6 +68,7 @@ class Slot {
   serialize() {
     return {
       name: this.name,
+      functionalityId: this.functionalityId,
       displayType: this.displayType,
       dataStreams: this.dataStreams,
       unit: this.unit,
@@ -128,10 +134,22 @@ class Slot {
   }
 
   _createDataStreamTo(otherSlot, dataStreamOpts) {
+    const {
+      name: sourceSlotName,
+      functionalityId: sourceFctId,
+    } = this.type === 'OutSlot' ? this : otherSlot
+
+    const {
+      name: sinkSlotName,
+      functionalityId: sinkFctId,
+    } = this.type === 'InSlot' ? this : otherSlot
+
     return new DataStream({
       id: uuidv4(),
-      sourceSlotName: this.type === 'OutSlot' ? this.name : otherSlot.name,
-      sinkSlotName: this.type === 'InSlot' ? this.name : otherSlot.name,
+      sourceFctId,
+      sourceSlotName,
+      sinkFctId,
+      sinkSlotName,
       averagingWindowSize: dataStreamOpts.averagingWindowSize,
     })
   }

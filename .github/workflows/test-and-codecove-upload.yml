@@ -1,11 +1,9 @@
-name: Release
-on:
-  push:
-    branches:
-      - main
+name: Test and Report
+on: [push, pull_request]
+
 jobs:
-  release:
-    name: Release
+  test:
+    name: Test and Report
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,8 +19,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx semantic-release
+      - name: Test with Coverage
+        run: npm run test-with-coverage
+
+      - name: Upload to codecov
+        run: npm i -g codecov && codecov

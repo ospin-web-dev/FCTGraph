@@ -10,12 +10,16 @@ class TemperatureSensorSeeder extends SensorSeeder {
     ]
   }
 
-  static generate(data) {
-    return {
-      ...super.generate(data),
+  static generate(overrideData = {}) {
+    const fctData = {
+      ...super.generate(overrideData),
       subType: TemperatureSensor.SUB_TYPE,
-      slots: [ ...this.SLOT_SEEDS ],
-      ...data,
+    }
+
+    return {
+      ...fctData,
+      slots: [ ...this.generateSlots(overrideData.id || fctData.id) ],
+      ...overrideData,
     }
   }
 
