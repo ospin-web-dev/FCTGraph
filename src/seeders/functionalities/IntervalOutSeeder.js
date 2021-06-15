@@ -4,21 +4,17 @@ const IntervalOut = require('functionalities/IntervalOut')
 
 class IntervalOutSeeder extends OutputNodeSeeder {
 
-  static get SLOT_SEEDS() {
+  static generateSlots() {
     return [
       InSlotSeeder.generate({ name: 'value in' }),
     ]
   }
 
   static generate(overrideData = {}) {
-    const fctData = {
+    return {
       ...super.generate(overrideData),
       subType: IntervalOut.SUB_TYPE,
-    }
-
-    return {
-      ...fctData,
-      slots: [ ...this.generateSlots(overrideData.id || fctData.id) ],
+      slots: this.generateSlots(),
       ...overrideData,
     }
   }

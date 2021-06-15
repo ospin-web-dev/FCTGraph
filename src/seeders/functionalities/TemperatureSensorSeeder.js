@@ -4,21 +4,17 @@ const TemperatureSensor = require('functionalities/TemperatureSensor')
 
 class TemperatureSensorSeeder extends SensorSeeder {
 
-  static get SLOT_SEEDS() {
+  static generateSlots() {
     return [
       OutSlotSeeder.generate({ name: 'value out', dataType: 'float' }),
     ]
   }
 
   static generate(overrideData = {}) {
-    const fctData = {
+    return {
       ...super.generate(overrideData),
       subType: TemperatureSensor.SUB_TYPE,
-    }
-
-    return {
-      ...fctData,
-      slots: [ ...this.generateSlots(overrideData.id || fctData.id) ],
+      slots: this.generateSlots(),
       ...overrideData,
     }
   }

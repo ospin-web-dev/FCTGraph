@@ -4,21 +4,17 @@ const HeaterActuator = require('functionalities/HeaterActuator')
 
 class HeaterActuatorSeeder extends ActuatorSeeder {
 
-  static get SLOT_SEEDS() {
+  static generateSlots() {
     return [
       InSlotSeeder.generate({ name: 'target value', dataType: 'float', unit: '-' }),
     ]
   }
 
   static generate(overrideData = {}) {
-    const fctData = {
+    return {
       ...super.generate(overrideData),
       subType: HeaterActuator.SUB_TYPE,
-    }
-
-    return {
-      ...fctData,
-      slots: [ ...this.generateSlots(overrideData.id || fctData.id) ],
+      slots: this.generateSlots(),
       ...overrideData,
     }
   }

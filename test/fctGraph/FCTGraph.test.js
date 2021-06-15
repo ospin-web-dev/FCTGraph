@@ -144,7 +144,7 @@ describe('the FCTGraph class', () => {
       const { error, errorMsg } = fctGraph.addFunctionality(pushOutData)
 
       expect(error).toBe(true)
-      expect(errorMsg).toContain('"functionalityId" must be a string')
+      expect(errorMsg).toContain('"id" must be a string')
     })
 
     it('returns the result.functionality with its newly assigned id as a UUIDv4', () => {
