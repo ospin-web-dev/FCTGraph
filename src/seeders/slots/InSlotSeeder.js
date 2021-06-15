@@ -139,6 +139,12 @@ class InSlotSeeder extends SlotSeeder {
     })
   }
 
+  static seedKelvinIn(data) {
+    return this.seedOne(
+      this.generateKelvinIn(data),
+    )
+  }
+
 }
 
 module.exports = InSlotSeeder

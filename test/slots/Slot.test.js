@@ -104,9 +104,7 @@ describe('the Slot class', () => {
 
     it('returns an error when the slot units are incompatible', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
-      const [ percentUnit ] = Slot.UNIT_TYPE_UNIT_OPTIONS.percentage
-      slotB.unit = percentUnit
+      const slotB = InSlotSeeder.seedKelvinIn()
 
       const { error, errorMsg } = slotA.addConnectionTo(slotB)
 
