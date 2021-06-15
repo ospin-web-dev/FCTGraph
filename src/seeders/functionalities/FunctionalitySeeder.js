@@ -9,22 +9,11 @@ class FunctionalitySeeder {
   static get SEED_METHOD() { return FunctionalityFactory.new }
 
   static get SLOT_SEED_TYPES() {
-    if (!Array.isArray(this.SLOT_SEEDS)) {
-      throw new Error(`${this.name} must have .SLOT_SEEDS to use .SLOT_SEED_TYPES`)
+    if (!Array.isArray(this.generateSlots())) {
+      throw new Error(`${this.name} must have a .generateSlots method to use .SLOT_SEED_TYPES`)
     }
 
-    return this.SLOT_SEEDS.map(({ type }) => type)
-  }
-
-  static generateSlots(functionalityId) {
-    if (!Array.isArray(this.SLOT_SEEDS)) {
-      throw new Error(`${this.name} must have .SLOT_SEEDS to use .generateSlots`)
-    }
-
-    return this.SLOT_SEEDS.map(slotData => ({
-      ...slotData,
-      functionalityId,
-    }))
+    return this.generateSlots().map(({ type }) => type)
   }
 
   static generate(data) {

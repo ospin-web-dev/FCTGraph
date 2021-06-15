@@ -39,6 +39,9 @@ describe('the Slot class', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
       const slotB = InSlotSeeder.seedCelciusIn()
 
+      OutSlotSeeder.stubOwningFct(slotA)
+      InSlotSeeder.stubOwningFct(slotB)
+
       const dataStreamOpts = { averagingWindowSize: 10 }
       const {
         error,
@@ -57,6 +60,9 @@ describe('the Slot class', () => {
       // this test requires the test above for full coverage
       const slotA = OutSlotSeeder.seedCelciusOut()
       const slotB = InSlotSeeder.seedCelciusIn()
+
+      OutSlotSeeder.stubOwningFct(slotA)
+      InSlotSeeder.stubOwningFct(slotB)
 
       const { error, errorMsg, thisSlot, otherSlot } = slotB.addConnectionTo(slotA)
 

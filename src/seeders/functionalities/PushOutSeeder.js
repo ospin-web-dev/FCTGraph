@@ -4,21 +4,17 @@ const PushOut = require('functionalities/PushOut')
 
 class PushOutSeeder extends OutputNodeSeeder {
 
-  static get SLOT_SEEDS() {
+  static generateSlots() {
     return [
       InSlotSeeder.generateUnitlessIn({ name: 'value in' }),
     ]
   }
 
   static generate(overrideData = {}) {
-    const fctData = {
+    return {
       ...super.generate(overrideData),
       subType: PushOut.SUB_TYPE,
-    }
-
-    return {
-      ...fctData,
-      slots: [ ...this.generateSlots(overrideData.id || fctData.id) ],
+      slots: this.generateSlots(),
       ...overrideData,
     }
   }

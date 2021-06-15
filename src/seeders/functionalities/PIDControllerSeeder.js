@@ -4,7 +4,7 @@ const PIDController = require('functionalities/PIDController')
 
 class PIDControllerSeeder extends ControllerSeeder {
 
-  static get SLOT_SEEDS() {
+  static generateSlots() {
     return [
       InSlotSeeder.generateUnitlessIn({ name: 'P', dataType: 'float' }),
       InSlotSeeder.generateUnitlessIn({ name: 'I', dataType: 'float' }),
@@ -16,14 +16,10 @@ class PIDControllerSeeder extends ControllerSeeder {
   }
 
   static generate(overrideData = {}) {
-    const fctData = {
+    return {
       ...super.generate(overrideData),
       subType: PIDController.SUB_TYPE,
-    }
-
-    return {
-      ...fctData,
-      slots: [ ...this.generateSlots(overrideData.id || fctData.id) ],
+      slots: this.generateSlots(),
       ...overrideData,
     }
   }

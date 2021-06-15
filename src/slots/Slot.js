@@ -50,7 +50,6 @@ class Slot {
   static get SCHEMA() {
     return Joi.object({
       name: Joi.string().required(),
-      functionalityId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       displayType: Joi.string().allow(...Object.values(Slot.DISPLAY_TYPES)).required(),
       dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
       unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(), // inherited
@@ -68,7 +67,6 @@ class Slot {
   serialize() {
     return {
       name: this.name,
-      functionalityId: this.functionalityId,
       displayType: this.displayType,
       dataStreams: this.dataStreams,
       unit: this.unit,

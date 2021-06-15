@@ -4,21 +4,17 @@ const PushIn = require('functionalities/PushIn')
 
 class PushInSeeder extends InputNodeSeeder {
 
-  static get SLOT_SEEDS() {
+  static generateSlots() {
     return [
       OutSlotSeeder.generate({ name: 'value out' }),
     ]
   }
 
   static generate(overrideData = {}) {
-    const fctData = {
+    return {
       ...super.generate(overrideData),
       subType: PushIn.SUB_TYPE,
-    }
-
-    return {
-      ...fctData,
-      slots: [ ...this.generateSlots(overrideData.id || fctData.id) ],
+      slots: this.generateSlots(),
       ...overrideData,
     }
   }
