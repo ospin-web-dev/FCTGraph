@@ -25,12 +25,10 @@ describe('the FCTGraph class', () => {
     })
 
     it('creates an instance', () => {
-      const deviceDefault = true
-      const fctGraphData = FCTGraphSeeder.generate({ deviceDefault })
+      const fctGraphData = FCTGraphSeeder.generate({ })
       const fctGraph = new FCTGraph(fctGraphData)
 
       expect(fctGraph instanceof FCTGraph).toBe(true)
-      expect(fctGraph.deviceDefault).toBe(true)
     })
   })
 

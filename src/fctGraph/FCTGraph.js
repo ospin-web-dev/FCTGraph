@@ -13,8 +13,6 @@ class FCTGraph {
   static get SCHEMA() {
     return Joi.object({
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
-      deviceId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
-      deviceDefault: Joi.boolean().default(false),
       functionalities: Joi.array().items(Joi.alternatives().try(
         ...FunctionalityFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).default([]),
@@ -23,13 +21,9 @@ class FCTGraph {
 
   constructor({
     id,
-    deviceId,
-    deviceDefault,
     functionalities,
   }) {
     this.id = id
-    this.deviceId = deviceId
-    this.deviceDefault = deviceDefault
     // Avoid blowing up in the constructor if non-array given for fcts. Joi will give a better error
     this.functionalities = Array.isArray(functionalities)
       ? functionalities.map(FunctionalityFactory.new)
@@ -39,8 +33,6 @@ class FCTGraph {
   serialize() {
     return {
       id: this.id,
-      deviceId: this.deviceId,
-      deviceDefault: this.deviceDefault,
       functionalities: this.functionalities.map(func => func.serialize()),
     }
   }

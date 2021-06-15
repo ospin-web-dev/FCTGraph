@@ -121,6 +121,10 @@ describe('the Slot class', () => {
     it('the dataStream gets removed from the slots if either fails validation after the dataStream is added', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
       const slotB = InSlotSeeder.seedCelciusIn()
+
+      OutSlotSeeder.stubOwningFct(slotA)
+      InSlotSeeder.stubOwningFct(slotB)
+
       const slotAPreLength = slotA.dataStreams.length
       const slotBPreLength = slotB.dataStreams.length
 
@@ -146,6 +150,10 @@ describe('the Slot class', () => {
 
       const slotA = OutSlotSeeder.seedCelciusOut()
       const slotB = InSlotSeeder.seedCelciusIn()
+
+      OutSlotSeeder.stubOwningFct(slotA)
+      InSlotSeeder.stubOwningFct(slotB)
+
       slotA.dataStreams = [ existingDataStream ]
       slotB.dataStreams = [ existingDataStream ]
 
@@ -179,6 +187,10 @@ describe('the Slot class', () => {
 
       const slotA = OutSlotSeeder.seedCelciusOut()
       const slotB = InSlotSeeder.seedCelciusIn()
+
+      OutSlotSeeder.stubOwningFct(slotA)
+      InSlotSeeder.stubOwningFct(slotB)
+
       slotA.dataStreams = [ existingDataStream ]
       slotB.dataStreams = [ existingDataStream ]
 
