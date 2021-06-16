@@ -1,5 +1,5 @@
-const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
-const Actuator = require('functionalities/Actuator')
+const FunctionalitySeeder = require('./FunctionalitySeeder')
+const Actuator = require('../../functionalities/Actuator')
 
 class ActuatorSeeder extends FunctionalitySeeder {
 

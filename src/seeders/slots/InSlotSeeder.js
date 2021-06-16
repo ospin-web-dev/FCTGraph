@@ -1,6 +1,6 @@
 const faker = require('faker')
 
-const InSlot = require('slots/InSlot')
+const InSlot = require('../../slots/InSlot')
 const SlotSeeder = require('./SlotSeeder')
 
 class InSlotSeeder extends SlotSeeder {

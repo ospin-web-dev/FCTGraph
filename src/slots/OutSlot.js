@@ -1,6 +1,6 @@
 const Joi = require('joi')
 
-const JOIous = require('mixins/instanceMixins/JOIous')
+const JOIous = require('../mixins/instanceMixins/JOIous')
 const Slot = require('./Slot')
 
 class OutSlot extends Slot {

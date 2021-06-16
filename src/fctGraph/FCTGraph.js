@@ -2,10 +2,10 @@ const Joi = require('joi')
 const ArrayUtils = require('@choux/array-utils')
 const { v4: uuidv4 } = require('uuid')
 
-const JOIous = require('mixins/instanceMixins/JOIous')
-const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
-const RegexUtils = require('utils/RegexUtils')
-const { publicSuccessRes, publicErrorRes } = require('utils/publicResponses')
+const JOIous = require('../mixins/instanceMixins/JOIous')
+const FunctionalityFactory = require('../functionalities/factories/FunctionalityFactory')
+const RegexUtils = require('../utils/RegexUtils')
+const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 const AddFunctionalityError = require('./AddFunctionalityError')
 
 class FCTGraph {

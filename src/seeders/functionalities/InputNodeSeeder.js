@@ -1,5 +1,5 @@
-const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
-const InputNode = require('functionalities/InputNode')
+const FunctionalitySeeder = require('./FunctionalitySeeder')
+const InputNode = require('../../functionalities/InputNode')
 
 class InputNodeSeeder extends FunctionalitySeeder {
 

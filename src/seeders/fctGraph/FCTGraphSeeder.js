@@ -1,15 +1,15 @@
 const faker = require('faker')
 const compose = require('@choux/compose')
 
-const FCTGraph = require('fctGraph/FCTGraph')
-const FactorySeeder = require('seeders/FactorySeeder')
+const FCTGraph = require('../../fctGraph/FCTGraph')
+const FactorySeeder = require('../FactorySeeder')
 const {
   TemperatureSensorSeeder,
   HeaterActuatorSeeder,
   PIDControllerSeeder,
   IntervalOutSeeder,
   PushOutSeeder,
-} = require('seeders/functionalities')
+} = require('../functionalities')
 
 class FCTGraphSeeder {
 
