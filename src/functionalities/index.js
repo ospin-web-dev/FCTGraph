@@ -1,3 +1,4 @@
+const Functionality = require('./Functionality')
 const TemperatureSensor = require('./TemperatureSensor')
 const HeaterActuator = require('./HeaterActuator')
 const IntervalOut = require('./IntervalOut')
@@ -6,6 +7,7 @@ const PushOut = require('./PushOut')
 const PushIn = require('./PushIn')
 
 module.exports = {
+  Functionality,
   TemperatureSensor,
   HeaterActuator,
   IntervalOut,

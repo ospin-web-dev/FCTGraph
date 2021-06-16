@@ -1,13 +1,20 @@
 const faker = require('faker')
 const compose = require('@choux/compose')
+const { v4: uuidv4 } = require('uuid')
 
-const FactorySeeder = require('test/seeders/FactorySeeder')
+const FactorySeeder = require('seeders/FactorySeeder')
 const SlotFactory = require('slots/factories/SlotFactory')
 const Slot = require('slots/Slot')
 
 class SlotSeeder {
 
   static get SEED_METHOD() { return SlotFactory.new }
+
+  static stubOwningFct(slot) {
+    // eslint-disable-next-line
+    slot.functionalityId = uuidv4()
+    return slot
+  }
 
   static generate(data = {}) {
     return {

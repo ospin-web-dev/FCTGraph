@@ -1,4 +1,4 @@
-const FunctionalitySeeder = require('test/seeders/functionalities/FunctionalitySeeder')
+const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
 const Controller = require('functionalities/Controller')
 
 class ControllerSeeder extends FunctionalitySeeder {

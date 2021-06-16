@@ -30,7 +30,7 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
   }
 
   static deepEquals(objA, objB) {
-    const objDiff = this.diff(objA, objB)
+    const objDiff = this.diff(objA.serialize(), objB.serialize())
     return typeof objDiff === 'undefined'
   }
 
@@ -38,6 +38,15 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     super(...args)
 
     this.assertStructure()
+  }
+
+  serialize(data) {
+    // This looks backwards because JOIous is composed in to classes
+    // in this case it anonymously extends the base class it is composed in to
+    if (!super.serialize) {
+      throw new Error(`${this.constructor.name} requires a .serialize method`)
+    }
+    return super.serialize(data)
   }
 
   assertStructure() {
@@ -55,14 +64,13 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     return this.sortAndSerialize()
   }
 
-  // deeper print outs while running on Node
   toString() {
-    return util.inspect(this.toJSON(), { compact: false, depth: 4 })
+    return util.inspect(this, { compact: false, depth: 6 })
   }
 
   // deeper print outs while running on Node
   [util.inspect.custom]() {
-    return util.inspect(this.toJSON(), { compact: false, depth: 4 })
+    return util.inspect(this.toJSON(), { compact: false, depth: 6 })
   }
 
 }

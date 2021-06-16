@@ -24,7 +24,7 @@
     "start": "node index.js",
     "test-release": "npx semantic-release --dry-run",
     "test": "jest",
-    "test-with-coverage": "jest -i --coverage",
+    "test-with-coverage": "jest --coverage",
     "lint-diff": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint $LIST; fi",
     "lint-diff-and-fix": "LIST=$(git diff-index --name-only --diff-filter=d HEAD | grep .*\\.[jt]sx\\\\? | grep -v json); if [ \"$LIST\" ]; then eslint --fix $LIST; fi"
   },
@@ -58,7 +58,8 @@
       "<rootDir>"
     ],
     "collectCoverageFrom": [
-      "src/**/*.js"
+      "src/**/*.js",
+      "!src/seeders/**"
     ],
     "moduleNameMapper": {
       "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/mocks/assetMock.js"

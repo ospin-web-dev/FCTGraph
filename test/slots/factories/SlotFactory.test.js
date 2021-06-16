@@ -2,7 +2,7 @@ const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
 const OutSlot = require('slots/OutSlot')
 
-const { InSlotSeeder, OutSlotSeeder } = require('test/seeders/slots')
+const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
 
 describe('the slot factory', () => {
 

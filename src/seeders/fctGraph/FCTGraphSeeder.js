@@ -2,18 +2,17 @@ const faker = require('faker')
 const compose = require('@choux/compose')
 
 const FCTGraph = require('fctGraph/FCTGraph')
-const FactorySeeder = require('test/seeders/FactorySeeder')
+const FactorySeeder = require('seeders/FactorySeeder')
 const {
   TemperatureSensorSeeder,
   HeaterActuatorSeeder,
   PIDControllerSeeder,
   IntervalOutSeeder,
   PushOutSeeder,
-} = require('test/seeders/functionalities')
+} = require('seeders/functionalities')
 
 class FCTGraphSeeder {
 
-  // FINISH REPLACING ALL FACTORIES WITH NEW METHODS
   static get SEED_METHOD() { return (...data) => new FCTGraph(...data) }
 
   static get FCT_SEEDS() {
@@ -33,8 +32,6 @@ class FCTGraphSeeder {
   static generate(data) {
     return {
       id: faker.datatype.uuid(),
-      deviceId: faker.datatype.uuid(),
-      deviceDefault: faker.datatype.boolean(),
       functionalities: [ ...this.FCT_SEEDS ],
       ...data,
     }

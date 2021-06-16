@@ -2,9 +2,13 @@ const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
 const DataStream = require('dataStreams/DataStream')
+const RegexUtils = require('utils/RegexUtils')
+const { publicSuccessRes, publicErrorRes } = require('utils/publicResponses')
 const SlotConnectionError = require('./SlotConnectionError')
 
 class Slot {
+
+  static get SUPPORTS_CALIBRATION() { return false }
 
   /* *******************************************************************
    * UNITS
@@ -20,12 +24,14 @@ class Slot {
 
   static get UNIT_TYPE_UNIT_OPTIONS() {
     return {
-      [this.UNIT_TYPES.TEMPERATURE]: ['K', '°C', '°F'],
-      [this.UNIT_TYPES.ROTATIONAL_SPEED]: ['rpm'],
-      [this.UNIT_TYPES.PERCENTAGE]: ['%'],
-      [this.UNIT_TYPES.UNITLESS]: ['-'],
+      [Slot.UNIT_TYPES.TEMPERATURE]: ['K', '°C', '°F'],
+      [Slot.UNIT_TYPES.ROTATIONAL_SPEED]: ['rpm'],
+      [Slot.UNIT_TYPES.PERCENTAGE]: ['%'],
+      [Slot.UNIT_TYPES.UNITLESS]: ['-'],
     }
   }
+
+  static get UNITLESS_UNIT() { return Slot.UNIT_TYPE_UNIT_OPTIONS[Slot.UNIT_TYPES.UNITLESS][0] }
 
   static get ALL_UNIT_VALUES() {
     return Object.values(this.UNIT_TYPE_UNIT_OPTIONS)
@@ -50,8 +56,9 @@ class Slot {
     })
   }
 
-  constructor({ name, displayType, dataStreams, unit }) {
+  constructor({ name, functionalityId, displayType, dataStreams, unit }) {
     this.name = name
+    this.functionalityId = functionalityId
     this.displayType = displayType
     this.dataStreams = dataStreams
     this.unit = unit
@@ -61,7 +68,7 @@ class Slot {
     return {
       name: this.name,
       displayType: this.displayType,
-      dataStreams: this.dataStreams,
+      dataStreams: this.dataStreams.map(ds => ds.serialize()),
       unit: this.unit,
     }
   }
@@ -71,18 +78,28 @@ class Slot {
     throw new Error(`${this} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
   }
 
+  isUnitless() { return this.unit === Slot.UNITLESS_UNIT }
+
   /* *******************************************************************
    * GRAPH ACTIONS: CONNECTING SLOTS
    * **************************************************************** */
-  _assertConnectionBetweenIsPossible(otherSlot) {
+  _assertSlotDataTypeCompatible(otherSlot) {
     if (this.dataType !== otherSlot.dataType) {
       throw new SlotConnectionError(this, otherSlot, 'dataTypes must match between slots')
     }
+  }
 
-    if (this.unit !== otherSlot.unit) {
+  _assertSlotUnitCompatible(otherSlot) {
+    if (
+      this.unit !== otherSlot.unit
+      && !this.isUnitless()
+      && !otherSlot.isUnitless()
+    ) {
       throw new SlotConnectionError(this, otherSlot, 'units must match between slots')
     }
+  }
 
+  _assertSlotTypeCompatible(otherSlot) {
     if (this.type === 'OutSlot' && otherSlot.type !== 'InSlot') {
       throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
     }
@@ -92,9 +109,16 @@ class Slot {
     }
   }
 
+  _assertConnectionBetweenIsPossible(otherSlot) {
+    this._assertSlotDataTypeCompatible(otherSlot)
+    this._assertSlotUnitCompatible(otherSlot)
+    this._assertSlotTypeCompatible(otherSlot)
+
+  }
+
   _validateConnectionBetweenIsPossible(otherSlot) {
     try {
-      this._assertConnectionBetweenIsPossible(this, otherSlot)
+      this._assertConnectionBetweenIsPossible(otherSlot)
       return true
     } catch (e) {
       if (e.name !== SlotConnectionError.NAME) throw e
@@ -102,28 +126,64 @@ class Slot {
     }
   }
 
-  _forceAddConnection(dataStream) {
+  _addDataStreamAndAssertStructure(dataStream) {
     this.dataStreams.push(dataStream)
     this.assertStructure()
   }
 
-  connect(otherSlot, opts) {
-    this._assertConnectionBetweenIsPossible(this, otherSlot)
+  _createDataStreamTo(otherSlot, dataStreamOpts) {
+    const {
+      name: sourceSlotName,
+      functionalityId: sourceFctId,
+    } = this.type === 'OutSlot' ? this : otherSlot
 
-    const dataStream = new DataStream({
+    const {
+      name: sinkSlotName,
+      functionalityId: sinkFctId,
+    } = this.type === 'InSlot' ? this : otherSlot
+
+    return new DataStream({
       id: uuidv4(),
-      sourceSlotName: this.type === 'OutSlot' ? this.name : otherSlot.name,
-      sinkSlotName: this.type === 'InSlot' ? this.name : otherSlot.name,
-      averagingWindowSize: opts.averagingWindowSize,
+      sourceFctId,
+      sourceSlotName,
+      sinkFctId,
+      sinkSlotName,
+      averagingWindowSize: dataStreamOpts.averagingWindowSize,
     })
+  }
 
-    this._forceAddConnection(dataStream)
-    otherSlot._forceAddConnection(dataStream)
+  _connectToOrThrow(otherSlot, dataStream) {
+    const thisDataStreamsLengthPre = this.dataStreams.length
+    const otherDataStreamsLengthPre = otherSlot.dataStreams.length
+
+    try {
+      this._addDataStreamAndAssertStructure(dataStream)
+      otherSlot._addDataStreamAndAssertStructure(dataStream)
+      return dataStream
+    } catch (e) {
+      const thisDataStreamsLengthPost = this.dataStreams.length
+      const otherDataStreamsLengthPost = otherSlot.dataStreams.length
+      if (thisDataStreamsLengthPost > thisDataStreamsLengthPre) { this.dataStreams.pop() }
+      if (otherDataStreamsLengthPost > otherDataStreamsLengthPre) { otherSlot.dataStreams.pop() }
+    }
+  }
+
+  // safe - returns a public response
+  addConnectionTo(otherSlot, dataStreamOpts = {}) {
+    try {
+      this._assertConnectionBetweenIsPossible(otherSlot)
+      const dataStream = this._createDataStreamTo(otherSlot, dataStreamOpts)
+
+      this._connectToOrThrow(otherSlot, dataStream)
+      return publicSuccessRes({ thisSlot: this, otherSlot, dataStream })
+    } catch (e) {
+      return publicErrorRes({ errorMsg: e.message, thisSlot: this, otherSlot, dataStream: null })
+    }
   }
 
   filterConnectableSlots(slots) {
     return slots.filter(slot => (
-      this._validateConnectionBetweenIsPossible(this, slot)
+      this._validateConnectionBetweenIsPossible(slot)
     ))
   }
 

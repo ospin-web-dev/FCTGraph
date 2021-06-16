@@ -12,19 +12,34 @@ class Functionality {
       slots: Joi.array().items(Joi.alternatives().try(
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
+      controllerName: Joi.string().allow(''), // this is used to support the old devices: https://github.com/ospin-web-dev/hambda/issues/913
     })
+  }
+
+  _addSlot(slotData) {
+    const { id: functionalityId } = this
+    const newSlot = SlotFactory.new({ ...slotData, functionalityId })
+
+    this.slots.push(newSlot)
+
+    return newSlot
+  }
+
+  _addSlots(slotsData) {
+    /* NOTE: slots should never be added or removed outside of initialization
+     * a.k.a. if I could make this method more private I would */
+    slotsData.map(slotData => this._addSlot(slotData))
   }
 
   constructor({
     id,
     name,
-    slots,
+    slots: slotsData,
   }) {
     this.id = id
     this.name = name
-    this.slots = Array.isArray(slots)
-      ? slots.map(SlotFactory.new)
-      : []
+    this.slots = []
+    if (slotsData) this._addSlots(slotsData)
   }
 
   serialize() {
@@ -44,16 +59,16 @@ class Functionality {
    * **************************************************************** */
   getConnectableSlotsToFctSlotsMapping(targetFct) {
     /* returns {
-     *   <this.slotIdA>: [ <targetFctSlotA>, <targetFctSlotB> ],
-     *   <this.slotIdB>: [ <targetFctSlotB>, <targetFctSlotC> ],
-     *   <this.slotIdC>: [],
+     *   <this.slotA.name>: [ <targetFctSlotA>, <targetFctSlotB> ],
+     *   <this.slotB.name>: [ <targetFctSlotB>, <targetFctSlotC> ],
+     *   <this.slotC.name>: [],
      *   ...,
      * }
      */
     const { slots: targetSlots } = targetFct
 
     return this.slots.reduce((mapping, slot) => ({
-      [slot.id]: slot.filterConnectableSlots(targetSlots),
+      [slot.name]: slot.filterConnectableSlots(targetSlots),
       ...mapping,
     }), {})
   }
