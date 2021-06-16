@@ -36,6 +36,7 @@
     "@choux/array-utils": "^0.0.3",
     "@choux/compose": "^1.0.4",
     "deep-diff": "^1.0.2",
+    "faker": "^5.5.3",
     "joi": "^17.4.0",
     "uuid": "^8.3.2"
   },
@@ -47,7 +48,6 @@
     "eslint-plugin-import": "^2.23.3",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-jest-formatting": "^3.0.0",
-    "faker": "^5.5.3",
     "jest": "^27.0.1",
     "semantic-release": "^17.4.3"
   },
