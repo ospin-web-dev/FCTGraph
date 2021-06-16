@@ -68,7 +68,7 @@ class Slot {
     return {
       name: this.name,
       displayType: this.displayType,
-      dataStreams: this.dataStreams,
+      dataStreams: this.dataStreams.map(ds => ds.serialize()),
       unit: this.unit,
     }
   }

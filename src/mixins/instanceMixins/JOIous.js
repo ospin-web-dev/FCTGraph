@@ -65,12 +65,12 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
   }
 
   toString() {
-    return util.inspect(this, { compact: false, depth: 4 })
+    return util.inspect(this, { compact: false, depth: 6 })
   }
 
   // deeper print outs while running on Node
   [util.inspect.custom]() {
-    return util.inspect(this.toJSON(), { compact: false, depth: 4 })
+    return util.inspect(this.toJSON(), { compact: false, depth: 6 })
   }
 
 }
