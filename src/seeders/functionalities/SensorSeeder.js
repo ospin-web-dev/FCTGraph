@@ -1,5 +1,5 @@
-const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
-const Sensor = require('functionalities/Sensor')
+const FunctionalitySeeder = require('./FunctionalitySeeder')
+const Sensor = require('../../functionalities/Sensor')
 
 class SensorSeeder extends FunctionalitySeeder {
 

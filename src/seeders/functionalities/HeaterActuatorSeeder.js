@@ -1,6 +1,6 @@
-const ActuatorSeeder = require('seeders/functionalities/ActuatorSeeder')
-const { InSlotSeeder } = require('seeders/slots')
-const HeaterActuator = require('functionalities/HeaterActuator')
+const ActuatorSeeder = require('./ActuatorSeeder')
+const { InSlotSeeder } = require('../slots')
+const HeaterActuator = require('../../functionalities/HeaterActuator')
 
 class HeaterActuatorSeeder extends ActuatorSeeder {
 

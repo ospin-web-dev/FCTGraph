@@ -1,9 +1,8 @@
 const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
-const DataStream = require('dataStreams/DataStream')
-const RegexUtils = require('utils/RegexUtils')
-const { publicSuccessRes, publicErrorRes } = require('utils/publicResponses')
+const DataStream = require('../dataStreams/DataStream')
+const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 const SlotConnectionError = require('./SlotConnectionError')
 
 class Slot {

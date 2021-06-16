@@ -2,7 +2,7 @@ const util = require('util')
 const Joi = require('joi')
 const diff = require('deep-diff')
 
-const ObjUtils = require('utils/ObjUtils')
+const ObjUtils = require('../../utils/ObjUtils')
 
 /* JOIous is there for YOU
  *

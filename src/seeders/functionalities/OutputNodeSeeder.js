@@ -1,5 +1,5 @@
-const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
-const OutputNode = require('functionalities/OutputNode')
+const FunctionalitySeeder = require('./FunctionalitySeeder')
+const OutputNode = require('../../functionalities/OutputNode')
 
 class OutputNodeSeeder extends FunctionalitySeeder {
 

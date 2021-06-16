@@ -1,6 +1,6 @@
-const InputNodeSeeder = require('seeders/functionalities/InputNodeSeeder')
-const { OutSlotSeeder } = require('seeders/slots')
-const PushIn = require('functionalities/PushIn')
+const InputNodeSeeder = require('./InputNodeSeeder')
+const { OutSlotSeeder } = require('../slots')
+const PushIn = require('../../functionalities/PushIn')
 
 class PushInSeeder extends InputNodeSeeder {
 
