@@ -4,7 +4,7 @@
   "version": "0.0.2",
   "description": "Graph data structure with conditional edges via 'slots' on nodes. Intended to represent physical and virtual functionalities on a device.",
   "main": "index.js",
-  "license": "UNLICENSED",
+  "license": "GPL-3.0-or-later",
   "engines": {
     "node": "12.x",
     "npm": ">=6"
