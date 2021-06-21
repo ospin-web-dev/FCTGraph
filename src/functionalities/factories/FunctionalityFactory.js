@@ -1,4 +1,6 @@
 const TemperatureSensor = require('../TemperatureSensor')
+const UnknownSensor = require('../UnknownSensor')
+const UnknownActuator = require('../UnknownActuator')
 const PIDController = require('../PIDController')
 const HeaterActuator = require('../HeaterActuator')
 const IntervalOut = require('../IntervalOut')
@@ -10,6 +12,8 @@ class FunctionalityFactory {
   static get SUB_TYPE_TO_CLASS() {
     return ({
       TemperatureSensor,
+      UnknownSensor,
+      UnknownActuator,
       PIDController,
       HeaterActuator,
       IntervalOut,

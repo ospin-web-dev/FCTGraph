@@ -6,6 +6,8 @@ const {
   PIDControllerSeeder,
   PushOutSeeder,
   PushInSeeder,
+  UnknownSensorSeeder,
+  UnknownActuatorSeeder,
 } = require('seeders/functionalities')
 const {
   TemperatureSensor,
@@ -14,6 +16,8 @@ const {
   PIDController,
   PushOut,
   PushIn,
+  UnknownSensor,
+  UnknownActuator,
 } = require('functionalities')
 const ObjUtils = require('utils/ObjUtils')
 
@@ -88,6 +92,14 @@ describe('the functionality factory', () => {
       {
         SubClass: PushIn,
         SubClassSeeder: PushInSeeder,
+      },
+      {
+        SubClass: UnknownSensor,
+        SubClassSeeder: UnknownSensorSeeder,
+      },
+      {
+        SubClass: UnknownActuator,
+        SubClassSeeder: UnknownActuatorSeeder,
       },
     ]
 
