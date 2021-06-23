@@ -22,6 +22,15 @@ describe('the Slot class', () => {
     })
   })
 
+  describe('.constructor', () => {
+    it('allows null for displayType', () => {
+      const slotData = InSlotSeeder.generate({ displayType: null })
+      const slot = new Slot(slotData)
+
+      expect(slot.displayType).toBeNull()
+    })
+  })
+
   describe('.assertStructure', () => {
 
     it('blows up because Slot is a virtual class and it wants to kindly tell you that a mistake was likely made in a child that has not defined the method', () => {
