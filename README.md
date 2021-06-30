@@ -189,7 +189,8 @@ FCTGraphSeeder
 
 FunctionalitySeeder (virtual)
 ├── ActuatorSeeder (virtual)
-│   └── HeaterActuatorSeeder
+│   ├── HeaterActuatorSeeder
+│   └── UnknownActuatorSeeder
 ├── ControllerSeeder (virtual)
 │   └── PIDControllerSeeder
 ├── InputNodeSeeder (virtual)
@@ -198,7 +199,8 @@ FunctionalitySeeder (virtual)
 │   ├── PushOutSeeder
 │   └── IntervalOutSeeder
 └── SensorSeeder (virtual)
-    └── TemperatureSensorSeeder
+    ├── TemperatureSensorSeeder
+    └── UnknownSensorSeeder
 
 SlotSeeder (virtual)
 ├── InSlotSeeder
