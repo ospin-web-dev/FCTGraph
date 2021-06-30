@@ -12,7 +12,7 @@ class DataStream {
       sourceSlotName: Joi.string().required(),
       sinkFctId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       sinkSlotName: Joi.string().required(),
-      averagingWindowSize: Joi.number().integer().strict(),
+      averagingWindowSize: Joi.number().integer().min(0).strict(),
     })
   }
 

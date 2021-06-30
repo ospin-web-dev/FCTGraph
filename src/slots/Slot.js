@@ -59,7 +59,7 @@ class Slot {
     this.name = name
     this.functionalityId = functionalityId
     this.displayType = displayType
-    this.dataStreams = dataStreams
+    this.dataStreams = dataStreams.map(ds => new DataStream(ds))
     this.unit = unit
   }
 

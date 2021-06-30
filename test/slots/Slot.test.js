@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid')
+const faker = require('faker')
 
 const Slot = require('slots/Slot')
 const InSlot = require('slots/InSlot')
@@ -28,6 +29,38 @@ describe('the Slot class', () => {
       const slot = new Slot(slotData)
 
       expect(slot.displayType).toBeNull()
+    })
+
+    it('converts dataStream data in to DataStream instances', () => {
+      const outSlot = OutSlotSeeder.seedWithDataStream()
+
+      expect(outSlot.dataStreams).toHaveLength(1)
+      expect(outSlot.dataStreams[0].constructor.name)
+        .toStrictEqual('DataStream')
+    })
+  })
+
+  describe('.serialize', () => {
+    it('converts dataStreams back to nested objects', () => {
+      const dataStreamData = {
+        id: faker.datatype.uuid(),
+        sinkFctId: faker.datatype.uuid(),
+        sinkSlotName: faker.animal.lion(),
+        averagingWindowSize: faker.datatype.number(),
+      }
+
+      const outSlotData = OutSlotSeeder.generate()
+
+      const dataStreamPopulated = {
+        ...dataStreamData,
+        sourceSlotName: outSlotData.name,
+        sourceFctId: faker.datatype.uuid(),
+      }
+      outSlotData.dataStreams = [ dataStreamPopulated ]
+
+      const outSlot = new OutSlot(outSlotData)
+
+      expect(outSlot.serialize().dataStreams[0]).toStrictEqual(dataStreamPopulated)
     })
   })
 

@@ -2,6 +2,7 @@ const faker = require('faker')
 
 const OutSlot = require('../../slots/OutSlot')
 const SlotSeeder = require('./SlotSeeder')
+const DataStream = require('../../dataStreams/DataStream')
 
 class OutSlotSeeder extends SlotSeeder {
 
@@ -30,6 +31,25 @@ class OutSlotSeeder extends SlotSeeder {
     return this.seedOne(
       this.generateCelciusOut(data),
     )
+  }
+
+  static seedWithDataStream(data) {
+    const slot = this.seedOne(
+      this.generate(data),
+    )
+
+    const dataStream = new DataStream({
+      id: faker.datatype.uuid(),
+      sourceFctId: faker.datatype.uuid(),
+      sourceSlotName: slot.name,
+      sinkFctId: faker.datatype.uuid(),
+      sinkSlotName: faker.animal.lion(),
+      averagingWindowSize: faker.datatype.number(),
+    })
+
+    slot._addDataStreamAndAssertStructure(dataStream)
+
+    return slot
   }
 
 }
