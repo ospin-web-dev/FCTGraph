@@ -12,7 +12,12 @@ class DataStream {
       sourceSlotName: Joi.string().required(),
       sinkFctId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       sinkSlotName: Joi.string().required(),
-      averagingWindowSize: Joi.number().integer().min(0).strict(),
+      averagingWindowSize: Joi
+        .number()
+        .integer()
+        .min(0)
+        .required()
+        .strict(),
     })
   }
 
@@ -29,7 +34,7 @@ class DataStream {
     this.sourceSlotName = sourceSlotName
     this.sinkFctId = sinkFctId
     this.sinkSlotName = sinkSlotName
-    this.averagingWindowSize = averagingWindowSize
+    this.averagingWindowSize = averagingWindowSize || 0
   }
 
   serialize() {

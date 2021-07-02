@@ -36,7 +36,7 @@ class InSlot extends Slot {
     return Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
       dataType: Joi.string().allow(...Object.values(InSlot.DATA_TYPES)).required(),
-      tareable: Joi.boolean().default(false),
+      tareable: Joi.boolean().required(),
       min: Joi.number().strict().allow(-Infinity)
         .when('dataType', [
           {
@@ -83,7 +83,6 @@ class InSlot extends Slot {
           then: Joi.any().valid(Joi.in('selectOptions')),
         })
         .allow(null)
-        .default(null)
         .required(),
       selectOptions: Joi.array()
         .when('dataType', {
@@ -97,6 +96,7 @@ class InSlot extends Slot {
   constructor({
     type,
     dataType,
+    tareable,
     min,
     max,
     defaultValue,
@@ -106,7 +106,8 @@ class InSlot extends Slot {
     super(slotData)
     this.type = type
     this.dataType = dataType
-    this.defaultValue = defaultValue
+    this.tareable = tareable || false
+    this.defaultValue = defaultValue === undefined ? null : defaultValue
     this.min = min
     this.max = max
     this.selectOptions = selectOptions
@@ -122,6 +123,7 @@ class InSlot extends Slot {
     const dataObj = {
       type: this.type,
       dataType: this.dataType,
+      tareable: this.tareable,
       ...super.serialize(),
       ...this.serializeOptionals(),
       defaultValue: this.defaultValue,

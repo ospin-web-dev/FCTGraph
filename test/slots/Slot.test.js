@@ -5,7 +5,11 @@ const Slot = require('slots/Slot')
 const InSlot = require('slots/InSlot')
 const OutSlot = require('slots/OutSlot')
 const DataStream = require('dataStreams/DataStream')
+const DataStreamSeeder = require('seeders/dataStreams/DataStreamSeeder')
 const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
+/* the SlotSeeder is not present in the seeders/slots index because it
+ * should not be exposed as public seeder interface */
+const SlotSeeder = require('seeders/slots/SlotSeeder')
 
 describe('the Slot class', () => {
 
@@ -24,8 +28,28 @@ describe('the Slot class', () => {
   })
 
   describe('.constructor', () => {
+    describe('on InSlots', () => {
+      it('sets tareable to false by default', () => {
+        const slotData = InSlotSeeder.generate()
+        delete slotData.tareable
+
+        const slot = new InSlot(slotData)
+
+        expect(slot.tareable).toBe(false)
+      })
+
+      it('sets defaultValue to null by default', () => {
+        const slotData = InSlotSeeder.generate()
+        delete slotData.defaultValue
+
+        const slot = new InSlot(slotData)
+
+        expect(slot.defaultValue).toBeNull()
+      })
+    })
+
     it('allows null for displayType', () => {
-      const slotData = InSlotSeeder.generate({ displayType: null })
+      const slotData = SlotSeeder.generate({ displayType: null })
       const slot = new Slot(slotData)
 
       expect(slot.displayType).toBeNull()
@@ -42,12 +66,7 @@ describe('the Slot class', () => {
 
   describe('.serialize', () => {
     it('converts dataStreams back to nested objects', () => {
-      const dataStreamData = {
-        id: faker.datatype.uuid(),
-        sinkFctId: faker.datatype.uuid(),
-        sinkSlotName: faker.animal.lion(),
-        averagingWindowSize: faker.datatype.number(),
-      }
+      const dataStreamData = DataStreamSeeder.generate()
 
       const outSlotData = OutSlotSeeder.generate()
 
@@ -99,7 +118,6 @@ describe('the Slot class', () => {
     })
 
     it('adds the same dataStream instance to both slots regardless of which is calling addConnectionTo on the other', () => {
-      // this test requires the test above for full coverage
       const slotA = OutSlotSeeder.seedCelciusOut()
       const slotB = InSlotSeeder.seedCelciusIn()
 
@@ -111,7 +129,6 @@ describe('the Slot class', () => {
       expect(error).toBe(false)
       expect(errorMsg).toBeNull()
       expect(thisSlot.dataStreams).toStrictEqual(otherSlot.dataStreams)
-      expect(thisSlot.dataStreams[0].averagingWindowSize).toBeUndefined()
     })
 
     it('returns an error response when the slot dataTypes are incompatible', () => {
