@@ -15,7 +15,7 @@ class FCTGraph {
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       functionalities: Joi.array().items(Joi.alternatives().try(
         ...FunctionalityFactory.SUPPORTED_CLASSES_SCHEMAS,
-      )).default([]),
+      )),
     })
   }
 

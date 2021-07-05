@@ -99,6 +99,7 @@ class InSlotSeeder extends SlotSeeder {
       ...slotData,
       ...optionals,
       defaultValue,
+      tareable: faker.datatype.boolean(),
       type: 'InSlot',
     }
   }

@@ -220,7 +220,20 @@ All virtual seeders (e.g. HeaterActuatorSeeder, InSlotSeeder etc.) compose the *
 
 This repo employs the github action [semantic-release](https://semantic-release.gitbook.io/semantic-release/), which, on approved PRs to `main`, sniffs the PR title/commit message to automatically bump the semantic versioning and publish the package to NPM.
 
-[All PRs to the `main` branch should indicate the semantic version change via the following rules](https://semantic-release.gitbook.io/semantic-release/#commit-message-format).
+All PRs to the `main` branch should indicate the semantic version change via the following options:
+
+Available types:
+ - feat: A new feature
+ - fix: A bug fix
+ - docs: Documentation only changes
+ - style: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+ - refactor: A code change that neither fixes a bug nor adds a feature
+ - perf: A code change that improves performance
+ - test: Adding missing tests or correcting existing tests
+ - build: Changes that affect the build system or external dependencies (example scopes: gulp, broccoli, npm)
+ - ci: Changes to our CI configuration files and scripts (example scopes: Travis, Circle, BrowserStack, SauceLabs)
+ - chore: Other changes that don't modify src or test files
+ - revert: Reverts a previous commit
 
 ---
 
