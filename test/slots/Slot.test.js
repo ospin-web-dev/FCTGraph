@@ -46,6 +46,235 @@ describe('the Slot class', () => {
 
         expect(slot.defaultValue).toBeNull()
       })
+
+      describe('for a boolean dataType', () => {
+        it('throws when min is present', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.BOOLEAN })
+          slotData.min = 100
+
+          expect(() => new InSlot(slotData)).toThrow(/min/)
+        })
+
+        it('throws when max is present', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.BOOLEAN })
+          slotData.max = 100
+
+          expect(() => new InSlot(slotData)).toThrow(/max/)
+        })
+      })
+
+      describe('for a oneOf dataType', () => {
+        it('throws when min is present', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.ONE_OF })
+          slotData.min = 100
+
+          expect(() => new InSlot(slotData)).toThrow(/min/)
+        })
+
+        it('throws when max is present', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.ONE_OF })
+          slotData.max = 100
+
+          expect(() => new InSlot(slotData)).toThrow(/max/)
+        })
+      })
+
+      describe('for an float dataType', () => {
+        it('allows min to be undefined', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.FLOAT,
+          })
+
+          delete slotData.min
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.min).toBeUndefined()
+        })
+
+        it('allows min to be null', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.FLOAT,
+          })
+
+          slotData.min = null
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.min).toBeNull()
+        })
+
+        it('allows max to be undefined', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.FLOAT,
+          })
+
+          delete slotData.max
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.max).toBeUndefined()
+        })
+
+        it('allows max to be null', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.FLOAT,
+          })
+
+          slotData.max = null
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.max).toBeNull()
+        })
+
+        it('allows min and max to be undefined', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.FLOAT,
+          })
+
+          delete slotData.max
+          delete slotData.min
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.max).toBeUndefined()
+          expect(slot.min).toBeUndefined()
+        })
+
+        it('throws when max is below min', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.FLOAT })
+          slotData.max = 100
+          slotData.min = 200
+
+          expect(() => new InSlot(slotData)).toThrow(/max/)
+        })
+
+        it('throws when defaultValue is above max', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.FLOAT })
+          slotData.max = 100
+          slotData.defaultValue = 200
+
+          expect(() => new InSlot(slotData)).toThrow(/max/)
+        })
+
+        it('throws when defaultValue is below min', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.FLOAT })
+          slotData.min = 300
+          slotData.defaultValue = 200
+
+          expect(() => new InSlot(slotData)).toThrow(/min/)
+        })
+      })
+
+      describe('for an integer dataType', () => {
+        it('allows min to be undefined', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.INTEGER,
+          })
+
+          delete slotData.min
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.min).toBeUndefined()
+        })
+
+        it('allows min to be null', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.INTEGER,
+          })
+
+          slotData.min = null
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.min).toBeNull()
+        })
+
+        it('allows max to be undefined', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.INTEGER,
+          })
+
+          delete slotData.max
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.max).toBeUndefined()
+        })
+
+        it('allows max to be null', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.INTEGER,
+          })
+
+          slotData.max = null
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.max).toBeNull()
+        })
+
+        it('allows min and max to be undefined', () => {
+          const slotData = InSlotSeeder.generate({
+            dataType: InSlot.DATA_TYPES.INTEGER,
+          })
+
+          delete slotData.max
+          delete slotData.min
+
+          const slot = new InSlot(slotData)
+
+          expect(slot.max).toBeUndefined()
+          expect(slot.min).toBeUndefined()
+        })
+
+        it('throws when max is below min', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.INTEGER })
+          slotData.max = 100
+          slotData.min = 200
+
+          expect(() => new InSlot(slotData)).toThrow(/max/)
+        })
+
+        it('throws when defaultValue is above max', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.INTEGER })
+          slotData.max = 100
+          slotData.defaultValue = 200
+
+          expect(() => new InSlot(slotData)).toThrow(/max/)
+        })
+
+        it('throws when defaultValue is below min', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.INTEGER })
+          slotData.min = 300
+          slotData.defaultValue = 200
+
+          expect(() => new InSlot(slotData)).toThrow(/min/)
+        })
+
+        it('throws when defaultValue is a float', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.INTEGER })
+          slotData.defaultValue = 200.1
+
+          expect(() => new InSlot(slotData)).toThrow(/defaultValue/)
+        })
+
+        it('throws when min is a float', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.INTEGER })
+          slotData.min = 200.1
+
+          expect(() => new InSlot(slotData)).toThrow(/min/)
+        })
+
+        it('throws when max is a float', () => {
+          const slotData = InSlotSeeder.generate({ dataType: InSlot.DATA_TYPES.INTEGER })
+          slotData.max = 200.1
+
+          expect(() => new InSlot(slotData)).toThrow(/max/)
+        })
+      })
     })
 
     it('allows null for displayType', () => {

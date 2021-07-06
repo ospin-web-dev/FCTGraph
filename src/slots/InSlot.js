@@ -37,53 +37,69 @@ class InSlot extends Slot {
       type: Joi.string().allow(InSlot.TYPE).required(),
       dataType: Joi.string().allow(...Object.values(InSlot.DATA_TYPES)).required(),
       tareable: Joi.boolean().required(),
-      min: Joi.number().strict().allow(-Infinity)
+      min: Joi.number().strict()
         .when('dataType', [
           {
             is: InSlot.DATA_TYPES.INTEGER,
-            then: Joi.required(),
+            then: Joi.number().integer().default(null).allow(null),
           },
           {
             is: InSlot.DATA_TYPES.FLOAT,
-            then: Joi.required(),
+            then: Joi.number().default(null).allow(null),
             otherwise: Joi.forbidden(),
           },
         ]),
-      max: Joi.number().strict().allow(Infinity)
+      max: Joi.number().strict()
         .when('min', {
-          is: Joi.exist(),
-          then: Joi.number().min(Joi.ref('min')),
+          is: Joi.number().strict(),
+          then: Joi.number().min(Joi.ref('min')).optional(),
         })
         .when('dataType', [
           {
             is: InSlot.DATA_TYPES.INTEGER,
-            then: Joi.required(),
+            then: Joi.number().integer().default(null).allow(null),
           },
           {
             is: InSlot.DATA_TYPES.FLOAT,
-            then: Joi.required(),
+            then: Joi.number().default(null).allow(null),
             otherwise: Joi.forbidden(),
           },
         ]),
       defaultValue: Joi.any()
         .when('dataType', {
           is: InSlot.DATA_TYPES.INTEGER,
-          then: Joi.number().integer().min(Joi.ref('min')).max(Joi.ref('max')),
+          then: Joi
+            .when('min', {
+              is: Joi.number().strict(),
+              then: Joi.number().integer().min(Joi.ref('min')),
+            })
+            .when('max', {
+              is: Joi.number().strict(),
+              then: Joi.number().integer().max(Joi.ref('max')),
+            }),
         })
         .when('dataType', {
           is: InSlot.DATA_TYPES.FLOAT,
-          then: Joi.number().min(Joi.ref('min')).max(Joi.ref('max')),
+          then: Joi
+            .when('min', {
+              is: Joi.number().strict(),
+              then: Joi.number().min(Joi.ref('min')),
+            })
+            .when('max', {
+              is: Joi.number().strict(),
+              then: Joi.number().max(Joi.ref('max')),
+            }),
         })
         .when('dataType', {
           is: InSlot.DATA_TYPES.BOOLEAN,
-          then: Joi.boolean(),
+          then: Joi.boolean().optional(),
         })
         .when('dataType', {
           is: InSlot.DATA_TYPES.ONE_OF,
           then: Joi.any().valid(Joi.in('selectOptions')),
         })
         .allow(null)
-        .required(),
+        .default(null),
       selectOptions: Joi.array()
         .when('dataType', {
           is: InSlot.DATA_TYPES.ONE_OF,
