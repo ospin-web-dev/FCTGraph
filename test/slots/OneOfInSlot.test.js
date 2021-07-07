@@ -15,5 +15,13 @@ describe('the OneOfInSlot class', () => {
       requiredKeys.forEach(key => expect(key in slot).toBe(true))
       forbiddenKeys.forEach(key => expect(key in slot).toBe(false))
     })
+
+    it('default the defaultValue to null when none is provided', () => {
+      const slotData = InSlotSeeder.generate({ dataType: OneOfInSlot.DATA_TYPE })
+      delete slotData.defaultValue
+
+      const slot = new OneOfInSlot(slotData)
+      expect(slot.defaultValue).toBeNull()
+    })
   })
 })

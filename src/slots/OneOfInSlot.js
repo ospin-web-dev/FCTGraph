@@ -5,7 +5,7 @@ const InSlot = require('./InSlot')
 
 class OneOfInSlot extends InSlot {
 
-  constructor({ defaultValue, selectOptions, ...slotData }) {
+  constructor({ defaultValue = null, selectOptions, ...slotData }) {
     super(slotData)
     this.dataType = OneOfInSlot.DATA_TYPE
     this.defaultValue = defaultValue
@@ -19,7 +19,7 @@ class OneOfInSlot extends InSlot {
   static get SCHEMA() {
     return Joi.object({
       dataType: Joi.string().allow(OneOfInSlot.DATA_TYPE).required(),
-      defaultValue: Joi.any().valid(Joi.in('selectOptions')),
+      defaultValue: Joi.any().valid(Joi.in('selectOptions')).allow(null),
       selectOptions: Joi.array().required(),
     }).concat(super.SCHEMA)
   }

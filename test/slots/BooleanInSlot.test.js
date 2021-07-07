@@ -16,5 +16,13 @@ describe('the BooleanInSlot class', () => {
       requiredKeys.forEach(key => expect(key in slot).toBe(true))
       forbiddenKeys.forEach(key => expect(key in slot).toBe(false))
     })
+
+    it('default the defaultValue to null when none is provided', () => {
+      const slotData = InSlotSeeder.generate({ dataType: BooleanInSlot.DATA_TYPE })
+      delete slotData.defaultValue
+
+      const slot = new BooleanInSlot(slotData)
+      expect(slot.defaultValue).toBeNull()
+    })
   })
 })

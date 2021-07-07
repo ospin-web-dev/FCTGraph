@@ -5,7 +5,7 @@ const InSlot = require('./InSlot')
 
 class BooleanInSlot extends InSlot {
 
-  constructor({ defaultValue, ...slotData }) {
+  constructor({ defaultValue = null, ...slotData }) {
     super(slotData)
     this.dataType = BooleanInSlot.DATA_TYPE
     this.defaultValue = defaultValue
@@ -18,7 +18,7 @@ class BooleanInSlot extends InSlot {
   static get SCHEMA() {
     return Joi.object({
       dataType: Joi.string().allow(BooleanInSlot.DATA_TYPE).required(),
-      defaultValue: Joi.boolean().required(),
+      defaultValue: Joi.boolean().allow(null),
     }).concat(super.SCHEMA)
   }
 
