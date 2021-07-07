@@ -15,9 +15,9 @@ class UnknownSensor extends Sensor {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...sensorData }) {
+  constructor(sensorData) {
     super(sensorData)
-    this.subType = subType
+    this.subType = UnknownSensor.SUB_TYPE
   }
 
   serialize() {

@@ -16,12 +16,11 @@ class InSlot extends Slot {
   }
 
   constructor({
-    type,
     tareable,
     ...slotData
   }) {
     super(slotData)
-    this.type = type
+    this.type = InSlot.TYPE
     this.tareable = tareable || false
   }
 

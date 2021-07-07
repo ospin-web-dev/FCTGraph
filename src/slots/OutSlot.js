@@ -48,7 +48,7 @@ class OutSlot extends Slot {
 
   constructor({ type, dataType, ...slotData }) {
     super(slotData)
-    this.type = type
+    this.type = OutSlot.TYPE
     this.dataType = dataType
   }
 

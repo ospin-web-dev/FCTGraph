@@ -5,9 +5,9 @@ const InSlot = require('./InSlot')
 
 class IntegerInSlot extends InSlot {
 
-  constructor({ defaultValue = null, dataType, min = null, max = null, ...slotData }) {
+  constructor({ defaultValue = null, min = null, max = null, ...slotData }) {
     super(slotData)
-    this.dataType = dataType
+    this.dataType = IntegerInSlot.DATA_TYPE
     this.min = min
     this.max = max
     this.defaultValue = defaultValue

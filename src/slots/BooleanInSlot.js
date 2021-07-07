@@ -5,9 +5,9 @@ const InSlot = require('./InSlot')
 
 class BooleanInSlot extends InSlot {
 
-  constructor({ defaultValue, dataType, ...slotData }) {
+  constructor({ defaultValue, ...slotData }) {
     super(slotData)
-    this.dataType = dataType
+    this.dataType = BooleanInSlot.DATA_TYPE
     this.defaultValue = defaultValue
   }
 

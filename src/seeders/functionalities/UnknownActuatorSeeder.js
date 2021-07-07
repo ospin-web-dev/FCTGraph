@@ -1,8 +1,8 @@
-const SensorSeeder = require('./SensorSeeder')
+const ActuatorSeeder = require('./ActuatorSeeder')
 const { InSlotSeeder } = require('../slots')
 const UnknownActuator = require('../../functionalities/UnknownActuator')
 
-class UnknownActuatorSeeder extends SensorSeeder {
+class UnknownActuatorSeeder extends ActuatorSeeder {
 
   static generateSlots() {
     return [

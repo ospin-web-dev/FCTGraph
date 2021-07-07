@@ -5,9 +5,9 @@ const InSlot = require('./InSlot')
 
 class OneOfInSlot extends InSlot {
 
-  constructor({ defaultValue, dataType, selectOptions, ...slotData }) {
+  constructor({ defaultValue, selectOptions, ...slotData }) {
     super(slotData)
-    this.dataType = dataType
+    this.dataType = OneOfInSlot.DATA_TYPE
     this.defaultValue = defaultValue
     this.selectOptions = selectOptions
   }

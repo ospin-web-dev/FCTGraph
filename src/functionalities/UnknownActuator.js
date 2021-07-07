@@ -15,9 +15,9 @@ class UnknownActuator extends Actuator {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...sensorData }) {
-    super(sensorData)
-    this.subType = subType
+  constructor(actuatorData) {
+    super(actuatorData)
+    this.subType = UnknownActuator.SUB_TYPE
   }
 
   serialize() {
