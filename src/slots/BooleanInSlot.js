@@ -11,9 +11,13 @@ class BooleanInSlot extends InSlot {
     this.defaultValue = defaultValue
   }
 
+  static get DATA_TYPE() {
+    return 'boolean'
+  }
+
   static get SCHEMA() {
     return Joi.object({
-      dataType: Joi.string().allow(InSlot.DATA_TYPES.BOOLEAN).required(),
+      dataType: Joi.string().allow(BooleanInSlot.DATA_TYPE).required(),
       defaultValue: Joi.boolean().required(),
     }).concat(super.SCHEMA)
   }

@@ -13,9 +13,13 @@ class IntegerInSlot extends InSlot {
     this.defaultValue = defaultValue
   }
 
+  static get DATA_TYPE() {
+    return 'integer'
+  }
+
   static get SCHEMA() {
     return Joi.object({
-      dataType: Joi.string().allow(InSlot.DATA_TYPES.INTEGER).required(),
+      dataType: Joi.string().allow(IntegerInSlot.DATA_TYPE).required(),
       min: Joi.number().integer().strict().allow(null),
       max: Joi.number().integer().strict().allow(null)
         .when('min', {

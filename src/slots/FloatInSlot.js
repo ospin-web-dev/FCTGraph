@@ -13,9 +13,13 @@ class FloatInSlot extends InSlot {
     this.defaultValue = defaultValue
   }
 
+  static get DATA_TYPE() {
+    return 'float'
+  }
+
   static get SCHEMA() {
     return Joi.object({
-      dataType: Joi.string().allow(InSlot.DATA_TYPES.FLOAT).required(),
+      dataType: Joi.string().allow(FloatInSlot.DATA_TYPE).required(),
       min: Joi.number().strict().allow(null),
       max: Joi.number().strict().allow(null)
         .when('min', {

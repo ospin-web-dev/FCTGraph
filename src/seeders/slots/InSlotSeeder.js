@@ -1,6 +1,10 @@
 const faker = require('faker')
 
 const InSlot = require('../../slots/InSlot')
+const FloatInSlot = require('../../slots/FloatInSlot')
+const IntegerInSlot = require('../../slots/IntegerInSlot')
+const BooleanInSlot = require('../../slots/BooleanInSlot')
+const OneOfInSlot = require('../../slots/OneOfInSlot')
 const SlotSeeder = require('./SlotSeeder')
 
 class InSlotSeeder extends SlotSeeder {
@@ -31,7 +35,6 @@ class InSlotSeeder extends SlotSeeder {
     return {
       min: integerMin,
       max: integerMax,
-      selectOptions: undefined,
       defaultValue: integerDefault,
     }
   }
@@ -46,7 +49,6 @@ class InSlotSeeder extends SlotSeeder {
     return {
       min: floatMin > defaultValue ? defaultValue : floatMin,
       max: floatMax < defaultValue ? defaultValue : floatMax,
-      selectOptions: undefined,
       defaultValue: floatDefault,
     }
   }
@@ -60,14 +62,9 @@ class InSlotSeeder extends SlotSeeder {
         { min, max, defaultValue },
       ),
       boolean: () => ({
-        max: undefined,
-        min: undefined,
-        selectOptions: undefined,
         defaultValue: defaultValue || faker.datatype.boolean(),
       }),
       oneOf: () => ({
-        max: undefined,
-        min: undefined,
         selectOptions: ['angela', 'merkel'],
         defaultValue: defaultValue || faker.random.arrayElement(['angela', 'merkel']),
       }),
@@ -78,7 +75,13 @@ class InSlotSeeder extends SlotSeeder {
 
   static generate(data = {}) {
     const slotData = super.generate(data)
-    slotData.dataType = data.dataType || faker.random.arrayElement(Object.values(InSlot.DATA_TYPES))
+    slotData.dataType = data.dataType || faker.random
+      .arrayElement([
+        FloatInSlot.DATA_TYPE,
+        IntegerInSlot.DATA_TYPE,
+        BooleanInSlot.DATA_TYPE,
+        OneOfInSlot.DATA_TYPE,
+      ])
 
     /* this method will delegate and attempt to build fake data based
      * off of what the user has provided. e.g. if the user provided a
@@ -86,21 +89,12 @@ class InSlotSeeder extends SlotSeeder {
      * the reason all of these values are generated at once is because
      * they are all, per the JOI SCHEMA, related
      */
-    const { min, max, defaultValue, selectOptions } = (
-      this.generateMinMaxDefaultValueAndSelectOptionsFromData(slotData)
-    )
-
-    // this parses out keys that have undefined values
-    const optionals = InSlot.SERIALIZE_OPTIONAL_DATA({
-      min, max, selectOptions,
-    })
 
     return {
       ...slotData,
-      ...optionals,
-      defaultValue,
       tareable: faker.datatype.boolean(),
       type: 'InSlot',
+      ...this.generateMinMaxDefaultValueAndSelectOptionsFromData(slotData),
     }
   }
 
@@ -111,7 +105,7 @@ class InSlotSeeder extends SlotSeeder {
     return this.generate({
       unit: InSlot.UNITLESS_UNIT,
       name: 'unitless in',
-      dataType: InSlot.DATA_TYPES.FLOAT,
+      dataType: FloatInSlot.DATA_TYPE,
       ...data,
     })
   }
@@ -120,7 +114,7 @@ class InSlotSeeder extends SlotSeeder {
     return this.generate({
       unit: '°C',
       name: 'celcius in',
-      dataType: InSlot.DATA_TYPES.FLOAT,
+      dataType: FloatInSlot.DATA_TYPE,
       ...data,
     })
   }
@@ -135,7 +129,7 @@ class InSlotSeeder extends SlotSeeder {
     return this.generate({
       unit: 'K',
       name: 'kelvin in',
-      dataType: InSlot.DATA_TYPES.FLOAT,
+      dataType: FloatInSlot.DATA_TYPE,
       ...data,
     })
   }

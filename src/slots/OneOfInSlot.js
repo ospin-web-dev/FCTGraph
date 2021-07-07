@@ -12,9 +12,13 @@ class OneOfInSlot extends InSlot {
     this.selectOptions = selectOptions
   }
 
+  static get DATA_TYPE() {
+    return 'oneOf'
+  }
+
   static get SCHEMA() {
     return Joi.object({
-      dataType: Joi.string().allow(InSlot.DATA_TYPES.ONE_OF).required(),
+      dataType: Joi.string().allow(OneOfInSlot.DATA_TYPE).required(),
       defaultValue: Joi.any().valid(Joi.in('selectOptions')),
       selectOptions: Joi.array().required(),
     }).concat(super.SCHEMA)

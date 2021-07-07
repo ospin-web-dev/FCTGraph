@@ -1,5 +1,9 @@
 const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
+const FloatInSlot = require('slots/FloatInSlot')
+const IntegerInSlot = require('slots/IntegerInSlot')
+const BooleanInSlot = require('slots/BooleanInSlot')
+const OneOfInSlot = require('slots/OneOfInSlot')
 const OutSlot = require('slots/OutSlot')
 
 const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
@@ -22,7 +26,12 @@ describe('the slot factory', () => {
     })
 
     describe('when making InSlots', () => {
-      Object.values(InSlot.DATA_TYPES).forEach(dataType => {
+      [
+        FloatInSlot.DATA_TYPE,
+        IntegerInSlot.DATA_TYPE,
+        BooleanInSlot.DATA_TYPE,
+        OneOfInSlot.DATA_TYPE,
+      ].forEach(dataType => {
         describe(`of dataType: ${dataType}`, () => {
           const inSlotData = InSlotSeeder.generate({ dataType })
           const inSlot = SlotFactory.new(inSlotData)
