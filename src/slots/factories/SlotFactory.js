@@ -68,7 +68,7 @@ class SlotFactory {
 
     if (!SlotFactory.classIsSupported(FoundClass)) {
       const json = JSON.stringify(slotData)
-      throw new Error(`No ${dataType} slot class found for ${type || 'FALSEY'}\n${json}`)
+      throw new Error(`No ${dataType} slot class found for ${type}\n${json}`)
     }
 
     return new FoundClass(slotData)

@@ -25,6 +25,15 @@ describe('the slot factory', () => {
       }).toThrow('Slot type not supported FALSEY')
     })
 
+    it('throws error when the type does not have a class defined for the provided dataType', () => {
+      const inSlotData = InSlotSeeder.generate()
+      const bogusDataType = 'trump'
+
+      expect(() => {
+        SlotFactory.new({ ...inSlotData, dataType: bogusDataType })
+      }).toThrow(`No ${bogusDataType} slot class found for ${inSlotData.type}`)
+    })
+
     describe('when making InSlots', () => {
       [
         FloatInSlot.DATA_TYPE,
