@@ -150,7 +150,11 @@ Functionality (virtual)
 
 // a Functionality has many Slots
 Slot (virtual)
-├── InSlot
+├── InSlot (virtual)
+│   └── IntegerInSlot
+│   └── FloatInSlot
+│   └── BooleanInSlot
+│   └── OneOfInSlot
 └── OutSlot
 
 // a Slot has many DataStreams
