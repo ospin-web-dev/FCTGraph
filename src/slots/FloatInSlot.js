@@ -5,14 +5,6 @@ const InSlot = require('./InSlot')
 
 class FloatInSlot extends InSlot {
 
-  constructor({ defaultValue = null, min = null, max = null, ...slotData }) {
-    super(slotData)
-    this.dataType = FloatInSlot.DATA_TYPE
-    this.min = min
-    this.max = max
-    this.defaultValue = defaultValue
-  }
-
   static get DATA_TYPE() {
     return 'float'
   }
@@ -35,7 +27,23 @@ class FloatInSlot extends InSlot {
           is: Joi.number().strict(),
           then: Joi.number().max(Joi.ref('max')),
         }),
+      tareable: Joi.boolean().required(),
     }).concat(super.SCHEMA)
+  }
+
+  constructor({
+    defaultValue = null,
+    min = null,
+    max = null,
+    tareable = false,
+    ...slotData
+  }) {
+    super(slotData)
+    this.dataType = FloatInSlot.DATA_TYPE
+    this.min = min
+    this.max = max
+    this.defaultValue = defaultValue
+    this.tareable = tareable
   }
 
   serialize() {
@@ -44,6 +52,7 @@ class FloatInSlot extends InSlot {
       min: this.min,
       max: this.max,
       defaultValue: this.defaultValue,
+      tareable: this.tareable,
       ...super.serialize(),
     }
 

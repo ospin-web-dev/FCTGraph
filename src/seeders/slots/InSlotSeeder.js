@@ -83,13 +83,6 @@ class InSlotSeeder extends SlotSeeder {
         OneOfInSlot.DATA_TYPE,
       ])
 
-    /* this method will delegate and attempt to build fake data based
-     * off of what the user has provided. e.g. if the user provided a
-     * max value, it will try to give sensible min and defaultValues.
-     * the reason all of these values are generated at once is because
-     * they are all, per the JOI SCHEMA, related
-     */
-
     return {
       ...slotData,
       tareable: faker.datatype.boolean(),

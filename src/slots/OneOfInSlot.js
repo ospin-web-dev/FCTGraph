@@ -5,13 +5,6 @@ const InSlot = require('./InSlot')
 
 class OneOfInSlot extends InSlot {
 
-  constructor({ defaultValue = null, selectOptions, ...slotData }) {
-    super(slotData)
-    this.dataType = OneOfInSlot.DATA_TYPE
-    this.defaultValue = defaultValue
-    this.selectOptions = selectOptions
-  }
-
   static get DATA_TYPE() {
     return 'oneOf'
   }
@@ -22,6 +15,13 @@ class OneOfInSlot extends InSlot {
       defaultValue: Joi.any().valid(Joi.in('selectOptions')).allow(null),
       selectOptions: Joi.array().required(),
     }).concat(super.SCHEMA)
+  }
+
+  constructor({ defaultValue = null, selectOptions, ...slotData }) {
+    super(slotData)
+    this.dataType = OneOfInSlot.DATA_TYPE
+    this.defaultValue = defaultValue
+    this.selectOptions = selectOptions
   }
 
   serialize() {

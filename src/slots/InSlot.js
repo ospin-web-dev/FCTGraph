@@ -11,23 +11,17 @@ class InSlot extends Slot {
   static get SCHEMA() {
     return Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
-      tareable: Joi.boolean().required(),
     }).concat(super.SCHEMA)
   }
 
-  constructor({
-    tareable,
-    ...slotData
-  }) {
+  constructor(slotData) {
     super(slotData)
     this.type = InSlot.TYPE
-    this.tareable = tareable || false
   }
 
   serialize() {
     const dataObj = {
       type: this.type,
-      tareable: this.tareable,
       ...super.serialize(),
     }
 
