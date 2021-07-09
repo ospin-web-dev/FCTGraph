@@ -1,7 +1,5 @@
 const BooleanInSlot = require('slots/BooleanInSlot')
-const { InSlotSeeder } = require('seeders/slots')
-/* the SlotSeeder is not present in the seeders/slots index because it
- * should not be exposed as public seeder interface */
+const { BooleanInSlotSeeder } = require('seeders/slots')
 
 describe('the BooleanInSlot class', () => {
   describe('.constructor', () => {
@@ -9,7 +7,7 @@ describe('the BooleanInSlot class', () => {
     const forbiddenKeys = ['min', 'max', 'selectOptions']
 
     it('creates a boolean slot with the expected properties', () => {
-      const slotData = InSlotSeeder.generate({ dataType: BooleanInSlot.DATA_TYPE })
+      const slotData = BooleanInSlotSeeder.generate()
 
       const slot = new BooleanInSlot(slotData)
 
@@ -18,7 +16,7 @@ describe('the BooleanInSlot class', () => {
     })
 
     it('default the defaultValue to null when none is provided', () => {
-      const slotData = InSlotSeeder.generate({ dataType: BooleanInSlot.DATA_TYPE })
+      const slotData = BooleanInSlotSeeder.generate()
       delete slotData.defaultValue
 
       const slot = new BooleanInSlot(slotData)

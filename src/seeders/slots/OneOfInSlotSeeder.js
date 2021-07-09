@@ -1,0 +1,33 @@
+const faker = require('faker')
+
+const OneOfInSlot = require('../../slots/OneOfInSlot')
+const InSlotSeeder = require('./InSlotSeeder')
+
+class OneOfInSlotSeeder extends InSlotSeeder {
+
+  static generateSelectOptionsAndDefaultValue({ defaultValue, selectOptions }) {
+    const options = ['angela', 'merkel']
+
+    const appliedDefaultValue = (defaultValue !== null && defaultValue !== undefined)
+      ? defaultValue
+      : faker.random.arrayElement(options)
+
+    return {
+      selectOptions: selectOptions || ['angela', 'merkel'],
+      defaultValue: appliedDefaultValue,
+    }
+  }
+
+  static generate(data = {}) {
+    const slotData = super.generate(data)
+    slotData.dataType = OneOfInSlot.DATA_TYPE
+
+    return {
+      ...slotData,
+      ...OneOfInSlotSeeder.generateSelectOptionsAndDefaultValue(slotData),
+    }
+  }
+
+}
+
+module.exports = OneOfInSlotSeeder

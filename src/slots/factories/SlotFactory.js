@@ -17,6 +17,15 @@ class SlotFactory {
     ]
   }
 
+  static get SUPPORTED_IN_SLOT_CLASSES() {
+    return [
+      FloatInSlot,
+      IntegerInSlot,
+      BooleanInSlot,
+      OneOfInSlot,
+    ]
+  }
+
   static get SUPPORTED_CLASSES_SCHEMAS() {
     return SlotFactory.SUPPORTED_CLASSES.map(
       SupportedClass => SupportedClass.SCHEMA,

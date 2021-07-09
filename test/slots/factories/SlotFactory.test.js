@@ -1,19 +1,25 @@
 const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
-const FloatInSlot = require('slots/FloatInSlot')
-const IntegerInSlot = require('slots/IntegerInSlot')
-const BooleanInSlot = require('slots/BooleanInSlot')
 const OneOfInSlot = require('slots/OneOfInSlot')
+const BooleanInSlot = require('slots/BooleanInSlot')
+const IntegerInSlot = require('slots/IntegerInSlot')
+const FloatInSlot = require('slots/FloatInSlot')
 const OutSlot = require('slots/OutSlot')
 
-const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
+const {
+  BooleanInSlotSeeder,
+  FloatInSlotSeeder,
+  IntegerInSlotSeeder,
+  OneOfInSlotSeeder,
+  OutSlotSeeder,
+} = require('seeders/slots')
 
 describe('the slot factory', () => {
 
   describe('new', () => {
 
     it('throws error when the type is not recognized', () => {
-      const inSlotData = InSlotSeeder.generate()
+      const inSlotData = FloatInSlotSeeder.generate()
       const bogusType = 'merkel' // not that Angie, herself, is bogus...
 
       expect(() => {
@@ -26,7 +32,7 @@ describe('the slot factory', () => {
     })
 
     it('throws error when the type does not have a class defined for the provided dataType', () => {
-      const inSlotData = InSlotSeeder.generate()
+      const inSlotData = FloatInSlotSeeder.generate()
       const bogusDataType = 'trump'
 
       expect(() => {
@@ -35,14 +41,23 @@ describe('the slot factory', () => {
     })
 
     describe('when making InSlots', () => {
-      [
-        FloatInSlot.DATA_TYPE,
-        IntegerInSlot.DATA_TYPE,
-        BooleanInSlot.DATA_TYPE,
-        OneOfInSlot.DATA_TYPE,
-      ].forEach(dataType => {
+
+      const classToSeederMap = {
+        [IntegerInSlot.DATA_TYPE]: IntegerInSlotSeeder,
+        [FloatInSlot.DATA_TYPE]: FloatInSlotSeeder,
+        [BooleanInSlot.DATA_TYPE]: BooleanInSlotSeeder,
+        [OneOfInSlot.DATA_TYPE]: OneOfInSlotSeeder,
+      }
+
+      const supportedDataTypesWithSeeder = SlotFactory.SUPPORTED_IN_SLOT_CLASSES
+        .map(SlotClass => ({
+          dataType: SlotClass.DATA_TYPE,
+          SeederClass: classToSeederMap[SlotClass.DATA_TYPE],
+        }))
+
+      supportedDataTypesWithSeeder.forEach(({ dataType, SeederClass }) => {
         describe(`of dataType: ${dataType}`, () => {
-          const inSlotData = InSlotSeeder.generate({ dataType })
+          const inSlotData = SeederClass.generate()
           const inSlot = SlotFactory.new(inSlotData)
 
           it('creates the correct slot type...', () => {

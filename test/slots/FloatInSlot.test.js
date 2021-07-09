@@ -1,5 +1,5 @@
 const FloatInSlot = require('slots/FloatInSlot')
-const { InSlotSeeder } = require('seeders/slots')
+const { FloatInSlotSeeder } = require('seeders/slots')
 
 describe('the FloatInSlot class', () => {
   describe('.constructor', () => {
@@ -7,7 +7,7 @@ describe('the FloatInSlot class', () => {
     const forbiddenKeys = ['selectOptions']
 
     it('creates a float slot with the expected properties', () => {
-      const slotData = InSlotSeeder.generate({ dataType: FloatInSlot.DATA_TYPE })
+      const slotData = FloatInSlotSeeder.generate()
       const slot = new FloatInSlot(slotData)
 
       requiredKeys.forEach(key => expect(key in slot).toBe(true))
@@ -15,9 +15,7 @@ describe('the FloatInSlot class', () => {
     })
 
     it('sets defaultValue per default to null', () => {
-      const slotData = InSlotSeeder.generate({
-        dataType: FloatInSlot.DATA_TYPE,
-      })
+      const slotData = FloatInSlotSeeder.generate()
       delete slotData.defaultValue
 
       const slot = new FloatInSlot(slotData)
@@ -26,9 +24,7 @@ describe('the FloatInSlot class', () => {
     })
 
     it('sets min per default to null', () => {
-      const slotData = InSlotSeeder.generate({
-        dataType: FloatInSlot.DATA_TYPE,
-      })
+      const slotData = FloatInSlotSeeder.generate()
       delete slotData.min
 
       const slot = new FloatInSlot(slotData)
@@ -37,9 +33,7 @@ describe('the FloatInSlot class', () => {
     })
 
     it('sets max per default to null', () => {
-      const slotData = InSlotSeeder.generate({
-        dataType: FloatInSlot.DATA_TYPE,
-      })
+      const slotData = FloatInSlotSeeder.generate()
       delete slotData.max
 
       const slot = new FloatInSlot(slotData)
@@ -48,9 +42,7 @@ describe('the FloatInSlot class', () => {
     })
 
     it('allows min and max to be null', () => {
-      const slotData = InSlotSeeder.generate({
-        dataType: FloatInSlot.DATA_TYPE,
-      })
+      const slotData = FloatInSlotSeeder.generate()
       delete slotData.max
       delete slotData.min
 
@@ -61,7 +53,7 @@ describe('the FloatInSlot class', () => {
     })
 
     it('throws when max is below min', () => {
-      const slotData = InSlotSeeder.generate({ dataType: FloatInSlot.DATA_TYPE })
+      const slotData = FloatInSlotSeeder.generate()
       slotData.max = 100.1
       slotData.min = 200.2
 
@@ -69,7 +61,7 @@ describe('the FloatInSlot class', () => {
     })
 
     it('throws when defaultValue is above max', () => {
-      const slotData = InSlotSeeder.generate({ dataType: FloatInSlot.DATA_TYPE })
+      const slotData = FloatInSlotSeeder.generate()
       slotData.max = 100.1
       slotData.defaultValue = 200.1
 
@@ -77,7 +69,7 @@ describe('the FloatInSlot class', () => {
     })
 
     it('throws when defaultValue is below min', () => {
-      const slotData = InSlotSeeder.generate({ dataType: FloatInSlot.DATA_TYPE })
+      const slotData = FloatInSlotSeeder.generate()
       slotData.min = 300.1
       slotData.defaultValue = 200.1
 

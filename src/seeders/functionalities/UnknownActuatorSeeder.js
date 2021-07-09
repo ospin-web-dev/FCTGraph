@@ -1,12 +1,12 @@
 const ActuatorSeeder = require('./ActuatorSeeder')
-const { InSlotSeeder } = require('../slots')
+const { FloatInSlotSeeder } = require('../slots')
 const UnknownActuator = require('../../functionalities/UnknownActuator')
 
 class UnknownActuatorSeeder extends ActuatorSeeder {
 
   static generateSlots() {
     return [
-      InSlotSeeder.generate({ name: 'target value', dataType: 'float', unit: '-' }),
+      FloatInSlotSeeder.generate({ name: 'target value', unit: '-' }),
     ]
   }
 

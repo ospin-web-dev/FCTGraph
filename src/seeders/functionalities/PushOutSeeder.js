@@ -1,12 +1,12 @@
 const OutputNodeSeeder = require('./OutputNodeSeeder')
-const { InSlotSeeder } = require('../slots')
+const { FloatInSlotSeeder } = require('../slots')
 const PushOut = require('../../functionalities/PushOut')
 
 class PushOutSeeder extends OutputNodeSeeder {
 
   static generateSlots() {
     return [
-      InSlotSeeder.generateUnitlessIn({ name: 'value in' }),
+      FloatInSlotSeeder.generateUnitlessIn({ name: 'value in' }),
     ]
   }
 
