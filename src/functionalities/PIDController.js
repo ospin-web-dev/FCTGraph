@@ -15,9 +15,9 @@ class PIDController extends Controller {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...controllerData }) {
+  constructor(controllerData) {
     super(controllerData)
-    this.subType = subType
+    this.subType = PIDController.SUB_TYPE
   }
 
   serialize() {

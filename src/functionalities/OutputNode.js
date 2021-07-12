@@ -14,9 +14,9 @@ class OutputNode extends Functionality {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ type, ...functionalityData }) {
+  constructor(functionalityData) {
     super(functionalityData)
-    this.type = type
+    this.type = OutputNode.TYPE
   }
 
   serialize() {

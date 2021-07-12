@@ -14,9 +14,9 @@ class Controller extends Functionality {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ type, ...functionalityData }) {
+  constructor(functionalityData) {
     super(functionalityData)
-    this.type = type
+    this.type = Controller.TYPE
   }
 
   serialize() {

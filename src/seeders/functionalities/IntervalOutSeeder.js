@@ -1,12 +1,12 @@
 const OutputNodeSeeder = require('./OutputNodeSeeder')
-const { InSlotSeeder } = require('../slots')
+const { FloatInSlotSeeder } = require('../slots')
 const IntervalOut = require('../../functionalities/IntervalOut')
 
 class IntervalOutSeeder extends OutputNodeSeeder {
 
   static generateSlots() {
     return [
-      InSlotSeeder.generate({ name: 'value in' }),
+      FloatInSlotSeeder.generate({ name: 'value in' }),
     ]
   }
 

@@ -3,10 +3,16 @@ const faker = require('faker')
 
 const Slot = require('slots/Slot')
 const InSlot = require('slots/InSlot')
+const FloatInSlot = require('slots/FloatInSlot')
+const IntegerInSlot = require('slots/IntegerInSlot')
 const OutSlot = require('slots/OutSlot')
 const DataStream = require('dataStreams/DataStream')
 const DataStreamSeeder = require('seeders/dataStreams/DataStreamSeeder')
-const { InSlotSeeder, OutSlotSeeder } = require('seeders/slots')
+const {
+  FloatInSlotSeeder,
+  IntegerInSlotSeeder,
+  OutSlotSeeder,
+} = require('seeders/slots')
 /* the SlotSeeder is not present in the seeders/slots index because it
  * should not be exposed as public seeder interface */
 const SlotSeeder = require('seeders/slots/SlotSeeder')
@@ -28,33 +34,6 @@ describe('the Slot class', () => {
   })
 
   describe('.constructor', () => {
-    describe('on InSlots', () => {
-      it('sets tareable to false by default', () => {
-        const slotData = InSlotSeeder.generate()
-        delete slotData.tareable
-
-        const slot = new InSlot(slotData)
-
-        expect(slot.tareable).toBe(false)
-      })
-
-      it('sets defaultValue to null by default', () => {
-        const slotData = InSlotSeeder.generate()
-        delete slotData.defaultValue
-
-        const slot = new InSlot(slotData)
-
-        expect(slot.defaultValue).toBeNull()
-      })
-    })
-
-    it('allows null for displayType', () => {
-      const slotData = SlotSeeder.generate({ displayType: null })
-      const slot = new Slot(slotData)
-
-      expect(slot.displayType).toBeNull()
-    })
-
     it('converts dataStream data in to DataStream instances', () => {
       const outSlot = OutSlotSeeder.seedWithDataStream()
 
@@ -86,7 +65,7 @@ describe('the Slot class', () => {
   describe('.assertStructure', () => {
 
     it('blows up because Slot is a virtual class and it wants to kindly tell you that a mistake was likely made in a child that has not defined the method', () => {
-      const slot = new Slot(InSlotSeeder.generate())
+      const slot = new Slot(SlotSeeder.generate())
 
       expect(() => {
         slot.assertStructure()
@@ -98,10 +77,10 @@ describe('the Slot class', () => {
 
     it('adds the same dataStream instance to both slots', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       OutSlotSeeder.stubOwningFct(slotA)
-      InSlotSeeder.stubOwningFct(slotB)
+      FloatInSlotSeeder.stubOwningFct(slotB)
 
       const dataStreamOpts = { averagingWindowSize: 10 }
       const {
@@ -119,10 +98,10 @@ describe('the Slot class', () => {
 
     it('adds the same dataStream instance to both slots regardless of which is calling addConnectionTo on the other', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       OutSlotSeeder.stubOwningFct(slotA)
-      InSlotSeeder.stubOwningFct(slotB)
+      FloatInSlotSeeder.stubOwningFct(slotB)
 
       const { error, errorMsg, thisSlot, otherSlot } = slotB.addConnectionTo(slotA)
 
@@ -132,8 +111,8 @@ describe('the Slot class', () => {
     })
 
     it('returns an error response when the slot dataTypes are incompatible', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut({ dataType: OutSlot.DATA_TYPES.FLOAT })
-      const slotB = InSlotSeeder.seedCelciusIn({ dataType: InSlot.DATA_TYPES.INTEGER })
+      const slotA = OutSlotSeeder.seedCelciusOut({ dataType: OutSlot.DATA_TYPES.INTEGER })
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       const { error, errorMsg } = slotA.addConnectionTo(slotB)
 
@@ -143,7 +122,7 @@ describe('the Slot class', () => {
 
     it('returns an error when the slot types are incompatible', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
       slotA.type = OutSlot.TYPE
       slotB.type = OutSlot.TYPE
 
@@ -169,7 +148,7 @@ describe('the Slot class', () => {
 
     it('returns an error when the slot units are incompatible', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedKelvinIn()
+      const slotB = FloatInSlotSeeder.seedKelvinIn()
 
       const { error, errorMsg } = slotA.addConnectionTo(slotB)
 
@@ -179,10 +158,10 @@ describe('the Slot class', () => {
 
     it('the dataStream gets removed from the slots if either fails validation after the dataStream is added', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       OutSlotSeeder.stubOwningFct(slotA)
-      InSlotSeeder.stubOwningFct(slotB)
+      FloatInSlotSeeder.stubOwningFct(slotB)
 
       const slotAPreLength = slotA.dataStreams.length
       const slotBPreLength = slotB.dataStreams.length
@@ -208,10 +187,10 @@ describe('the Slot class', () => {
       })
 
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       OutSlotSeeder.stubOwningFct(slotA)
-      InSlotSeeder.stubOwningFct(slotB)
+      FloatInSlotSeeder.stubOwningFct(slotB)
 
       slotA.dataStreams = [ existingDataStream ]
       slotB.dataStreams = [ existingDataStream ]
@@ -245,10 +224,10 @@ describe('the Slot class', () => {
       })
 
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       OutSlotSeeder.stubOwningFct(slotA)
-      InSlotSeeder.stubOwningFct(slotB)
+      FloatInSlotSeeder.stubOwningFct(slotB)
 
       slotA.dataStreams = [ existingDataStream ]
       slotB.dataStreams = [ existingDataStream ]
@@ -271,7 +250,7 @@ describe('the Slot class', () => {
   describe('.filterConnectableSlots', () => {
     it('throws error if the connection possibility validation fails for an unkown reason', () => {
       const slotA = OutSlotSeeder.seedCelciusOut()
-      const slotB = InSlotSeeder.seedCelciusIn()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
       const unknownErrorMsg = 'UNKNOWN!'
 
       const slotAPushSpy = jest.spyOn(slotA, '_assertConnectionBetweenIsPossible').mockImplementation(() => {

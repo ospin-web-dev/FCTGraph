@@ -15,9 +15,9 @@ class HeaterActuator extends Actuator {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...actuatorData }) {
+  constructor(actuatorData) {
     super(actuatorData)
-    this.subType = subType
+    this.subType = HeaterActuator.SUB_TYPE
   }
 
   serialize() {
