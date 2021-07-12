@@ -20,11 +20,12 @@ class OneOfInSlotSeeder extends InSlotSeeder {
 
   static generate(data = {}) {
     const slotData = super.generate(data)
-    slotData.dataType = OneOfInSlot.DATA_TYPE
 
     return {
       ...slotData,
+      dataType: OneOfInSlot.DATA_TYPE,
       ...OneOfInSlotSeeder.generateSelectOptionsAndDefaultValue(slotData),
+      ...data,
     }
   }
 

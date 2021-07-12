@@ -36,12 +36,13 @@ class IntegerInSlotSeeder extends InSlotSeeder {
 
   static generate(data = {}) {
     const slotData = super.generate(data)
-    slotData.dataType = IntegerInSlot.DATA_TYPE
 
     return {
       ...slotData,
       tareable: faker.datatype.boolean(),
+      dataType: IntegerInSlot.DATA_TYPE,
       ...IntegerInSlotSeeder.generateMinMaxDefaultValue(slotData),
+      ...data,
     }
   }
 

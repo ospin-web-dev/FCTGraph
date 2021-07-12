@@ -14,6 +14,15 @@ describe('the IntegerInSlot class', () => {
       forbiddenKeys.forEach(key => expect(key in slot).toBe(false))
     })
 
+    it('sets tareable to false by default', () => {
+      const slotData = IntegerInSlotSeeder.generate()
+      delete slotData.tareable
+
+      const slot = new IntegerInSlot(slotData)
+
+      expect(slot.tareable).toBe(false)
+    })
+
     it('sets defaultValue per default to null', () => {
       const slotData = IntegerInSlotSeeder.generate()
       delete slotData.defaultValue

@@ -34,28 +34,6 @@ describe('the Slot class', () => {
   })
 
   describe('.constructor', () => {
-    describe('on FloatInSlots', () => {
-      it('sets tareable to false by default', () => {
-        const slotData = FloatInSlotSeeder.generate()
-        delete slotData.tareable
-
-        const slot = new FloatInSlot(slotData)
-
-        expect(slot.tareable).toBe(false)
-      })
-    })
-
-    describe('on IntegerInSlots', () => {
-      it('sets tareable to false by default', () => {
-        const slotData = IntegerInSlotSeeder.generate()
-        delete slotData.tareable
-
-        const slot = new IntegerInSlot(slotData)
-
-        expect(slot.tareable).toBe(false)
-      })
-    })
-
     it('converts dataStream data in to DataStream instances', () => {
       const outSlot = OutSlotSeeder.seedWithDataStream()
 
@@ -87,7 +65,7 @@ describe('the Slot class', () => {
   describe('.assertStructure', () => {
 
     it('blows up because Slot is a virtual class and it wants to kindly tell you that a mistake was likely made in a child that has not defined the method', () => {
-      const slot = new Slot(FloatInSlotSeeder.generate())
+      const slot = new Slot(SlotSeeder.generate())
 
       expect(() => {
         slot.assertStructure()
