@@ -207,7 +207,11 @@ FunctionalitySeeder (virtual)
     └── UnknownSensorSeeder
 
 SlotSeeder (virtual)
-├── InSlotSeeder
+├── InSlotSeeder (virtual)
+│   └── IntegerInSlotSeeder
+│   └── FloatInSlotSeeder
+│   └── BooleanInSlotSeeder
+│   └── OneOfInSlotSeeder
 └── OutSlotSeeder
 ```
 
