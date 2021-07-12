@@ -15,9 +15,9 @@ class PushIn extends InputNode {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...inputNodeData }) {
+  constructor(inputNodeData) {
     super(inputNodeData)
-    this.subType = subType
+    this.subType = PushIn.SUB_TYPE
   }
 
   serialize() {

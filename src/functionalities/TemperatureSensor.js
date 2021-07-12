@@ -15,9 +15,9 @@ class TemperatureSensor extends Sensor {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...sensorData }) {
+  constructor(sensorData) {
     super(sensorData)
-    this.subType = subType
+    this.subType = TemperatureSensor.SUB_TYPE
   }
 
   serialize() {

@@ -15,9 +15,9 @@ class IntervalOut extends OutputNode {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ subType, ...outputNodeData }) {
+  constructor(outputNodeData) {
     super(outputNodeData)
-    this.subType = subType
+    this.subType = IntervalOut.SUB_TYPE
   }
 
   serialize() {

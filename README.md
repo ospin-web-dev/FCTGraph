@@ -150,7 +150,11 @@ Functionality (virtual)
 
 // a Functionality has many Slots
 Slot (virtual)
-├── InSlot
+├── InSlot (virtual)
+│   └── IntegerInSlot
+│   └── FloatInSlot
+│   └── BooleanInSlot
+│   └── OneOfInSlot
 └── OutSlot
 
 // a Slot has many DataStreams
@@ -203,7 +207,11 @@ FunctionalitySeeder (virtual)
     └── UnknownSensorSeeder
 
 SlotSeeder (virtual)
-├── InSlotSeeder
+├── InSlotSeeder (virtual)
+│   └── IntegerInSlotSeeder
+│   └── FloatInSlotSeeder
+│   └── BooleanInSlotSeeder
+│   └── OneOfInSlotSeeder
 └── OutSlotSeeder
 ```
 

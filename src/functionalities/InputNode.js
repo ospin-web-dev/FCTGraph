@@ -14,9 +14,9 @@ class InputNode extends Functionality {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ type, ...functionalityData }) {
+  constructor(functionalityData) {
     super(functionalityData)
-    this.type = type
+    this.type = InputNode.TYPE
   }
 
   serialize() {
