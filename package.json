@@ -1,7 +1,7 @@
 {
   "name": "@ospin/fct-graph",
   "author": "danielseehausen",
-  "version": "0.0.2",
+  "version": "2.4.6",
   "description": "Graph data structure with conditional edges via 'slots' on nodes. Intended to represent physical and virtual functionalities on a device.",
   "main": "index.js",
   "license": "GPL-3.0-or-later",
