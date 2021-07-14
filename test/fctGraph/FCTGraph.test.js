@@ -172,4 +172,20 @@ describe('the FCTGraph class', () => {
     })
   })
 
+  describe('getFctsWithoutIONodes', () => {
+    test('returns all fcts which are not an input or output node', () => {
+      const inputFct = PushInSeeder.generate()
+      const outputFct = PushOutSeeder.generate()
+      const sensor = TemperatureSensorSeeder.generate()
+
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, outputFct, sensor ] })
+
+      const fcts = fctGraph.getFctsWithoutIONodes()
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(sensor.id)
+    })
+  })
+
 })
