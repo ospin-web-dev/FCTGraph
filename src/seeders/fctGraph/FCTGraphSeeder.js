@@ -32,6 +32,9 @@ class FCTGraphSeeder {
   static generate(data) {
     return {
       id: faker.datatype.uuid(),
+      deviceId: faker.datatype.uuid(),
+      name: faker.name.jobDescriptor(),
+      deviceDefault: faker.datatype.boolean(),
       functionalities: [ ...this.FCT_SEEDS ],
       ...data,
     }
