@@ -49,6 +49,8 @@ class SlotFactory {
     return {
       [OutSlot.DATA_TYPES.INTEGER]: OutSlot,
       [OutSlot.DATA_TYPES.FLOAT]: OutSlot,
+      [OutSlot.DATA_TYPES.BOOLEAN]: OutSlot,
+      [OutSlot.DATA_TYPES.ONE_OF]: OutSlot,
     }
   }
 
