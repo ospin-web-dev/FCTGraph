@@ -9,7 +9,7 @@ class AddFunctionalityError extends Error {
 
     this.name = AddFunctionalityError.NAME
     const richFctDisplay = util.inspect(fctData, { compact: false, depth: 4 })
-    this.message = `Failed to add fct: ${richFctDisplay}\n\nUnderlying error msg: ${msg}`
+    this.message = `Failed to add fct: ${richFctDisplay}\n\n${msg}`
   }
 
 }

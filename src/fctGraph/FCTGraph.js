@@ -5,7 +5,7 @@ const { v4: uuidv4 } = require('uuid')
 const JOIous = require('../mixins/instanceMixins/JOIous')
 const FunctionalityFactory = require('../functionalities/factories/FunctionalityFactory')
 const InputNode = require('../functionalities/InputNode')
-const OutputNode  = require('../functionalities/OutputNode')
+const OutputNode = require('../functionalities/OutputNode')
 const RegexUtils = require('../utils/RegexUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 const AddFunctionalityError = require('./AddFunctionalityError')
@@ -75,7 +75,6 @@ class FCTGraph {
     }
   }
 
-  // safe - returns a public response
   addFunctionality(fctData) {
     try {
       const functionality = this._addFunctionalityOrThrow(fctData)

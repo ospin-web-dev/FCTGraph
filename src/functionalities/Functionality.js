@@ -28,8 +28,7 @@ class Functionality {
   }
 
   _addSlots(slotsData) {
-    /* NOTE: slots should never be added or removed outside of initialization
-     * a.k.a. if I could make this method more private I would */
+    // NOTE: slots should never be added or removed outside of initialization
     slotsData.map(slotData => this._addSlot(slotData))
   }
 
