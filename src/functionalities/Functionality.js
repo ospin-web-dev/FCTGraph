@@ -16,8 +16,11 @@ class Functionality {
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
       controllerName: Joi.string().allow(''), // this is used to support the old devices: https://github.com/ospin-web-dev/hambda/issues/913
+      isVirtual: Joi.boolean().required(),
     })
   }
+
+  get isPhysical() { return !this.isVirtual }
 
   get slotNames() { return this.slots.map(({ name }) => name) }
 
@@ -49,10 +52,12 @@ class Functionality {
   constructor({
     id,
     name,
+    isVirtual = false,
     slots: slotsData,
   }) {
     this.id = id
     this.name = name
+    this.isVirtual = isVirtual
     this.slots = []
     if (slotsData) this._addSlots(slotsData)
   }
@@ -61,6 +66,7 @@ class Functionality {
     return {
       id: this.id,
       name: this.name,
+      isVirtual: this.isVirtual,
       slots: this.slots.map(slot => slot.serialize()),
     }
   }

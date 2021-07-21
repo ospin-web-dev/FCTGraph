@@ -1,3 +1,4 @@
+const ObjUtils = require('utils/ObjUtils')
 const FunctionalityFactory = require('functionalities/factories/FunctionalityFactory')
 const {
   TemperatureSensorSeeder,
@@ -9,6 +10,8 @@ const {
   UnknownSensorSeeder,
   UnknownActuatorSeeder,
 } = require('seeders/functionalities')
+const functionalitiesIndex = require('functionalities')
+
 const {
   TemperatureSensor,
   HeaterActuator,
@@ -18,8 +21,7 @@ const {
   PushIn,
   UnknownSensor,
   UnknownActuator,
-} = require('functionalities')
-const ObjUtils = require('utils/ObjUtils')
+} = functionalitiesIndex
 
 describe('the functionality factory', () => {
 
@@ -68,42 +70,69 @@ describe('the functionality factory', () => {
       expect(fct.slots).toStrictEqual([])
     })
 
-    const SUB_FUNCTIONALITY_SEEDERS = [
+    const SUB_FUNCTIONALITIES = [
       {
         SubClass: HeaterActuator,
         SubClassSeeder: HeaterActuatorSeeder,
+        expectedIsVirtual: false,
       },
       {
         SubClass: IntervalOut,
         SubClassSeeder: IntervalOutSeeder,
+        expectedIsVirtual: true,
       },
       {
         SubClass: PIDController,
         SubClassSeeder: PIDControllerSeeder,
+        expectedIsVirtual: true,
       },
       {
         SubClass: TemperatureSensor,
         SubClassSeeder: TemperatureSensorSeeder,
+        expectedIsVirtual: false,
       },
       {
         SubClass: PushOut,
         SubClassSeeder: PushOutSeeder,
+        expectedIsVirtual: true,
       },
       {
         SubClass: PushIn,
         SubClassSeeder: PushInSeeder,
+        expectedIsVirtual: true,
       },
       {
         SubClass: UnknownSensor,
         SubClassSeeder: UnknownSensorSeeder,
+        expectedIsVirtual: false,
       },
       {
         SubClass: UnknownActuator,
         SubClassSeeder: UnknownActuatorSeeder,
+        expectedIsVirtual: false,
       },
     ]
 
-    SUB_FUNCTIONALITY_SEEDERS.forEach(({ SubClass, SubClassSeeder }) => {
+    it('has a test for each exported sub functionality', () => {
+      /* if you are here because this test is failing,
+       * either add the new export as a NON_SUB_CLASS_EXPORTS
+       * or ensure that the new sub functionality is under
+       * test by adding its seeder to the SUB_FUNCTIONALITIES
+       * array
+       */
+      const NON_SUB_CLASS_EXPORTS = [
+        functionalitiesIndex.FunctionalityFactory,
+        functionalitiesIndex.Functionalty,
+        functionalitiesIndex.Sensor,
+        functionalitiesIndex.Actuator,
+      ]
+
+      expect(SUB_FUNCTIONALITIES).toHaveLength(
+        Object.keys(functionalitiesIndex).length - NON_SUB_CLASS_EXPORTS.length,
+      )
+    })
+
+    SUB_FUNCTIONALITIES.forEach(({ SubClass, SubClassSeeder, expectedIsVirtual }) => {
 
       describe(`when making a(n) ${SubClass.name}`, () => {
         const fctSubClassData = SubClassSeeder.generate()
@@ -121,6 +150,14 @@ describe('the functionality factory', () => {
         it('creates the expected slot instances', () => {
           expect(fct.slotTypes().sort())
             .toStrictEqual(SubClassSeeder.SLOT_SEED_TYPES.sort())
+        })
+
+        it('has the expected default isVirtual flag', () => {
+          const fctData = SubClassSeeder.generate()
+          delete fctData.isVirtual
+          const fctWithDefaultIsVirtual = FunctionalityFactory.new(fctData)
+
+          expect(fctWithDefaultIsVirtual.isVirtual).toBe(expectedIsVirtual)
         })
 
         it('creates the correct functionality instance...', () => {

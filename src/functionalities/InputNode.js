@@ -15,7 +15,10 @@ class InputNode extends Functionality {
   }
 
   constructor(functionalityData) {
-    super(functionalityData)
+    super({
+      isVirtual: true,
+      ...functionalityData,
+    })
     this.type = InputNode.TYPE
   }
 

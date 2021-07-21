@@ -20,6 +20,7 @@ class FunctionalitySeeder {
     return {
       id: faker.datatype.uuid(),
       name: faker.hacker.noun(),
+      isVirtual: faker.datatype.boolean(),
       ...data,
     }
   }
