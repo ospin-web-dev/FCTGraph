@@ -13,6 +13,8 @@ class OutSlot extends Slot {
     return {
       INTEGER: 'integer',
       FLOAT: 'float',
+      BOOLEAN: 'boolean',
+      ONE_OF: 'oneOf',
     }
   }
 
