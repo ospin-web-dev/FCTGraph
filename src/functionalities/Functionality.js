@@ -1,6 +1,8 @@
 const Joi = require('joi')
 
 const RegexUtils = require('../utils/RegexUtils')
+const InSlot = require('../slots/InSlot')
+const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
 
 class Functionality {
@@ -52,6 +54,18 @@ class Functionality {
 
   slotTypes() {
     return this.slots.map(({ type }) => type)
+  }
+
+  getInSlots() {
+    return this.slots.filter(({ type }) => type === InSlot.TYPE)
+  }
+
+  getOutSlots() {
+    return this.slots.filter(({ type }) => type === OutSlot.TYPE)
+  }
+
+  getSlotByName(slotName) {
+    return this.slots.find(({ name }) => name === slotName)
   }
 
   /* *******************************************************************
