@@ -4,6 +4,7 @@ const RegexUtils = require('../utils/RegexUtils')
 const InSlot = require('../slots/InSlot')
 const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
+const AddSlotError = require('./AddSlotError')
 
 class Functionality {
 
@@ -18,10 +19,23 @@ class Functionality {
     })
   }
 
+  get slotNames() { return this.slots.map(({ name }) => name) }
+
+  _assertSlotNameUnique(slot) {
+    if (this.slotNames.includes(slot.name)) {
+      throw new AddSlotError(slot, `functionality already has a slot with the same name. current slot names: ${this.slotNames}`)
+    }
+  }
+
+  _assertSlotCanBeAdded(slot) {
+    this._assertSlotNameUnique(slot)
+  }
+
   _addSlot(slotData) {
     const { id: functionalityId } = this
     const newSlot = SlotFactory.new({ ...slotData, functionalityId })
 
+    this._assertSlotCanBeAdded(newSlot)
     this.slots.push(newSlot)
 
     return newSlot
