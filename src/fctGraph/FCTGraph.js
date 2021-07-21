@@ -103,6 +103,10 @@ class FCTGraph {
     ))
   }
 
+  getFctById(fctId) {
+    return this.functionalities.find(({ id }) => id === fctId)
+  }
+
 }
 
 module.exports = (
