@@ -1,12 +1,15 @@
 const OutputNodeSeeder = require('./OutputNodeSeeder')
-const { FloatInSlotSeeder } = require('../slots')
+const {
+  FloatInSlotSeeder,
+  RandomSlotSeeder,
+} = require('../slots')
 const PushOut = require('../../functionalities/PushOut')
 
 class PushOutSeeder extends OutputNodeSeeder {
 
   static generateSlots() {
     return [
-      FloatInSlotSeeder.generateUnitlessIn({ name: 'value in' }),
+      RandomSlotSeeder.generateRandomInSlot({ name: 'value in' }),
     ]
   }
 
@@ -17,6 +20,12 @@ class PushOutSeeder extends OutputNodeSeeder {
       slots: this.generateSlots(),
       ...overrideData,
     }
+  }
+
+  static generateFloatPushOutCelcius() {
+    return this.generate({
+      slots: [ FloatInSlotSeeder.generate({ unit: '°C' }) ],
+    })
   }
 
 }

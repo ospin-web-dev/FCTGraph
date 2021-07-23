@@ -1,12 +1,12 @@
 const SensorSeeder = require('./SensorSeeder')
-const { OutSlotSeeder } = require('../slots')
+const { RandomSlotSeeder } = require('../slots')
 const UnknownSensor = require('../../functionalities/UnknownSensor')
 
 class UnknownSensorSeeder extends SensorSeeder {
 
   static generateSlots() {
     return [
-      OutSlotSeeder.generate({ name: 'value out', dataType: 'float' }),
+      RandomSlotSeeder.generateRandomOutSlot({ name: 'value out' }),
     ]
   }
 

@@ -1,12 +1,27 @@
+const ArrayUtils = require('@choux/array-utils')
+
 const SensorSeeder = require('./SensorSeeder')
-const { OutSlotSeeder } = require('../slots')
+const {
+  FloatOutSlotSeeder,
+  IntegerOutSlotSeeder,
+} = require('../slots')
 const TemperatureSensor = require('../../functionalities/TemperatureSensor')
 
 class TemperatureSensorSeeder extends SensorSeeder {
 
-  static generateSlots() {
+  static get VALID_OUT_SLOT_SEEDERS() {
     return [
-      OutSlotSeeder.generate({ name: 'value out', dataType: 'float' }),
+      FloatOutSlotSeeder,
+      IntegerOutSlotSeeder,
+    ]
+  }
+
+  static generateSlots(overrideSlotData) {
+    return [
+      ArrayUtils.sample(this.VALID_OUT_SLOT_SEEDERS).generate({
+        name: 'value out',
+        ...overrideSlotData,
+      }),
     ]
   }
 
@@ -22,10 +37,29 @@ class TemperatureSensorSeeder extends SensorSeeder {
   /* *******************************************************************
    * PRESETS
    * **************************************************************** */
-  static generateCelciusProducer(data) {
-    const slots = [ OutSlotSeeder.generateCelciusOut(data) ]
+  static generateCelciusIntegerProducer(data) {
+    return this.generate({
+      slots: [ IntegerOutSlotSeeder.generateCelciusOut() ],
+      ...data,
+    })
+  }
 
-    return this.generate({ slots, name: 'Temperature Producer' })
+  static generateCelciusFloatProducer(data) {
+    return this.generate({
+      slots: [ FloatOutSlotSeeder.generateCelciusOut() ],
+      ...data,
+    })
+  }
+
+  static generateCelciusProducer() {
+    const generator = ArrayUtils.sample([
+      this.generateCelciusIntegerProducer.bind(this),
+      this.generateCelciusFloatProducer.bind(this),
+    ])
+
+    return generator({
+      name: 'Temperature Producer',
+    })
   }
 
 }

@@ -1,6 +1,5 @@
 const OutSlot = require('../../slots/OutSlot')
 const SlotSeeder = require('./SlotSeeder')
-const DataStreamSeeder = require('../dataStreams/DataStreamSeeder')
 
 class OutSlotSeeder extends SlotSeeder {
 
@@ -10,20 +9,6 @@ class OutSlotSeeder extends SlotSeeder {
       type: OutSlot.TYPE,
       ...data,
     }
-  }
-
-  static seedWithDataStream(data) {
-    const slot = this.seedOne(
-      this.generate(data),
-    )
-
-    const dataStream = DataStreamSeeder.seedOne({
-      sourceSlotName: slot.name,
-    })
-
-    slot._addDataStreamAndAssertStructure(dataStream)
-
-    return slot
   }
 
   static generateCelciusOut(data) {

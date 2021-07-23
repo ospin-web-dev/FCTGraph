@@ -1,5 +1,7 @@
 const ArrayUtils = require('@choux/array-utils')
 
+const SlotSeeder = require('./SlotSeeder')
+
 const FloatInSlotSeeder = require('./FloatInSlotSeeder')
 const BooleanInSlotSeeder = require('./BooleanInSlotSeeder')
 const IntegerInSlotSeeder = require('./IntegerInSlotSeeder')
@@ -10,38 +12,38 @@ const BooleanOutSlotSeeder = require('./BooleanOutSlotSeeder')
 const IntegerOutSlotSeeder = require('./IntegerOutSlotSeeder')
 const OneOfOutSlotSeeder = require('./OneOfOutSlotSeeder')
 
-const IN_SLOT_CLASS_EXPORTS = {
+const IN_SLOT_SEEDERS = {
   FloatInSlotSeeder,
   IntegerInSlotSeeder,
   OneOfInSlotSeeder,
   BooleanInSlotSeeder,
 }
 
-const OUT_SLOT_CLASS_EXPORTS = {
+const OUT_SLOT_SEEDERS = {
   FloatOutSlotSeeder,
   IntegerOutSlotSeeder,
   OneOfOutSlotSeeder,
   BooleanOutSlotSeeder,
 }
 
-const SLOT_CLASS_EXPORTS = {
-  ...IN_SLOT_CLASS_EXPORTS,
-  ...OUT_SLOT_CLASS_EXPORTS,
+const ALL_SLOT_SEEDERS = {
+  ...IN_SLOT_SEEDERS,
+  ...OUT_SLOT_SEEDERS,
 }
 
-class RandomSlotSeeder {
+class RandomSlotSeeder extends SlotSeeder {
 
   static generate(data = {}) {
-    const sampledClass = ArrayUtils.sample(
-      Object.values(SLOT_CLASS_EXPORTS),
+    const SampledSeeder = ArrayUtils.sample(
+      Object.values(ALL_SLOT_SEEDERS),
     )
 
-    return sampledClass.generate(data)
+    return SampledSeeder.generate(data)
   }
 
   static generateRandomOutSlot(data = {}) {
     const sampledClass = ArrayUtils.sample(
-      Object.values(OUT_SLOT_CLASS_EXPORTS),
+      Object.values(OUT_SLOT_SEEDERS),
     )
 
     return sampledClass.generate(data)
@@ -49,7 +51,7 @@ class RandomSlotSeeder {
 
   static generateRandomInSlot(data = {}) {
     const sampledClass = ArrayUtils.sample(
-      Object.values(IN_SLOT_CLASS_EXPORTS),
+      Object.values(IN_SLOT_SEEDERS),
     )
 
     return sampledClass.generate(data)
