@@ -74,7 +74,7 @@ class Slot {
 
   assertStructure() {
     // Virtual
-    throw new Error(`${this} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
+    throw new Error(`${this.constructor.name} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
   }
 
   isUnitless() { return this.unit === Slot.UNITLESS_UNIT }

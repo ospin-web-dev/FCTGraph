@@ -3,19 +3,12 @@ const IntegerInSlot = require('../IntegerInSlot')
 const BooleanInSlot = require('../BooleanInSlot')
 const OneOfInSlot = require('../OneOfInSlot')
 
-const OutSlot = require('../OutSlot')
+const FloatOutSlot = require('../FloatOutSlot')
+const IntegerOutSlot = require('../IntegerOutSlot')
+const BooleanOutSlot = require('../BooleanOutSlot')
+const OneOfOutSlot = require('../OneOfOutSlot')
 
 class SlotFactory {
-
-  static get SUPPORTED_CLASSES() {
-    return [
-      OutSlot,
-      FloatInSlot,
-      IntegerInSlot,
-      BooleanInSlot,
-      OneOfInSlot,
-    ]
-  }
 
   static get SUPPORTED_IN_SLOT_CLASSES() {
     return [
@@ -23,6 +16,22 @@ class SlotFactory {
       IntegerInSlot,
       BooleanInSlot,
       OneOfInSlot,
+    ]
+  }
+
+  static get SUPPORTED_OUT_SLOT_CLASSES() {
+    return [
+      FloatOutSlot,
+      IntegerOutSlot,
+      BooleanOutSlot,
+      OneOfOutSlot,
+    ]
+  }
+
+  static get SUPPORTED_CLASSES() {
+    return [
+      ...SlotFactory.SUPPORTED_IN_SLOT_CLASSES,
+      ...SlotFactory.SUPPORTED_OUT_SLOT_CLASSES,
     ]
   }
 
@@ -47,10 +56,10 @@ class SlotFactory {
 
   static get DATATYPE_TO_OUT_SLOT_CLASS() {
     return {
-      [OutSlot.DATA_TYPES.INTEGER]: OutSlot,
-      [OutSlot.DATA_TYPES.FLOAT]: OutSlot,
-      [OutSlot.DATA_TYPES.BOOLEAN]: OutSlot,
-      [OutSlot.DATA_TYPES.ONE_OF]: OutSlot,
+      [IntegerOutSlot.DATA_TYPE]: IntegerOutSlot,
+      [FloatOutSlot.DATA_TYPE]: FloatOutSlot,
+      [BooleanOutSlot.DATA_TYPE]: BooleanOutSlot,
+      [OneOfOutSlot.DATA_TYPE]: OneOfOutSlot,
     }
   }
 
@@ -70,17 +79,18 @@ class SlotFactory {
       throw new Error(`Slot type not supported ${type || 'FALSEY'}\n${json}`)
     }
 
-    return classes[dataType]
-  }
-
-  static newFromType(slotData) {
-    const { type, dataType } = slotData
-    const FoundClass = SlotFactory.getSlotClass(slotData)
+    const FoundClass = classes[dataType]
 
     if (!SlotFactory.classIsSupported(FoundClass)) {
       const json = JSON.stringify(slotData)
       throw new Error(`No ${dataType} slot class found for ${type}\n${json}`)
     }
+
+    return FoundClass
+  }
+
+  static newFromType(slotData) {
+    const FoundClass = SlotFactory.getSlotClass(slotData)
 
     return new FoundClass(slotData)
   }

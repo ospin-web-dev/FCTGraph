@@ -1,13 +1,13 @@
+const InSlot = require('../../slots/InSlot')
 const SlotSeeder = require('./SlotSeeder')
 
 class InSlotSeeder extends SlotSeeder {
 
   static generate(data = {}) {
-    const slotData = super.generate(data)
-
     return {
-      ...slotData,
-      type: 'InSlot',
+      ...super.generate(data),
+      type: InSlot.TYPE,
+      ...data,
     }
   }
 

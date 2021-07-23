@@ -1,28 +1,35 @@
-const faker = require('faker')
-
 const OutSlot = require('../../slots/OutSlot')
 const SlotSeeder = require('./SlotSeeder')
-const DataStream = require('../../dataStreams/DataStream')
+const DataStreamSeeder = require('../dataStreams/DataStreamSeeder')
 
 class OutSlotSeeder extends SlotSeeder {
 
   static generate(data = {}) {
     return {
       ...super.generate(data),
-      type: 'OutSlot',
-      dataType: faker.random.arrayElement(Object.values(OutSlot.DATA_TYPES)),
+      type: OutSlot.TYPE,
       ...data,
     }
   }
 
-  /* *******************************************************************
-   * PRESETS
-   * **************************************************************** */
+  static seedWithDataStream(data) {
+    const slot = this.seedOne(
+      this.generate(data),
+    )
+
+    const dataStream = DataStreamSeeder.seedOne({
+      sourceSlotName: slot.name,
+    })
+
+    slot._addDataStreamAndAssertStructure(dataStream)
+
+    return slot
+  }
+
   static generateCelciusOut(data) {
     return this.generate({
       unit: '°C',
       name: 'Celcius Out',
-      dataType: OutSlot.DATA_TYPES.FLOAT,
       ...data,
     })
   }
@@ -31,25 +38,6 @@ class OutSlotSeeder extends SlotSeeder {
     return this.seedOne(
       this.generateCelciusOut(data),
     )
-  }
-
-  static seedWithDataStream(data) {
-    const slot = this.seedOne(
-      this.generate(data),
-    )
-
-    const dataStream = new DataStream({
-      id: faker.datatype.uuid(),
-      sourceFctId: faker.datatype.uuid(),
-      sourceSlotName: slot.name,
-      sinkFctId: faker.datatype.uuid(),
-      sinkSlotName: faker.animal.lion(),
-      averagingWindowSize: faker.datatype.number(),
-    })
-
-    slot._addDataStreamAndAssertStructure(dataStream)
-
-    return slot
   }
 
 }
