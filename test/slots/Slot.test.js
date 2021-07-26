@@ -270,4 +270,15 @@ describe('the Slot class', () => {
       slotAPushSpy.mockRestore()
     })
   })
+
+  describe('.isUnitless', () => {
+    it('returns true and false dependent on the slots unit', () => {
+      const withUnitSlot = FloatInSlotSeeder.seedCelciusIn()
+      const withoutUnitSlot = FloatOutSlotSeeder.seedCelciusOut()
+      withoutUnitSlot.unit = Slot.UNITLESS_UNIT
+
+      expect(withUnitSlot.isUnitless()).toBe(false)
+      expect(withoutUnitSlot.isUnitless()).toBe(true)
+    })
+  })
 })
