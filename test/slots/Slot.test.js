@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid')
 const faker = require('faker')
 
 const Slot = require('slots/Slot')
+const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
 const FloatInSlot = require('slots/FloatInSlot')
 const IntegerInSlot = require('slots/IntegerInSlot')
@@ -35,10 +36,15 @@ describe('the Slot class', () => {
 
   describe('.constructor', () => {
     it('converts dataStream data in to DataStream instances', () => {
-      const outSlot = RandomSlotSeeder.seedWithDataStream()
+      const outSlot = RandomSlotSeeder.generate()
+      const dataStream = DataStreamSeeder.generate({ sourceSlotName: outSlot.name })
 
-      expect(outSlot.dataStreams).toHaveLength(1)
-      expect(outSlot.dataStreams[0].constructor.name)
+      outSlot.dataStreams.push(dataStream)
+
+      const slotInstance = SlotFactory.new(outSlot)
+
+      expect(slotInstance.dataStreams).toHaveLength(1)
+      expect(slotInstance.dataStreams[0].constructor.name)
         .toStrictEqual('DataStream')
     })
   })

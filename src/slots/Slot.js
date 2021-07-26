@@ -91,8 +91,6 @@ class Slot {
   _assertSlotUnitCompatible(otherSlot) {
     if (
       this.unit !== otherSlot.unit
-      && !this.isUnitless()
-      && !otherSlot.isUnitless()
     ) {
       throw new SlotConnectionError(this, otherSlot, 'units must match between slots')
     }
@@ -112,7 +110,6 @@ class Slot {
     this._assertSlotDataTypeCompatible(otherSlot)
     this._assertSlotUnitCompatible(otherSlot)
     this._assertSlotTypeCompatible(otherSlot)
-
   }
 
   _validateConnectionBetweenIsPossible(otherSlot) {

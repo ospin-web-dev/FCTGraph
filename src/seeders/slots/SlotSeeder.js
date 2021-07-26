@@ -5,12 +5,7 @@ const { v4: uuidv4 } = require('uuid')
 const FactorySeeder = require('../FactorySeeder')
 const SlotFactory = require('../../slots/factories/SlotFactory')
 const Slot = require('../../slots/Slot')
-const DataStreamSeeder = require('../dataStreams/DataStreamSeeder')
 
-/* NOTE:
- * This class should not be documented as public interface. Consumers
- * should instead be guided to make use of the slot sub class seeders
- * (in/out slot seeders) instead of this virtual seeder */
 class SlotSeeder {
 
   static get SEED_METHOD() { return SlotFactory.new }
@@ -29,20 +24,6 @@ class SlotSeeder {
       unit: faker.random.arrayElement(Slot.ALL_UNIT_VALUES),
       ...data,
     }
-  }
-
-  static seedWithDataStream(data) {
-    const slot = this.seedOne(
-      this.generate(data),
-    )
-
-    const dataStream = DataStreamSeeder.seedOne({
-      sourceSlotName: slot.name,
-    })
-
-    slot._addDataStreamAndAssertStructure(dataStream)
-
-    return slot
   }
 
 }
