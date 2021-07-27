@@ -15,7 +15,10 @@ class Controller extends Functionality {
   }
 
   constructor(functionalityData) {
-    super(functionalityData)
+    super({
+      isVirtual: true,
+      ...functionalityData,
+    })
     this.type = Controller.TYPE
   }
 

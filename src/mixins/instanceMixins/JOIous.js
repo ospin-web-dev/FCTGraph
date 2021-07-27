@@ -34,6 +34,11 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     return typeof objDiff === 'undefined'
   }
 
+  static enrichJoiValidationError(error) {
+    // eslint-disable-next-line
+    error.message = `JOI error in ${this.name}:\n\n${error.annotate()}`
+  }
+
   constructor(...args) {
     super(...args)
 
@@ -50,10 +55,15 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
   }
 
   assertStructure() {
-    Joi.attempt(
-      this.serialize(),
-      ReceivingClass.SCHEMA,
-    )
+    try {
+      Joi.attempt(
+        this.serialize(),
+        ReceivingClass.SCHEMA,
+      )
+    } catch (e) {
+      if (e.isJoi) { this.constructor.enrichJoiValidationError(e) }
+      throw e
+    }
   }
 
   sortAndSerialize() {

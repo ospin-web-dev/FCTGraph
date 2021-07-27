@@ -81,12 +81,16 @@ describe('the FCTGraph class', () => {
    * **************************************************************** */
   describe('.getConnectableFctsToTargetFct', () => {
     it('returns all FCTGraph fcts which can be connected to the given fct', () => {
+      /* it is expected that the tempSensor (which has an outslot which
+       * produces float values) can only connect to other functionalities
+       * which have an un-occupied inslot that receives float values
+       */
       const functionalities = [
-        TemperatureSensorSeeder.generateCelciusProducer(),
+        TemperatureSensorSeeder.generateCelciusFloatProducer(),
         PIDControllerSeeder.generateTemperatureControllerCelcius(),
         HeaterActuatorSeeder.generateKelvinHeater(),
-        PushOutSeeder.generate(),
-        PushInSeeder.generate(),
+        PushOutSeeder.generateFloatPushOutCelcius(),
+        PushInSeeder.generateIntegerPushIn(),
       ]
 
       const fctGraph = FCTGraphSeeder.seedOne({ functionalities })
@@ -102,8 +106,8 @@ describe('the FCTGraph class', () => {
 
     it('will provide fcts with slots that will connect', () => {
       const functionalities = [
-        TemperatureSensorSeeder.generateCelciusProducer(),
-        PushOutSeeder.generate(),
+        TemperatureSensorSeeder.generateCelciusFloatProducer(),
+        PushOutSeeder.generateFloatPushOutCelcius(),
       ]
 
       const fctGraph = FCTGraphSeeder.seedOne({ functionalities })

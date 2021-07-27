@@ -155,13 +155,17 @@ Slot (virtual)
 │   └── FloatInSlot
 │   └── BooleanInSlot
 │   └── OneOfInSlot
-└── OutSlot
+└── OutSlot (virtual)
+    └── IntegerOutSlot
+    └── FloatOutSlot
+    └── BooleanOutSlot
+    └── OneOfOutSlot
 
 // a Slot has many DataStreams
 DataStream
 ```
 
-All non-virtual classes (e.g. HeaterActuator, InSlot, etc.) compose the **JOIous** module, which provides the following:
+All non-virtual classes (e.g. HeaterActuator, IntegerInSlot, etc.) compose the **JOIous** module, which provides the following:
 - **post .constructor** - asserts the instance's data against the JOI SCHEMA (which provides nested data validation) as a final step
 - **.serialize** (virtual) - blows up - informing the user that the class that composed JOIous needs a `.serialize` method
 - **.sortAndSerialize** - uses .serialize returns the (deeply) sorted object
@@ -177,7 +181,7 @@ Functionalities and Slots need somewhat intelligent instantiation as they are me
 
 - **FCTGraph** delegates to the **FunctionalityFactory** when functionalities are added. The factory will attempt to find the appropriate functionality sub-class via the `type` and `subType` key values and blow up if it can not find one.
 
-- **Functionality** delegates to the **SlotFactory** when slots are added. The factory will attempt to find the appropriate slot sub-class via the `type` key value and blow up if it can not find one.
+- **Functionality** delegates to the **SlotFactory** when slots are added. The factory will attempt to find the appropriate slot sub-class via the `type` and `dataType` key value and blow up if it can not find one.
 
 **Functionalities** and **Slots** can also be created directly calling the constructors on their non-virtual classes. See [Class Structure and Hierarchies](#ClassStructureAndHierarchies)
 
@@ -207,12 +211,17 @@ FunctionalitySeeder (virtual)
     └── UnknownSensorSeeder
 
 SlotSeeder (virtual)
+├── RandomSlotSeeder (picks from a SlotSeeder below)
 ├── InSlotSeeder (virtual)
 │   └── IntegerInSlotSeeder
 │   └── FloatInSlotSeeder
 │   └── BooleanInSlotSeeder
 │   └── OneOfInSlotSeeder
-└── OutSlotSeeder
+└── OutSlotSeeder (virtual)
+    └── IntegerOutSlotSeeder
+    └── FloatOutSlotSeeder
+    └── BooleanOutSlotSeeder
+    └── OneOfOutSlotSeeder
 ```
 
 All virtual seeders (e.g. HeaterActuatorSeeder, InSlotSeeder etc.) compose the **FactorySeeder** module, which provides the following static methods (which extend to their children):

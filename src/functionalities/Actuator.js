@@ -15,7 +15,10 @@ class Actuator extends Functionality {
   }
 
   constructor(functionalityData) {
-    super(functionalityData)
+    super({
+      isVirtual: false,
+      ...functionalityData,
+    })
     this.type = Actuator.TYPE
   }
 

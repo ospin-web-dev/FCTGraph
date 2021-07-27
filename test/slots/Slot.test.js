@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid')
 const faker = require('faker')
 
 const Slot = require('slots/Slot')
+const SlotFactory = require('slots/factories/SlotFactory')
 const InSlot = require('slots/InSlot')
 const FloatInSlot = require('slots/FloatInSlot')
 const IntegerInSlot = require('slots/IntegerInSlot')
@@ -10,8 +11,9 @@ const DataStream = require('dataStreams/DataStream')
 const DataStreamSeeder = require('seeders/dataStreams/DataStreamSeeder')
 const {
   FloatInSlotSeeder,
-  IntegerInSlotSeeder,
-  OutSlotSeeder,
+  FloatOutSlotSeeder,
+  IntegerOutSlotSeeder,
+  RandomSlotSeeder,
 } = require('seeders/slots')
 /* the SlotSeeder is not present in the seeders/slots index because it
  * should not be exposed as public seeder interface */
@@ -19,7 +21,6 @@ const SlotSeeder = require('seeders/slots/SlotSeeder')
 
 describe('the Slot class', () => {
 
-  // TODO: consider new test files for the following two tests, as they are In/Outslot specific
   describe('static get .SUPPORTS_CALIBRATION', () => {
     it('returns false for InSlot', () => { expect(InSlot.SUPPORTS_CALIBRATION).toBe(false) })
 
@@ -35,10 +36,15 @@ describe('the Slot class', () => {
 
   describe('.constructor', () => {
     it('converts dataStream data in to DataStream instances', () => {
-      const outSlot = OutSlotSeeder.seedWithDataStream()
+      const outSlot = RandomSlotSeeder.generate()
+      const dataStream = DataStreamSeeder.generate({ sourceSlotName: outSlot.name })
 
-      expect(outSlot.dataStreams).toHaveLength(1)
-      expect(outSlot.dataStreams[0].constructor.name)
+      outSlot.dataStreams.push(dataStream)
+
+      const slotInstance = SlotFactory.new(outSlot)
+
+      expect(slotInstance.dataStreams).toHaveLength(1)
+      expect(slotInstance.dataStreams[0].constructor.name)
         .toStrictEqual('DataStream')
     })
   })
@@ -47,7 +53,7 @@ describe('the Slot class', () => {
     it('converts dataStreams back to nested objects', () => {
       const dataStreamData = DataStreamSeeder.generate()
 
-      const outSlotData = OutSlotSeeder.generate()
+      const outSlotData = RandomSlotSeeder.generate()
 
       const dataStreamPopulated = {
         ...dataStreamData,
@@ -76,10 +82,10 @@ describe('the Slot class', () => {
   describe('.addConnectionTo', () => {
 
     it('adds the same dataStream instance to both slots', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
-      OutSlotSeeder.stubOwningFct(slotA)
+      FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
       const dataStreamOpts = { averagingWindowSize: 10 }
@@ -97,10 +103,10 @@ describe('the Slot class', () => {
     })
 
     it('adds the same dataStream instance to both slots regardless of which is calling addConnectionTo on the other', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
-      OutSlotSeeder.stubOwningFct(slotA)
+      FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
       const { error, errorMsg, thisSlot, otherSlot } = slotB.addConnectionTo(slotA)
@@ -111,7 +117,7 @@ describe('the Slot class', () => {
     })
 
     it('returns an error response when the slot dataTypes are incompatible', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut({ dataType: OutSlot.DATA_TYPES.INTEGER })
+      const slotA = IntegerOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       const { error, errorMsg } = slotA.addConnectionTo(slotB)
@@ -121,7 +127,7 @@ describe('the Slot class', () => {
     })
 
     it('returns an error when the slot types are incompatible', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
       slotA.type = OutSlot.TYPE
       slotB.type = OutSlot.TYPE
@@ -147,7 +153,7 @@ describe('the Slot class', () => {
     })
 
     it('returns an error when the slot units are incompatible', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedKelvinIn()
 
       const { error, errorMsg } = slotA.addConnectionTo(slotB)
@@ -157,10 +163,10 @@ describe('the Slot class', () => {
     })
 
     it('the dataStream gets removed from the slots if either fails validation after the dataStream is added', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
-      OutSlotSeeder.stubOwningFct(slotA)
+      FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
       const slotAPreLength = slotA.dataStreams.length
@@ -186,10 +192,10 @@ describe('the Slot class', () => {
         sinkSlotName: 'under normal circumstances',
       })
 
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
-      OutSlotSeeder.stubOwningFct(slotA)
+      FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
       slotA.dataStreams = [ existingDataStream ]
@@ -223,10 +229,10 @@ describe('the Slot class', () => {
         sinkSlotName: 'under normal circumstances',
       })
 
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
-      OutSlotSeeder.stubOwningFct(slotA)
+      FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
       slotA.dataStreams = [ existingDataStream ]
@@ -249,7 +255,7 @@ describe('the Slot class', () => {
 
   describe('.filterConnectableSlots', () => {
     it('throws error if the connection possibility validation fails for an unkown reason', () => {
-      const slotA = OutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
       const unknownErrorMsg = 'UNKNOWN!'
 
@@ -262,6 +268,17 @@ describe('the Slot class', () => {
       }).toThrow(unknownErrorMsg)
 
       slotAPushSpy.mockRestore()
+    })
+  })
+
+  describe('.isUnitless', () => {
+    it('returns true and false dependent on the slots unit', () => {
+      const withUnitSlot = FloatInSlotSeeder.seedCelciusIn()
+      const withoutUnitSlot = FloatOutSlotSeeder.seedCelciusOut()
+      withoutUnitSlot.unit = Slot.UNITLESS_UNIT
+
+      expect(withUnitSlot.isUnitless()).toBe(false)
+      expect(withoutUnitSlot.isUnitless()).toBe(true)
     })
   })
 })

@@ -15,7 +15,10 @@ class Sensor extends Functionality {
   }
 
   constructor(functionalityData) {
-    super(functionalityData)
+    super({
+      isVirtual: false,
+      ...functionalityData,
+    })
     this.type = Sensor.TYPE
   }
 

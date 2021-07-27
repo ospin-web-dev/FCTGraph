@@ -1,12 +1,15 @@
 const InputNodeSeeder = require('./InputNodeSeeder')
-const { OutSlotSeeder } = require('../slots')
+const {
+  RandomSlotSeeder,
+  IntegerOutSlotSeeder,
+} = require('../slots')
 const PushIn = require('../../functionalities/PushIn')
 
 class PushInSeeder extends InputNodeSeeder {
 
   static generateSlots() {
     return [
-      OutSlotSeeder.generate({ name: 'value out' }),
+      RandomSlotSeeder.generateRandomOutSlot({ name: 'value out' }),
     ]
   }
 
@@ -17,6 +20,12 @@ class PushInSeeder extends InputNodeSeeder {
       slots: this.generateSlots(),
       ...overrideData,
     }
+  }
+
+  static generateIntegerPushIn() {
+    return this.generate({
+      slots: [ IntegerOutSlotSeeder.generate() ],
+    })
   }
 
 }

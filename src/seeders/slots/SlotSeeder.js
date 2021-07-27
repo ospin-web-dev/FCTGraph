@@ -6,10 +6,6 @@ const FactorySeeder = require('../FactorySeeder')
 const SlotFactory = require('../../slots/factories/SlotFactory')
 const Slot = require('../../slots/Slot')
 
-/* NOTE:
- * This class should not be documented as public interface. Consumers
- * should instead be guided to make use of the slot sub class seeders
- * (in/out slot seeders) instead of this virtual seeder */
 class SlotSeeder {
 
   static get SEED_METHOD() { return SlotFactory.new }

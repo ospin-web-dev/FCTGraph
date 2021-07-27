@@ -74,7 +74,7 @@ class Slot {
 
   assertStructure() {
     // Virtual
-    throw new Error(`${this} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
+    throw new Error(`${this.constructor.name} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
   }
 
   isUnitless() { return this.unit === Slot.UNITLESS_UNIT }
@@ -91,8 +91,6 @@ class Slot {
   _assertSlotUnitCompatible(otherSlot) {
     if (
       this.unit !== otherSlot.unit
-      && !this.isUnitless()
-      && !otherSlot.isUnitless()
     ) {
       throw new SlotConnectionError(this, otherSlot, 'units must match between slots')
     }
@@ -112,7 +110,6 @@ class Slot {
     this._assertSlotDataTypeCompatible(otherSlot)
     this._assertSlotUnitCompatible(otherSlot)
     this._assertSlotTypeCompatible(otherSlot)
-
   }
 
   _validateConnectionBetweenIsPossible(otherSlot) {
