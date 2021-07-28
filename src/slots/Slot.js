@@ -46,6 +46,56 @@ class Slot {
     }
   }
 
+  static _assertSlotDataTypesCompatible(slotA, slotB) {
+    if (slotA.dataType !== slotB.dataType) {
+      throw new SlotConnectionError(slotA, slotB, 'dataTypes must match between slots')
+    }
+  }
+
+  static _assertSlotUnitsCompatible(slotA, slotB) {
+    if (
+      slotA.unit !== slotB.unit
+    ) {
+      throw new SlotConnectionError(slotA, slotB, 'units must match between slots')
+    }
+  }
+
+  static _assertSlotTypesCompatible(slotA, slotB) {
+    if (slotA.type === 'OutSlot' && slotB.type !== 'InSlot') {
+      throw new SlotConnectionError(slotA, slotB, 'must have complimentary types')
+    }
+
+    if (slotA.type === 'InSlot' && slotB.type !== 'OutSlot') {
+      throw new SlotConnectionError(slotA, slotB, 'must have complimentary types')
+    }
+  }
+
+  static _assertConnectionBetweenSlotsDoesntAlreadyExit(slotA, slotB) {
+    if (slotA.isConnectedToSlot(slotB)) {
+      throw new SlotConnectionError(slotA, slotB, 'already connected to target slot')
+    }
+  }
+
+  static _assertConnectionBetweenIsPossible(slotA, slotB) {
+    Slot._assertSlotDataTypesCompatible(slotA, slotB)
+    Slot._assertSlotUnitsCompatible(slotA, slotB)
+    Slot._assertSlotTypesCompatible(slotA, slotB)
+    Slot._assertConnectionBetweenSlotsDoesntAlreadyExit(slotA, slotB)
+
+    slotA._assertHasRoomForConnectionTo(slotB)
+    slotB._assertHasRoomForConnectionTo(slotA)
+  }
+
+  static _validateConnectionBetweenIsPossible(slotA, slotB) {
+    try {
+      this._assertConnectionBetweenIsPossible(slotA, slotB)
+      return true
+    } catch (e) {
+      if (e.name !== SlotConnectionError.NAME) throw e
+      return false
+    }
+  }
+
   static get SCHEMA() {
     return Joi.object({
       name: Joi.string().required(),
@@ -55,13 +105,22 @@ class Slot {
     })
   }
 
-  constructor({ name, functionalityId, displayType, dataStreams, unit }) {
+  constructor({
+    name,
+    functionality,
+    displayType,
+    unit,
+  }) {
     this.name = name
-    this.functionalityId = functionalityId
+    this.functionality = functionality
     this.displayType = displayType
-    this.dataStreams = dataStreams.map(ds => new DataStream(ds))
     this.unit = unit
+    this.dataStreams = []
   }
+
+  get functionalityId() { return this.functionality.id }
+
+  get isEmpty() { return this.dataStreams.length === 0 }
 
   serialize() {
     return {
@@ -79,98 +138,39 @@ class Slot {
 
   isUnitless() { return this.unit === Slot.UNITLESS_UNIT }
 
-  /* *******************************************************************
-   * GRAPH ACTIONS: CONNECTING SLOTS
-   * **************************************************************** */
-  _assertSlotDataTypeCompatible(otherSlot) {
-    if (this.dataType !== otherSlot.dataType) {
-      throw new SlotConnectionError(this, otherSlot, 'dataTypes must match between slots')
-    }
+  _assertHasRoomForConnectionTo() {
+    // Virtual
+    throw new Error(`${this.constructor.name} requires an ._assertHasRoomForConnectionTo method`)
   }
 
-  _assertSlotUnitCompatible(otherSlot) {
-    if (
-      this.unit !== otherSlot.unit
-    ) {
-      throw new SlotConnectionError(this, otherSlot, 'units must match between slots')
-    }
-  }
-
-  _assertSlotTypeCompatible(otherSlot) {
-    if (this.type === 'OutSlot' && otherSlot.type !== 'InSlot') {
-      throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
-    }
-
-    if (this.type === 'InSlot' && otherSlot.type !== 'OutSlot') {
-      throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
-    }
-  }
-
-  _assertConnectionBetweenIsPossible(otherSlot) {
-    this._assertSlotDataTypeCompatible(otherSlot)
-    this._assertSlotUnitCompatible(otherSlot)
-    this._assertSlotTypeCompatible(otherSlot)
-  }
-
-  _validateConnectionBetweenIsPossible(otherSlot) {
-    try {
-      this._assertConnectionBetweenIsPossible(otherSlot)
-      return true
-    } catch (e) {
-      if (e.name !== SlotConnectionError.NAME) throw e
-      return false
-    }
-  }
-
-  _addDataStreamAndAssertStructure(dataStream) {
+  _addDataStream(dataStream) {
     this.dataStreams.push(dataStream)
-    this.assertStructure()
   }
 
-  _createDataStreamTo(otherSlot, dataStreamOpts) {
-    const {
-      name: sourceSlotName,
-      functionalityId: sourceFctId,
-    } = this.type === 'OutSlot' ? this : otherSlot
-
-    const {
-      name: sinkSlotName,
-      functionalityId: sinkFctId,
-    } = this.type === 'InSlot' ? this : otherSlot
+  _createDataStreamTo(otherSlot, dataStreamData) {
+    const sourceSlot = this.type === 'OutSlot' ? this : otherSlot
+    const sinkSlot = this.type === 'InSlot' ? this : otherSlot
 
     return new DataStream({
       id: uuidv4(),
-      sourceFctId,
-      sourceSlotName,
-      sinkFctId,
-      sinkSlotName,
-      averagingWindowSize: dataStreamOpts.averagingWindowSize,
+      sinkSlot,
+      sourceSlot,
+      ...dataStreamData,
     })
   }
 
-  _connectToOrThrow(otherSlot, dataStream) {
-    const thisDataStreamsLengthPre = this.dataStreams.length
-    const otherDataStreamsLengthPre = otherSlot.dataStreams.length
-
-    try {
-      this._addDataStreamAndAssertStructure(dataStream)
-      otherSlot._addDataStreamAndAssertStructure(dataStream)
-      return dataStream
-    } catch (e) {
-      const thisDataStreamsLengthPost = this.dataStreams.length
-      const otherDataStreamsLengthPost = otherSlot.dataStreams.length
-      if (thisDataStreamsLengthPost > thisDataStreamsLengthPre) { this.dataStreams.pop() }
-      if (otherDataStreamsLengthPost > otherDataStreamsLengthPre) { otherSlot.dataStreams.pop() }
-    }
+  _connectTo(otherSlot, dataStream) {
+    this._addDataStream(dataStream)
+    otherSlot._addDataStream(dataStream)
   }
 
   // safe - returns a public response
-  addConnectionTo(otherSlot, dataStreamOpts = {}) {
+  connectTo(otherSlot, dataStreamData = {}) {
     try {
-      this._assertConnectionBetweenIsPossible(otherSlot)
-      const dataStream = this._createDataStreamTo(otherSlot, dataStreamOpts)
+      Slot._assertConnectionBetweenIsPossible(this, otherSlot)
+      const dataStream = this._createDataStreamTo(otherSlot, dataStreamData)
+      this._connectTo(otherSlot, dataStream)
 
-      this._connectToOrThrow(otherSlot, dataStream)
       return publicSuccessRes({ thisSlot: this, otherSlot, dataStream })
     } catch (e) {
       return publicErrorRes({ errorMsg: e.message, thisSlot: this, otherSlot, dataStream: null })
@@ -179,7 +179,55 @@ class Slot {
 
   filterConnectableSlots(slots) {
     return slots.filter(slot => (
-      this._validateConnectionBetweenIsPossible(slot)
+      Slot._validateConnectionBetweenIsPossible(this, slot)
+    ))
+  }
+
+  isConnectedToSlot(otherSlot) {
+    return this.dataStreams.some(dataStream => (
+      dataStream.isConnectionBetweenTwoSlots(this, otherSlot)
+    ))
+  }
+
+  isConnectedToOneOfManySlots(otherSlots) {
+    return otherSlots.some(otherSlot => (
+      this.isConnectedToSlot(otherSlot)
+    ))
+  }
+
+  getDataStreamToSlot(otherSlot) {
+    return this.dataStreams.find(dataStream => (
+      dataStream.isConnectionBetweenTwoSlots(this, otherSlot)
+    ))
+  }
+
+  getAllDataStreamsToManySlots(otherSlots) {
+    return otherSlots.reduce((connectingDataStreams, otherSlot) => {
+      const dataStreamToOtherSlot = (
+        this.getDataStreamToSlot(otherSlot)
+      )
+
+      return dataStreamToOtherSlot
+        ? connectingDataStreams.concat([ dataStreamToOtherSlot ])
+        : connectingDataStreams
+    }, [])
+  }
+
+  get connectedSlots() {
+    return this.dataStreams.map(dataStream => (
+      dataStream.getOpposingSlotTo(this)
+    ))
+  }
+
+  get connectedFunctionalities() {
+    return this.connectedSlots.map(connectedSlot => (
+      connectedSlot.functionality
+    ))
+  }
+
+  get isConnectedToOutputnode() {
+    return this.connectedFunctionalities.some(connectedFunctionality => (
+      connectedFunctionality.isOutputNode
     ))
   }
 

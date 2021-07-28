@@ -49,7 +49,7 @@ const fctGraph = new FCTGraph({
 }) /* see FCTGraph.SCHEMA */)
 
 // we can also add functionalities after the fact
-fctGraph.addFunctionality({ ...heaterActuatorData })
+fctGraph.addFunctionalityByData({ ...heaterActuatorData })
 
 fctGraph.functionalities
 // -> a temperature sensor with a temperature outslot
@@ -69,8 +69,8 @@ const { slots: pidControllerSlots } = pidController
 const [ connectableSlot, ... ] = tempOutSlot.filterConnectableSlots(pidControllerSlots)
 
 // connect!
-const { dataStream } = tempOutSlot.addConnectionTo(connectableSlot)
-// -> dataStream { id, sourceSlotName: 'temp out', sinkSlotName: 'temp in', ... }
+const { dataStream } = tempOutSlot.connectTo(connectableSlot)
+// -> dataStream { id, sourceSlot: tempOutSlot, sinkSlot: connectableSlot, ... }
 ```
 
 #### <a name="Inspection">Inspection!
@@ -81,17 +81,6 @@ tempSensor.isPossibleToConnectToFct(pidController)
 
 fctGraph.getConnectableFctsToTargetFct(pidController)
 // -> [ tempSensor, ... ]
-
-
-// Graph mutating public methods return a standard response object:
-// response object: { error: <bool>, errorMsg: <string>, ...relevantData }
-
-const goodFctData = /* valid data for a new functionality */
-const { error, errorMsg, functionality } = fctGraph.addFunctionality(fctData)
-
-console.log(error) // -> false
-console.log(errorMsg) // -> null
-console.log(functionality instanceof Functionality) // -> null
 ```
 
 #### <a name="FromAndToJson">From JSON, all life flows, and returns
@@ -108,17 +97,17 @@ const fctGraphClone = FCTGraph.new(JSON.parse(fctGraphJSON))
 
 #### <a name="PublicMethodsThatMutate">Public Methods that Mutate
 
-Where appropriate (and hopefully whenever this package is extended) public methods which mutate instances in a major way (e.g. adding functionalities to the graph, connecting slots, etc.) return a response object. Response objects are intended to be useful in cases where a caller attempts to mutate the FCTGraph (or a portion of it) in a way that would ultimately fail data validation. The response objects will return actionable information for the caller.
+Where appropriate (and hopefully whenever this package is extended) public methods which mutate instances in a major way (e.g. adding functionalities to the graph, connecting slots, etc.) return a response object. Response objects are intended to be useful in cases where a caller attempts to mutate the FCTGraph (or a portion of it) in a way that would ultimately fail data validation. The response objects will return actionable information for the caller instead of blowing up outright.
 
 ```js
-const failure = fctGraph.addFunctionality({ name: 123, ...validData })
+const failure = fctGraph.addFunctionalityByData({ name: 123, ...validData })
 // {
 //   error: true,
 //   errorMsg: 'Failed to add fct: <fct data>. Underlying error: name must be a string',
 //   functionality: <{ ...the failed functionalities data }>,
 // }
 
-const success = fctGraph.addFunctionality({ name: 'Dr. Strangelove\'s Bunker Heater', ...validData })
+const success = fctGraph.addFunctionalityByData({ name: 'Dr. Strangelove\'s Bunker Heater', ...validData })
 // {
 //   error: false,
 //   errorMsg: null,
@@ -133,6 +122,7 @@ const success = fctGraph.addFunctionality({ name: 'Dr. Strangelove\'s Bunker Hea
 
 ```js
 FCTGraph
+FCTGraphUtils TODO: UPDATE THIS
 
 // an FCTGraph has many Functionalities
 Functionality (virtual)
@@ -257,5 +247,3 @@ Available types:
 ## Upcoming:
 - reject setting properties on the core classes that should not change throughout the lifetime of an object (`type`, `subType`, `name`, etc.)
 - disconnect connections between slots
-- dataStreams reference slots instead of just the slot name (works with instantiating from slot name) and still serialize to contain the slot names.
-

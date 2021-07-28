@@ -1,6 +1,5 @@
 const Joi = require('joi')
 const ArrayUtils = require('@choux/array-utils')
-const { v4: uuidv4 } = require('uuid')
 
 const JOIous = require('../mixins/instanceMixins/JOIous')
 const FunctionalityFactory = require('../functionalities/factories/FunctionalityFactory')
@@ -8,7 +7,6 @@ const InputNode = require('../functionalities/InputNode')
 const OutputNode = require('../functionalities/OutputNode')
 const RegexUtils = require('../utils/RegexUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
-const AddFunctionalityError = require('./AddFunctionalityError')
 
 class FCTGraph {
 
@@ -24,10 +22,47 @@ class FCTGraph {
     })
   }
 
+  static _collectUniqueDataStreamsData(functionalitiesData) {
+    const uniqueDataStreamsDataById = {}
+
+    functionalitiesData.forEach(({ slots }) => {
+      slots.forEach(({ dataStreams }) => {
+        dataStreams.forEach(dataStream => {
+          uniqueDataStreamsDataById[dataStream.id] = dataStream
+        })
+      })
+    })
+
+    // sandwich iteration, but for readability!
+    return Object.values(uniqueDataStreamsDataById)
+  }
+
+  _addConnectionViaDataStreamData(dataStreamData) {
+    const {
+      sourceFctId,
+      sourceSlotName,
+      sinkFctId,
+      sinkSlotName,
+    } = dataStreamData
+
+    const sourceSlot = this.getSlotByFctIdAndSlotName(sourceFctId, sourceSlotName)
+    const sinkSlot = this.getSlotByFctIdAndSlotName(sinkFctId, sinkSlotName)
+
+    sourceSlot.connectTo(sinkSlot, dataStreamData)
+  }
+
+  _populateConnections(functionalitiesData) {
+    const dataStreamsData = FCTGraph._collectUniqueDataStreamsData(functionalitiesData)
+
+    dataStreamsData.forEach(dataStreamData => (
+      this._addConnectionViaDataStreamData(dataStreamData)
+    ))
+  }
+
   constructor({
     id,
     deviceId,
-    functionalities,
+    functionalities: functionalitiesData,
     deviceDefault = false,
     name,
   }) {
@@ -35,10 +70,9 @@ class FCTGraph {
     this.deviceId = deviceId
     this.name = name
     this.deviceDefault = deviceDefault
-    // Avoid blowing up in the constructor if non-array given for fcts. Joi will give a better error
-    this.functionalities = Array.isArray(functionalities)
-      ? functionalities.map(FunctionalityFactory.new)
-      : []
+    this.functionalities = []
+    functionalitiesData.map(fctData => this._addFunctionalityByDataOrThrow(fctData))
+    this._populateConnections(functionalitiesData)
   }
 
   serialize() {
@@ -54,31 +88,24 @@ class FCTGraph {
   /* *******************************************************************
    * GRAPH ACTIONS
    * **************************************************************** */
-  _addFunctionalityAndAssertStructure(fctData) {
-    const newFct = FunctionalityFactory.new({ id: uuidv4(), ...fctData })
+  _addFunctionality(newFct) {
     this.functionalities.push(newFct)
-    this.assertStructure()
-
-    return newFct
   }
 
-  _addFunctionalityOrThrow(fctData) {
-    const preLength = this.functionalities.length
-
-    try {
-      const newFct = this._addFunctionalityAndAssertStructure(fctData)
-      return newFct
-    } catch (e) {
-      const postLength = this.functionalities.length
-      if (postLength > preLength) { this.functionalities.pop() }
-      throw new AddFunctionalityError(fctData, e.message)
-    }
+  _addFunctionalityByDataOrThrow(fctData) {
+    const newFct = FunctionalityFactory.new({ ...fctData, fctGraph: this })
+    this._addFunctionality(newFct)
   }
 
-  addFunctionality(fctData) {
+  addFunctionality(newFct) {
+    this._addFunctionality(newFct)
+    return publicSuccessRes({ functionality: newFct })
+  }
+
+  addFunctionalityByData(fctData) {
     try {
-      const functionality = this._addFunctionalityOrThrow(fctData)
-      return publicSuccessRes({ functionality })
+      const newFct = FunctionalityFactory.new(fctData)
+      return this.addFunctionality(newFct)
     } catch (e) {
       return publicErrorRes({ errorMsg: e.message, functionality: fctData })
     }
@@ -104,6 +131,17 @@ class FCTGraph {
 
   getFctById(fctId) {
     return this.functionalities.find(({ id }) => id === fctId)
+  }
+
+  getSlotByFctIdAndSlotName(fctId, slotName) {
+    const fct = this.getFctById(fctId)
+    return fct && fct.getSlotByName(slotName)
+  }
+
+  get dataStreamsCount() {
+    return this.functionalities.reduce((dataStreamsCount, fct) => (
+      dataStreamsCount + fct.dataStreamsCount
+    ), 0)
   }
 
 }

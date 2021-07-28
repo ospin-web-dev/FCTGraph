@@ -12,7 +12,7 @@ class SlotSeeder {
 
   static stubOwningFct(slot) {
     // eslint-disable-next-line
-    slot.functionalityId = uuidv4()
+    slot.functionality = { id: uuidv4() }
     return slot
   }
 

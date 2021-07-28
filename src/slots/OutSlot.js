@@ -51,6 +51,13 @@ class OutSlot extends Slot {
     }
   }
 
+  get isOutSlot() { return this.type === OutSlot.TYPE }
+
+  _assertHasRoomForConnectionTo() { // eslint-disable-line
+    // outslots are currently unlimited in the dataStreams they send out
+    return true
+  }
+
 }
 
 module.exports = OutSlot

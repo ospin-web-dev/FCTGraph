@@ -34,9 +34,8 @@ class Functionality {
     this._assertSlotNameUnique(slot)
   }
 
-  _addSlot(slotData) {
-    const { id: functionalityId } = this
-    const newSlot = SlotFactory.new({ ...slotData, functionalityId })
+  _addSlotByDataOrThrow(slotData) {
+    const newSlot = SlotFactory.new({ ...slotData, functionality: this })
 
     this._assertSlotCanBeAdded(newSlot)
     this.slots.push(newSlot)
@@ -44,22 +43,24 @@ class Functionality {
     return newSlot
   }
 
-  _addSlots(slotsData) {
+  _addSlotsByDataOrThrow(slotsData) {
     // NOTE: slots should never be added or removed outside of initialization
-    slotsData.map(slotData => this._addSlot(slotData))
+    slotsData.forEach(slotData => this._addSlotByDataOrThrow(slotData))
   }
 
   constructor({
     id,
     name,
+    fctGraph,
     isVirtual = false,
     slots: slotsData,
   }) {
     this.id = id
     this.name = name
+    this.fctGraph = fctGraph
     this.isVirtual = isVirtual
     this.slots = []
-    if (slotsData) this._addSlots(slotsData)
+    if (slotsData) this._addSlotsByDataOrThrow(slotsData)
   }
 
   serialize() {
@@ -79,17 +80,18 @@ class Functionality {
     return this.slots.filter(({ type }) => type === InSlot.TYPE)
   }
 
+  get inSlots() { return this.getInSlots() }
+
   getOutSlots() {
     return this.slots.filter(({ type }) => type === OutSlot.TYPE)
   }
+
+  get outSlots() { return this.getOutSlots() }
 
   getSlotByName(slotName) {
     return this.slots.find(({ name }) => name === slotName)
   }
 
-  /* *******************************************************************
-   * GRAPH ACTIONS
-   * **************************************************************** */
   getConnectableSlotsToFctSlotsMapping(targetFct) {
     /* returns {
      *   <this.slotA.name>: [ <targetFctSlotA>, <targetFctSlotB> ],
@@ -118,6 +120,19 @@ class Functionality {
     return targetFcts.filter(targetFct => (
       this.isPossibleToConnectToFct(targetFct)
     ))
+  }
+
+  isConnectedToFct(otherFunctionality) {
+    return this.slots.some(mySlot => (
+      mySlot.isConnectedToOneOfManySlots(otherFunctionality.slots)
+    ))
+  }
+
+  get dataStreamsCount() {
+    // divide by two as every fct is returning those dataStreams that are connected to it
+    return this.slots.reduce((dataStreamsCount, slot) => (
+      dataStreamsCount + slot.dataStreams.length
+    ), 0) / 2
   }
 
 }

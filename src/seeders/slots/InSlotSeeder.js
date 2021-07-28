@@ -11,6 +11,42 @@ class InSlotSeeder extends SlotSeeder {
     }
   }
 
+  static generateCelciusIn(data) {
+    return this.generate({
+      unit: '°C',
+      name: 'Celcius In',
+      ...data,
+    })
+  }
+
+  static generateKelvinIn(data) {
+    return this.generate({
+      unit: 'K',
+      name: 'kelvin in',
+      ...data,
+    })
+  }
+
+  static generateUnitlessIn(data) {
+    return this.generate({
+      unit: InSlot.UNITLESS_UNIT,
+      name: 'unitless in',
+      ...data,
+    })
+  }
+
+  static seedCelciusIn(data) {
+    return this.seedOne(
+      this.generateCelciusIn(data),
+    )
+  }
+
+  static seedKelvinIn(data) {
+    return this.seedOne(
+      this.generateKelvinIn(data),
+    )
+  }
+
 }
 
 module.exports = InSlotSeeder

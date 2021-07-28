@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid')
+
 const TemperatureSensor = require('../TemperatureSensor')
 const UnknownSensor = require('../UnknownSensor')
 const UnknownActuator = require('../UnknownActuator')
@@ -68,7 +70,10 @@ class FunctionalityFactory {
   }
 
   static new(functionalityData) {
-    return FunctionalityFactory.newFromSubType(functionalityData)
+    return FunctionalityFactory.newFromSubType({
+      id: uuidv4(),
+      ...functionalityData
+    })
   }
 
 }

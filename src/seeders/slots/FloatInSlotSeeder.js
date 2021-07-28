@@ -46,48 +46,6 @@ class FloatInSlotSeeder extends InSlotSeeder {
     }
   }
 
-  /* *******************************************************************
-   * PRESETS
-   * **************************************************************** */
-  static generateUnitlessIn(data) {
-    return FloatInSlotSeeder.generate({
-      unit: FloatInSlot.UNITLESS_UNIT,
-      name: 'unitless in',
-      dataType: FloatInSlot.DATA_TYPE,
-      ...data,
-    })
-  }
-
-  static generateCelciusIn(data) {
-    return FloatInSlotSeeder.generate({
-      unit: '°C',
-      name: 'celcius in',
-      dataType: FloatInSlot.DATA_TYPE,
-      ...data,
-    })
-  }
-
-  static seedCelciusIn(data) {
-    return super.seedOne(
-      FloatInSlotSeeder.generateCelciusIn(data),
-    )
-  }
-
-  static generateKelvinIn(data) {
-    return FloatInSlotSeeder.generate({
-      unit: 'K',
-      name: 'kelvin in',
-      dataType: FloatInSlot.DATA_TYPE,
-      ...data,
-    })
-  }
-
-  static seedKelvinIn(data) {
-    return super.seedOne(
-      FloatInSlotSeeder.generateKelvinIn(data),
-    )
-  }
-
 }
 
 module.exports = FloatInSlotSeeder

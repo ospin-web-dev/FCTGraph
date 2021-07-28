@@ -49,6 +49,8 @@ class OutputNode extends Functionality {
     }
   }
 
+  get isOutputNode() { return this.type === OutputNode.TYPE }
+
 }
 
 module.exports = OutputNode
