@@ -50,7 +50,7 @@ function addPushOutFctForOutSlotWhichHasNone(fctGraph, outSlot, opts = DEFAULT_O
   const inSlotData = {
     type: InSlot.TYPE,
     dataType: outSlot.dataType,
-    name: 'Value In',
+    name: 'Value',
     functionalityId,
     displayType: outSlot.displayType,
     unit: outSlot.unit,
