@@ -1,10 +1,10 @@
 const faker = require('faker')
 const compose = require('@choux/compose')
-const { v4: uuidv4 } = require('uuid')
 
 const FactorySeeder = require('../FactorySeeder')
 const SlotFactory = require('../../slots/factories/SlotFactory')
 const Slot = require('../../slots/Slot')
+const FunctionalitySeeder = require('../functionalities/FunctionalitySeeder')
 
 class SlotSeeder {
 
@@ -12,7 +12,9 @@ class SlotSeeder {
 
   static stubOwningFct(slot) {
     // eslint-disable-next-line
-    slot.functionalityId = uuidv4()
+    slot.functionality = FunctionalitySeeder.generate({
+      slots: [ slot ],
+    })
     return slot
   }
 

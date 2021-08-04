@@ -1,5 +1,9 @@
 const DataStream = require('dataStreams/DataStream')
 const DataStreamSeeder = require('seeders/dataStreams/DataStreamSeeder')
+const {
+  FloatInSlotSeeder,
+  FloatOutSlotSeeder,
+} = require('seeders/slots')
 
 describe('the DataStream class', () => {
 
@@ -11,6 +15,17 @@ describe('the DataStream class', () => {
       const dataStream = new DataStream(dataStreamData)
 
       expect(dataStream.averagingWindowSize).toBe(0)
+    })
+  })
+
+  describe('.isConnectionBetweenTwoSlots', () => {
+    it('returns false if the first slot is neither a source nor a sink', () => {
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
+
+      const dataStream = DataStreamSeeder.seedOne()
+
+      expect(dataStream.isConnectionBetweenTwoSlots(slotA, slotB)).toBe(false)
     })
   })
 })

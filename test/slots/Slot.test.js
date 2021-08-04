@@ -35,36 +35,29 @@ describe('the Slot class', () => {
   })
 
   describe('.constructor', () => {
-    it('converts dataStream data in to DataStream instances', () => {
+    it('by default assigns an empty array to dataStreams', () => {
       const outSlot = RandomSlotSeeder.generate()
-      const dataStream = DataStreamSeeder.generate({ sourceSlotName: outSlot.name })
-
-      outSlot.dataStreams.push(dataStream)
+      SlotSeeder.stubOwningFct(outSlot)
 
       const slotInstance = SlotFactory.new(outSlot)
 
-      expect(slotInstance.dataStreams).toHaveLength(1)
-      expect(slotInstance.dataStreams[0].constructor.name)
-        .toStrictEqual('DataStream')
+      expect(slotInstance.dataStreams).toStrictEqual([])
     })
   })
 
   describe('.serialize', () => {
     it('converts dataStreams back to nested objects', () => {
-      const dataStreamData = DataStreamSeeder.generate()
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
 
-      const outSlotData = RandomSlotSeeder.generate()
+      SlotSeeder.stubOwningFct(slotA)
+      SlotSeeder.stubOwningFct(slotB)
 
-      const dataStreamPopulated = {
-        ...dataStreamData,
-        sourceSlotName: outSlotData.name,
-        sourceFctId: faker.datatype.uuid(),
-      }
-      outSlotData.dataStreams = [ dataStreamPopulated ]
+      slotA.connectTo(slotB)
 
-      const outSlot = new OutSlot(outSlotData)
-
-      expect(outSlot.serialize().dataStreams[0]).toStrictEqual(dataStreamPopulated)
+      expect(slotA.serialize().dataStreams[0]).toStrictEqual({
+        ...slotA.dataStreams[0].serialize(),
+      })
     })
   })
 
@@ -79,7 +72,61 @@ describe('the Slot class', () => {
     })
   })
 
-  describe('.addConnectionTo', () => {
+  describe('get .connectedSlots', () => {
+
+    it('blows up if one of the slots dataStreams cant find the slot as either the source or the sink', () => {
+      const slot = RandomSlotSeeder.seedOne()
+      SlotSeeder.stubOwningFct(slot)
+      const abominationDataStream = DataStreamSeeder.seedOne()
+
+      slot._addDataStream(abominationDataStream)
+
+      expect(() => {
+        slot.connectedSlots
+      }).toThrow(/neither source nor sink matching/)
+    })
+  })
+
+  describe('isConnectedToSlot', () => {
+
+    it('returns true if connected', () => {
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotC = RandomSlotSeeder.seedOne()
+
+      SlotSeeder.stubOwningFct(slotA)
+      SlotSeeder.stubOwningFct(slotB)
+
+      slotA.connectTo(slotB)
+
+      expect(slotA.isConnectedToSlot(slotB)).toBe(true)
+    })
+
+    it('returns false if not connected', () => {
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotC = RandomSlotSeeder.seedOne()
+
+      SlotSeeder.stubOwningFct(slotA)
+      SlotSeeder.stubOwningFct(slotB)
+
+      slotA.connectTo(slotB)
+
+      expect(slotA.isConnectedToSlot(slotC)).toBe(false)
+    })
+  })
+
+  describe('_assertHasRoomForConnectionTo', () => {
+    it('blows up because Slot is a virtual class and it wants to kindly tell you that a mistake was likely made in a child that has not defined the method', () => {
+      const slot = new Slot(SlotSeeder.generate())
+
+      expect(() => {
+        slot._assertHasRoomForConnectionTo()
+      }).toThrow(/requires an \._assertHasRoomForConnectionTo method/)
+    })
+  })
+
+  describe('.connectTo', () => {
 
     it('adds the same dataStream instance to both slots', () => {
       const slotA = FloatOutSlotSeeder.seedCelciusOut()
@@ -94,7 +141,7 @@ describe('the Slot class', () => {
         errorMsg,
         thisSlot,
         otherSlot,
-      } = slotA.addConnectionTo(slotB, dataStreamOpts)
+      } = slotA.connectTo(slotB, dataStreamOpts)
 
       expect(error).toBe(false)
       expect(errorMsg).toBeNull()
@@ -102,14 +149,14 @@ describe('the Slot class', () => {
       expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(dataStreamOpts.averagingWindowSize)
     })
 
-    it('adds the same dataStream instance to both slots regardless of which is calling addConnectionTo on the other', () => {
+    it('adds the same dataStream instance to both slots regardless of which is calling connectTo on the other', () => {
       const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
-      const { error, errorMsg, thisSlot, otherSlot } = slotB.addConnectionTo(slotA)
+      const { error, errorMsg, thisSlot, otherSlot } = slotB.connectTo(slotA)
 
       expect(error).toBe(false)
       expect(errorMsg).toBeNull()
@@ -120,7 +167,7 @@ describe('the Slot class', () => {
       const slotA = IntegerOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
-      const { error, errorMsg } = slotA.addConnectionTo(slotB)
+      const { error, errorMsg } = slotA.connectTo(slotB)
 
       expect(error).toBe(true)
       expect(errorMsg).toContain('dataTypes must match between slots')
@@ -135,7 +182,7 @@ describe('the Slot class', () => {
       const {
         error: outToOutError,
         errorMsg: outToOutErrorMsg,
-      } = slotA.addConnectionTo(slotB)
+      } = slotA.connectTo(slotB)
 
       expect(outToOutError).toBe(true)
       expect(outToOutErrorMsg).toContain('must have complimentary types')
@@ -146,7 +193,7 @@ describe('the Slot class', () => {
       const {
         error: inToInError,
         errorMsg: inToInErrorMsgm,
-      } = slotA.addConnectionTo(slotB)
+      } = slotA.connectTo(slotB)
 
       expect(inToInError).toBe(true)
       expect(inToInErrorMsgm).toContain('must have complimentary types')
@@ -156,110 +203,54 @@ describe('the Slot class', () => {
       const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedKelvinIn()
 
-      const { error, errorMsg } = slotA.addConnectionTo(slotB)
+      const { error, errorMsg } = slotA.connectTo(slotB)
 
       expect(error).toBe(true)
       expect(errorMsg).toContain('units must match between slots')
     })
 
-    it('the dataStream gets removed from the slots if either fails validation after the dataStream is added', () => {
+    it('returns an error when the slots already have a connection between them', () => {
       const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
 
       FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
-      const slotAPreLength = slotA.dataStreams.length
-      const slotBPreLength = slotB.dataStreams.length
+      slotA.connectTo(slotB)
 
-      const slotAPushSpy = jest.spyOn(slotA.dataStreams, 'push').mockImplementation(el => {
-        slotA.dataStreams = [ ...slotA.dataStreams, el ]
-        slotA.name = 12345
-      })
-      slotA.addConnectionTo(slotB)
+      const { error: errorAToB, errorMsg: errorMsgAToB } = slotA.connectTo(slotB)
+      expect(errorAToB).toBe(true)
+      expect(errorMsgAToB).toContain('already connected to target slot')
 
-      slotAPushSpy.mockRestore()
-      expect(slotA.dataStreams).toHaveLength(slotAPreLength)
-      expect(slotB.dataStreams).toHaveLength(slotBPreLength)
+      const { error: errorBToA, errorMsg: errorMsgBToA } = slotB.connectTo(slotA)
+      expect(errorBToA).toBe(true)
+      expect(errorMsgBToA).toContain('already connected to target slot')
     })
 
-    it('unrelated dataStreams dont get removed from the slots if the first slot somehow impossibly goofs up and doesnt add the data stream but also doesn\'t blow up while the second one does add it and blows up (this test is superfluous and just to get that sweet sweet 100% coverage)', () => {
-      const existingDataStream = new DataStream({
-        id: uuidv4(),
-        sourceFctId: uuidv4(),
-        sourceSlotName: 'this can not exist',
-        sinkFctId: uuidv4(),
-        sinkSlotName: 'under normal circumstances',
-      })
+    it('returns an error when the outslot already has a dataStream', () => {
+      const outSlotA = FloatOutSlotSeeder.seedCelciusOut()
+      const outSlotB = FloatOutSlotSeeder.seedCelciusOut()
+      const slotIn = FloatInSlotSeeder.seedCelciusIn()
 
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      FloatOutSlotSeeder.stubOwningFct(outSlotA)
+      FloatOutSlotSeeder.stubOwningFct(outSlotB)
+      FloatOutSlotSeeder.stubOwningFct(slotIn)
 
-      FloatOutSlotSeeder.stubOwningFct(slotA)
-      FloatInSlotSeeder.stubOwningFct(slotB)
+      outSlotA.connectTo(slotIn)
 
-      slotA.dataStreams = [ existingDataStream ]
-      slotB.dataStreams = [ existingDataStream ]
-
-      const slotAPreLength = slotA.dataStreams.length
-      const slotBPreLength = slotB.dataStreams.length
-
-      const slotAPushSpy = jest.spyOn(slotA.dataStreams, 'push').mockImplementation(() => {
-        slotA.dataStreams = [ ...slotA.dataStreams ]
-      })
-
-      const slotBPushSpy = jest.spyOn(slotB.dataStreams, 'push').mockImplementation(el => {
-        slotB.dataStreams = [ ...slotB.dataStreams, el ]
-        slotB.name = 12345
-      })
-      slotA.addConnectionTo(slotB)
-
-      slotBPushSpy.mockRestore()
-      slotAPushSpy.mockRestore()
-      expect(slotA.dataStreams).toHaveLength(slotAPreLength)
-      expect(slotB.dataStreams).toHaveLength(slotBPreLength)
-    })
-
-    it('unrelated dataStreams dont get removed from the slots if the second slot fails validation when the dataStream is being added', () => {
-      const existingDataStream = new DataStream({
-        id: uuidv4(),
-        sourceFctId: uuidv4(),
-        sourceSlotName: 'this can not exist',
-        sinkFctId: uuidv4(),
-        sinkSlotName: 'under normal circumstances',
-      })
-
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
-
-      FloatOutSlotSeeder.stubOwningFct(slotA)
-      FloatInSlotSeeder.stubOwningFct(slotB)
-
-      slotA.dataStreams = [ existingDataStream ]
-      slotB.dataStreams = [ existingDataStream ]
-
-      const slotAPreLength = slotA.dataStreams.length
-      const slotBPreLength = slotB.dataStreams.length
-
-      const slotAPushSpy = jest.spyOn(slotA.dataStreams, 'push').mockImplementation(el => {
-        slotA.dataStreams = [ ...slotA.dataStreams, el ]
-        slotA.name = 12345
-      })
-      slotB.addConnectionTo(slotA)
-
-      slotAPushSpy.mockRestore()
-      expect(slotA.dataStreams).toHaveLength(slotAPreLength)
-      expect(slotB.dataStreams).toHaveLength(slotBPreLength)
+      const { error, errorMsg } = outSlotB.connectTo(slotIn)
+      expect(error).toBe(true)
+      expect(errorMsg).toContain('can only have a single dataStream')
     })
   })
 
   describe('.filterConnectableSlots', () => {
-    it('throws error if the connection possibility validation fails for an unkown reason', () => {
+    it('throws error if the connection possibility validation fails for an unknown reason', () => {
       const slotA = FloatOutSlotSeeder.seedCelciusOut()
       const slotB = FloatInSlotSeeder.seedCelciusIn()
       const unknownErrorMsg = 'UNKNOWN!'
 
-      const slotAPushSpy = jest.spyOn(slotA, '_assertConnectionBetweenIsPossible').mockImplementation(() => {
+      const slotAPushSpy = jest.spyOn(Slot, '_assertConnectionBetweenIsPossible').mockImplementation(() => {
         throw new Error(unknownErrorMsg)
       })
 
@@ -279,6 +270,27 @@ describe('the Slot class', () => {
 
       expect(withUnitSlot.isUnitless()).toBe(false)
       expect(withoutUnitSlot.isUnitless()).toBe(true)
+    })
+  })
+
+  describe('.getAllDataStreamsToManySlots', () => {
+    it('returns all dataStreams that connect to the array of slots provided', () => {
+      const slotA = FloatOutSlotSeeder.seedCelciusOut()
+      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotC = FloatInSlotSeeder.seedCelciusIn()
+
+      FloatOutSlotSeeder.stubOwningFct(slotA)
+      FloatInSlotSeeder.stubOwningFct(slotB)
+      FloatInSlotSeeder.stubOwningFct(slotC)
+
+      slotA.connectTo(slotB)
+
+      const connectingDataStreams = slotA.getAllDataStreamsToManySlots([ slotB, slotC ])
+
+      expect(connectingDataStreams).toHaveLength(1)
+      const [ dataStream ] = connectingDataStreams
+      expect(dataStream.sourceSlot).toBe(slotA)
+      expect(dataStream.sinkSlot).toBe(slotB)
     })
   })
 })

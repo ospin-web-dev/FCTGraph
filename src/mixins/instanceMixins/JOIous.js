@@ -46,7 +46,7 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
   }
 
   serialize(data) {
-    // This looks backwards because JOIous is composed in to classes
+    // This super looks backwards because JOIous is composed in to classes
     // in this case it anonymously extends the base class it is composed in to
     if (!super.serialize) {
       throw new Error(`${this.constructor.name} requires a .serialize method`)

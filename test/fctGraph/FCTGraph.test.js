@@ -10,6 +10,7 @@ const {
 } = require('seeders/functionalities')
 const FCTGraph = require('fctGraph/FCTGraph')
 const DataStream = require('dataStreams/DataStream')
+const connectedFCTGraphData = require('./seeds/connectedFCTGraphData')
 
 describe('the FCTGraph class', () => {
 
@@ -21,7 +22,7 @@ describe('the FCTGraph class', () => {
     it('throws if given an invalid data object', () => {
       expect(() => {
         new FCTGraph({}) // eslint-disable-line
-      }).toThrow('is required')
+      }).toThrow(/Cannot read property/)
     })
 
     it('creates an instance', () => {
@@ -29,6 +30,14 @@ describe('the FCTGraph class', () => {
       const fctGraph = new FCTGraph(fctGraphData)
 
       expect(fctGraph instanceof FCTGraph).toBe(true)
+    })
+
+    describe('when given an actual fctGraph that has been serialized', () => {
+      it('creates the deeply nested dataStreams', () => {
+        const fctGraph = new FCTGraph(connectedFCTGraphData)
+
+        expect(fctGraph.dataStreamsCount).toBe(85)
+      })
     })
   })
 
@@ -122,28 +131,28 @@ describe('the FCTGraph class', () => {
       const tempOutSlot = tempSensor.slots[0]
       const pushOutSlot = pushOut.slots[0]
 
-      const { dataStream } = tempOutSlot.addConnectionTo(pushOutSlot)
+      const { dataStream } = tempOutSlot.connectTo(pushOutSlot)
       expect(dataStream instanceof DataStream).toBe(true)
     })
   })
 
-  describe('.addFunctionality', () => {
+  describe('.addFunctionalityByData', () => {
     it('returns a result.error === false when valid data is given', () => {
       const fctGraph = FCTGraphSeeder.seedOne()
       const pushOutData = PushOutSeeder.generate()
       delete pushOutData.id
 
-      const { error } = fctGraph.addFunctionality(pushOutData)
+      const { error } = fctGraph.addFunctionalityByData(pushOutData)
 
       expect(error).toBe(false)
     })
 
-    it('returns result.error === true when invalid data is given, along with an result.errorMsg', () => {
+    it('returns result.error === true when invalid data is given, along with a result.errorMsg', () => {
       const fctGraph = FCTGraphSeeder.seedOne()
       const badId = 12345
       const pushOutData = PushOutSeeder.generate({ id: badId })
 
-      const { error, errorMsg } = fctGraph.addFunctionality(pushOutData)
+      const { error, errorMsg } = fctGraph.addFunctionalityByData(pushOutData)
 
       expect(error).toBe(true)
       expect(errorMsg).toContain('"id" must be a string')
@@ -154,24 +163,20 @@ describe('the FCTGraph class', () => {
       const pushOutData = PushOutSeeder.generate()
       delete pushOutData.id
 
-      const { functionality } = fctGraph.addFunctionality(pushOutData)
+      const { functionality } = fctGraph.addFunctionalityByData(pushOutData)
 
       expect(functionality.id).toMatch(RegexUtils.UUIDV4)
     })
 
-    it('the fct gets removed if the fct graph\'s structure fails validation after the fct is added', () => {
+    it('an unrelated fct does not get removed if the fct addition fails', () => {
       const fctGraph = FCTGraphSeeder.seedOne()
       const preLength = fctGraph.functionalities.length
       const pushOutData = PushOutSeeder.generate()
-      delete pushOutData.id
+      delete pushOutData.name
 
-      const pushSpy = jest.spyOn(fctGraph.functionalities, 'push').mockImplementation(el => {
-        fctGraph.functionalities = [ ...fctGraph.functionalities, el ]
-        fctGraph.id = 'really bad id'
-      })
-      fctGraph.addFunctionality(pushOutData)
+      const { error } = fctGraph.addFunctionalityByData(pushOutData)
 
-      pushSpy.mockRestore()
+      expect(error).toBe(true)
       expect(fctGraph.functionalities).toHaveLength(preLength)
     })
   })

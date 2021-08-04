@@ -23,29 +23,58 @@ class DataStream {
 
   constructor({
     id,
-    sourceFctId,
-    sourceSlotName,
-    sinkFctId,
-    sinkSlotName,
+    sourceSlot,
+    sinkSlot,
     averagingWindowSize,
   }) {
     this.id = id
-    this.sourceFctId = sourceFctId
-    this.sourceSlotName = sourceSlotName
-    this.sinkFctId = sinkFctId
-    this.sinkSlotName = sinkSlotName
+    this.sourceSlot = sourceSlot
+    this.sinkSlot = sinkSlot
     this.averagingWindowSize = averagingWindowSize || 0
   }
+
+  get sourceFctId() { return this.sourceSlot.functionalityId }
+
+  get sinkFctId() { return this.sinkSlot.functionalityId }
 
   serialize() {
     return {
       id: this.id,
       sourceFctId: this.sourceFctId,
-      sourceSlotName: this.sourceSlotName,
+      sourceSlotName: this.sourceSlot.name,
       sinkFctId: this.sinkFctId,
-      sinkSlotName: this.sinkSlotName,
+      sinkSlotName: this.sinkSlot.name,
       averagingWindowSize: this.averagingWindowSize,
     }
+  }
+
+  isSourceSlot(slot) { return this.sourceSlot === slot }
+
+  isSinkSlot(slot) { return this.sinkSlot === slot }
+
+  slotIsSourceOrSink(slot) {
+    return (this.isSourceSlot(slot) || this.isSinkSlot(slot))
+  }
+
+  _assertSlotIsSourceOrSink(slot) {
+    if (this.slotIsSourceOrSink(slot)) { return true }
+
+    throw new Error(
+      `Datastream:\n${this}\nhas neither source nor sink matching\nslotName: ${slot.name}\nslotFctId: ${slot.functionalityId}`,
+    )
+  }
+
+  getOpposingSlotTo(slot) {
+    this._assertSlotIsSourceOrSink(slot)
+
+    return this.isSourceSlot(slot) ? this.sinkSlot : this.sourceSlot
+  }
+
+  isConnectionBetweenTwoSlots(slotA, slotB) {
+    const slotAIsPresent = this.slotIsSourceOrSink(slotA)
+    if (!slotAIsPresent) return false
+
+    return this.getOpposingSlotTo(slotA) === slotB
   }
 
 }

@@ -1,6 +1,7 @@
 const Joi = require('joi')
 
 const Slot = require('./Slot')
+const SlotConnectionError = require('./SlotConnectionError')
 
 class InSlot extends Slot {
 
@@ -26,6 +27,12 @@ class InSlot extends Slot {
     }
 
     return dataObj
+  }
+
+  _assertHasRoomForConnectionTo(otherSlot) {
+    if (this.dataStreams.length > 0) {
+      throw new SlotConnectionError(this, otherSlot, `${InSlot.TYPE} can only have a single dataStream`)
+    }
   }
 
 }

@@ -28,4 +28,13 @@ describe('the OutputNode virtual class', () => {
       expect(outputNode.serialize().destination).toStrictEqual(destination)
     })
   })
+
+  describe('get .isOutputNode', () => {
+    it('returns true if the fct is indeed an OutputNode', () => {
+      const outputNodeData = OutputNodeSeeder.generate()
+      const outputNode = new OutputNode(outputNodeData)
+
+      expect(outputNode.isOutputNode).toBe(true)
+    })
+  })
 })
