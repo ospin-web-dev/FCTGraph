@@ -1,4 +1,4 @@
-const fctGraphUtils = require('fctGraph/utils')
+const fctGraphUtils = require('fctGraph/Utils')
 
 function getExportedFunctions(module) {
   return Object.values(module)
