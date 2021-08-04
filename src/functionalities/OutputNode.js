@@ -49,7 +49,7 @@ class OutputNode extends Functionality {
     }
   }
 
-  get isOutputNode() { return this.type === OutputNode.TYPE }
+  get isOutputNode() { return true }
 
 }
 
