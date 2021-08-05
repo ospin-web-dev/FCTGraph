@@ -22,7 +22,7 @@ describe('the FCTGraph class', () => {
     it('throws if given an invalid data object', () => {
       expect(() => {
         new FCTGraph({}) // eslint-disable-line
-      }).toThrow(/Cannot read property/)
+      }).toThrow(/\"id\" is required/)
     })
 
     it('creates an instance', () => {
