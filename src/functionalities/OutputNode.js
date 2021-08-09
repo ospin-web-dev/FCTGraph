@@ -41,6 +41,8 @@ class OutputNode extends Functionality {
     this.destination = destination
   }
 
+  get isOutputNode() { return true }
+
   serialize() {
     return {
       ...super.serialize(),
@@ -48,8 +50,6 @@ class OutputNode extends Functionality {
       destination: this.destination,
     }
   }
-
-  get isOutputNode() { return true }
 
 }
 

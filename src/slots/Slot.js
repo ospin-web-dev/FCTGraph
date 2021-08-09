@@ -231,6 +231,12 @@ class Slot {
     ))
   }
 
+  get isConnectedToInputNode() {
+    return this.connectedFunctionalities.some(connectedFunctionality => (
+      connectedFunctionality.isInputNode
+    ))
+  }
+
 }
 
 module.exports = Slot
