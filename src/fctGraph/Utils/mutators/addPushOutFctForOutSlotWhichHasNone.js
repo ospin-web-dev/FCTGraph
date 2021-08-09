@@ -20,7 +20,7 @@ function assertSlotsFctExists(slot) {
 }
 
 function assertDoesNotHaveConnectedOutputNode(slot) {
-  if (slot.isConnectedToOutputnode) {
+  if (slot.isConnectedToOutputNode) {
     throw new Error(`${slot} already has a connected OutputNode`)
   }
 }

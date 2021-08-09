@@ -24,7 +24,7 @@ describe('addPushOutFctForAllOutSlotsWhichHaveNone', () => {
     ), [])
 
     const outSlotsWithoutOutputNodes = outSlots.filter(outSlot => (
-      !outSlot.isConnectedToOutputnode
+      !outSlot.isConnectedToOutputNode
     ))
 
     addPushOutFctForAllOutSlotsWhichHaveNone(fctGraph)

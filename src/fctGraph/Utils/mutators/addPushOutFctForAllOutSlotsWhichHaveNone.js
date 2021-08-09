@@ -5,7 +5,7 @@ function isValidSlot(slot) {
   return (
     slot.isEmpty
     && slot.isOutSlot
-    && !slot.isConnectedToOutputnode
+    && !slot.isConnectedToOutputNode
   )
 }
 
