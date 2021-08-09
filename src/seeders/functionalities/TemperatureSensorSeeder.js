@@ -37,24 +37,24 @@ class TemperatureSensorSeeder extends SensorSeeder {
   /* *******************************************************************
    * PRESETS
    * **************************************************************** */
-  static generateCelciusIntegerProducer(data) {
+  static generateCelsiusIntegerProducer(data) {
     return this.generate({
-      slots: [ IntegerOutSlotSeeder.generateCelciusOut() ],
+      slots: [ IntegerOutSlotSeeder.generateCelsiusOut() ],
       ...data,
     })
   }
 
-  static generateCelciusFloatProducer(data) {
+  static generateCelsiusFloatProducer(data) {
     return this.generate({
-      slots: [ FloatOutSlotSeeder.generateCelciusOut() ],
+      slots: [ FloatOutSlotSeeder.generateCelsiusOut() ],
       ...data,
     })
   }
 
-  static generateCelciusProducer() {
+  static generateCelsiusProducer() {
     const generator = ArrayUtils.sample([
-      this.generateCelciusIntegerProducer.bind(this),
-      this.generateCelciusFloatProducer.bind(this),
+      this.generateCelsiusIntegerProducer.bind(this),
+      this.generateCelsiusFloatProducer.bind(this),
     ])
 
     return generator({

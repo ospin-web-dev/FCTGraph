@@ -37,8 +37,8 @@ describe('addPushOutFctForOutSlotWhichHasNone', () => {
     it('throws error if the slot already has a connected OutputNode fct', () => {
       const fctGraph = FCTGraphSeeder.seedOne({
         functionalities: [
-          TemperatureSensorSeeder.generateCelciusFloatProducer(),
-          PushOutSeeder.generateFloatPushOutCelcius(),
+          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
+          PushOutSeeder.generateFloatPushOutCelsius(),
         ],
       })
 

@@ -20,8 +20,8 @@ describe('the DataStream class', () => {
 
   describe('.isConnectionBetweenTwoSlots', () => {
     it('returns false if the first slot is neither a source nor a sink', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
 
       const dataStream = DataStreamSeeder.seedOne()
 

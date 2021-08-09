@@ -27,13 +27,13 @@ class PIDControllerSeeder extends ControllerSeeder {
   /* *******************************************************************
    * PRESETS
    * **************************************************************** */
-  static generateTemperatureControllerCelcius(data) {
+  static generateTemperatureControllerCelsius(data) {
     const slots = [
       FloatInSlotSeeder.generateUnitlessIn({ name: 'P' }),
       FloatInSlotSeeder.generateUnitlessIn({ name: 'I' }),
       FloatInSlotSeeder.generateUnitlessIn({ name: 'D' }),
-      FloatInSlotSeeder.generateCelciusIn({ name: 'value in' }),
-      FloatOutSlotSeeder.generateCelciusOut({ name: 'value out' }),
+      FloatInSlotSeeder.generateCelsiusIn({ name: 'value in' }),
+      FloatOutSlotSeeder.generateCelsiusOut({ name: 'value out' }),
     ]
 
     return this.generate({ slots, name: 'TemperaturePIDController', ...data })

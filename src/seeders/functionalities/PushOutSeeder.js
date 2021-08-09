@@ -22,7 +22,7 @@ class PushOutSeeder extends OutputNodeSeeder {
     }
   }
 
-  static generateFloatPushOutCelcius() {
+  static generateFloatPushOutCelsius() {
     return this.generate({
       slots: [ FloatInSlotSeeder.generate({ unit: '°C' }) ],
     })
