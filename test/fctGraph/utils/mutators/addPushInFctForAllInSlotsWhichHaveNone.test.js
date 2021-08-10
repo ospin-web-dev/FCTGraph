@@ -1,36 +1,24 @@
 const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
-const {
-  TemperatureSensorSeeder,
-  HeaterActuatorSeeder,
-  PIDControllerSeeder,
-  PushOutSeeder,
-  PushInSeeder,
-} = require('seeders/functionalities')
-const {
-  IntegerInSlotSeeder,
-  IntegerOutSlotSeeder,
-} = require('seeders/slots')
+const addPushInFctForAllInSlotsWhichHaveNone = require('fctGraph/Utils/mutators/addPushInFctForAllInSlotsWhichHaveNone')
 
-const addPushOutFctForAllOutSlotsWhichHaveNone = require('fctGraph/Utils/mutators/addPushOutFctForAllOutSlotsWhichHaveNone')
-
-describe('addPushOutFctForAllOutSlotsWhichHaveNone', () => {
+describe('addPushInFctForAllInSlotsWhichHaveNone', () => {
 
   it('adds a PushOut fct for all out slots which have none', () => {
     const fctGraph = FCTGraphSeeder.seedOne()
 
     const preFctsLength = fctGraph.functionalities.length
-    const outSlots = fctGraph.functionalities.reduce((slots, functionality) => (
-      slots.concat(functionality.outSlots)
+    const inSlots = fctGraph.functionalities.reduce((slots, functionality) => (
+      slots.concat(functionality.inSlots)
     ), [])
 
-    const outSlotsWithoutOutputNodes = outSlots.filter(outSlot => (
-      !outSlot.isConnectedToOutputNode
+    const inSlotsWithoutInputNodes = inSlots.filter(inSlot => (
+      !inSlot.isConnectedToInputnode
     ))
 
-    addPushOutFctForAllOutSlotsWhichHaveNone(fctGraph)
+    addPushInFctForAllInSlotsWhichHaveNone(fctGraph)
 
     expect(fctGraph.functionalities).toHaveLength(
-      preFctsLength + outSlotsWithoutOutputNodes.length,
+      preFctsLength + inSlotsWithoutInputNodes.length,
     )
   })
 

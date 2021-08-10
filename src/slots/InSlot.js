@@ -35,7 +35,7 @@ class InSlot extends Slot {
     }
   }
 
-  static get isInSlot() { return true }
+  get isInSlot() { return this.type === InSlot.TYPE }
 
 }
 

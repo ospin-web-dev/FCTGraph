@@ -1,16 +1,4 @@
 const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
-const {
-  TemperatureSensorSeeder,
-  HeaterActuatorSeeder,
-  PIDControllerSeeder,
-  PushOutSeeder,
-  PushInSeeder,
-} = require('seeders/functionalities')
-const {
-  IntegerInSlotSeeder,
-  IntegerOutSlotSeeder,
-} = require('seeders/slots')
-
 const addPushOutFctForAllOutSlotsWhichHaveNone = require('fctGraph/Utils/mutators/addPushOutFctForAllOutSlotsWhichHaveNone')
 
 describe('addPushOutFctForAllOutSlotsWhichHaveNone', () => {
