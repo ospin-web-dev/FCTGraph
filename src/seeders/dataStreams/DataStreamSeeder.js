@@ -17,8 +17,8 @@ class DataStreamSeeder {
   static get SEED_METHOD() { return (...data) => new DataStream(...data) }
 
   static generate(data = {}) {
-    const sourceSlot = FloatInSlotSeeder.seedCelciusIn()
-    const sinkSlot = FloatOutSlotSeeder.seedCelciusOut()
+    const sourceSlot = FloatInSlotSeeder.seedCelsiusIn()
+    const sinkSlot = FloatOutSlotSeeder.seedCelsiusOut()
 
     FloatOutSlotSeeder.stubOwningFct(sourceSlot)
     FloatInSlotSeeder.stubOwningFct(sinkSlot)

@@ -22,6 +22,8 @@ class InputNode extends Functionality {
     this.type = InputNode.TYPE
   }
 
+  get isInputNode() { return true }
+
   serialize() {
     return {
       ...super.serialize(),

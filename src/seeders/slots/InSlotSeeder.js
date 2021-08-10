@@ -11,10 +11,10 @@ class InSlotSeeder extends SlotSeeder {
     }
   }
 
-  static generateCelciusIn(data) {
+  static generateCelsiusIn(data) {
     return this.generate({
       unit: '°C',
-      name: 'Celcius In',
+      name: 'Celsius In',
       ...data,
     })
   }
@@ -35,9 +35,9 @@ class InSlotSeeder extends SlotSeeder {
     })
   }
 
-  static seedCelciusIn(data) {
+  static seedCelsiusIn(data) {
     return this.seedOne(
-      this.generateCelciusIn(data),
+      this.generateCelsiusIn(data),
     )
   }
 

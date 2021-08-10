@@ -11,17 +11,17 @@ class OutSlotSeeder extends SlotSeeder {
     }
   }
 
-  static generateCelciusOut(data) {
+  static generateCelsiusOut(data) {
     return this.generate({
       unit: '°C',
-      name: 'Celcius Out',
+      name: 'Celsius Out',
       ...data,
     })
   }
 
-  static seedCelciusOut(data) {
+  static seedCelsiusOut(data) {
     return this.seedOne(
-      this.generateCelciusOut(data),
+      this.generateCelsiusOut(data),
     )
   }
 

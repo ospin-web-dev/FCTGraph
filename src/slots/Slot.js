@@ -225,9 +225,15 @@ class Slot {
     ))
   }
 
-  get isConnectedToOutputnode() {
+  get isConnectedToOutputNode() {
     return this.connectedFunctionalities.some(connectedFunctionality => (
       connectedFunctionality.isOutputNode
+    ))
+  }
+
+  get isConnectedToInputNode() {
+    return this.connectedFunctionalities.some(connectedFunctionality => (
+      connectedFunctionality.isInputNode
     ))
   }
 

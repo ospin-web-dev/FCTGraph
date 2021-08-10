@@ -1,20 +1,6 @@
-const ObjUtils = require('utils/ObjUtils')
-const RegexUtils = require('utils/RegexUtils')
 const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
-const {
-  TemperatureSensorSeeder,
-  HeaterActuatorSeeder,
-  PIDControllerSeeder,
-  PushOutSeeder,
-  PushInSeeder,
-} = require('seeders/functionalities')
-const { PushOut } = require('functionalities')
-const {
-  IntegerInSlotSeeder,
-  IntegerOutSlotSeeder,
-} = require('seeders/slots')
-const FCTGraph = require('fctGraph/FCTGraph')
-const DataStream = require('dataStreams/DataStream')
+const { TemperatureSensorSeeder, PushOutSeeder } = require('seeders/functionalities')
+const { IntegerInSlotSeeder, IntegerOutSlotSeeder } = require('seeders/slots')
 
 const addPushOutFctForOutSlotWhichHasNone = require('fctGraph/Utils/mutators/addPushOutFctForOutSlotWhichHasNone')
 
@@ -51,8 +37,8 @@ describe('addPushOutFctForOutSlotWhichHasNone', () => {
     it('throws error if the slot already has a connected OutputNode fct', () => {
       const fctGraph = FCTGraphSeeder.seedOne({
         functionalities: [
-          TemperatureSensorSeeder.generateCelciusFloatProducer(),
-          PushOutSeeder.generateFloatPushOutCelcius(),
+          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
+          PushOutSeeder.generateFloatPushOutCelsius(),
         ],
       })
 

@@ -20,7 +20,7 @@ function assertSlotsFctExists(slot) {
 }
 
 function assertDoesNotHaveConnectedOutputNode(slot) {
-  if (slot.isConnectedToOutputnode) {
+  if (slot.isConnectedToOutputNode) {
     throw new Error(`${slot} already has a connected OutputNode`)
   }
 }
@@ -50,7 +50,7 @@ function addPushOutFctForOutSlotWhichHasNone(fctGraph, outSlot, opts = DEFAULT_O
   const inSlotData = {
     type: InSlot.TYPE,
     dataType: outSlot.dataType,
-    name: 'Value',
+    name: outSlot.name,
     functionalityId,
     displayType: outSlot.displayType,
     unit: outSlot.unit,

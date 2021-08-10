@@ -35,6 +35,8 @@ class InSlot extends Slot {
     }
   }
 
+  get isInSlot() { return this.type === InSlot.TYPE }
+
 }
 
 module.exports = InSlot

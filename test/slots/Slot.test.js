@@ -47,8 +47,8 @@ describe('the Slot class', () => {
 
   describe('.serialize', () => {
     it('converts dataStreams back to nested objects', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
 
       SlotSeeder.stubOwningFct(slotA)
       SlotSeeder.stubOwningFct(slotB)
@@ -90,8 +90,8 @@ describe('the Slot class', () => {
   describe('isConnectedToSlot', () => {
 
     it('returns true if connected', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
       const slotC = RandomSlotSeeder.seedOne()
 
       SlotSeeder.stubOwningFct(slotA)
@@ -103,8 +103,8 @@ describe('the Slot class', () => {
     })
 
     it('returns false if not connected', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
       const slotC = RandomSlotSeeder.seedOne()
 
       SlotSeeder.stubOwningFct(slotA)
@@ -129,8 +129,8 @@ describe('the Slot class', () => {
   describe('.connectTo', () => {
 
     it('adds the same dataStream instance to both slots', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
 
       FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
@@ -150,8 +150,8 @@ describe('the Slot class', () => {
     })
 
     it('adds the same dataStream instance to both slots regardless of which is calling connectTo on the other', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
 
       FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
@@ -164,8 +164,8 @@ describe('the Slot class', () => {
     })
 
     it('returns an error response when the slot dataTypes are incompatible', () => {
-      const slotA = IntegerOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = IntegerOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
 
       const { error, errorMsg } = slotA.connectTo(slotB)
 
@@ -174,8 +174,8 @@ describe('the Slot class', () => {
     })
 
     it('returns an error when the slot types are incompatible', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
       slotA.type = OutSlot.TYPE
       slotB.type = OutSlot.TYPE
 
@@ -200,7 +200,7 @@ describe('the Slot class', () => {
     })
 
     it('returns an error when the slot units are incompatible', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
       const slotB = FloatInSlotSeeder.seedKelvinIn()
 
       const { error, errorMsg } = slotA.connectTo(slotB)
@@ -210,8 +210,8 @@ describe('the Slot class', () => {
     })
 
     it('returns an error when the slots already have a connection between them', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
 
       FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
@@ -228,9 +228,9 @@ describe('the Slot class', () => {
     })
 
     it('returns an error when the outslot already has a dataStream', () => {
-      const outSlotA = FloatOutSlotSeeder.seedCelciusOut()
-      const outSlotB = FloatOutSlotSeeder.seedCelciusOut()
-      const slotIn = FloatInSlotSeeder.seedCelciusIn()
+      const outSlotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const outSlotB = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotIn = FloatInSlotSeeder.seedCelsiusIn()
 
       FloatOutSlotSeeder.stubOwningFct(outSlotA)
       FloatOutSlotSeeder.stubOwningFct(outSlotB)
@@ -246,8 +246,8 @@ describe('the Slot class', () => {
 
   describe('.filterConnectableSlots', () => {
     it('throws error if the connection possibility validation fails for an unknown reason', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
       const unknownErrorMsg = 'UNKNOWN!'
 
       const slotAPushSpy = jest.spyOn(Slot, '_assertConnectionBetweenIsPossible').mockImplementation(() => {
@@ -264,8 +264,8 @@ describe('the Slot class', () => {
 
   describe('.isUnitless', () => {
     it('returns true and false dependent on the slots unit', () => {
-      const withUnitSlot = FloatInSlotSeeder.seedCelciusIn()
-      const withoutUnitSlot = FloatOutSlotSeeder.seedCelciusOut()
+      const withUnitSlot = FloatInSlotSeeder.seedCelsiusIn()
+      const withoutUnitSlot = FloatOutSlotSeeder.seedCelsiusOut()
       withoutUnitSlot.unit = Slot.UNITLESS_UNIT
 
       expect(withUnitSlot.isUnitless()).toBe(false)
@@ -275,9 +275,9 @@ describe('the Slot class', () => {
 
   describe('.getAllDataStreamsToManySlots', () => {
     it('returns all dataStreams that connect to the array of slots provided', () => {
-      const slotA = FloatOutSlotSeeder.seedCelciusOut()
-      const slotB = FloatInSlotSeeder.seedCelciusIn()
-      const slotC = FloatInSlotSeeder.seedCelciusIn()
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
+      const slotC = FloatInSlotSeeder.seedCelsiusIn()
 
       FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)

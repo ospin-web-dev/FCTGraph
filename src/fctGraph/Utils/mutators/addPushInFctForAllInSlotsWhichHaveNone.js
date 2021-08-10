@@ -1,24 +1,24 @@
 const assertFCTGraphFirstArgument = require('../helpers/assertFCTGraphFirstArgument')
-const addPushOutFctForOutSlotWhichHasNone = require('./addPushOutFctForOutSlotWhichHasNone')
+const addPushInFctForInSlotWhichHasNone = require('./addPushInFctForInSlotWhichHasNone')
 
 function isValidSlot(slot) {
   return (
     slot.isEmpty
-    && slot.isOutSlot
-    && !slot.isConnectedToOutputNode
+    && slot.isInSlot
+    && !slot.isConnectedToInputnode
   )
 }
 
-function addPushOutFctForAllOutSlotsWhichHaveNone(fctGraph) {
+function addPushInFctForAllInSlotsWhichHaveNone(fctGraph) {
   fctGraph.functionalities.forEach(({ slots }) => {
     slots.forEach(slot => {
       if (isValidSlot(slot)) {
-        addPushOutFctForOutSlotWhichHasNone(fctGraph, slot)
+        addPushInFctForInSlotWhichHasNone(fctGraph, slot)
       }
     })
   })
 }
 
 module.exports = assertFCTGraphFirstArgument(
-  addPushOutFctForAllOutSlotsWhichHaveNone,
+  addPushInFctForAllInSlotsWhichHaveNone,
 )
