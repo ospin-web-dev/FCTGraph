@@ -62,7 +62,7 @@ class FCTGraph {
   constructor({
     id,
     deviceId,
-    functionalities: functionalitiesData,
+    functionalities: functionalitiesData = [],
     deviceDefault = false,
     name,
   }) {
