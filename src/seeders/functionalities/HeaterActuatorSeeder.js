@@ -28,6 +28,12 @@ class HeaterActuatorSeeder extends ActuatorSeeder {
     return this.generate({ slots, name: 'Kelvin Heater' })
   }
 
+  static generateCelsiusHeater(data) {
+    const slots = [ FloatInSlotSeeder.generateCelsiusIn(data) ]
+
+    return this.generate({ slots, name: 'Celsius Heater' })
+  }
+
 }
 
 module.exports = HeaterActuatorSeeder
