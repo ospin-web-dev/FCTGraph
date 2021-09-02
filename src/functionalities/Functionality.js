@@ -1,6 +1,7 @@
 const Joi = require('joi')
 
 const RegexUtils = require('../utils/RegexUtils')
+const Slot = require('../slots/Slot')
 const InSlot = require('../slots/InSlot')
 const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
@@ -133,6 +134,27 @@ class Functionality {
     return this.slots.reduce((dataStreamsCount, slot) => (
       dataStreamsCount + slot.dataStreams.length
     ), 0) / 2
+  }
+
+  _getConnectedFcts(targetSlots = this.slots) {
+    return targetSlots.reduce((connectedFcts, slot) => {
+      const fcts = slot.connectedFunctionalities.filter(
+        connectedFct => connectedFct !== this,
+      )
+      return connectedFcts.concat(fcts)
+    }, [])
+  }
+
+  get connectedFcts() {
+    return this._getConnectedFcts()
+  }
+
+  get sources() {
+    return this._getConnectedFcts(this.inSlots)
+  }
+
+  get sinks() {
+    return this._getConnectedFcts(this.outSlots)
   }
 
 }
