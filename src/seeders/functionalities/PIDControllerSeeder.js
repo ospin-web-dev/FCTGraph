@@ -39,6 +39,10 @@ class PIDControllerSeeder extends ControllerSeeder {
     return this.generate({ slots, name: 'TemperaturePIDController', ...data })
   }
 
+  static seedTemperatureControllerCelsius(data) {
+    return this.seedOne(this.generateTemperatureControllerCelsius(data))
+  }
+
 }
 
 module.exports = PIDControllerSeeder
