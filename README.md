@@ -248,3 +248,4 @@ Available types:
 - reject setting properties on the core classes that should not change throughout the lifetime of an object (`type`, `subType`, `name`, etc.)
 - disconnect connections between slots
 
+ 
