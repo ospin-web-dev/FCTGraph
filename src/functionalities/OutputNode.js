@@ -51,6 +51,16 @@ class OutputNode extends Functionality {
     }
   }
 
+  get source() {
+    const { sources, name } = this
+
+    if (sources.length > 1) {
+      throw new Error(`Output Node: ${name} has more than one connected fct. Output nodes may only have one source. Current sources: ${sources}`)
+    }
+
+    return sources[0]
+  }
+
 }
 
 module.exports = OutputNode

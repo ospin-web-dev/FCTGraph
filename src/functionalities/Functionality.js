@@ -157,6 +157,12 @@ class Functionality {
     return this._getConnectedFcts(this.outSlots)
   }
 
+  getConnectedFctsByName(targetName) {
+    return this.connectedFcts.filter(({ name }) => (
+      targetName === name
+    ))
+  }
+
 }
 
 module.exports = Functionality
