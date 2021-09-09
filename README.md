@@ -14,6 +14,7 @@ This documentation is likely to remain sparse, as it is for internal use and und
   - [From/To JSON](#FromAndToJson)
   - [Public Methods that Mutate](#PublicMethodsThatMutate)
 - [Class Structure and Hierarchies](#ClassStructureAndHierarchies)
+- [FCTGraph Utils](#FCTGraphUtils)
 - [Factories](#Factories)
 - [Seeders](#Seeders)
 - [Contributing](#Contributing)
@@ -33,7 +34,7 @@ The following is a selected showcase of the public functions on the various base
 
 #### <a name="Instantiation">Instantiation!
 ```js
-const { FCTGraph, functionalities, slots } = require('@ospin/FCTGraph') // or import
+const { FCTGraph, functionalities, slots } = require('@ospin/fct-graph') // or import
 
 // first, let's set up some seed data. Functionalities (nodes) have many dataStreams (edges)...
 const tempOutSlotData = { name: 'temp out', type: 'OutSlot', ... } /* see OutSlot.SCHEMA */
@@ -122,7 +123,6 @@ const success = fctGraph.addFunctionalityByData({ name: 'Dr. Strangelove\'s Bunk
 
 ```js
 FCTGraph
-FCTGraphUtils TODO: UPDATE THIS
 
 // an FCTGraph has many Functionalities
 Functionality (virtual)
@@ -165,6 +165,25 @@ All non-virtual classes (e.g. HeaterActuator, IntegerInSlot, etc.) compose the *
 
 ---
 
+## <a name="FCTGraphUtils"></a>FCTGraph Utils
+
+The FCTGraph has a pretty big appetite for specific and involved mutation methods and queries. To accommodate this, while avoiding class bloat, there exist FCTGraph Utils. The Utils are a collecting place for mutators, queries, and anything else related that is not considered 'core' enough functionality to exist on the classes directly.
+
+```js
+const {
+  FCTGraph,
+  FCTGraphUtils: {
+    mutators: { addPushOutFctForAllOutSlotsWhichHaveNone },
+    queries,
+  }
+} = require('@ospin/fct-graph')
+
+const fctGraph = new FCTGraph(/* bunch-o fctGraph data */)
+
+addPushOutFctForAllOutSlotsWhichHaveNone(fctGraph) // mutates the graph
+```
+
+---
 ## <a name="Factories"></a>Factories
 
 Functionalities and Slots need somewhat intelligent instantiation as they are meant to be serialized to and from JSON. For this reason, Factories exist for instantiating both Functionalities and Slots. Instantiating an FCTGraph from parsed JSON will automatically delegate to the factories as it builds the hierarchy.
@@ -215,8 +234,8 @@ SlotSeeder (virtual)
 ```
 
 All virtual seeders (e.g. HeaterActuatorSeeder, InSlotSeeder etc.) compose the **FactorySeeder** module, which provides the following static methods (which extend to their children):
-- **static get SEED_METHOD** (virtual) - blows up - informing the user that the class that composed FactorySeeder needs a static `.SEED_METHOD` getter. This method should used to call a constructor/factory's creation method
-- **static generate** (virtual) - blows up - informing the user that the class that composed FactorySeeder needs a static `.generate` method. This method should be used to create fake data which matches the class SCHEMA
+- **static get SEED_METHOD** (abstract) - blows up - informing the user that the class that composed FactorySeeder needs a static `.SEED_METHOD` getter. This method should be used to call a constructor/factory's creation method
+- **static generate** (abstract) - blows up - informing the user that the class that composed FactorySeeder needs a static `.generate` method. This method should be used to create fake data which matches the class SCHEMA
 - **.seedOne** - expects a data object. delegates to `generate` and `SEED_METHOD`
 - **.seedMany** - expects an array of data objects
 - **.seedN** - expects an object and a count
@@ -247,5 +266,3 @@ Available types:
 ## Upcoming:
 - reject setting properties on the core classes that should not change throughout the lifetime of an object (`type`, `subType`, `name`, etc.)
 - disconnect connections between slots
-
- 
