@@ -177,6 +177,17 @@ class Slot {
     }
   }
 
+  _removeDataStreamTo(otherSlot) {
+    this.dataStreams = this.dataStreams.filter(dataStream => (
+      !dataStream.slotIsSourceOrSink(otherSlot)
+    ))
+  }
+
+  disconnectFrom(otherSlot) {
+    this._removeDataStreamTo(otherSlot)
+    otherSlot._removeDataStreamTo(this)
+  }
+
   filterConnectableSlots(slots) {
     return slots.filter(slot => (
       Slot._validateConnectionBetweenIsPossible(this, slot)

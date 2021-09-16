@@ -24,13 +24,13 @@ This documentation is likely to remain sparse, as it is for internal use and und
 
 ## <a name="UseOverview"></a>Use Overview
 
-The FCTGraph functions like a traditional graph with several features on top. Most importantly, all functionalities (nodes) have many slots, which hold data about themselves. Slots connect to other slots (if they are compatible) via dataStreams (edges).
+The FCTGraph functions like a traditional graph with several features on top. Most importantly, all functionalities (nodes) have many slots, which determine what kind of data flows out of, and can flow in to, a functionality. Slots connect to other slots (if they are compatible) via dataStreams (edges).
 
 The following is a selected showcase of the public functions on the various base objects of:
 - **FCTGraph** (graph)
-- **Functionality** (node)
-- **Slot** (connection rule object)
-- **DataStream** (edge)
+- **Functionality** (node - connects to other functionalities via slots)
+- **Slot** (functionalities I/O + connection rule object)
+- **DataStream** (edge - connects to slots)
 
 #### <a name="Instantiation">Instantiation!
 ```js
@@ -44,7 +44,7 @@ const tempInSlotData = { name: 'temp in', type: 'InSlot', ... } /* see InSlot.SC
 const pidControllerData = { slots: [ tempInSlotData ], ... }  /* see PIDController.SCHEMA */
 
 // ...and instantiate our FCTGraph
-const fctGraph = new FCTGraph({
+const fctGraph = FCTGraph.newAndAssertStructure({
   functionalities: [ tempSensorData, pidControllerData ],
   ...,
 }) /* see FCTGraph.SCHEMA */)
@@ -156,12 +156,11 @@ DataStream
 ```
 
 All non-virtual classes (e.g. HeaterActuator, IntegerInSlot, etc.) compose the **JOIous** module, which provides the following:
-- **post .constructor** - asserts the instance's data against the JOI SCHEMA (which provides nested data validation) as a final step
-- **.serialize** (virtual) - blows up - informing the user that the class that composed JOIous needs a `.serialize` method
-- **.sortAndSerialize** - uses .serialize returns the (deeply) sorted object
-- **.toJSON** - uses .sortAndSerialize
-- **.toString** - inspects deeply for richer print outs
-- **[util.inspect.custom]** - inspects deeply for richer print outs in Node
+- **`static newAndAssertStructure`** - uses the constructor and asserts the instance's data against the JOI SCHEMA (which provides nested data validation) as a final step. This used to be the default behavior for every JOIous constructor, but JOI was significantly slowing down the construction of large FCTGraphs from JSON -> instances. This is now best used on an `FCTGraph`'s instantiation at critical moments, e.g. before persisting to the DB after receiving JSON, when instantiating new functionalities/dataStreams from user provided data, etc. Whenever speed is _not_ a critical concern or data fidelity is _not_ guaranteed, use `newAndAssertStructure` instead of the `.new` method
+- **`.serialize`** (virtual) - blows up - informing the user that the class that composed JOIous needs a `.serialize` method
+- **`.sortAndSerialize`** - uses `.serialize` returns the (deeply) sorted object
+- **`.toJSON`** - uses `.sortAndSerialize`
+- **`.toString`** - inspects deeply for richer print outs
 
 ---
 
@@ -265,4 +264,3 @@ Available types:
 
 ## Upcoming:
 - reject setting properties on the core classes that should not change throughout the lifetime of an object (`type`, `subType`, `name`, etc.)
-- disconnect connections between slots

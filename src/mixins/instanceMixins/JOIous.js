@@ -9,7 +9,7 @@ const ObjUtils = require('../../utils/ObjUtils')
  * JOIous is doing a few kind things for us related to data validation
  * and serialization to/from JSON for instances
  *
- * on constructor, JOIous asserts the result of the .serialize method
+ * on newAndAssertStructure, JOIous asserts the result of the .serialize method
  * against the Class' joi SCHEMA
  *
  * on toJSON (aka what JSON.stringify calls) it will sort by key
@@ -39,10 +39,15 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     error.message = `JOI error in ${this.name}:\n\n${error.annotate()}`
   }
 
-  constructor(...args) {
-    super(...args)
+  static newAndAssertStructure(...args) {
+    /* here, 'this' is a reference to the class that has been made JOIous
+     * So if the ReceivingClass is FCTGraph, 'this' is the FCTGraph.
+     * This enables us call the constructor from the static
+     * method without naming the class. */
+    const instance = new this(...args)
 
-    this.assertStructure()
+    instance.assertStructure()
+    return instance
   }
 
   serialize(data) {

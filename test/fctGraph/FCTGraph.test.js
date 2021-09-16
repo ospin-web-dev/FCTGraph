@@ -18,11 +18,11 @@ describe('the FCTGraph class', () => {
     expect(FCTGraph.isJOIous).toBe(true)
   })
 
-  describe('#constructor', () => {
+  describe('.newAndAssertStructure', () => {
     it('throws if given an invalid data object', () => {
       expect(() => {
-        new FCTGraph({}) // eslint-disable-line
-      }).toThrow(/\"id\" is required/)
+        FCTGraph.newAndAssertStructure({}) // eslint-disable-line
+      }).toThrow(/"id" is required/)
     })
 
     it('creates an instance', () => {

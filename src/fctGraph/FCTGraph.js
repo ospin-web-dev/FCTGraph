@@ -71,7 +71,7 @@ class FCTGraph {
     this.name = name
     this.deviceDefault = deviceDefault
     this.functionalities = []
-    functionalitiesData.map(fctData => this._addFunctionalityByDataOrThrow(fctData))
+    functionalitiesData.map(fctData => this._addFunctionalityByData(fctData))
     this._populateConnections(functionalitiesData)
   }
 
@@ -90,11 +90,13 @@ class FCTGraph {
    * **************************************************************** */
   _addFunctionality(newFct) {
     this.functionalities.push(newFct)
+    return newFct
   }
 
-  _addFunctionalityByDataOrThrow(fctData) {
-    const newFct = FunctionalityFactory.new({ ...fctData, fctGraph: this })
+  _addFunctionalityByData(fctData) {
+    const newFct = FunctionalityFactory.new({ ...fctData })
     this._addFunctionality(newFct)
+    return newFct
   }
 
   addFunctionality(newFct) {
@@ -104,7 +106,7 @@ class FCTGraph {
 
   addFunctionalityByData(fctData) {
     try {
-      const newFct = FunctionalityFactory.new(fctData)
+      const newFct = FunctionalityFactory.newAndAssertStructure(fctData)
       return this.addFunctionality(newFct)
     } catch (e) {
       return publicErrorRes({ errorMsg: e.message, functionality: fctData })
