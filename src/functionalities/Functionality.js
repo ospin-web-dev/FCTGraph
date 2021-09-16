@@ -156,6 +156,10 @@ class Functionality {
     return this._getConnectedFcts(this.outSlots)
   }
 
+  get connectedPushOutNodes() {
+    return this.sinks.filter(sink => sink.subType === 'PushOut')
+  }
+
   getConnectedFctsByName(targetName) {
     return this.connectedFcts.filter(({ name }) => (
       targetName === name

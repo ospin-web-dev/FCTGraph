@@ -111,6 +111,31 @@ describe('the Functionality class', () => {
       })
     })
 
+    describe('.connectedPushOutNodes', () => {
+      it('returns all fcts connected which are of type OutputNode', () => {
+        const heaterA = HeaterActuatorSeeder.seedOne(
+          HeaterActuatorSeeder.generateCelsiusHeater(),
+        )
+        const reporterA = PushOutSeeder.seedOne(
+          PushOutSeeder.generateFloatPushOutCelsius(),
+        )
+        const reporterB = PushOutSeeder.seedOne(
+          PushOutSeeder.generateFloatPushOutCelsius(),
+        )
+        const pidController = PIDControllerSeeder.seedOne(
+          PIDControllerSeeder.generateTemperatureControllerCelsius(),
+        )
+        pidController.outSlots[0].connectTo(heaterA.inSlots[0])
+        pidController.outSlots[0].connectTo(reporterA.inSlots[0])
+        pidController.outSlots[0].connectTo(reporterB.inSlots[0])
+
+        expect(heaterA.connectedPushOutNodes).toStrictEqual([])
+        expect(pidController.connectedPushOutNodes).toStrictEqual([
+          reporterA, reporterB,
+        ])
+      })
+    })
+
     describe('.sinks', () => {
       it('returns all fcts connected via outslots', () => {
         const heaterA = HeaterActuatorSeeder.seedOne(
