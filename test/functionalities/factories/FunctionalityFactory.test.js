@@ -138,13 +138,15 @@ describe('the functionality factory', () => {
         const fctSubClassData = SubClassSeeder.generate()
         const fct = FunctionalityFactory.new(fctSubClassData)
 
-        it('throws error if it gets bogus data', () => {
-          const bogusName = 666
-          const badBadData = SubClassSeeder.generate({ name: bogusName })
+        describe('with .newAndAssertStructure', () => {
+          it('throws error if it gets bogus data', () => {
+            const bogusName = 666
+            const badBadData = SubClassSeeder.generate({ name: bogusName })
 
-          expect(() => {
-            FunctionalityFactory.new(badBadData)
-          }).toThrow('"name" must be a string')
+            expect(() => {
+              FunctionalityFactory.newAndAssertStructure(badBadData)
+            }).toThrow('"name" must be a string')
+          })
         })
 
         it('creates the expected slot instances', () => {
@@ -176,6 +178,17 @@ describe('the functionality factory', () => {
           expect(JSON.stringify(fct)).toStrictEqual(sortedJSONData)
         })
       })
+    })
+  })
+
+  describe('assertClassHasNewAndAssertStructure', () => {
+    it('blows up if a class is found that does not have the .assertClassHasNewAndAssertStructure method aka does not compose JOIous', () => {
+      const Class = FunctionalityFactory.SUB_TYPE_TO_CLASS.TemperatureSensor
+      delete Class.newAndAssertStructure
+
+      expect(() => {
+        FunctionalityFactory.newAndAssertStructure(TemperatureSensorSeeder.generate())
+      }).toThrow('must have a \'newAndAssertStructure\' method')
     })
   })
 })

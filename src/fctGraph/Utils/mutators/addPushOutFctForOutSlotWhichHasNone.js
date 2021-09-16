@@ -57,7 +57,7 @@ function addPushOutFctForOutSlotWhichHasNone(fctGraph, outSlot, opts = DEFAULT_O
     dataStreams: [],
   }
 
-  const pushOutFct = new PushOut({
+  const pushOutFct = PushOut.newAndAssertStructure({
     id: functionalityId,
     name: 'Push Out',
     ...opts.pushOutData,

@@ -2,6 +2,53 @@ const IntegerInSlot = require('slots/IntegerInSlot')
 const { IntegerInSlotSeeder } = require('seeders/slots')
 
 describe('the IntegerInSlot class', () => {
+  describe('.newAndAssertStructure', () => {
+    it('throws when max is below min', () => {
+      const slotData = IntegerInSlotSeeder.generate()
+      slotData.max = 100
+      slotData.min = 200
+
+      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+    })
+
+    it('throws when defaultValue is above max', () => {
+      const slotData = IntegerInSlotSeeder.generate()
+      slotData.max = 100
+      slotData.defaultValue = 200
+
+      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+    })
+
+    it('throws when defaultValue is below min', () => {
+      const slotData = IntegerInSlotSeeder.generate()
+      slotData.min = 300
+      slotData.defaultValue = 200
+
+      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/min/)
+    })
+
+    it('throws when defaultValue is a float number', () => {
+      const slotData = IntegerInSlotSeeder.generate()
+      slotData.defaultValue = 200.1
+
+      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/defaultValue/)
+    })
+
+    it('throws when min is a float number', () => {
+      const slotData = IntegerInSlotSeeder.generate()
+      slotData.min = 200.1
+
+      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/min/)
+    })
+
+    it('throws when max is a float number', () => {
+      const slotData = IntegerInSlotSeeder.generate()
+      slotData.max = 200.1
+
+      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+    })
+  })
+
   describe('.constructor', () => {
     const requiredKeys = [ 'defaultValue', 'min', 'max' ]
     const forbiddenKeys = ['selectOptions']
@@ -61,49 +108,5 @@ describe('the IntegerInSlot class', () => {
       expect(slot.min).toBeNull()
     })
 
-    it('throws when max is below min', () => {
-      const slotData = IntegerInSlotSeeder.generate()
-      slotData.max = 100
-      slotData.min = 200
-
-      expect(() => new IntegerInSlot(slotData)).toThrow(/max/)
-    })
-
-    it('throws when defaultValue is above max', () => {
-      const slotData = IntegerInSlotSeeder.generate()
-      slotData.max = 100
-      slotData.defaultValue = 200
-
-      expect(() => new IntegerInSlot(slotData)).toThrow(/max/)
-    })
-
-    it('throws when defaultValue is below min', () => {
-      const slotData = IntegerInSlotSeeder.generate()
-      slotData.min = 300
-      slotData.defaultValue = 200
-
-      expect(() => new IntegerInSlot(slotData)).toThrow(/min/)
-    })
-
-    it('throws when defaultValue is a float number', () => {
-      const slotData = IntegerInSlotSeeder.generate()
-      slotData.defaultValue = 200.1
-
-      expect(() => new IntegerInSlot(slotData)).toThrow(/defaultValue/)
-    })
-
-    it('throws when min is a float number', () => {
-      const slotData = IntegerInSlotSeeder.generate()
-      slotData.min = 200.1
-
-      expect(() => new IntegerInSlot(slotData)).toThrow(/min/)
-    })
-
-    it('throws when max is a float number', () => {
-      const slotData = IntegerInSlotSeeder.generate()
-      slotData.max = 200.1
-
-      expect(() => new IntegerInSlot(slotData)).toThrow(/max/)
-    })
   })
 })

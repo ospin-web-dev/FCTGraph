@@ -57,7 +57,7 @@ function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS
     dataStreams: [],
   }
 
-  const pushInFct = new PushIn({
+  const pushInFct = PushIn.newAndAssertStructure({
     id: functionalityId,
     name: 'Push In',
     ...opts.pushInData,

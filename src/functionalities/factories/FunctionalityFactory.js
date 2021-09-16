@@ -60,19 +60,35 @@ class FunctionalityFactory {
     }
   }
 
-  static newFromSubType(funcData) {
+  static assertClassHasNewAndAssertStructure(Class) {
+    if (!Class.newAndAssertStructure) {
+      throw new Error(`FunctionalityFactory found class: ${Class.name} must have a 'newAndAssertStructure' method. It should be a JOIous, which composes this method.`)
+    }
+  }
+
+  static findClassFromFuncData(funcData) {
     FunctionalityFactory.assertTypeAndSubTypeAreSupported(funcData)
 
     const { subType } = funcData
-    const FoundClass = FunctionalityFactory.SUB_TYPE_TO_CLASS[subType]
-
-    return new FoundClass(funcData)
+    return FunctionalityFactory.SUB_TYPE_TO_CLASS[subType]
   }
 
-  static new(functionalityData) {
-    return FunctionalityFactory.newFromSubType({
+  static new(funcData) {
+    const Class = FunctionalityFactory.findClassFromFuncData(funcData)
+
+    return new Class({
       id: uuidv4(),
-      ...functionalityData
+      ...funcData,
+    })
+  }
+
+  static newAndAssertStructure(funcData) {
+    const Class = FunctionalityFactory.findClassFromFuncData(funcData)
+    FunctionalityFactory.assertClassHasNewAndAssertStructure(Class)
+
+    return Class.newAndAssertStructure({
+      id: uuidv4(),
+      ...funcData,
     })
   }
 
