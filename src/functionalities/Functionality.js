@@ -1,7 +1,6 @@
 const Joi = require('joi')
 
 const RegexUtils = require('../utils/RegexUtils')
-const Slot = require('../slots/Slot')
 const InSlot = require('../slots/InSlot')
 const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')

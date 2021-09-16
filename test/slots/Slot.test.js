@@ -82,7 +82,7 @@ describe('the Slot class', () => {
       slot._addDataStream(abominationDataStream)
 
       expect(() => {
-        slot.connectedSlots
+        slot.connectedSlots // eslint-disable-line
       }).toThrow(/neither source nor sink matching/)
     })
   })
@@ -292,5 +292,24 @@ describe('the Slot class', () => {
       expect(dataStream.sourceSlot).toBe(slotA)
       expect(dataStream.sinkSlot).toBe(slotB)
     })
+  })
+
+  describe('.disconnectFrom', () => {
+    it('removes the same dataStream instance from both slots', () => {
+      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+      const slotB = FloatInSlotSeeder.seedCelsiusIn()
+
+      FloatOutSlotSeeder.stubOwningFct(slotA)
+      FloatInSlotSeeder.stubOwningFct(slotB)
+
+      slotA.connectTo(slotB)
+      expect(slotA.isConnectedToSlot(slotB)).toBe(true)
+
+      slotA.disconnectFrom(slotB)
+      expect(slotA.isConnectedToSlot(slotB)).toBe(false)
+      expect(slotA.dataStreams).toHaveLength(0)
+      expect(slotB.dataStreams).toHaveLength(0)
+    })
+
   })
 })
