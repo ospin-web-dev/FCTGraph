@@ -6,6 +6,7 @@ const {
   HeaterActuatorSeeder,
   PIDControllerSeeder,
   PushOutSeeder,
+  IntervalOutSeeder,
   PushInSeeder,
 } = require('seeders/functionalities')
 const FCTGraph = require('fctGraph/FCTGraph')
@@ -205,6 +206,47 @@ describe('the FCTGraph class', () => {
       const res = fctGraph.getFctById(fct.id)
 
       expect(res).toStrictEqual(fct)
+    })
+  })
+
+  describe('getInputFcts', () => {
+    it('returns the input fcts', () => {
+      const inputFct = PushInSeeder.generate()
+      const outputFct = PushOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder.seedOne({ functionalities: [ inputFct, outputFct ] })
+
+      const fcts = fctGraph.getInputFcts()
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(inputFct.id)
+    })
+  })
+
+  describe('getOutputFcts', () => {
+    it('returns the output fcts', () => {
+      const inputFct = PushInSeeder.generate()
+      const outputFct = PushOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder.seedOne({ functionalities: [ inputFct, outputFct ] })
+
+      const fcts = fctGraph.getOutputFcts()
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(outputFct.id)
+    })
+  })
+
+  describe('getPushOutFcts', () => {
+    it('returns the PushOut output fcts', () => {
+      const inputFct = PushInSeeder.generate()
+      const pushOutputFct = PushOutSeeder.generate()
+      const intervalOutFct = IntervalOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
+
+      const fcts = fctGraph.getPushOutFcts()
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(pushOutputFct.id)
     })
   })
 
