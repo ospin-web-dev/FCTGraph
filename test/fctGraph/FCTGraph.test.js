@@ -222,6 +222,19 @@ describe('the FCTGraph class', () => {
     })
   })
 
+  describe('getPushInFcts', () => {
+    it('returns the PushIn input fcts', () => {
+      const inputFct = PushInSeeder.generate()
+      const outputFct = PushOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder.seedOne({ functionalities: [ inputFct, outputFct ] })
+
+      const fcts = fctGraph.getPushInFcts()
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(inputFct.id)
+    })
+  })
+
   describe('getOutputFcts', () => {
     it('returns the output fcts', () => {
       const inputFct = PushInSeeder.generate()
