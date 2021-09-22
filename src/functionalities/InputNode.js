@@ -35,6 +35,10 @@ class InputNode extends Functionality {
     return super.sinks[0]
   }
 
+  getConnectingSinkSlot() {
+    return this.slots[0].connectedSlots[0]
+  }
+
 }
 
 module.exports = InputNode

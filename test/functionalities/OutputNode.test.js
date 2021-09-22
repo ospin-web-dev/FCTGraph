@@ -104,4 +104,19 @@ describe('the OutputNode virtual class', () => {
       expect(sourceFct).toStrictEqual(sensorFct)
     })
   })
+
+  describe('getConnectingSourceSlot', () => {
+    it('returns the connecting slot of the source fct', () => {
+      const inSlot = FloatInSlotSeeder.seedCelsiusIn()
+      const outSlot = FloatOutSlotSeeder.seedCelsiusOut()
+      const sensorFct = TemperatureSensorSeeder.seedOne({ slots: [ outSlot ] })
+      const pushOutFct = PushOutSeeder.seedOne({ slots: [ inSlot ] })
+
+      pushOutFct.inSlots[0].connectTo(sensorFct.outSlots[0])
+
+      const sourceSlot = pushOutFct.getConnectingSourceSlot()
+
+      expect(sourceSlot).toStrictEqual(sensorFct.outSlots[0])
+    })
+  })
 })

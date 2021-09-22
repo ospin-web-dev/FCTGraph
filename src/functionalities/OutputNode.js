@@ -65,6 +65,10 @@ class OutputNode extends Functionality {
     return super.sources[0]
   }
 
+  getConnectingSourceSlot() {
+    return this.slots[0].connectedSlots[0]
+  }
+
 }
 
 module.exports = OutputNode
