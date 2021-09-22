@@ -31,6 +31,10 @@ class InputNode extends Functionality {
     }
   }
 
+  getSinkFct() {
+    return super.sinks[0]
+  }
+
 }
 
 module.exports = InputNode
