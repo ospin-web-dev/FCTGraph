@@ -4,6 +4,10 @@ const {
   TemperatureSensorSeeder,
   PushOutSeeder,
 } = require('seeders/functionalities')
+const {
+  FloatOutSlotSeeder,
+  FloatInSlotSeeder,
+} = require('seeders/slots')
 
 describe('the OutputNode virtual class', () => {
 
@@ -83,6 +87,21 @@ describe('the OutputNode virtual class', () => {
       webReporter.inSlots[0]._connectTo(tempSensorB.slots[0], dataStream)
 
       expect(() => webReporter.source).toThrow(/more than one connected fct/)
+    })
+  })
+
+  describe('getSourceFct', () => {
+    it('returns the sole source functionality', () => {
+      const inSlot = FloatInSlotSeeder.seedCelsiusIn()
+      const outSlot = FloatOutSlotSeeder.seedCelsiusOut()
+      const sensorFct = TemperatureSensorSeeder.seedOne({ slots: [ outSlot ] })
+      const pushOutFct = PushOutSeeder.seedOne({ slots: [ inSlot ] })
+
+      pushOutFct.inSlots[0].connectTo(sensorFct.outSlots[0])
+
+      const sourceFct = pushOutFct.getSourceFct()
+
+      expect(sourceFct).toStrictEqual(sensorFct)
     })
   })
 })

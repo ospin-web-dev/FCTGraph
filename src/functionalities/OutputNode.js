@@ -61,6 +61,10 @@ class OutputNode extends Functionality {
     return sources[0]
   }
 
+  getSourceFct() {
+    return super.sources[0]
+  }
+
 }
 
 module.exports = OutputNode
