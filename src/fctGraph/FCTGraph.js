@@ -134,7 +134,7 @@ class FCTGraph {
   }
 
   getInputFcts() {
-    return this.functionalities.filter(fct => fct.type === InputNode.TYPE)
+    return this.functionalities.filter(({ type }) => type === InputNode.TYPE)
   }
 
   getPushInFcts() {
@@ -142,7 +142,7 @@ class FCTGraph {
   }
 
   getOutputFcts() {
-    return this.functionalities.filter(fct => fct.type === OutputNode.TYPE)
+    return this.functionalities.filter(({ type }) => type === OutputNode.TYPE)
   }
 
   getPushOutFcts() {
