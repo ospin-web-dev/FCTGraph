@@ -22,4 +22,19 @@ describe('the InputNode Functionality', () => {
       expect(sinkFct).toStrictEqual(heaterFct)
     })
   })
+
+  describe('getConnectingSinkSlot', () => {
+    it('returns the connecting slot of the source fct', () => {
+      const inSlot = FloatInSlotSeeder.seedCelsiusIn()
+      const outSlot = FloatOutSlotSeeder.seedCelsiusOut()
+      const heaterFct = HeaterActuatorSeeder.seedOne({ slots: [ inSlot ] })
+      const pushInFct = PushInSeeder.seedOne({ slots: [ outSlot ] })
+
+      pushInFct.outSlots[0].connectTo(heaterFct.inSlots[0])
+
+      const sinkSlot = pushInFct.getConnectingSinkSlot()
+
+      expect(sinkSlot).toStrictEqual(heaterFct.inSlots[0])
+    })
+  })
 })
