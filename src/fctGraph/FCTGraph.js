@@ -5,6 +5,8 @@ const JOIous = require('../mixins/instanceMixins/JOIous')
 const FunctionalityFactory = require('../functionalities/factories/FunctionalityFactory')
 const InputNode = require('../functionalities/InputNode')
 const OutputNode = require('../functionalities/OutputNode')
+const PushOut = require('../functionalities/PushOut')
+const PushIn = require('../functionalities/PushIn')
 const RegexUtils = require('../utils/RegexUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 
@@ -129,6 +131,22 @@ class FCTGraph {
     return this.functionalities.filter(fct => (
       fct.type !== InputNode.TYPE && fct.type !== OutputNode.TYPE
     ))
+  }
+
+  getInputFcts() {
+    return this.functionalities.filter(({ type }) => type === InputNode.TYPE)
+  }
+
+  getPushInFcts() {
+    return this.getInputFcts().filter(({ subType }) => subType === PushIn.SUB_TYPE)
+  }
+
+  getOutputFcts() {
+    return this.functionalities.filter(({ type }) => type === OutputNode.TYPE)
+  }
+
+  getPushOutFcts() {
+    return this.getOutputFcts().filter(({ subType }) => subType === PushOut.SUB_TYPE)
   }
 
   getFctById(fctId) {
