@@ -263,4 +263,19 @@ describe('the FCTGraph class', () => {
     })
   })
 
+  describe('getIntervalOutFcts', () => {
+    it('returns the IntervalOut ushOut output fcts', () => {
+      const inputFct = PushInSeeder.generate()
+      const pushOutputFct = PushOutSeeder.generate()
+      const intervalOutFct = IntervalOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
+
+      const fcts = fctGraph.getIntervalOutFcts()
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(intervalOutFct.id)
+    })
+  })
+
 })

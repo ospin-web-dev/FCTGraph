@@ -19,6 +19,15 @@ class IntervalOutSeeder extends OutputNodeSeeder {
     }
   }
 
+  static generateFloatIntervalOutCelsius(overrideData) {
+    return this.generate({
+      slots: [
+        FloatInSlotSeeder.generate({ name: 'value in', unit: '°C' }),
+      ],
+      ...overrideData,
+    })
+  }
+
 }
 
 module.exports = IntervalOutSeeder

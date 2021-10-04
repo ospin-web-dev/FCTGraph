@@ -6,6 +6,7 @@ const FunctionalityFactory = require('../functionalities/factories/Functionality
 const InputNode = require('../functionalities/InputNode')
 const OutputNode = require('../functionalities/OutputNode')
 const PushOut = require('../functionalities/PushOut')
+const IntervalOut = require('../functionalities/IntervalOut')
 const PushIn = require('../functionalities/PushIn')
 const RegexUtils = require('../utils/RegexUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
@@ -147,6 +148,10 @@ class FCTGraph {
 
   getPushOutFcts() {
     return this.getOutputFcts().filter(({ subType }) => subType === PushOut.SUB_TYPE)
+  }
+
+  getIntervalOutFcts() {
+    return this.getOutputFcts().filter(({ subType }) => subType === IntervalOut.SUB_TYPE)
   }
 
   getFctById(fctId) {
