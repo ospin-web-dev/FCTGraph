@@ -36,6 +36,7 @@ class Functionality {
 
   _addSlotByDataOrThrow(slotData) {
     const newSlot = SlotFactory.new({ ...slotData, functionality: this })
+    newSlot.assertStructure()
 
     this._assertSlotCanBeAdded(newSlot)
     this.slots.push(newSlot)
