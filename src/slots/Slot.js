@@ -43,6 +43,7 @@ class Slot {
       TEMPERATURE: 'temperature',
       SWITCH: 'switch',
       FLOW: 'flow',
+      CONTROLLER_PARAMETER: 'controller parameter',
     }
   }
 
