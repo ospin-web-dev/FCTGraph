@@ -41,6 +41,21 @@ describe('the Functionality class', () => {
     })
   })
 
+  describe('.isSubType', () => {
+    it('returns true when the subType matches', () => {
+      const heater = HeaterActuatorSeeder.seedOne()
+      const pidController = PIDControllerSeeder.seedOne()
+      const tempSensor = TemperatureSensorSeeder.seedOne()
+
+      expect(heater.isSubType('HeaterActuator')).toBe(true)
+      expect(heater.isSubType('PIDController')).toBe(false)
+      expect(pidController.isSubType('PIDController')).toBe(true)
+      expect(pidController.isSubType('TemperatureSensor')).toBe(false)
+      expect(tempSensor.isSubType('TemperatureSensor')).toBe(true)
+      expect(tempSensor.isSubType('HeaterActuator')).toBe(false)
+    })
+  })
+
   describe('.isPhysical', () => {
     it('returns the inverse of .isVirtual', () => {
       const virtualSensor = TemperatureSensorSeeder.seedOne({ isVirtual: true })

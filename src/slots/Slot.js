@@ -101,7 +101,7 @@ class Slot {
     return Joi.object({
       name: Joi.string().required(),
       displayType: Joi.string().allow(...Object.values(Slot.DISPLAY_TYPES), null).required(),
-      dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
+      dataStreams: Joi.array().items(DataStream.SCHEMA).default([]),
       unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(), // inherited
     })
   }

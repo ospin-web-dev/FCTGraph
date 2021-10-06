@@ -167,6 +167,13 @@ class Functionality {
     ))
   }
 
+  isSubType(subType) {
+    return (
+      this.constructor.SUB_TYPE === subType
+      && this.subType === subType
+    )
+  }
+
 }
 
 module.exports = Functionality
