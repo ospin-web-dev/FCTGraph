@@ -55,6 +55,24 @@ describe('the Functionality class', () => {
     })
   })
 
+  describe('.subType', () => {
+    it('is null for plain functionalities', () => {
+      const fct = new Functionality(FunctionalitySeeder.generate())
+      const controller = new Controller(ControllerSeeder.generate())
+      const actuator = new Actuator(ActuatorSeeder.generate())
+      const sensor = new Sensor(SensorSeeder.generate())
+      const inputNode = new InputNode(InputNodeSeeder.generate())
+      const outputNode = new OutputNode(OutputNodeSeeder.generate())
+
+      expect(fct.subType).toBeNull()
+      expect(controller.subType).toBeNull()
+      expect(actuator.subType).toBeNull()
+      expect(sensor.subType).toBeNull()
+      expect(inputNode.subType).toBeNull()
+      expect(outputNode.subType).toBeNull()
+    })
+  })
+
   describe('.isSubType', () => {
     it('returns true when the subType matches', () => {
       const heater = HeaterActuatorSeeder.seedOne()
