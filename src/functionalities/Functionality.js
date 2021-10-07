@@ -8,10 +8,16 @@ const AddSlotError = require('./AddSlotError')
 
 class Functionality {
 
+  static get TYPE() { return null }
+
+  static get SUB_TYPE() { return null }
+
   static get SCHEMA() {
     return Joi.object({
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       name: Joi.string().required(),
+      type: Joi.string().allow(this.TYPE).required(),
+      subType: Joi.string().allow(this.SUB_TYPE).required(),
       slots: Joi.array().items(Joi.alternatives().try(
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
@@ -58,9 +64,12 @@ class Functionality {
   }) {
     this.id = id
     this.name = name
+    this.type = this.constructor.TYPE
+    this.subType = this.constructor.SUB_TYPE
     this.fctGraph = fctGraph
     this.isVirtual = isVirtual
     this.slots = []
+
     if (slotsData) this._addSlotsByDataOrThrow(slotsData)
   }
 
@@ -68,6 +77,8 @@ class Functionality {
     return {
       id: this.id,
       name: this.name,
+      type: this.type,
+      subType: this.subType,
       isVirtual: this.isVirtual,
       slots: this.slots.map(slot => slot.serialize()),
     }

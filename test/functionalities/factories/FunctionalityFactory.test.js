@@ -149,6 +149,10 @@ describe('the functionality factory', () => {
           })
         })
 
+        it('has a .subType matching its class', () => {
+          expect(fct.subType).toStrictEqual(SubClass.SUB_TYPE)
+        })
+
         it('creates the expected slot instances', () => {
           expect(fct.slotTypes().sort())
             .toStrictEqual(SubClassSeeder.SLOT_SEED_TYPES.sort())
