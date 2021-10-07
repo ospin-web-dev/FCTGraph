@@ -121,6 +121,31 @@ describe('the functionality factory', () => {
         SubClassSeeder: UnknownActuatorSeeder,
         expectedIsVirtual: false,
       },
+      {
+        SubClass: PumpActuator,
+        SubClassSeeder: PumpActuatorSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: StirrerActuator,
+        SubClassSeeder: StirrerActuatorSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeidolphMagneticStirrer,
+        SubClassSeeder: HeidolphMagneticStirrerSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeidolphOverheadStirrer,
+        SubClassSeeder: HeidolphOverheadStirrerSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeidolphPump,
+        SubClassSeeder: HeidolphPumpSeeder,
+        expectedIsVirtual: false,
+      },
     ]
 
     it('has a test for each exported sub functionality', () => {
@@ -135,6 +160,9 @@ describe('the functionality factory', () => {
         functionalitiesIndex.Functionalty,
         functionalitiesIndex.Sensor,
         functionalitiesIndex.Actuator,
+        functionalitiesIndex.Controller,
+        functionalitiesIndex.InputNode,
+        functionalitiesIndex.OutputNode,
       ]
 
       expect(SUB_FUNCTIONALITIES).toHaveLength(
