@@ -21,7 +21,6 @@ class Functionality {
       slots: Joi.array().items(Joi.alternatives().try(
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
-      controllerName: Joi.string().allow(''), // this is used to support the old devices: https://github.com/ospin-web-dev/hambda/issues/913
       isVirtual: Joi.boolean().required(),
     })
   }

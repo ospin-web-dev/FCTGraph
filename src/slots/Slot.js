@@ -38,15 +38,6 @@ class Slot {
   }
   /* **************************************************************** */
 
-  static get DISPLAY_TYPES() {
-    return {
-      TEMPERATURE: 'temperature',
-      SWITCH: 'switch',
-      FLOW: 'flow',
-      CONTROLLER_PARAMETER: 'controller parameter',
-    }
-  }
-
   static _assertSlotDataTypesCompatible(slotA, slotB) {
     if (slotA.dataType !== slotB.dataType) {
       throw new SlotConnectionError(slotA, slotB, 'dataTypes must match between slots')
@@ -100,9 +91,9 @@ class Slot {
   static get SCHEMA() {
     return Joi.object({
       name: Joi.string().required(),
-      displayType: Joi.string().allow(...Object.values(Slot.DISPLAY_TYPES), null).required(),
+      displayType: Joi.string().default(null).allow(null),
       dataStreams: Joi.array().items(DataStream.SCHEMA).default([]),
-      unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(), // inherited
+      unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(),
     })
   }
 

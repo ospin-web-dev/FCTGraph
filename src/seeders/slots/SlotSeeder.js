@@ -8,6 +8,15 @@ const FunctionalitySeeder = require('../functionalities/FunctionalitySeeder')
 
 class SlotSeeder {
 
+  static get DISPLAY_TYPES() {
+    return [
+      'temperature',
+      'switch',
+      'flow',
+      'controller parameter',
+    ]
+  }
+
   static get SEED_METHOD() { return SlotFactory.new }
 
   static stubOwningFct(slot) {
@@ -21,7 +30,7 @@ class SlotSeeder {
   static generate(data = {}) {
     return {
       name: faker.animal.lion(),
-      displayType: faker.random.arrayElement(Object.values(Slot.DISPLAY_TYPES)),
+      displayType: faker.random.arrayElement(SlotSeeder.DISPLAY_TYPES),
       dataStreams: [],
       unit: faker.random.arrayElement(Slot.ALL_UNIT_VALUES),
       ...data,
