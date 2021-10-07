@@ -127,7 +127,13 @@ FCTGraph
 // an FCTGraph has many Functionalities
 Functionality (virtual)
 ├── Actuator (virtual)
-│   └── HeaterActuator
+│   ├── HeaterActuator
+│   ├── StirrerActuator
+│   │   ├── HeidolphOverheadStirrer
+│   │   └── HeidolphMagneticStirrer
+│   ├── PumpActuator
+│   │   └── HeidolphPump
+│   └── UnknownActuator
 ├── Controller (virtual)
 │   └── PIDController
 ├── InputNode (virtual)
@@ -136,7 +142,8 @@ Functionality (virtual)
 │   ├── PushOut
 │   └── IntervalOut
 └── Sensor (virtual)
-    └── TemperatureSensor
+    ├── TemperatureSensor
+    └── UnknownSensor
 
 // a Functionality has many Slots
 Slot (virtual)
@@ -199,45 +206,48 @@ Functionalities and Slots need somewhat intelligent instantiation as they are me
 
 > **NOTE:** Seeders are meant for testing purposes ONLY. While they carry a high test coverage %, they (likely) don't have the 100% Green™ coverage that the rest does.
 
-The package comes with seeders which have the same class hierarchy as the primary models:
+The package comes with seeders which have the same class hierarchy as the primary models. A seeder exists for every [non-virtual functionality and slot](#ClassStructureAndHierarchies). The seeder modules are named after the classes, e.g. `PIDControllerSeeder` or `BooleanInSlotSeeder`. Refer to the [Class Structure and Hierarchies](#ClassStructureAndHierarchies) above for the full list of functionalities and slots. Following is an example of the seeder heirarchy:
 ```js
 FCTGraphSeeder
 
 FunctionalitySeeder (virtual)
 ├── ActuatorSeeder (virtual)
 │   ├── HeaterActuatorSeeder
-│   └── UnknownActuatorSeeder
-├── ControllerSeeder (virtual)
-│   └── PIDControllerSeeder
-├── InputNodeSeeder (virtual)
-│   └── PushInSeeder
-├── OutputNodeSeeder (virtual)
-│   ├── PushOutSeeder
-│   └── IntervalOutSeeder
-└── SensorSeeder (virtual)
-    ├── TemperatureSensorSeeder
-    └── UnknownSensorSeeder
+│   ├── StirrerActuatorSeeder
+│   │   ├── HeidolphOverheadStirrerSeeder
+│   │   └── ...
+│   └── ...
+└── ...
 
 SlotSeeder (virtual)
 ├── RandomSlotSeeder (picks from a SlotSeeder below)
 ├── InSlotSeeder (virtual)
 │   └── IntegerInSlotSeeder
-│   └── FloatInSlotSeeder
-│   └── BooleanInSlotSeeder
-│   └── OneOfInSlotSeeder
+│   ├── FloatInSlotSeeder
+│   └── ...
 └── OutSlotSeeder (virtual)
-    └── IntegerOutSlotSeeder
-    └── FloatOutSlotSeeder
-    └── BooleanOutSlotSeeder
-    └── OneOfOutSlotSeeder
+    ├── IntegerOutSlotSeeder
+    └── ...
+```
+
+...accessing seeders from the public interface:
+
+```js
+const {
+  functionalitySeeders: { StirrerActuatorSeeder },
+  slotSeeders: { FloatInSlotSeeder },
+} = require('@ospin/fct-graph') // or import
+
+const stirrerActuator = StirrerActuatorSeeder.seedOne() // <- instance
+stirrerActuator.isPhysical() // -> true
 ```
 
 All virtual seeders (e.g. HeaterActuatorSeeder, InSlotSeeder etc.) compose the **FactorySeeder** module, which provides the following static methods (which extend to their children):
 - **static get SEED_METHOD** (abstract) - blows up - informing the user that the class that composed FactorySeeder needs a static `.SEED_METHOD` getter. This method should be used to call a constructor/factory's creation method
 - **static generate** (abstract) - blows up - informing the user that the class that composed FactorySeeder needs a static `.generate` method. This method should be used to create fake data which matches the class SCHEMA
-- **.seedOne** - expects a data object. delegates to `generate` and `SEED_METHOD`
-- **.seedMany** - expects an array of data objects
-- **.seedN** - expects an object and a count
+- **static seedOne** - expects a data object. delegates to `generate` and `SEED_METHOD`
+- **static seedMany** - expects an array of data objects
+- **static seedN** - expects an object and a count
 
 ---
 
@@ -264,4 +274,3 @@ Available types:
 
 ## Upcoming:
 - reject setting properties on the core classes that should not change throughout the lifetime of an object (`type`, `subType`, `name`, etc.)
-
