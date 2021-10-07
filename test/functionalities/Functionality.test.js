@@ -1,4 +1,18 @@
-const { Functionality } = require('functionalities')
+const {
+  Functionality,
+  Controller,
+  Actuator,
+  Sensor,
+  InputNode,
+  OutputNode,
+} = require('functionalities')
+// this is exported separately from the index below we don't want to expose it publicly in the package
+const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
+const ControllerSeeder = require('seeders/functionalities/ControllerSeeder')
+const ActuatorSeeder = require('seeders/functionalities/ActuatorSeeder')
+const SensorSeeder = require('seeders/functionalities/SensorSeeder')
+const InputNodeSeeder = require('seeders/functionalities/InputNodeSeeder')
+const OutputNodeSeeder = require('seeders/functionalities/OutputNodeSeeder')
 const {
   HeaterActuatorSeeder,
   PIDControllerSeeder,

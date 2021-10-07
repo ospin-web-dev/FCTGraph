@@ -7,6 +7,11 @@ const {
   PIDControllerSeeder,
   PushOutSeeder,
   PushInSeeder,
+  PumpActuatorSeeder,
+  HeidolphPumpSeeder,
+  StirrerActuatorSeeder,
+  HeidolphMagneticStirrerSeeder,
+  HeidolphOverheadStirrerSeeder,
   UnknownSensorSeeder,
   UnknownActuatorSeeder,
 } = require('seeders/functionalities')
@@ -19,6 +24,11 @@ const {
   PIDController,
   PushOut,
   PushIn,
+  PumpActuator,
+  HeidolphPump,
+  StirrerActuator,
+  HeidolphMagneticStirrer,
+  HeidolphOverheadStirrer,
   UnknownSensor,
   UnknownActuator,
 } = functionalitiesIndex
@@ -33,11 +43,11 @@ describe('the functionality factory', () => {
 
       expect(() => {
         FunctionalityFactory.new(fctData)
-      }).toThrow(`Functionality type not supported ${bogusType}`)
+      }).toThrow(`Functionality type not supported: ${bogusType}`)
 
       expect(() => {
         FunctionalityFactory.new({ ...fctData, type: false })
-      }).toThrow('Functionality type not supported FALSEY')
+      }).toThrow('Functionality type not supported: FALSEY')
     })
 
     it('throws useful error when the subType is not recognized', () => {
@@ -46,11 +56,11 @@ describe('the functionality factory', () => {
 
       expect(() => {
         FunctionalityFactory.new(fctData)
-      }).toThrow(`Functionality subType not supported ${bogusSubType}`)
+      }).toThrow(`Functionality subType not supported: ${bogusSubType}`)
 
       expect(() => {
         FunctionalityFactory.new({ ...fctData, subType: false })
-      }).toThrow('Functionality subType not supported FALSEY')
+      }).toThrow('Functionality subType not supported: FALSEY')
     })
 
     it('throws error when the subType is not recognized', () => {
@@ -59,7 +69,7 @@ describe('the functionality factory', () => {
 
       expect(() => {
         FunctionalityFactory.new({ ...fctData })
-      }).toThrow(`Functionality subType not supported ${bogusType}`)
+      }).toThrow(`Functionality subType not supported: ${bogusType}`)
     })
 
     it('assigns an empty array to slots if none are provided', () => {
