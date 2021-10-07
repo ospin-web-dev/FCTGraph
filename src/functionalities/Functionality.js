@@ -4,7 +4,7 @@ const RegexUtils = require('../utils/RegexUtils')
 const InSlot = require('../slots/InSlot')
 const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
-const AddSlotError = require('./AddSlotError')
+const AddSlotError = require('./FCTErrors/AddSlotError')
 
 class Functionality {
 
