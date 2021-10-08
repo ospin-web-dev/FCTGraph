@@ -4,18 +4,24 @@ const RegexUtils = require('../utils/RegexUtils')
 const InSlot = require('../slots/InSlot')
 const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
-const AddSlotError = require('./AddSlotError')
+const AddSlotError = require('./FCTErrors/AddSlotError')
+const SetProtectedPropertyError = require('./FCTErrors/SetProtectedPropertyError')
 
 class Functionality {
+
+  static get TYPE() { return null }
+
+  static get SUB_TYPE() { return null }
 
   static get SCHEMA() {
     return Joi.object({
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       name: Joi.string().required(),
+      type: Joi.string().allow(this.TYPE).required(),
+      subType: Joi.string().allow(this.SUB_TYPE).required(),
       slots: Joi.array().items(Joi.alternatives().try(
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
-      controllerName: Joi.string().allow(''), // this is used to support the old devices: https://github.com/ospin-web-dev/hambda/issues/913
       isVirtual: Joi.boolean().required(),
     })
   }
@@ -23,6 +29,18 @@ class Functionality {
   get isPhysical() { return !this.isVirtual }
 
   get slotNames() { return this.slots.map(({ name }) => name) }
+
+  get subType() { return this.constructor.SUB_TYPE }
+
+  set subType(val) {
+    throw new SetProtectedPropertyError(this, 'subType', val)
+  }
+
+  get type() { return this.constructor.TYPE }
+
+  set type(val) {
+    throw new SetProtectedPropertyError(this, 'type', val)
+  }
 
   _assertSlotNameUnique(slot) {
     if (this.slotNames.includes(slot.name)) {
@@ -61,6 +79,7 @@ class Functionality {
     this.fctGraph = fctGraph
     this.isVirtual = isVirtual
     this.slots = []
+
     if (slotsData) this._addSlotsByDataOrThrow(slotsData)
   }
 
@@ -68,6 +87,8 @@ class Functionality {
     return {
       id: this.id,
       name: this.name,
+      type: this.type,
+      subType: this.subType,
       isVirtual: this.isVirtual,
       slots: this.slots.map(slot => slot.serialize()),
     }
@@ -166,6 +187,8 @@ class Functionality {
       targetName === name
     ))
   }
+
+  isSubType(subType) { return this.subType === subType }
 
 }
 

@@ -6,6 +6,11 @@ const UnknownActuator = require('../UnknownActuator')
 const PIDController = require('../PIDController')
 const HeaterActuator = require('../HeaterActuator')
 const IntervalOut = require('../IntervalOut')
+const PumpActuator = require('../PumpActuator')
+const HeidolphPump = require('../HeidolphPump')
+const StirrerActuator = require('../StirrerActuator')
+const HeidolphMagneticStirrer = require('../HeidolphMagneticStirrer')
+const HeidolphOverheadStirrer = require('../HeidolphOverheadStirrer')
 const PushOut = require('../PushOut')
 const PushIn = require('../PushIn')
 
@@ -19,6 +24,11 @@ class FunctionalityFactory {
       PIDController,
       HeaterActuator,
       IntervalOut,
+      PumpActuator,
+      HeidolphPump,
+      StirrerActuator,
+      HeidolphMagneticStirrer,
+      HeidolphOverheadStirrer,
       PushOut,
       PushIn,
     })
@@ -51,12 +61,12 @@ class FunctionalityFactory {
 
     if (!FunctionalityFactory.SUPPORTED_TYPES.includes(type)) {
       const json = JSON.stringify(funcData)
-      throw new Error(`Functionality type not supported ${type || 'FALSEY'}\n${json}`)
+      throw new Error(`Functionality type not supported: ${type || 'FALSEY'}\n${json}`)
     }
 
     if (!FunctionalityFactory.SUPPORTED_SUB_TYPES.includes(subType)) {
       const json = JSON.stringify(funcData)
-      throw new Error(`Functionality subType not supported ${subType || 'FALSEY'}\n${json}`)
+      throw new Error(`Functionality subType not supported: ${subType || 'FALSEY'}\n${json}`)
     }
   }
 

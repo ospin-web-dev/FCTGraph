@@ -95,7 +95,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Heating plate controller",
       "isVirtual":false
     },
     {
@@ -126,7 +125,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Heating plate controller",
       "isVirtual":false
     },
     {
@@ -157,7 +155,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Heating plate controller",
       "isVirtual":false
     },
     {
@@ -1203,7 +1200,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller front",
       "isVirtual":false
     },
     {
@@ -1234,7 +1230,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller front",
       "isVirtual":false
     },
     {
@@ -1265,7 +1260,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller front",
       "isVirtual":false
     },
     {
@@ -1326,7 +1320,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller middle",
       "isVirtual":false
     },
     {
@@ -1357,7 +1350,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller middle",
       "isVirtual":false
     },
     {
@@ -1388,7 +1380,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller middle",
       "isVirtual":false
     },
     {
@@ -1449,7 +1440,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller back",
       "isVirtual":false
     },
     {
@@ -1480,7 +1470,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller back",
       "isVirtual":false
     },
     {
@@ -1511,7 +1500,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Temperature controller back",
       "isVirtual":false
     },
     {
@@ -1542,7 +1530,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller front",
       "isVirtual":false
     },
     {
@@ -1573,7 +1560,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller front",
       "isVirtual":false
     },
     {
@@ -1604,7 +1590,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller front",
       "isVirtual":false
     },
     {
@@ -1635,7 +1620,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller middle",
       "isVirtual":false
     },
     {
@@ -1666,7 +1650,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller middle",
       "isVirtual":false
     },
     {
@@ -1697,7 +1680,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller middle",
       "isVirtual":false
     },
     {
@@ -1728,7 +1710,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller back",
       "isVirtual":false
     },
     {
@@ -1759,7 +1740,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller back",
       "isVirtual":false
     },
     {
@@ -1790,7 +1770,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Fan controller back",
       "isVirtual":false
     },
     {
@@ -1851,7 +1830,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Casing controller",
       "isVirtual":false
     },
     {
@@ -1882,7 +1860,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Casing controller",
       "isVirtual":false
     },
     {
@@ -1913,7 +1890,6 @@ module.exports = {
           "tareable":false
         }
       ],
-      "controllerName":"Casing controller",
       "isVirtual":false
     },
     {
@@ -2386,7 +2362,6 @@ module.exports = {
         "tareable":false
       }
     ],
-    "controllerName":"pH controller",
     "isVirtual":false
   },
   {
@@ -2417,7 +2392,6 @@ module.exports = {
         "tareable":false
       }
     ],
-    "controllerName":"pH controller",
     "isVirtual":false
   },
   {
@@ -2448,7 +2422,6 @@ module.exports = {
         "tareable":false
       }
     ],
-    "controllerName":"pH controller",
     "isVirtual":false
   },
   {
@@ -2479,7 +2452,6 @@ module.exports = {
         "tareable":false
       }
     ],
-    "controllerName":"pH controller",
     "isVirtual":false
   },
   {

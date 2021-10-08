@@ -25,7 +25,6 @@ class OutputNode extends Functionality {
 
   static get SCHEMA() {
     return Joi.object({
-      type: Joi.string().allow(OutputNode.TYPE).required(),
       destination: Joi.object({
         name: Joi.string().allow(...OutputNode.VALID_DESTINATION_NAMES).required(),
       }),
@@ -37,7 +36,6 @@ class OutputNode extends Functionality {
     ...functionalityData
   }) {
     super({ isVirtual: true, ...functionalityData })
-    this.type = OutputNode.TYPE
     this.destination = destination
   }
 
@@ -46,7 +44,6 @@ class OutputNode extends Functionality {
   serialize() {
     return {
       ...super.serialize(),
-      type: this.type,
       destination: this.destination,
     }
   }

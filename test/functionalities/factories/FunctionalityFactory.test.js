@@ -7,6 +7,11 @@ const {
   PIDControllerSeeder,
   PushOutSeeder,
   PushInSeeder,
+  PumpActuatorSeeder,
+  HeidolphPumpSeeder,
+  StirrerActuatorSeeder,
+  HeidolphMagneticStirrerSeeder,
+  HeidolphOverheadStirrerSeeder,
   UnknownSensorSeeder,
   UnknownActuatorSeeder,
 } = require('seeders/functionalities')
@@ -19,6 +24,11 @@ const {
   PIDController,
   PushOut,
   PushIn,
+  PumpActuator,
+  HeidolphPump,
+  StirrerActuator,
+  HeidolphMagneticStirrer,
+  HeidolphOverheadStirrer,
   UnknownSensor,
   UnknownActuator,
 } = functionalitiesIndex
@@ -33,11 +43,11 @@ describe('the functionality factory', () => {
 
       expect(() => {
         FunctionalityFactory.new(fctData)
-      }).toThrow(`Functionality type not supported ${bogusType}`)
+      }).toThrow(`Functionality type not supported: ${bogusType}`)
 
       expect(() => {
         FunctionalityFactory.new({ ...fctData, type: false })
-      }).toThrow('Functionality type not supported FALSEY')
+      }).toThrow('Functionality type not supported: FALSEY')
     })
 
     it('throws useful error when the subType is not recognized', () => {
@@ -46,11 +56,11 @@ describe('the functionality factory', () => {
 
       expect(() => {
         FunctionalityFactory.new(fctData)
-      }).toThrow(`Functionality subType not supported ${bogusSubType}`)
+      }).toThrow(`Functionality subType not supported: ${bogusSubType}`)
 
       expect(() => {
         FunctionalityFactory.new({ ...fctData, subType: false })
-      }).toThrow('Functionality subType not supported FALSEY')
+      }).toThrow('Functionality subType not supported: FALSEY')
     })
 
     it('throws error when the subType is not recognized', () => {
@@ -59,7 +69,7 @@ describe('the functionality factory', () => {
 
       expect(() => {
         FunctionalityFactory.new({ ...fctData })
-      }).toThrow(`Functionality subType not supported ${bogusType}`)
+      }).toThrow(`Functionality subType not supported: ${bogusType}`)
     })
 
     it('assigns an empty array to slots if none are provided', () => {
@@ -111,6 +121,31 @@ describe('the functionality factory', () => {
         SubClassSeeder: UnknownActuatorSeeder,
         expectedIsVirtual: false,
       },
+      {
+        SubClass: PumpActuator,
+        SubClassSeeder: PumpActuatorSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: StirrerActuator,
+        SubClassSeeder: StirrerActuatorSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeidolphMagneticStirrer,
+        SubClassSeeder: HeidolphMagneticStirrerSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeidolphOverheadStirrer,
+        SubClassSeeder: HeidolphOverheadStirrerSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeidolphPump,
+        SubClassSeeder: HeidolphPumpSeeder,
+        expectedIsVirtual: false,
+      },
     ]
 
     it('has a test for each exported sub functionality', () => {
@@ -125,6 +160,9 @@ describe('the functionality factory', () => {
         functionalitiesIndex.Functionalty,
         functionalitiesIndex.Sensor,
         functionalitiesIndex.Actuator,
+        functionalitiesIndex.Controller,
+        functionalitiesIndex.InputNode,
+        functionalitiesIndex.OutputNode,
       ]
 
       expect(SUB_FUNCTIONALITIES).toHaveLength(
@@ -147,6 +185,10 @@ describe('the functionality factory', () => {
               FunctionalityFactory.newAndAssertStructure(badBadData)
             }).toThrow('"name" must be a string')
           })
+        })
+
+        it('has a .subType matching its class', () => {
+          expect(fct.subType).toStrictEqual(SubClass.SUB_TYPE)
         })
 
         it('creates the expected slot instances', () => {

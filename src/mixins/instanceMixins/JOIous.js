@@ -16,7 +16,7 @@ const ObjUtils = require('../../utils/ObjUtils')
  *
  * JOIous receivers need the following:
  * - a Class.SCHEMA method which returns a JOI schema
- * - a .serialize method which returns an object
+ * - a .serialize method which returns a plain old js object
  */
 
 const JOIous = ReceivingClass => class extends ReceivingClass {

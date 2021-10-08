@@ -1,4 +1,19 @@
-const { Functionality } = require('functionalities')
+const {
+  Functionality,
+  Controller,
+  Actuator,
+  Sensor,
+  InputNode,
+  OutputNode,
+  TemperatureSensor,
+} = require('functionalities')
+// this is exported separately from the index below we don't want to expose it publicly in the package
+const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
+const ControllerSeeder = require('seeders/functionalities/ControllerSeeder')
+const ActuatorSeeder = require('seeders/functionalities/ActuatorSeeder')
+const SensorSeeder = require('seeders/functionalities/SensorSeeder')
+const InputNodeSeeder = require('seeders/functionalities/InputNodeSeeder')
+const OutputNodeSeeder = require('seeders/functionalities/OutputNodeSeeder')
 const {
   HeaterActuatorSeeder,
   PIDControllerSeeder,
@@ -38,6 +53,60 @@ describe('the Functionality class', () => {
           /already has a slot with the same name/,
         )
       })
+    })
+  })
+
+  describe('protected instance properties throw when attempted to be set', () => {
+    const PROTECTED_PROPERTY_NAMES = [ 'subType', 'type' ]
+
+    PROTECTED_PROPERTY_NAMES.forEach(propName => {
+      describe(`set .${propName}`, () => {
+        it('throws error', () => {
+          const fct = new Functionality(FunctionalitySeeder.generate())
+
+          const newPropVal = 'jabroni'
+          const expectedErrorString = new RegExp(
+            `Can not set protected property on fct ${fct.name}: ${propName}`,
+          )
+
+          expect(() => {
+            fct[propName] = newPropVal
+          }).toThrow(expectedErrorString)
+        })
+      })
+    })
+  })
+
+  describe('.subType', () => {
+    it('is null for plain functionalities', () => {
+      const fct = new Functionality(FunctionalitySeeder.generate())
+      const controller = new Controller(ControllerSeeder.generate())
+      const actuator = new Actuator(ActuatorSeeder.generate())
+      const sensor = new Sensor(SensorSeeder.generate())
+      const inputNode = new InputNode(InputNodeSeeder.generate())
+      const outputNode = new OutputNode(OutputNodeSeeder.generate())
+
+      expect(fct.subType).toBeNull()
+      expect(controller.subType).toBeNull()
+      expect(actuator.subType).toBeNull()
+      expect(sensor.subType).toBeNull()
+      expect(inputNode.subType).toBeNull()
+      expect(outputNode.subType).toBeNull()
+    })
+  })
+
+  describe('.isSubType', () => {
+    it('returns true when the subType matches', () => {
+      const heater = HeaterActuatorSeeder.seedOne()
+      const pidController = PIDControllerSeeder.seedOne()
+      const tempSensor = TemperatureSensorSeeder.seedOne()
+
+      expect(heater.isSubType('HeaterActuator')).toBe(true)
+      expect(heater.isSubType('PIDController')).toBe(false)
+      expect(pidController.isSubType('PIDController')).toBe(true)
+      expect(pidController.isSubType('TemperatureSensor')).toBe(false)
+      expect(tempSensor.isSubType('TemperatureSensor')).toBe(true)
+      expect(tempSensor.isSubType('HeaterActuator')).toBe(false)
     })
   })
 

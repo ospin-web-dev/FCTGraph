@@ -1,14 +1,14 @@
 const JOIous = require('../mixins/instanceMixins/JOIous')
 const Actuator = require('./Actuator')
 
-class HeaterActuator extends Actuator {
+class PumpActuator extends Actuator {
 
   static get SUB_TYPE() {
-    return 'HeaterActuator'
+    return 'PumpActuator'
   }
 
 }
 
 module.exports = (
-  JOIous(HeaterActuator)
+  JOIous(PumpActuator)
 )

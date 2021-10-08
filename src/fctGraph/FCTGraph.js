@@ -54,12 +54,16 @@ class FCTGraph {
     sourceSlot.connectTo(sinkSlot, dataStreamData)
   }
 
-  _populateConnections(functionalitiesData) {
-    const dataStreamsData = FCTGraph._collectUniqueDataStreamsData(functionalitiesData)
-
+  _addManyConnectionsViaDataStreamsData(dataStreamsData) {
     dataStreamsData.forEach(dataStreamData => (
       this._addConnectionViaDataStreamData(dataStreamData)
     ))
+  }
+
+  _populateConnections(functionalitiesData) {
+    const dataStreamsData = FCTGraph._collectUniqueDataStreamsData(functionalitiesData)
+
+    this._addManyConnectionsViaDataStreamsData(dataStreamsData)
   }
 
   constructor({
