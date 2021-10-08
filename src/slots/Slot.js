@@ -91,8 +91,8 @@ class Slot {
   static get SCHEMA() {
     return Joi.object({
       name: Joi.string().required(),
-      displayType: Joi.string().default(null).allow(null),
-      dataStreams: Joi.array().items(DataStream.SCHEMA).default([]),
+      displayType: Joi.string().allow(null).required(),
+      dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
       unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(),
     })
   }
@@ -105,7 +105,7 @@ class Slot {
   }) {
     this.name = name
     this.functionality = functionality
-    this.displayType = displayType
+    this.displayType = displayType || null
     this.unit = unit
     this.dataStreams = []
   }

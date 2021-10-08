@@ -29,6 +29,10 @@ class Functionality {
 
   get slotNames() { return this.slots.map(({ name }) => name) }
 
+  get subType() { return this.constructor.SUB_TYPE }
+
+  get type() { return this.constructor.TYPE }
+
   _assertSlotNameUnique(slot) {
     if (this.slotNames.includes(slot.name)) {
       throw new AddSlotError(slot, `functionality already has a slot with the same name. current slot names: ${this.slotNames}`)
@@ -63,8 +67,6 @@ class Functionality {
   }) {
     this.id = id
     this.name = name
-    this.type = this.constructor.TYPE
-    this.subType = this.constructor.SUB_TYPE
     this.fctGraph = fctGraph
     this.isVirtual = isVirtual
     this.slots = []
@@ -177,12 +179,7 @@ class Functionality {
     ))
   }
 
-  isSubType(subType) {
-    return (
-      this.constructor.SUB_TYPE === subType
-      && this.subType === subType
-    )
-  }
+  isSubType(subType) { return this.subType === subType }
 
 }
 

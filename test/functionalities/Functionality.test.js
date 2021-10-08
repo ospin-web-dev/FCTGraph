@@ -5,6 +5,7 @@ const {
   Sensor,
   InputNode,
   OutputNode,
+  TemperatureSensor,
 } = require('functionalities')
 // this is exported separately from the index below we don't want to expose it publicly in the package
 const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
@@ -52,6 +53,19 @@ describe('the Functionality class', () => {
           /already has a slot with the same name/,
         )
       })
+    })
+  })
+
+  describe('set .subType', () => {
+    it('refuses to be set', () => {
+      const tempSensor = TemperatureSensorSeeder.seedOne()
+      expect(tempSensor.subType).toStrictEqual(TemperatureSensor.SUB_TYPE)
+
+      const jabroni = 'jabroni'
+      tempSensor.subType = jabroni
+
+      expect(jabroni).not.toStrictEqual(TemperatureSensor.SUB_TYPE)
+      expect(tempSensor.subType).toStrictEqual(TemperatureSensor.SUB_TYPE)
     })
   })
 
