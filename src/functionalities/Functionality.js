@@ -5,6 +5,7 @@ const InSlot = require('../slots/InSlot')
 const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
 const AddSlotError = require('./FCTErrors/AddSlotError')
+const SetProtectedPropertyError = require('./FCTErrors/SetProtectedPropertyError')
 
 class Functionality {
 
@@ -31,7 +32,15 @@ class Functionality {
 
   get subType() { return this.constructor.SUB_TYPE }
 
+  set subType(val) {
+    throw new SetProtectedPropertyError(this, 'subType', val)
+  }
+
   get type() { return this.constructor.TYPE }
+
+  set type(val) {
+    throw new SetProtectedPropertyError(this, 'type', val)
+  }
 
   _assertSlotNameUnique(slot) {
     if (this.slotNames.includes(slot.name)) {

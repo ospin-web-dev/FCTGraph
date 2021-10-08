@@ -56,16 +56,24 @@ describe('the Functionality class', () => {
     })
   })
 
-  describe('set .subType', () => {
-    it('refuses to be set', () => {
-      const tempSensor = TemperatureSensorSeeder.seedOne()
-      expect(tempSensor.subType).toStrictEqual(TemperatureSensor.SUB_TYPE)
+  describe('protected instance properties throw when attempted to be set', () => {
+    const PROTECTED_PROPERTY_NAMES = [ 'subType', 'type' ]
 
-      const jabroni = 'jabroni'
-      tempSensor.subType = jabroni
+    PROTECTED_PROPERTY_NAMES.forEach(propName => {
+      describe(`set .${propName}`, () => {
+        it('throws error', () => {
+          const fct = new Functionality(FunctionalitySeeder.generate())
 
-      expect(jabroni).not.toStrictEqual(TemperatureSensor.SUB_TYPE)
-      expect(tempSensor.subType).toStrictEqual(TemperatureSensor.SUB_TYPE)
+          const newPropVal = 'jabroni'
+          const expectedErrorString = new RegExp(
+            `Can not set protected property on fct ${fct.name}: ${propName}`,
+          )
+
+          expect(() => {
+            fct[propName] = newPropVal
+          }).toThrow(expectedErrorString)
+        })
+      })
     })
   })
 
