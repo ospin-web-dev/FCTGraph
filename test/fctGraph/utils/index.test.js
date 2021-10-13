@@ -16,14 +16,6 @@ function getExportedFunctions(module) {
 
 describe('the FCTGraph utils module', () => {
 
-  it('exports mutators', () => {
-    expect(fctGraphUtils.mutators).toBeDefined()
-  })
-
-  it('fails this test when something is added to its export without being documented here!', () => {
-    expect(Object.keys(fctGraphUtils)).toHaveLength(1)
-  })
-
   it('has every function it exports throw error if the first argument is not an instance of an fctGraph', () => {
     const exportedFunctions = getExportedFunctions(fctGraphUtils)
 
