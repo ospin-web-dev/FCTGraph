@@ -33,6 +33,11 @@ The following is a selected showcase of the public functions on the various base
 - **DataStream** (edge - connects to slots)
 
 #### <a name="Instantiation">Instantiation!
+> NOTE: FCTGraphs will instantiate from deeply nested objects, reading down from the top level.
+> - an `fctGraph` has many `.functionalities`
+> - a `functionality` has many `.slots`
+> - a `slot` has many `.dataStreams`
+
 ```js
 const { FCTGraph, functionalities, slots } = require('@ospin/fct-graph') // or import
 
@@ -46,8 +51,8 @@ const pidControllerData = { slots: [ tempInSlotData ], ... }  /* see PIDControll
 // ...and instantiate our FCTGraph
 const fctGraph = FCTGraph.newAndAssertStructure({
   functionalities: [ tempSensorData, pidControllerData ],
-  ...,
-}) /* see FCTGraph.SCHEMA */)
+  ..., /* see FCTGraph.SCHEMA */
+})
 
 // we can also add functionalities after the fact
 fctGraph.addFunctionalityByData({ ...heaterActuatorData })
@@ -56,6 +61,23 @@ fctGraph.functionalities
 // -> a temperature sensor with a temperature outslot
 // -> a PID controller with a temperature in slot
 // -> a heater actuator
+```
+
+Alternative instantiation with dataStreams passed in as a top level key on the fctGraph data:
+
+```js
+const fctGraph = FCTGraph.newWithDataStreamsTopLevel({
+  functionalities: [ tempSensorData, pidControllerData ],
+  dataStreamsData: [ ...dataStreamData ],
+  ..., /* see FCTGraph.SCHEMA */
+})
+
+/* NOTE: Datastreams found deeply nested within slots will be added first
+ * and if a duplicate connection is found within `dataStreamsData` it will
+ * _not_ overwrite the connection with any conflicting values, such as a
+ * different `dataStream.averagingWindowSize` and if a duplicate connection
+ * is found within `dataStreamsData` it will _not_ overwrite the connection
+ * with any conflicting values, such as a different `dataStream.averagingWindowSize` */
 ```
 
 #### <a name="Action">Action!
