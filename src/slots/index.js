@@ -1,3 +1,5 @@
+const SlotFactory = require('./factories/SlotFactory')
+
 const BooleanInSlot = require('./BooleanInSlot')
 const FloatInSlot = require('./FloatInSlot')
 const IntegerInSlot = require('./IntegerInSlot')
@@ -9,6 +11,8 @@ const IntegerOutSlot = require('./IntegerOutSlot')
 const OneOfOutSlot = require('./OneOfOutSlot')
 
 module.exports = {
+
+  SlotFactory,
 
   BooleanInSlot,
   FloatInSlot,
