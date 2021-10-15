@@ -56,6 +56,7 @@ describe('fctGraph module entry point)', () => {
 
     slots: {
       SlotFactory: 'Class',
+      Slot: 'Class',
       BooleanInSlot: 'Class',
       FloatInSlot: 'Class',
       IntegerInSlot: 'Class',

@@ -43,20 +43,20 @@ describe('the FCTGraph class', () => {
   })
 
   describe('.newWithDataStreamsTopLevel', () => {
-    it('throws if given an invalid or absent dataStreamsData value', () => {
+    it('throws if given an invalid or absent dataStreams value', () => {
       const fctGraphData = FCTGraphSeeder.generate()
       expect(() => {
         FCTGraph.newWithDataStreamsTopLevel(fctGraphData) // eslint-disable-line
-      }).toThrow(/"dataStreamsData" must be present and an array/)
+      }).toThrow(/"dataStreams" must be present and an array/)
 
       expect(() => {
         FCTGraph.newWithDataStreamsTopLevel({ dataStreams: 3, ...fctGraphData }) // eslint-disable-line
-      }).toThrow(/"dataStreamsData" must be present and an array/)
+      }).toThrow(/"dataStreams" must be present and an array/)
     })
 
     it('creates an instance', () => {
       const fctGraphData = FCTGraphSeeder.generate({})
-      fctGraphData.dataStreamsData = []
+      fctGraphData.dataStreams = []
 
       const fctGraph = FCTGraph.newWithDataStreamsTopLevel(fctGraphData)
 
@@ -71,16 +71,16 @@ describe('the FCTGraph class', () => {
 
       expect(unconnectedFctGraph.dataStreamsCount).toBe(0)
 
-      const dataStreamsData = FCTGraph._collectUniqueDataStreamsData(
+      const dataStreams = FCTGraph._collectUniqueDataStreamsData(
         connectedFCTGraphData.functionalities,
       )
 
-      expect(dataStreamsData.length).toBeGreaterThan(0)
+      expect(dataStreams.length).toBeGreaterThan(0)
 
       const fctGraphTraditional = new FCTGraph(connectedFCTGraphData)
       const fctGraphAltConstruction = FCTGraph.newWithDataStreamsTopLevel({
         ...unconnectedFctGraph.serialize(),
-        dataStreamsData,
+        dataStreams,
       })
 
       expect(
