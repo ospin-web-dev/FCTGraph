@@ -42,7 +42,55 @@ describe('the FCTGraph class', () => {
     })
   })
 
-  describe('#deepEquals', () => {
+  describe('.newWithDataStreamsTopLevel', () => {
+    it('throws if given an invalid or absent dataStreams value', () => {
+      const fctGraphData = FCTGraphSeeder.generate()
+      expect(() => {
+        FCTGraph.newWithDataStreamsTopLevel(fctGraphData) // eslint-disable-line
+      }).toThrow(/"dataStreams" must be present and an array/)
+
+      expect(() => {
+        FCTGraph.newWithDataStreamsTopLevel({ dataStreams: 3, ...fctGraphData }) // eslint-disable-line
+      }).toThrow(/"dataStreams" must be present and an array/)
+    })
+
+    it('creates an instance', () => {
+      const fctGraphData = FCTGraphSeeder.generate({})
+      fctGraphData.dataStreams = []
+
+      const fctGraph = FCTGraph.newWithDataStreamsTopLevel(fctGraphData)
+
+      // unfortunately instanceof not working here. due to this I believe
+      // https://github.com/facebook/jest/issues/2549
+      expect(fctGraph.constructor.name).toStrictEqual('FCTGraph')
+    })
+
+    it('instantiates with the connections', () => {
+      const unconnectedFctGraph = new FCTGraph(connectedFCTGraphData)
+      unconnectedFctGraph.disconnectAll()
+
+      expect(unconnectedFctGraph.dataStreamsCount).toBe(0)
+
+      const dataStreams = FCTGraph._collectUniqueDataStreamsData(
+        connectedFCTGraphData.functionalities,
+      )
+
+      expect(dataStreams.length).toBeGreaterThan(0)
+
+      const fctGraphTraditional = new FCTGraph(connectedFCTGraphData)
+      const fctGraphAltConstruction = FCTGraph.newWithDataStreamsTopLevel({
+        ...unconnectedFctGraph.serialize(),
+        dataStreams,
+      })
+
+      expect(
+        FCTGraph.deepEquals(fctGraphTraditional, fctGraphAltConstruction),
+      ).toBe(true)
+    })
+
+  })
+
+  describe('.deepEquals', () => {
     describe('when the fctGraphs deep equal', () => {
       it('returns true', () => {
         const fctGraphData = FCTGraphSeeder.generate()

@@ -157,6 +157,8 @@ describe('the Functionality class', () => {
         expect(pidController.connectedFcts).toStrictEqual([
           tempSensor, heater,
         ])
+
+        expect(pidController.dataStreamsCount).toBe(2)
       })
     })
 

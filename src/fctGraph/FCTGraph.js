@@ -82,6 +82,18 @@ class FCTGraph {
     this._populateConnections(functionalitiesData)
   }
 
+  static newWithDataStreamsTopLevel({ dataStreams: dataStreamsData, ...newData }) {
+    /* this method is a helper for FW who wants to make use of a top level
+     * dataStreams key as opposed to using the dataStreams data nested down
+     * in the slots */
+    if (!Array.isArray(dataStreamsData)) throw Error('key of "dataStreams" must be present and an array')
+
+    const fctGraph = new FCTGraph(newData)
+    fctGraph._addManyConnectionsViaDataStreamsData(dataStreamsData)
+
+    return fctGraph
+  }
+
   serialize() {
     return {
       id: this.id,
@@ -167,11 +179,19 @@ class FCTGraph {
     return fct && fct.getSlotByName(slotName)
   }
 
-  get dataStreamsCount() {
-    return this.functionalities.reduce((dataStreamsCount, fct) => (
-      dataStreamsCount + fct.dataStreamsCount
-    ), 0)
+  get dataStreams() {
+    return Array.from(
+      this.functionalities.reduce((graphDataStreams, { dataStreams }) => (
+        new Set([ ...graphDataStreams, ...dataStreams ])
+      ), new Set()),
+    )
   }
+
+  get dataStreamsCount() {
+    return this.dataStreams.length
+  }
+
+  disconnectAll() { this.functionalities.forEach(fct => fct.disconnectAll()) }
 
 }
 

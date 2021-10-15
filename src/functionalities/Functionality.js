@@ -150,12 +150,15 @@ class Functionality {
     ))
   }
 
-  get dataStreamsCount() {
-    // divide by two as every fct is returning those dataStreams that are connected to it
-    return this.slots.reduce((dataStreamsCount, slot) => (
-      dataStreamsCount + slot.dataStreams.length
-    ), 0) / 2
+  get dataStreams() {
+    return Array.from(
+      this.slots.reduce((fctDataStreams, { dataStreams }) => (
+        new Set([ ...fctDataStreams, ...dataStreams ])
+      ), new Set()),
+    )
   }
+
+  get dataStreamsCount() { return this.dataStreams.length }
 
   _getConnectedFcts(targetSlots = this.slots) {
     return targetSlots.reduce((connectedFcts, slot) => {
@@ -189,6 +192,8 @@ class Functionality {
   }
 
   isSubType(subType) { return this.subType === subType }
+
+  disconnectAll() { this.slots.forEach(slot => slot.disconnectAll()) }
 
 }
 
