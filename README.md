@@ -204,7 +204,7 @@ Functionalities and Slots need somewhat intelligent instantiation as they are me
 
 ## <a name="Seeders"></a>Seeders
 
-> **NOTE:** Seeders are meant for testing purposes ONLY. While they carry a high test coverage %, they (likely) don't have the 100% Green™ coverage that the rest does.
+> **NOTE:** Seeders are meant for testing purposes ONLY. While they carry a high test coverage percentage, they (likely) don't have the 100% Green™ coverage that the rest does.
 
 The package comes with seeders which have the same class hierarchy as the primary models. A seeder exists for every [non-virtual functionality and slot](#ClassStructureAndHierarchies). The seeder modules are named after the classes, e.g. `PIDControllerSeeder` or `BooleanInSlotSeeder`. Refer to the [Class Structure and Hierarchies](#ClassStructureAndHierarchies) above for the full list of functionalities and slots. Following is an example of the seeder heirarchy:
 ```js
