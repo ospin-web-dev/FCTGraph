@@ -13,6 +13,15 @@ class Functionality {
 
   static get SUB_TYPE() { return null }
 
+  static get PORTS_SCHEMA() {
+    return Joi.array().items(
+      Joi.object({
+        name: Joi.string().required(),
+        purpose: Joi.string().required(),
+      }),
+    )
+  }
+
   static get SCHEMA() {
     return Joi.object({
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
@@ -23,6 +32,8 @@ class Functionality {
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
       isVirtual: Joi.boolean().required(),
+      ports: this.PORTS_SCHEMA,
+      firmwareBlackBox: Joi.object(),
     })
   }
 
