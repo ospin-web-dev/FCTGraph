@@ -1,3 +1,5 @@
+const InputNode = require('functionalities/InputNode')
+const InputNodeSeeder = require('seeders/functionalities/InputNodeSeeder')
 const {
   PushInSeeder,
   HeaterActuatorSeeder,
@@ -8,6 +10,22 @@ const {
 } = require('seeders/slots')
 
 describe('the InputNode Functionality', () => {
+
+  describe('.constructor', () => {
+    describe('re: assigning default values', () => {
+      it('assigns `source` to the class default if none is provided', () => {
+        const inputNodeData = InputNodeSeeder.generate()
+        delete inputNodeData.destination
+
+        const inputNode = new InputNode(inputNodeData)
+
+        expect(inputNode.source).toStrictEqual(
+          InputNode.DEFAULT_SOURCE,
+        )
+      })
+    })
+  })
+
   describe('getSinkFct', () => {
     it('returns the sole sink functionality', () => {
       const inSlot = FloatInSlotSeeder.seedCelsiusIn()
