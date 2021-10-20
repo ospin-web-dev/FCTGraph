@@ -25,13 +25,8 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
 
   static get isJOIous() { return true }
 
-  static diff(objA, objB) {
-    return diff(objA, objB) // library returns undefined for no diffs
-  }
-
-  static deepEquals(objA, objB) {
-    const objDiff = this.diff(objA.serialize(), objB.serialize())
-    return typeof objDiff === 'undefined'
+  static deepEquals(instanceA, instanceB) {
+    return ObjUtils.objsDeepEqual(instanceA.serialize(), instanceB.serialize())
   }
 
   static enrichJoiValidationError(error) {
@@ -50,13 +45,18 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     return instance
   }
 
-  serialize(data) {
+  clone() {
+    const data = this.serialize()
+    return new this.constructor(data)
+  }
+
+  serialize() {
     // This super looks backwards because JOIous is composed in to classes
     // in this case it anonymously extends the base class it is composed in to
     if (!super.serialize) {
       throw new Error(`${this.constructor.name} requires a .serialize method`)
     }
-    return super.serialize(data)
+    return super.serialize()
   }
 
   assertStructure() {

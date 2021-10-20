@@ -311,6 +311,23 @@ describe('the FCTGraph class', () => {
     })
   })
 
+  describe('getIONodeFcts', () => {
+    it('should return the input and output nodes', () => {
+      const inputFct = PushInSeeder.generate()
+      const pushOutputFct = PushOutSeeder.generate()
+      const sensor = TemperatureSensorSeeder.generate()
+      const heater = HeaterActuatorSeeder.generate()
+
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, pushOutputFct, heater,sensor ] })
+
+      const fcts = fctGraph.getIONodeFcts()
+
+      expect(fcts).toHaveLength(2)
+
+    });
+  });
+
   describe('getIntervalOutFcts', () => {
     it('returns the IntervalOut ushOut output fcts', () => {
       const inputFct = PushInSeeder.generate()
@@ -323,6 +340,150 @@ describe('the FCTGraph class', () => {
 
       expect(fcts).toHaveLength(1)
       expect(fcts[0].id).toBe(intervalOutFct.id)
+    })
+  })
+
+  describe('clone', () => {
+    const inputFct = PushInSeeder.generate()
+    const pushOutputFct = PushOutSeeder.generate()
+    const intervalOutFct = IntervalOutSeeder.generate()
+    const fctGraph = FCTGraphSeeder
+      .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
+
+    it('returns a carbon copy', () => {
+      const fctGraphCopy = fctGraph.clone()
+
+      expect(FCTGraph.deepEquals(fctGraphCopy, fctGraph)).toBe(true)
+
+    })
+
+    it('does not return the original', () => {
+      const fctGraphCopy = fctGraph.clone()
+
+      expect(fctGraphCopy).not.toBe(fctGraph)
+    })
+  })
+
+
+  describe('fctsDeepEqual', () => {
+    const intervalOutFct = IntervalOutSeeder.generate()
+    const sensor = TemperatureSensorSeeder.generate()
+    const heater = HeaterActuatorSeeder.generate()
+
+    const fctGraph = FCTGraphSeeder
+      .seedOne({ functionalities: [ sensor, heater ] })
+
+    describe('when functionalities are the same', () => {
+      it('should return true', () => {
+        expect(fctGraph.fctsDeepEquals(fctGraph)).toBe(true)
+      })
+    })
+
+    describe('when functionalities are the same but in a different order', () => {
+      it('should return true', () => {
+        const fctGraph2 = FCTGraphSeeder
+          .seedOne({ functionalities: [ heater, sensor ] })
+        expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(true)
+      })
+    })
+
+    describe('when the amount of functionalities is different', () => {
+      it('should return false', () => {
+        const fctGraph2 = FCTGraphSeeder
+          .seedOne({ functionalities: [ heater, sensor, intervalOutFct ] })
+        expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
+
+      });
+    });
+
+    describe('when the functionalities are different', () => {
+      it('should return false', () => {
+        const fctGraph2 = FCTGraphSeeder.seedOne({ functionalities:[
+          TemperatureSensorSeeder.generate(),
+          HeaterActuatorSeeder.generate(),
+        ]})
+
+        expect(fctGraph2.fctsDeepEquals(fctGraph)).toBe(false)
+        expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
+
+      })
+
+    });
+
+  });
+
+  describe('removeFCT', () => {
+    it('should remove the fct including any connections', () => {
+      const inputData = PushInSeeder.generate()
+      const pushOutputData = PushOutSeeder.generateFloatPushOutCelsius()
+      const intervalOutData = IntervalOutSeeder.generate()
+      const tempSensorData = TemperatureSensorSeeder.generateCelsiusFloatProducer()
+
+      const fctGraph = FCTGraphSeeder
+        .seedOne(
+          { functionalities: [ inputData, pushOutputData, intervalOutData, tempSensorData ] },
+        )
+
+      const pushOut = fctGraph.getFctById(pushOutputData.id)
+      const tempSensor = fctGraph.getFctById(tempSensorData.id)
+
+      const tempOutSlot = tempSensor.slots[0]
+      const pushOutSlot = pushOut.slots[0]
+
+      const { dataStream } = tempOutSlot.connectTo(pushOutSlot)
+      expect(dataStream instanceof DataStream).toBe(true)
+
+      expect(fctGraph.functionalities).toHaveLength(4)
+
+      fctGraph.removeFct(pushOut)
+
+      expect(fctGraph.functionalities).toHaveLength(3)
+
+      expect(fctGraph.getFctById(pushOut.id)).toBeUndefined()
+    })
+
+    it('should throw an error if the fct can not be found', () => {
+      const inputFct = PushInSeeder.generate()
+      const pushOutputFct = PushOutSeeder.generate()
+      const intervalOutFct = IntervalOutSeeder.generate()
+      const nonFoundInputFct = PushInSeeder.seedOne()
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
+
+      const { error, errorMsg } = fctGraph.removeFct(nonFoundInputFct)
+
+      expect(error).toBe(true)
+      expect(errorMsg).toBe('Fct can not be found on the graph')
+
+    })
+
+    it('should throw an error when', () => {
+      const inputFct = PushInSeeder.generate()
+      const pushOutputFct = PushOutSeeder.generate()
+      const intervalOutFct = IntervalOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
+      const fctToBeRemoved = fctGraph.getFctById(pushOutputFct.id)
+
+      jest.spyOn(fctToBeRemoved, '_getConnectedFcts').mockImplementation(() => [1,2])
+
+      const { error, errorMsg } = fctGraph.removeFct(fctToBeRemoved)
+
+      expect(error).toBe(true)
+      expect(errorMsg).toMatch(/Fct is still connected/)
+    })
+
+    it('should return the removed fct', () => {
+      const inputFct = PushInSeeder.generate()
+      const pushOutputFct = PushOutSeeder.generate()
+      const intervalOutFct = IntervalOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
+      const fctToBeRemoved = fctGraph.getFctById(pushOutputFct.id)
+
+      const { removedFct } = fctGraph.removeFct(fctToBeRemoved)
+
+      expect(removedFct).toBe(fctToBeRemoved)
     })
   })
 

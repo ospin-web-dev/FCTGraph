@@ -1,6 +1,7 @@
 const Joi = require('joi')
 
 const RegexUtils = require('../utils/RegexUtils')
+const ObjUtils = require('../utils/ObjUtils')
 const InSlot = require('../slots/InSlot')
 const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
@@ -189,6 +190,10 @@ class Functionality {
     return this.connectedFcts.filter(({ name }) => (
       targetName === name
     ))
+  }
+
+  isDeepEqual(fct) {
+    return ObjUtils.objsDeepEqual(this.serialize(), fct.serialize())
   }
 
   isSubType(subType) { return this.subType === subType }

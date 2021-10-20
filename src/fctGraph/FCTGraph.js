@@ -1,6 +1,5 @@
 const Joi = require('joi')
 const ArrayUtils = require('@choux/array-utils')
-
 const JOIous = require('../mixins/instanceMixins/JOIous')
 const FunctionalityFactory = require('../functionalities/factories/FunctionalityFactory')
 const InputNode = require('../functionalities/InputNode')
@@ -9,7 +8,9 @@ const PushOut = require('../functionalities/PushOut')
 const IntervalOut = require('../functionalities/IntervalOut')
 const PushIn = require('../functionalities/PushIn')
 const RegexUtils = require('../utils/RegexUtils')
+const ObjUtils = require('../utils/ObjUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
+const Functionality = require('../functionalities/Functionality')
 
 class FCTGraph {
 
@@ -154,12 +155,16 @@ class FCTGraph {
     return this.functionalities.filter(({ type }) => type === InputNode.TYPE)
   }
 
-  getPushInFcts() {
-    return this.getInputFcts().filter(({ subType }) => subType === PushIn.SUB_TYPE)
-  }
-
   getOutputFcts() {
     return this.functionalities.filter(({ type }) => type === OutputNode.TYPE)
+  }
+
+  getIONodeFcts() {
+    return [...this.getInputFcts(), ...this.getOutputFcts()]
+  }
+
+  getPushInFcts() {
+    return this.getInputFcts().filter(({ subType }) => subType === PushIn.SUB_TYPE)
   }
 
   getPushOutFcts() {
@@ -191,8 +196,35 @@ class FCTGraph {
     return this.dataStreams.length
   }
 
+  fctsDeepEquals(fctGraphB) {
+    const sortedFctsA = ArrayUtils.sortObjectsByKeyValue(this.functionalities, 'id')
+    const sortedFctsB = ArrayUtils.sortObjectsByKeyValue(fctGraphB.functionalities, 'id')
+    if (sortedFctsA.length !== sortedFctsB.length) return false
+
+    return !sortedFctsA.some((fct, index) => !fct.isDeepEqual(sortedFctsB[index]))
+  }
+
   disconnectAll() { this.functionalities.forEach(fct => fct.disconnectAll()) }
 
+  _removeFct(fctToBeRemoved) {
+    fctToBeRemoved.disconnectAll()
+    const fctIndex = this.functionalities.findIndex(fct => fct.id === fctToBeRemoved.id)
+    if (fctIndex === -1) {
+      throw Error('Fct can not be found on the graph')
+    } else if (fctToBeRemoved._getConnectedFcts().length > 0) {
+      throw Error(`Fct is still connected\ndDatastreams: ${fctToBeRemoved.dataStreams}`)
+    }
+    this.functionalities.splice(fctIndex, 1)
+    return publicSuccessRes({ removedFct: fctToBeRemoved })
+  }
+
+  removeFct(fct) {
+    try {
+      return this._removeFct(fct)
+    } catch (e) {
+      return publicErrorRes({ errorMsg: e.message, functionality: fct })
+    }
+  }
 }
 
 module.exports = (
