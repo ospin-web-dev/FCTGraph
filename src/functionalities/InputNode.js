@@ -52,6 +52,13 @@ class InputNode extends Functionality {
     return this.slots[0].connectedSlots[0]
   }
 
+  serialize() {
+    return {
+      ...super.serialize(),
+      source: this.source,
+    }
+  }
+
 }
 
 module.exports = InputNode
