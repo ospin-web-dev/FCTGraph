@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const ArrayUtils = require('@choux/array-utils')
+
 const JOIous = require('../mixins/instanceMixins/JOIous')
 const FunctionalityFactory = require('../functionalities/factories/FunctionalityFactory')
 const InputNode = require('../functionalities/InputNode')
@@ -8,9 +9,7 @@ const PushOut = require('../functionalities/PushOut')
 const IntervalOut = require('../functionalities/IntervalOut')
 const PushIn = require('../functionalities/PushIn')
 const RegexUtils = require('../utils/RegexUtils')
-const ObjUtils = require('../utils/ObjUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
-const Functionality = require('../functionalities/Functionality')
 
 class FCTGraph {
 
@@ -225,6 +224,7 @@ class FCTGraph {
       return publicErrorRes({ errorMsg: e.message, functionality: fct })
     }
   }
+
 }
 
 module.exports = (
