@@ -8,11 +8,11 @@ function isValidSlot(slot) {
   )
 }
 
-function addOutputFctForAllOutSlotsWhichHaveNone(fctGraph, addNodeMutationFunction) {
+function addOutputFctForAllOutSlotsWhichHaveNone(fctGraph, addNodeMutationFunction, options) {
   fctGraph.functionalities.forEach(({ slots }) => {
     slots.forEach(slot => {
       if (isValidSlot(slot)) {
-        addNodeMutationFunction(fctGraph, slot)
+        addNodeMutationFunction(fctGraph, slot, options)
       }
     })
   })

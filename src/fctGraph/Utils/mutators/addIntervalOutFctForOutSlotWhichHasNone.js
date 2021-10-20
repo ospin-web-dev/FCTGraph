@@ -3,7 +3,7 @@ const IntervalOut = require('../../../functionalities/IntervalOut')
 const addOutputFctForOutSlotWhichHasNone = require('./addOutputFctForOutSlotWhichHasNone')
 
 const DEFAULT_OPTS = {
-  intervalOutData: {},
+  customData: {},
 }
 
 function addIntervalOutFctForOutSlotWhichHasNone(fctGraph, outSlot, opts = DEFAULT_OPTS) {

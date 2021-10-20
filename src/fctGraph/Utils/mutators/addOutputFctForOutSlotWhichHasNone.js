@@ -55,8 +55,9 @@ function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, subTypeClass, opt
   const outputFct = subTypeClass.newAndAssertStructure({
     id: functionalityId,
     name: 'Output',
-    ...opts.pushOutData,
+    ...opts.customData,
     slots: [ inSlotData ],
+
   })
 
   return safeAddPushOutAndConnect(fctGraph, outSlot, outputFct)
