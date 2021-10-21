@@ -193,14 +193,14 @@ All non-virtual classes (e.g. HeaterActuator, IntegerInSlot, etc.) compose the *
 
 ## <a name="FCTGraphUtils"></a>FCTGraph Utils
 
-The FCTGraph has a pretty big appetite for specific and involved mutation methods and queries. To accommodate this, while avoiding class bloat, there exist FCTGraph Utils. The Utils are a collecting place for mutators, queries, and anything else related that is not considered 'core' enough functionality to exist on the classes directly.
+The FCTGraph has a pretty big appetite for specific and involved mutation methods and queries. To accommodate this, while avoiding class bloat, there exist FCTGraph Utils. The Utils are a collecting place for mutators, predicates, and anything else related that is not considered 'core' enough functionality to exist on the classes directly.
 
 ```js
 const {
   FCTGraph,
   FCTGraphUtils: {
     mutators: { addPushOutFctForAllOutSlotsWhichHaveNone },
-    queries,
+    predicates: { fctGraphsAreSameWIthoutIONodes },
   }
 } = require('@ospin/fct-graph')
 
