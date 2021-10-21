@@ -167,16 +167,12 @@ class FCTGraph {
     return this.functionalities.filter(({ type }) => type === OutputNode.TYPE)
   }
 
-  getIONodeFcts() {
-    return [...this.getInputFcts(), ...this.getOutputFcts()]
-  }
-
-  getPushInFcts() {
-    return this.getInputFcts().filter(({ subType }) => subType === PushIn.SUB_TYPE)
-  }
-
   getPushOutFcts() {
     return this.getOutputFcts().filter(({ subType }) => subType === PushOut.SUB_TYPE)
+  }
+
+  getIONodeFcts() {
+    return [...this.getInputFcts(), ...this.getOutputFcts()]
   }
 
   getOutputFctsByDestinationName(destinationName) {
