@@ -205,6 +205,9 @@ class FCTGraph {
   }
 
   fctsDeepEquals(fctGraphB) {
+    if (this.functionalities.length !== fctGraphB.functionalities.length) {
+      return false
+    }
     const sortedFctGraphs = [this, fctGraphB].map(fctGraph => {
       const sortedFcts = ArrayUtils.sortObjectsByKeyValue(fctGraph.functionalities, 'id')
       const fctsWithSortedSlots = sortedFcts.map(fct => {
