@@ -1,6 +1,6 @@
 const assertFCTGraphFirstArgument = require('../helpers/assertFCTGraphFirstArgument')
 
-function fctGraphsAreSameWIthoutIONodes(fctGraphA, fctGraphB) {
+function fctGraphsAreSameWithoutIONodes(fctGraphA, fctGraphB) {
 
   assertFCTGraphFirstArgument(() => {})(fctGraphA)
   assertFCTGraphFirstArgument(() => {})(fctGraphB)
@@ -18,4 +18,4 @@ function fctGraphsAreSameWIthoutIONodes(fctGraphA, fctGraphB) {
   return fctGraphArray[0].fctsDeepEquals(fctGraphArray[1])
 }
 
-module.exports = fctGraphsAreSameWIthoutIONodes
+module.exports = fctGraphsAreSameWithoutIONodes

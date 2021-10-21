@@ -200,7 +200,7 @@ const {
   FCTGraph,
   FCTGraphUtils: {
     mutators: { addPushOutFctForAllOutSlotsWhichHaveNone },
-    predicates: { fctGraphsAreSameWIthoutIONodes },
+    predicates: { fctGraphsAreSameWithoutIONodes },
   }
 } = require('@ospin/fct-graph')
 

@@ -1,5 +1,5 @@
-const fctGraphsAreSameWIthoutIONodes = require('./fctGraphsAreSameWIthoutIONodes')
+const fctGraphsAreSameWithoutIONodes = require('./fctGraphsAreSameWithoutIONodes')
 
 module.exports = {
-  fctGraphsAreSameWIthoutIONodes,
+  fctGraphsAreSameWithoutIONodes,
 }
