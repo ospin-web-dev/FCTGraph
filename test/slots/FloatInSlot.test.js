@@ -1,7 +1,22 @@
 const FloatInSlot = require('slots/FloatInSlot')
 const { FloatInSlotSeeder } = require('seeders/slots')
+const DataStreamSeeder = require('seeders/dataStreams/DataStreamSeeder')
 
 describe('the FloatInSlot class', () => {
+
+  describe('.assertStructure', () => {
+    it('throws if more than one dataStream is present', () => {
+      const slot = FloatInSlotSeeder.seedOne()
+      const dataStreams = [ DataStreamSeeder.seedOne(), DataStreamSeeder.seedOne() ]
+
+      slot.dataStreams = dataStreams
+
+      expect(() => {
+        slot.assertStructure()
+      }).toThrow(/"dataStreams" must contain less than or equal to 1 items/)
+    })
+  })
+
   describe('.newAndAssertStructure', () => {
     it('throws when max is below min', () => {
       const slotData = FloatInSlotSeeder.generate()

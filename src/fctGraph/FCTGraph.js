@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const ArrayUtils = require('@choux/array-utils')
+const { v4: uuidv4 } = require('uuid')
 
 const JOIous = require('../mixins/instanceMixins/JOIous')
 const FunctionalityFactory = require('../functionalities/factories/FunctionalityFactory')
@@ -25,11 +26,11 @@ class FCTGraph {
     })
   }
 
-  static _collectUniqueDataStreamsData(functionalitiesData) {
+  static _collectUniqueDataStreamsDataFromFctData(functionalitiesData) {
     const uniqueDataStreamsDataById = {}
 
     functionalitiesData.forEach(({ slots }) => {
-      slots.forEach(({ dataStreams }) => {
+      slots.forEach(({ dataStreams = [] }) => {
         dataStreams.forEach(dataStream => {
           uniqueDataStreamsDataById[dataStream.id] = dataStream
         })
@@ -60,14 +61,14 @@ class FCTGraph {
     ))
   }
 
-  _populateConnections(functionalitiesData) {
-    const dataStreamsData = FCTGraph._collectUniqueDataStreamsData(functionalitiesData)
+  _populateConnectionsFromFctData(functionalitiesData) {
+    const dataStreamsData = FCTGraph._collectUniqueDataStreamsDataFromFctData(functionalitiesData)
 
     this._addManyConnectionsViaDataStreamsData(dataStreamsData)
   }
 
   constructor({
-    id,
+    id = uuidv4(),
     deviceId,
     functionalities: functionalitiesData = [],
     deviceDefault = false,
@@ -79,7 +80,7 @@ class FCTGraph {
     this.deviceDefault = deviceDefault
     this.functionalities = []
     functionalitiesData.map(fctData => this._addFunctionalityByData(fctData))
-    this._populateConnections(functionalitiesData)
+    this._populateConnectionsFromFctData(functionalitiesData)
   }
 
   static newWithDataStreamsTopLevel({ dataStreams: dataStreamsData, ...newData }) {
