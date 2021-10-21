@@ -205,11 +205,16 @@ class FCTGraph {
   }
 
   fctsDeepEquals(fctGraphB) {
-    const sortedFctsA = ArrayUtils.sortObjectsByKeyValue(this.functionalities, 'id')
-    const sortedFctsB = ArrayUtils.sortObjectsByKeyValue(fctGraphB.functionalities, 'id')
-    if (sortedFctsA.length !== sortedFctsB.length) return false
+    const sortedFctGraphs = [this, fctGraphB].map(fctGraph => {
+      const sortedFcts = ArrayUtils.sortObjectsByKeyValue(fctGraph.functionalities, 'id')
+      const fctsWithSortedSlots = sortedFcts.map(fct => {
+        fct.slots = ArrayUtils.sortObjectsByKeyValue(fct.slots, 'name') //eslint-disable-line
+        return fct
+      })
+      return fctsWithSortedSlots
+    })
 
-    return !sortedFctsA.some((fct, index) => !fct.isDeepEqual(sortedFctsB[index]))
+    return !sortedFctGraphs[0].some((fct, index) => !fct.isDeepEqual(sortedFctGraphs[1][index]))
   }
 
   disconnectAll() { this.functionalities.forEach(fct => fct.disconnectAll()) }

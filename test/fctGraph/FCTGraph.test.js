@@ -11,6 +11,8 @@ const {
   IntervalOutSeeder,
   PushInSeeder,
 } = require('seeders/functionalities')
+const { FloatInSlotSeeder, FloatOutSlotSeeder } = require('seeders/slots')
+
 const FCTGraph = require('fctGraph/FCTGraph')
 const DataStream = require('dataStreams/DataStream')
 const connectedFCTGraphData = require('./seeds/connectedFCTGraphData')
@@ -404,6 +406,24 @@ describe('the FCTGraph class', () => {
           .seedOne({ functionalities: [ heater, sensor ] })
         expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(true)
       })
+
+      describe('when the slots are in a different order', () => {
+        it('should return true', () => {
+          const Slot1 = FloatInSlotSeeder.generateUnitlessIn({ name: 'D' })
+          const Slot2 = FloatOutSlotSeeder.generateCelsiusOut({ name: 'value out' })
+          const basefct = PIDControllerSeeder.generate()
+          const fctData1 = { ...basefct, slots: [Slot1, Slot2 ] }
+          const fctData2 = { ...basefct, slots: [Slot2, Slot1 ] }
+          const fctGraphA = FCTGraphSeeder.seedOne({ functionalities: [fctData1] })
+          const fctGraphB = FCTGraphSeeder.seedOne({ functionalities: [fctData2] })
+
+          expect(fctGraphA.functionalities[0].slots[1])
+            .not.toBe(fctGraphB.functionalities[0].slots[1])
+          expect(fctGraphA.fctsDeepEquals(fctGraphB)).toBe(true)
+        });
+      })
+
+
     })
 
     describe('when the amount of functionalities is different', () => {
@@ -427,7 +447,7 @@ describe('the FCTGraph class', () => {
 
       })
 
-    });
+    })
 
   });
 
