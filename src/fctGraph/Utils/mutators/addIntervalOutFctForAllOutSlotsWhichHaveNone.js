@@ -2,8 +2,12 @@ const assertFCTGraphFirstArgument = require('../helpers/assertFCTGraphFirstArgum
 const addIntervalOutFctForOutSlotWhichHasNone = require('./addIntervalOutFctForOutSlotWhichHasNone')
 const addOutputFctForAllOutSlotsWhichHaveNone = require('./addOutputFctForAllOutSlotsWhichHaveNone')
 
-function addIntervalOutFctForAllOutSlotsWhichHaveNone(fctGraph) {
-  addOutputFctForAllOutSlotsWhichHaveNone(fctGraph, addIntervalOutFctForOutSlotWhichHasNone)
+function addIntervalOutFctForAllOutSlotsWhichHaveNone(fctGraph, options) {
+  addOutputFctForAllOutSlotsWhichHaveNone(
+    fctGraph,
+    addIntervalOutFctForOutSlotWhichHasNone,
+    options,
+  )
 }
 
 module.exports = assertFCTGraphFirstArgument(

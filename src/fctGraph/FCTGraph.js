@@ -159,12 +159,20 @@ class FCTGraph {
     return this.getInputFcts().filter(({ subType }) => subType === PushIn.SUB_TYPE)
   }
 
+  getInputFctsBySourceName(sourceName) {
+    return this.getInputFcts().filter(({ source: { name } }) => name === sourceName)
+  }
+
   getOutputFcts() {
     return this.functionalities.filter(({ type }) => type === OutputNode.TYPE)
   }
 
   getPushOutFcts() {
     return this.getOutputFcts().filter(({ subType }) => subType === PushOut.SUB_TYPE)
+  }
+
+  getOutputFctsByDestinationName(destinationName) {
+    return this.getOutputFcts().filter(({ destination: { name } }) => name === destinationName)
   }
 
   getIntervalOutFcts() {

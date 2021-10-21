@@ -9,11 +9,11 @@ function isValidSlot(slot) {
   )
 }
 
-function addPushInFctForAllInSlotsWhichHaveNone(fctGraph) {
+function addPushInFctForAllInSlotsWhichHaveNone(fctGraph, options) {
   fctGraph.functionalities.forEach(({ slots }) => {
     slots.forEach(slot => {
       if (isValidSlot(slot)) {
-        addPushInFctForInSlotWhichHasNone(fctGraph, slot)
+        addPushInFctForInSlotWhichHasNone(fctGraph, slot, options)
       }
     })
   })
