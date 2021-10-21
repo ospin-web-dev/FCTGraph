@@ -68,7 +68,7 @@ Alternative instantiation with dataStreams passed in as a top level key on the f
 ```js
 const fctGraph = FCTGraph.newWithDataStreamsTopLevel({
   functionalities: [ tempSensorData, pidControllerData ],
-  dataStreams: [ ...dataStreamData ],
+  dataStreams: [ dataStreamData, ... ],
   ..., /* see FCTGraph.SCHEMA */
 })
 
