@@ -227,8 +227,6 @@ class FCTGraph {
     const fctIndex = this.functionalities.findIndex(fct => fct.id === fctToBeRemoved.id)
     if (fctIndex === -1) {
       throw Error('Fct can not be found on the graph')
-    } else if (fctToBeRemoved._getConnectedFcts().length > 0) {
-      throw Error(`Fct is still connected\ndDatastreams: ${fctToBeRemoved.dataStreams}`)
     }
     this.functionalities.splice(fctIndex, 1)
     return publicSuccessRes({ removedFct: fctToBeRemoved })

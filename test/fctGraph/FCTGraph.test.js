@@ -496,22 +496,6 @@ describe('the FCTGraph class', () => {
 
     })
 
-    it('should throw an error when', () => {
-      const inputFct = PushInSeeder.generate()
-      const pushOutputFct = PushOutSeeder.generate()
-      const intervalOutFct = IntervalOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
-      const fctToBeRemoved = fctGraph.getFctById(pushOutputFct.id)
-
-      jest.spyOn(fctToBeRemoved, '_getConnectedFcts').mockImplementation(() => [1,2])
-
-      const { error, errorMsg } = fctGraph.removeFct(fctToBeRemoved)
-
-      expect(error).toBe(true)
-      expect(errorMsg).toMatch(/Fct is still connected/)
-    })
-
     it('should return the removed fct', () => {
       const inputFct = PushInSeeder.generate()
       const pushOutputFct = PushOutSeeder.generate()
