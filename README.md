@@ -294,3 +294,4 @@ Available types:
 
 ## Upcoming:
 - reject setting properties on the core classes that should not change throughout the lifetime of an object (`name`, `anything else that is missing`.)
+
