@@ -208,7 +208,7 @@ class FCTGraph {
     if (this.functionalities.length !== fctGraphB.functionalities.length) {
       return false
     }
-    const sortedFctGraphs = [this, fctGraphB].map(fctGraph => {
+    const sortedFctGraphs = [this.clone(), fctGraphB.clone()].map(fctGraph => {
       const sortedFcts = ArrayUtils.sortObjectsByKeyValue(fctGraph.functionalities, 'id')
       const fctsWithSortedSlots = sortedFcts.map(fct => {
         fct.slots = ArrayUtils.sortObjectsByKeyValue(fct.slots, 'name') //eslint-disable-line

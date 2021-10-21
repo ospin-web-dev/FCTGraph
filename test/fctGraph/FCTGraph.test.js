@@ -417,10 +417,13 @@ describe('the FCTGraph class', () => {
           const fctGraphA = FCTGraphSeeder.seedOne({ functionalities: [fctData1] })
           const fctGraphB = FCTGraphSeeder.seedOne({ functionalities: [fctData2] })
 
-          expect(fctGraphA.functionalities[0].slots[1])
-            .not.toBe(fctGraphB.functionalities[0].slots[1])
+          expect(fctGraphA.functionalities[0].slots[1].serialize())
+            .toStrictEqual(fctGraphB.functionalities[0].slots[0].serialize())
           expect(fctGraphA.fctsDeepEquals(fctGraphB)).toBe(true)
-        });
+
+          expect(fctGraphA.functionalities[0].slots[1].serialize())
+            .toStrictEqual(fctGraphB.functionalities[0].slots[0].serialize())
+        })
       })
 
 
