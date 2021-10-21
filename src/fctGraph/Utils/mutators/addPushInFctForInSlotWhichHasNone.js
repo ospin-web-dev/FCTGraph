@@ -39,7 +39,7 @@ function safeAddPushInAndConnect(fctGraph, inSlot, pushInFct) {
 }
 
 const DEFAULT_OPTS = {
-  pushInData: {},
+  customData: {},
 }
 
 function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS) {
@@ -60,7 +60,7 @@ function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS
   const pushInFct = PushIn.newAndAssertStructure({
     id: functionalityId,
     name: 'Push In',
-    ...opts.pushInData,
+    ...opts.customData,
     slots: [ outSlotData ],
   })
 

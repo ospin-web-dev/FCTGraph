@@ -10,9 +10,10 @@ class InSlot extends Slot {
   }
 
   static get SCHEMA() {
-    return Joi.object({
+    return super.SCHEMA.concat(Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
-    }).concat(super.SCHEMA)
+      dataStreams: super.SCHEMA.extract('dataStreams').max(1),
+    }))
   }
 
   constructor(slotData) {

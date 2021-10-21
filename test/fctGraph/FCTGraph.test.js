@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid')
+
 const ObjUtils = require('utils/ObjUtils')
 const RegexUtils = require('utils/RegexUtils')
 const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
@@ -20,14 +22,31 @@ describe('the FCTGraph class', () => {
   })
 
   describe('.newAndAssertStructure', () => {
+    it('assigns an id if none is provided', () => {
+      const fctGraphData = FCTGraphSeeder.generate({ })
+      delete fctGraphData.id
+
+      const fctGraph = FCTGraph.newAndAssertStructure(fctGraphData)
+      expect(fctGraph.id).toMatch(RegexUtils.UUIDV4)
+    })
+
     it('throws if given an invalid data object', () => {
       expect(() => {
-        FCTGraph.newAndAssertStructure({}) // eslint-disable-line
-      }).toThrow(/"id" is required/)
+        FCTGraph.newAndAssertStructure({ id: uuidv4() }) // eslint-disable-line
+      }).toThrow(/"deviceId" is required/)
     })
 
     it('creates an instance', () => {
       const fctGraphData = FCTGraphSeeder.generate({ })
+      const fctGraph = new FCTGraph(fctGraphData)
+
+      expect(fctGraph instanceof FCTGraph).toBe(true)
+    })
+
+    it('creates an instance when a slot is missing a datastream key', () => {
+      const fctGraphData = FCTGraphSeeder.generate({ })
+      delete fctGraphData.functionalities[0].slots[0].dataStreams
+
       const fctGraph = new FCTGraph(fctGraphData)
 
       expect(fctGraph instanceof FCTGraph).toBe(true)
@@ -71,7 +90,7 @@ describe('the FCTGraph class', () => {
 
       expect(unconnectedFctGraph.dataStreamsCount).toBe(0)
 
-      const dataStreams = FCTGraph._collectUniqueDataStreamsData(
+      const dataStreams = FCTGraph._collectUniqueDataStreamsDataFromFctData(
         connectedFCTGraphData.functionalities,
       )
 
@@ -114,7 +133,7 @@ describe('the FCTGraph class', () => {
   })
 
   describe('.serialize', () => {
-    it('serializes back to the original data object', () => {
+    it('serializes back to the original data object with a simple graph', () => {
       const fctGraphData = FCTGraphSeeder.generate()
       const fctGraph = new FCTGraph(fctGraphData)
 
@@ -487,4 +506,36 @@ describe('the FCTGraph class', () => {
     })
   })
 
+  describe('getOutputFctsByDestinationName', () => {
+    it('returns the IntervalOut output fcts with the requested destination name', () => {
+      const inputFct = PushInSeeder.generate()
+      const intervalOutFct = IntervalOutSeeder
+        .generate({ destination: { name: 'ospin-webapp' } })
+      const intervalOutFct2 = IntervalOutSeeder
+        .generate({ destination: { name: 'unspecified' } })
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ inputFct, intervalOutFct, intervalOutFct2 ] })
+
+      const fcts = fctGraph.getOutputFctsByDestinationName('ospin-webapp')
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(intervalOutFct.id)
+    })
+  })
+
+  describe('getInputFctsBySourceName', () => {
+    it('returns the PushIn input fcts with the requested source name', () => {
+      const inputFct = PushInSeeder.generate({ source: { name: 'ospin-webapp' } })
+      const inputFct2 = PushInSeeder.generate({ source: { name: 'unspecified' } })
+      const outputFct = PushOutSeeder.generate()
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [ inputFct, inputFct2, outputFct ],
+      })
+
+      const fcts = fctGraph.getInputFctsBySourceName('ospin-webapp')
+
+      expect(fcts).toHaveLength(1)
+      expect(fcts[0].id).toBe(inputFct.id)
+    })
+  })
 })

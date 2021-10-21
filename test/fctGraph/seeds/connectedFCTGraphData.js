@@ -23,15 +23,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -178,15 +169,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -213,15 +195,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -278,15 +251,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -343,15 +307,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -408,15 +363,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -473,15 +419,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -538,15 +475,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -603,15 +531,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -638,15 +557,6 @@ module.exports = {
             }
           ],
           "unit":"rpm",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -673,15 +583,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -708,15 +609,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -743,15 +635,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -778,15 +661,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -813,15 +687,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -848,15 +713,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -883,15 +739,6 @@ module.exports = {
             }
           ],
           "unit":"°C",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -918,15 +765,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -953,15 +791,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -988,15 +817,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -1023,15 +843,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -1058,15 +869,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -1093,15 +895,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -1128,15 +921,6 @@ module.exports = {
             }
           ],
           "unit":"%",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -1913,15 +1697,6 @@ module.exports = {
             }
           ],
           "unit":"mMol",
-          "calibrations":[
-            {
-              "type":"OFFSET_SLOPE",
-              "params":{
-                "offset":"float",
-                "slope":"float"
-              }
-            }
-          ],
           "type":"OutSlot"
         }
       ],
@@ -2158,15 +1933,6 @@ module.exports = {
           }
         ],
         "unit":"mMol",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2193,15 +1959,6 @@ module.exports = {
           }
         ],
         "unit":"°C",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2255,15 +2012,6 @@ module.exports = {
           }
         ],
         "unit":"-",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2290,15 +2038,6 @@ module.exports = {
           }
         ],
         "unit":"°C",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2475,15 +2214,6 @@ module.exports = {
           }
         ],
         "unit":"mL/min",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2510,15 +2240,6 @@ module.exports = {
           }
         ],
         "unit":"mL/min",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2605,15 +2326,6 @@ module.exports = {
           }
         ],
         "unit":"°C",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2640,15 +2352,6 @@ module.exports = {
           }
         ],
         "unit":"%",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2675,15 +2378,6 @@ module.exports = {
           }
         ],
         "unit":"-",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -2710,15 +2404,6 @@ module.exports = {
           }
         ],
         "unit":"nA",
-        "calibrations":[
-          {
-            "type":"OFFSET_SLOPE",
-            "params":{
-              "offset":"float",
-              "slope":"float"
-            }
-          }
-        ],
         "type":"OutSlot"
       }
     ],
@@ -3795,11 +3480,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -3825,11 +3506,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -3855,11 +3532,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -3885,11 +3558,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -3915,11 +3584,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -3945,11 +3610,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -3975,11 +3636,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4005,11 +3662,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4035,11 +3688,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4065,11 +3714,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4095,11 +3740,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4125,11 +3766,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4155,11 +3792,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4185,11 +3818,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4215,11 +3844,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4245,11 +3870,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4275,11 +3896,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4305,11 +3922,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4335,11 +3948,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4365,11 +3974,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4395,11 +4000,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4425,11 +4026,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4455,11 +4052,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4485,11 +4078,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4515,11 +4104,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4545,11 +4130,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4575,11 +4156,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4605,11 +4182,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4635,11 +4208,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4665,11 +4234,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4695,11 +4260,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4725,11 +4286,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4755,11 +4312,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4785,11 +4338,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4815,11 +4364,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4845,11 +4390,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4875,11 +4416,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4905,11 +4442,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4935,11 +4468,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4965,11 +4494,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -4995,11 +4520,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5025,11 +4546,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5056,7 +4573,6 @@ module.exports = {
           }
         ],
         "type":"OutSlot",
-        "defaultValue":null
       }
     ],
     "isVirtual":true
@@ -5082,11 +4598,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5112,11 +4624,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5142,11 +4650,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5172,11 +4676,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5202,11 +4702,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5232,11 +4728,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5262,11 +4754,7 @@ module.exports = {
             "averagingWindowSize":0
           }
         ],
-        "type":"OutSlot",
-        "tareable":false,
-        "min":null,
-        "max":null,
-        "defaultValue":null
+        "type":"OutSlot"
       }
     ],
     "isVirtual":true
@@ -5275,5 +4763,4 @@ module.exports = {
 "deviceDefault":false,
 "id":"cfb7b3e5-87bc-41c4-aa80-a4c50efb9b62",
 "name":"default",
-"migrationType":"fromStreams"
 }
