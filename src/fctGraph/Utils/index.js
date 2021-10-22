@@ -10,7 +10,9 @@
  */
 
 const mutators = require('./mutators')
+const predicates = require('./predicates')
 
 module.exports = {
   mutators,
+  predicates,
 }

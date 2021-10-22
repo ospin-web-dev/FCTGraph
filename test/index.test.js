@@ -14,6 +14,9 @@ describe('fctGraph module entry point)', () => {
         addPushInFctForInSlotWhichHasNone: 'function',
         addPushInFctForAllInSlotsWhichHaveNone: 'function',
       },
+      predicates: {
+        fctGraphsAreSameWithoutIONodes: 'function',
+      },
     },
 
     functionalities: {

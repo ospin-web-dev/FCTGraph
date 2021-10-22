@@ -171,6 +171,10 @@ class FCTGraph {
     return this.getOutputFcts().filter(({ subType }) => subType === PushOut.SUB_TYPE)
   }
 
+  getIONodeFcts() {
+    return [...this.getInputFcts(), ...this.getOutputFcts()]
+  }
+
   getOutputFctsByDestinationName(destinationName) {
     return this.getOutputFcts().filter(({ destination: { name } }) => name === destinationName)
   }
@@ -200,7 +204,41 @@ class FCTGraph {
     return this.dataStreams.length
   }
 
+  fctsDeepEquals(fctGraphB) {
+    if (this.functionalities.length !== fctGraphB.functionalities.length) {
+      return false
+    }
+    const sortedFctGraphs = [this.clone(), fctGraphB.clone()].map(fctGraph => {
+      const sortedFcts = ArrayUtils.sortObjectsByKeyValue(fctGraph.functionalities, 'id')
+      const fctsWithSortedSlots = sortedFcts.map(fct => {
+        fct.slots = ArrayUtils.sortObjectsByKeyValue(fct.slots, 'name') //eslint-disable-line
+        return fct
+      })
+      return fctsWithSortedSlots
+    })
+
+    return !sortedFctGraphs[0].some((fct, index) => !fct.isDeepEqual(sortedFctGraphs[1][index]))
+  }
+
   disconnectAll() { this.functionalities.forEach(fct => fct.disconnectAll()) }
+
+  _removeFct(fctToBeRemoved) {
+    fctToBeRemoved.disconnectAll()
+    const fctIndex = this.functionalities.findIndex(fct => fct.id === fctToBeRemoved.id)
+    if (fctIndex === -1) {
+      throw Error('Fct can not be found on the graph')
+    }
+    this.functionalities.splice(fctIndex, 1)
+    return publicSuccessRes({ removedFct: fctToBeRemoved })
+  }
+
+  removeFct(fct) {
+    try {
+      return this._removeFct(fct)
+    } catch (e) {
+      return publicErrorRes({ errorMsg: e.message, functionality: fct })
+    }
+  }
 
 }
 
