@@ -15,6 +15,7 @@ class IntervalOutSeeder extends OutputNodeSeeder {
       ...super.generate(overrideData),
       subType: IntervalOut.SUB_TYPE,
       slots: this.generateSlots(),
+      publishIntervalMs: IntervalOut.DEFAULT_PUBLISH_INTERVAL,
       ...overrideData,
     }
   }
