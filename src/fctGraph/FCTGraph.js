@@ -89,7 +89,8 @@ class FCTGraph {
      * in the slots */
     if (!Array.isArray(dataStreamsData)) throw Error('key of "dataStreams" must be present and an array')
 
-    const fctGraph = new FCTGraph(newData)
+    // calling `new FCTGraph` won't use the composed methods!
+    const fctGraph = new this.prototype.constructor(newData)
     fctGraph._addManyConnectionsViaDataStreamsData(dataStreamsData)
 
     return fctGraph

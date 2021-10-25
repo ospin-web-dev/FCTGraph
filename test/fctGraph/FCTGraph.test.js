@@ -86,6 +86,15 @@ describe('the FCTGraph class', () => {
       expect(fctGraph.constructor.name).toStrictEqual('FCTGraph')
     })
 
+    it('the created instance is joious', () => {
+      const fctGraphData = FCTGraphSeeder.generate({})
+      fctGraphData.dataStreams = []
+
+      const fctGraph = FCTGraph.newWithDataStreamsTopLevel(fctGraphData)
+
+      expect(fctGraph.constructor.isJOIous).toBe(true)
+    })
+
     it('instantiates with the connections', () => {
       const unconnectedFctGraph = new FCTGraph(connectedFCTGraphData)
       unconnectedFctGraph.disconnectAll()

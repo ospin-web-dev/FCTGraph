@@ -7,7 +7,6 @@ const OutSlot = require('../slots/OutSlot')
 const SlotFactory = require('../slots/factories/SlotFactory')
 const AddSlotError = require('./FCTErrors/AddSlotError')
 const SetProtectedPropertyError = require('./FCTErrors/SetProtectedPropertyError')
-const ArrayUtils = require('@choux/array-utils')
 
 class Functionality {
 
