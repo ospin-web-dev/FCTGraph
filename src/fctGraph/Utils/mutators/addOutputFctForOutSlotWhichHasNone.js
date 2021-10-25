@@ -30,9 +30,9 @@ function assertPrerequisites(fctGraph, outSlot) {
   assertDoesNotHaveConnectedOutputNode(outSlot)
 }
 
-function safeAddPushOutAndConnect(fctGraph, outSlot, pushOutFct) {
-  fctGraph.addFunctionality(pushOutFct)
-  const addConnectionResponse = outSlot.connectTo(pushOutFct.inSlots[0])
+function safeAddOutputFctAndConnect(fctGraph, outSlot, outputFct) {
+  fctGraph.addFunctionality(outputFct)
+  const addConnectionResponse = outSlot.connectTo(outputFct.inSlots[0])
 
   return addConnectionResponse
 }
@@ -60,7 +60,7 @@ function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, subTypeClass, opt
 
   })
 
-  return safeAddPushOutAndConnect(fctGraph, outSlot, outputFct)
+  return safeAddOutputFctAndConnect(fctGraph, outSlot, outputFct)
 }
 
 module.exports = assertFCTGraphFirstArgument(
