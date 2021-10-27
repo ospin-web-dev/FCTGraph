@@ -9,10 +9,15 @@ class InSlot extends Slot {
     return 'InSlot'
   }
 
+  static get CONTROLLER_PARAMETER_DISPLAY_TYPE() {
+    return 'controller parameter'
+  }
+
   static get SCHEMA() {
     return super.SCHEMA.concat(Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
       dataStreams: super.SCHEMA.extract('dataStreams').max(1),
+      displayType: super.SCHEMA.extract('displayType').allow(InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE),
     }))
   }
 
@@ -28,6 +33,10 @@ class InSlot extends Slot {
     }
 
     return dataObj
+  }
+
+  get isControllerParameter() {
+    return this.displayType === InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE
   }
 
   _assertHasRoomForConnectionTo(otherSlot) {

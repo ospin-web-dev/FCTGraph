@@ -35,6 +35,12 @@ class InSlotSeeder extends SlotSeeder {
     })
   }
 
+  static generateControllerParameterSlot(data) {
+    return this.generateUnitlessIn(
+      { ...data, displayType: InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE },
+    )
+  }
+
   static seedCelsiusIn(data) {
     return this.seedOne(
       this.generateCelsiusIn(data),
