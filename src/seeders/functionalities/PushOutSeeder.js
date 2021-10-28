@@ -9,7 +9,7 @@ class PushOutSeeder extends OutputNodeSeeder {
 
   static generateSlots() {
     return [
-      RandomSlotSeeder.generateRandomInSlot({ name: 'value in' }),
+      RandomSlotSeeder.generateRandomInSlot({ name: PushOut.SLOT_NAME }),
     ]
   }
 
