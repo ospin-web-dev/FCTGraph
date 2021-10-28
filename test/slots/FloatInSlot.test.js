@@ -42,11 +42,6 @@ describe('the FloatInSlot class', () => {
 
       expect(() => FloatInSlot.newAndAssertStructure(slotData)).toThrow(/min/)
     })
-
-    it('should allow for the display type "controller parameter"', () => {
-      const slotData = FloatInSlotSeeder.generate({ displayType: 'controller parameter' })
-      expect(() => FloatInSlot.newAndAssertStructure(slotData)).not.toThrow()
-    });
   })
 
   describe('.constructor', () => {

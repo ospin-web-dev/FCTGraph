@@ -1,5 +1,6 @@
 const OneOfInSlot = require('slots/OneOfInSlot')
 const { OneOfInSlotSeeder } = require('seeders/slots')
+const InSlot = require('../../src/slots/InSlot')
 
 describe('the OneOfInSlot class', () => {
   describe('.constructor', () => {
@@ -21,5 +22,21 @@ describe('the OneOfInSlot class', () => {
       const slot = new OneOfInSlot(slotData)
       expect(slot.defaultValue).toBeNull()
     })
+
+    describe('.isControllerParameter', () => {
+      it('should return true for slots with the displayType controller paramter', () => {
+        const slot1 = new OneOfInSlot(
+          OneOfInSlotSeeder.generate({displayType: InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE })
+        )
+        const slot2 = new OneOfInSlot(
+          OneOfInSlotSeeder.generate({displayType: 'temperature' })
+        )
+
+        expect(slot1.isControllerParameter).toBe(true)
+        expect(slot2.isControllerParameter).toBe(false)
+
+      });
+    })
+
   })
 })
