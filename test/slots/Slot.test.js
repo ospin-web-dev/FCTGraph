@@ -43,6 +43,16 @@ describe('the Slot class', () => {
 
       expect(slotInstance.dataStreams).toStrictEqual([])
     })
+
+    it('by default assigns null as the displayType', () => {
+      const outSlot = RandomSlotSeeder.generate()
+      delete outSlot.displayType
+      SlotSeeder.stubOwningFct(outSlot)
+
+      const slotInstance = SlotFactory.new(outSlot)
+
+      expect(slotInstance.displayType).toBeNull()
+    })
   })
 
   describe('.serialize', () => {
