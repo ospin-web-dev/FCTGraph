@@ -1,14 +1,14 @@
 const ControllerSeeder = require('./ControllerSeeder')
-const { InSlotSeeder,FloatInSlotSeeder, FloatOutSlotSeeder } = require('../slots')
+const { FloatInSlotSeeder, FloatOutSlotSeeder } = require('../slots')
 const PIDController = require('../../functionalities/PIDController')
 
 class PIDControllerSeeder extends ControllerSeeder {
 
   static generateSlots() {
     return [
-      InSlotSeeder.generateControllerParameterSlot({ name: 'P' }),
-      InSlotSeeder.generateControllerParameterSlot({ name: 'I' }),
-      InSlotSeeder.generateControllerParameterSlot({ name: 'D' }),
+      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'P' }),
+      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'I' }),
+      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'D' }),
       FloatInSlotSeeder.generate({ name: 'target in' }),
       FloatInSlotSeeder.generate({ name: 'value in' }),
       FloatOutSlotSeeder.generate({ name: 'value out' }),
@@ -29,9 +29,10 @@ class PIDControllerSeeder extends ControllerSeeder {
    * **************************************************************** */
   static generateTemperatureControllerCelsius(data) {
     const slots = [
-      InSlotSeeder.generateControllerParameterSlot({ name: 'P' }),
-      InSlotSeeder.generateControllerParameterSlot({ name: 'I' }),
-      InSlotSeeder.generateControllerParameterSlot({ name: 'D' }),
+      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'P' }),
+      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'I' }),
+      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'D' }),
+      FloatInSlotSeeder.generateCelsiusIn({ name: 'target in' }),
       FloatInSlotSeeder.generateCelsiusIn({ name: 'value in' }),
       FloatOutSlotSeeder.generateCelsiusOut({ name: 'value out' }),
     ]

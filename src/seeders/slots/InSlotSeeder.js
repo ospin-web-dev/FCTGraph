@@ -3,6 +3,10 @@ const SlotSeeder = require('./SlotSeeder')
 
 class InSlotSeeder extends SlotSeeder {
 
+  static get DISPLAY_TYPES() {
+    return [...super.DISPLAY_TYPES, InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE]
+  }
+
   static generate(data = {}) {
     return {
       ...super.generate(data),

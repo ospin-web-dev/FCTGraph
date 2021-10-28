@@ -1,6 +1,7 @@
 const FloatInSlot = require('slots/FloatInSlot')
 const { FloatInSlotSeeder } = require('seeders/slots')
 const DataStreamSeeder = require('seeders/dataStreams/DataStreamSeeder')
+const InSlot = require('../../src/slots/InSlot')
 
 describe('the FloatInSlot class', () => {
 
@@ -41,6 +42,11 @@ describe('the FloatInSlot class', () => {
 
       expect(() => FloatInSlot.newAndAssertStructure(slotData)).toThrow(/min/)
     })
+
+    it('should allow for the display type "controller parameter"', () => {
+      const slotData = FloatInSlotSeeder.generate({ displayType: 'controller parameter' })
+      expect(() => FloatInSlot.newAndAssertStructure(slotData)).not.toThrow()
+    });
   })
 
   describe('.constructor', () => {
