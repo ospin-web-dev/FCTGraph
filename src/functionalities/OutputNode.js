@@ -4,6 +4,10 @@ const Functionality = require('./Functionality')
 
 class OutputNode extends Functionality {
 
+  static get SLOT_NAME() {
+    return 'input'
+  }
+
   static get TYPE() {
     return 'OutputNode'
   }

@@ -6,7 +6,7 @@ class IntervalOutSeeder extends OutputNodeSeeder {
 
   static generateSlots() {
     return [
-      FloatInSlotSeeder.generate({ name: 'value in' }),
+      FloatInSlotSeeder.generate({ name: IntervalOut.SLOT_NAME }),
     ]
   }
 

@@ -100,12 +100,12 @@ class Slot {
   constructor({
     name,
     functionality,
-    displayType,
+    displayType = null,
     unit,
   }) {
     this.name = name
     this.functionality = functionality
-    this.displayType = displayType || null
+    this.displayType = displayType
     this.unit = unit
     this.dataStreams = []
   }

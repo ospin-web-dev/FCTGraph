@@ -1,4 +1,5 @@
 const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
+const IntervalOut = require('functionalities/IntervalOut')
 const addIntervalOutFctForAllOutSlotsWhichHaveNone = require('fctGraph/Utils/mutators/addIntervalOutFctForAllOutSlotsWhichHaveNone')
 
 describe('addIntervalOutFctForAllOutSlotsWhichHaveNone', () => {
@@ -22,7 +23,7 @@ describe('addIntervalOutFctForAllOutSlotsWhichHaveNone', () => {
     )
   })
 
-  it.only('sets the desired destination if one is provided', () => {
+  it('sets the desired destination if one is provided', () => {
     const destination = { name: 'ospin-webapp' }
     const fctGraph = FCTGraphSeeder.seedOne()
     const fctIdsPreInsertion = fctGraph.functionalities.map(fct => fct.id)
@@ -39,6 +40,26 @@ describe('addIntervalOutFctForAllOutSlotsWhichHaveNone', () => {
     expect(intervalOutNodes.length).toBeGreaterThan(0)
     intervalOutNodes.forEach(intervalOutNode => {
       expect(intervalOutNode.destination.name).toBe(destination.name)
+    })
+  })
+
+  it('sets the slot name correctly', () => {
+    const destination = { name: 'ospin-webapp' }
+    const fctGraph = FCTGraphSeeder.seedOne()
+    const fctIdsPreInsertion = fctGraph.functionalities.map(fct => fct.id)
+
+    addIntervalOutFctForAllOutSlotsWhichHaveNone(
+      fctGraph,
+      { customData: { destination } },
+    )
+
+    const intervalOutNodes = fctGraph.functionalities.filter(fct => (
+      !fctIdsPreInsertion.includes(fct.id)
+    ))
+
+    expect(intervalOutNodes.length).toBeGreaterThan(0)
+    intervalOutNodes.forEach(intervalOutNode => {
+      expect(intervalOutNode.slots[0].name).toBe(IntervalOut.SLOT_NAME)
     })
   })
 })
