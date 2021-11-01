@@ -39,7 +39,7 @@ class InSlotSeeder extends SlotSeeder {
     })
   }
 
-  static generateControllerParameterSlot(data) {
+  static generatePIDControllerParameterSlot(data) {
     return this.generateUnitlessIn(
       { ...data, displayType: InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE },
     )

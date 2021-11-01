@@ -17,7 +17,7 @@ class InSlot extends Slot {
     return super.SCHEMA.concat(Joi.object({
       type: Joi.string().allow(InSlot.TYPE).required(),
       dataStreams: super.SCHEMA.extract('dataStreams').max(1),
-      displayType: super.SCHEMA.extract('displayType').allow(InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE),
+      displayType: super.SCHEMA.extract('displayType'),
     }))
   }
 

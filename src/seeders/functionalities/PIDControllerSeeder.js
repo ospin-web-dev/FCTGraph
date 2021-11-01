@@ -6,9 +6,9 @@ class PIDControllerSeeder extends ControllerSeeder {
 
   static generateSlots() {
     return [
-      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'P' }),
-      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'I' }),
-      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'D' }),
+      FloatInSlotSeeder.generatePIDControllerParameterSlot({ name: 'P' }),
+      FloatInSlotSeeder.generatePIDControllerParameterSlot({ name: 'I' }),
+      FloatInSlotSeeder.generatePIDControllerParameterSlot({ name: 'D' }),
       FloatInSlotSeeder.generate({ name: 'target in' }),
       FloatInSlotSeeder.generate({ name: 'value in' }),
       FloatOutSlotSeeder.generate({ name: 'value out' }),
@@ -29,9 +29,9 @@ class PIDControllerSeeder extends ControllerSeeder {
    * **************************************************************** */
   static generateTemperatureControllerCelsius(data) {
     const slots = [
-      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'P' }),
-      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'I' }),
-      FloatInSlotSeeder.generateControllerParameterSlot({ name: 'D' }),
+      FloatInSlotSeeder.generatePIDControllerParameterSlot({ name: 'P' }),
+      FloatInSlotSeeder.generatePIDControllerParameterSlot({ name: 'I' }),
+      FloatInSlotSeeder.generatePIDControllerParameterSlot({ name: 'D' }),
       FloatInSlotSeeder.generateCelsiusIn({ name: 'target in' }),
       FloatInSlotSeeder.generateCelsiusIn({ name: 'value in' }),
       FloatOutSlotSeeder.generateCelsiusOut({ name: 'value out' }),

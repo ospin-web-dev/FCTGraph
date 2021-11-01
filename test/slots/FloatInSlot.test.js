@@ -104,4 +104,17 @@ describe('the FloatInSlot class', () => {
     })
 
   })
+
+  describe('.isControllerParameter', () => {
+    it('should return true for slots with the displayType controller paramter', () => {
+      const slot1 = new FloatInSlot(
+        FloatInSlotSeeder.generate({ displayType: FloatInSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE }),
+      )
+      const slot2 = new FloatInSlot(FloatInSlotSeeder.generate({ displayType: 'temperature' }))
+
+      expect(slot1.isControllerParameter).toBe(true)
+      expect(slot2.isControllerParameter).toBe(false)
+
+    });
+  })
 })

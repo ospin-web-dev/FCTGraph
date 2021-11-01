@@ -23,20 +23,7 @@ describe('the OneOfInSlot class', () => {
       expect(slot.defaultValue).toBeNull()
     })
 
-    describe('.isControllerParameter', () => {
-      it('should return true for slots with the displayType controller paramter', () => {
-        const slot1 = new OneOfInSlot(
-          OneOfInSlotSeeder.generate({displayType: InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE })
-        )
-        const slot2 = new OneOfInSlot(
-          OneOfInSlotSeeder.generate({displayType: 'temperature' })
-        )
 
-        expect(slot1.isControllerParameter).toBe(true)
-        expect(slot2.isControllerParameter).toBe(false)
-
-      });
-    })
 
   })
 })
