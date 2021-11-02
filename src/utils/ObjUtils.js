@@ -26,8 +26,8 @@ const objsDeepEqual = (objA, objB) => {
 
 // removes props (keys)
 const exclude = (obj, keys) => {
-  const newObj = { ...obj }
 
+  const newObj = { ...obj }
   keys.forEach(key => {
     delete newObj[key]
   })

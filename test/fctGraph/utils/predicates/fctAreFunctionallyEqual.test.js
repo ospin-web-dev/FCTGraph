@@ -1,3 +1,4 @@
+const faker = require('faker')
 const {
   TemperatureSensorSeeder,
   HeaterActuatorSeeder,
@@ -29,6 +30,17 @@ describe('fctsAreFunctionallyEqual', () => {
     it('should return true', () => {
       const { fctsA, fctsB } = setup()
 
+      expect(fctsAreFunctionallyEqual(fctsA, fctsB)).toBe(true)
+    })
+  })
+
+  describe('when given 2 arrays of functionalities that differ in name and id', () => {
+    it('should return true', () => {
+      const { fctsA, fctsB } = setup()
+      fctsA.forEach(fct => {
+        fct.name = faker.random.word() //eslint-disable-line
+        fct.id = faker.datatype.uuid() //eslint-disable-line
+      })
       expect(fctsAreFunctionallyEqual(fctsA, fctsB)).toBe(true)
     })
   })
