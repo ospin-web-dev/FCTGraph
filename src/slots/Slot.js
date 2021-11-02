@@ -129,11 +129,9 @@ class Slot {
   }
 
   serializeToTemplate() {
-    const serializedSlot = this.serialize()
-
     const serializedSlotTemplate = ObjUtils.exclude(
-      serializedSlot,
-      this._NON_TEMPLATE_KEYS,
+      this.serialize(),
+      this.constructor._NON_TEMPLATE_KEYS,
     )
 
     return serializedSlotTemplate
