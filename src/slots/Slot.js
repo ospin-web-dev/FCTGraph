@@ -133,7 +133,7 @@ class Slot {
 
     const serializedSlotTemplate = ObjUtils.exclude(
       serializedSlot,
-      Slot._NON_TEMPLATE_KEYS,
+      this._NON_TEMPLATE_KEYS,
     )
 
     return serializedSlotTemplate

@@ -112,7 +112,7 @@ class Functionality {
   serializeToTemplate() {
     const serializedFctTemplate = ObjUtils.exclude(
       this.serialize(),
-      Functionality._NON_TEMPLATE_KEYS,
+      this._NON_TEMPLATE_KEYS,
     )
 
     const slotTemplates = this.slots.map(slot => slot.serializeToTemplate())
