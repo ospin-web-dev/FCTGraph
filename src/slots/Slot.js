@@ -2,6 +2,7 @@ const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
 const DataStream = require('../dataStreams/DataStream')
+const ObjUtils = require('../utils/ObjUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 const SlotConnectionError = require('./SlotConnectionError')
 
@@ -97,6 +98,10 @@ class Slot {
     })
   }
 
+  static get _NON_TEMPLATE_KEYS() {
+    return [ 'dataStreams' ]
+  }
+
   constructor({
     name,
     functionality,
@@ -121,6 +126,17 @@ class Slot {
       dataStreams: this.dataStreams.map(ds => ds.serialize()),
       unit: this.unit,
     }
+  }
+
+  serializeToTemplate() {
+    const serializedSlot = this.serialize()
+
+    const serializedSlotTemplate = ObjUtils.exclude(
+      serializedSlot,
+      Slot._NON_TEMPLATE_KEYS,
+    )
+
+    return serializedSlotTemplate
   }
 
   assertStructure() {

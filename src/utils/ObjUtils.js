@@ -24,8 +24,20 @@ const objsDeepEqual = (objA, objB) => {
   return typeof objDiff === 'undefined'
 }
 
+// removes props (keys)
+const exclude = (obj, keys) => {
+  const newObj = { ...obj }
+
+  keys.forEach(key => {
+    delete newObj[key]
+  })
+
+  return newObj
+}
+
 module.exports = {
   sortByKeys,
   objsDeepDiff,
   objsDeepEqual,
+  exclude,
 }
