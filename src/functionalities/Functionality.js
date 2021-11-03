@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const ArrayUtils = require('@choux/array-utils')
 
 const RegexUtils = require('../utils/RegexUtils')
 const ObjUtils = require('../utils/ObjUtils')
@@ -34,6 +35,10 @@ class Functionality {
       ports: Joi.array().items(this.PORT_SCHEMA),
       firmwareBlackBox: Joi.object(),
     })
+  }
+
+  static get _NON_TEMPLATE_KEYS() {
+    return [ 'id', 'name' ]
   }
 
   get isPhysical() { return !this.isVirtual }
@@ -82,12 +87,16 @@ class Functionality {
     name,
     fctGraph,
     isVirtual = false,
+    ports = [],
+    firmwareBlackBox = {},
     slots: slotsData,
   }) {
     this.id = id
     this.name = name
     this.fctGraph = fctGraph
     this.isVirtual = isVirtual
+    this.ports = ports
+    this.firmwareBlackBox = firmwareBlackBox
     this.slots = []
 
     if (slotsData) this._addSlotsByDataOrThrow(slotsData)
@@ -100,8 +109,24 @@ class Functionality {
       type: this.type,
       subType: this.subType,
       isVirtual: this.isVirtual,
+      ports: this.ports,
+      firmwareBlackBox: this.firmwareBlackBox,
       slots: this.slots.map(slot => slot.serialize()),
     }
+  }
+
+  serializeToTemplate() {
+    const serializedFctTemplate = ObjUtils.exclude(
+      this.serialize(),
+      this.constructor._NON_TEMPLATE_KEYS,
+    )
+
+    const slotTemplates = this.slots.map(slot => slot.serializeToTemplate())
+    const sortedSlotTemplates = ArrayUtils.sortObjectsByKeyValue(slotTemplates, 'name')
+
+    serializedFctTemplate.slots = sortedSlotTemplates
+
+    return ObjUtils.sortByKeys(serializedFctTemplate)
   }
 
   slotTypes() {
@@ -206,6 +231,13 @@ class Functionality {
   }
 
   isSubType(subType) { return this.subType === subType }
+
+  isFunctionallyEqualTo(otherFct) {
+    const thisFctTemplate = this.serializeToTemplate()
+    const otherFctTemplate = otherFct.serializeToTemplate()
+
+    return ObjUtils.objsDeepEqual(thisFctTemplate, otherFctTemplate)
+  }
 
   disconnectAll() { this.slots.forEach(slot => slot.disconnectAll()) }
 
