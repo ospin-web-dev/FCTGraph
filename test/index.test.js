@@ -16,6 +16,7 @@ describe('fctGraph module entry point)', () => {
       },
       predicates: {
         fctGraphsAreSameWithoutIONodes: 'function',
+        fctsAreFunctionallyEqual: 'function',
       },
     },
 
