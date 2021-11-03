@@ -3,6 +3,10 @@ const SlotSeeder = require('./SlotSeeder')
 
 class InSlotSeeder extends SlotSeeder {
 
+  static get DISPLAY_TYPES() {
+    return [...super.DISPLAY_TYPES, InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE]
+  }
+
   static generate(data = {}) {
     return {
       ...super.generate(data),
@@ -33,6 +37,12 @@ class InSlotSeeder extends SlotSeeder {
       name: 'unitless in',
       ...data,
     })
+  }
+
+  static generatePIDControllerParameterSlot(data) {
+    return this.generateUnitlessIn(
+      { ...data, displayType: InSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE },
+    )
   }
 
   static seedCelsiusIn(data) {

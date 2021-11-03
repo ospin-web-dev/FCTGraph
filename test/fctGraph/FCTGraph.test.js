@@ -16,6 +16,7 @@ const { FloatInSlotSeeder, FloatOutSlotSeeder } = require('seeders/slots')
 const FCTGraph = require('fctGraph/FCTGraph')
 const DataStream = require('dataStreams/DataStream')
 const connectedFCTGraphData = require('./seeds/connectedFCTGraphData')
+const connectedPIDFCTGraphData = require('./seeds/connectedPIDFctGraphData')
 
 describe('the FCTGraph class', () => {
 
@@ -59,6 +60,18 @@ describe('the FCTGraph class', () => {
         const fctGraph = new FCTGraph(connectedFCTGraphData)
 
         expect(fctGraph.dataStreamsCount).toBe(85)
+      })
+    })
+
+    describe('when given a connected PID FctGraph', () => {
+      it('should serialize the FCTGraph', () => {
+        const fctGraph = new FCTGraph(connectedPIDFCTGraphData)
+        expect(fctGraph instanceof FCTGraph).toBe(true)
+      })
+
+      it('should populate the datastreams', () => {
+        const fctGraph = new FCTGraph(connectedPIDFCTGraphData)
+        expect(fctGraph.dataStreamsCount).toBe(6)
       })
     })
   })

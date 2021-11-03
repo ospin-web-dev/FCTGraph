@@ -13,7 +13,6 @@ class SlotSeeder {
       'temperature',
       'switch',
       'flow',
-      'controller parameter',
     ]
   }
 

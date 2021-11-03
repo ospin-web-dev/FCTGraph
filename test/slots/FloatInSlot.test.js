@@ -1,6 +1,7 @@
 const FloatInSlot = require('slots/FloatInSlot')
 const { FloatInSlotSeeder } = require('seeders/slots')
 const DataStreamSeeder = require('seeders/dataStreams/DataStreamSeeder')
+const InSlot = require('../../src/slots/InSlot')
 
 describe('the FloatInSlot class', () => {
 
@@ -102,5 +103,18 @@ describe('the FloatInSlot class', () => {
       expect(slot.min).toBeNull()
     })
 
+  })
+
+  describe('.isControllerParameter', () => {
+    it('should return true for slots with the displayType controller paramter', () => {
+      const slot1 = new FloatInSlot(
+        FloatInSlotSeeder.generate({ displayType: FloatInSlot.CONTROLLER_PARAMETER_DISPLAY_TYPE }),
+      )
+      const slot2 = new FloatInSlot(FloatInSlotSeeder.generate({ displayType: 'temperature' }))
+
+      expect(slot1.isControllerParameter).toBe(true)
+      expect(slot2.isControllerParameter).toBe(false)
+
+    });
   })
 })

@@ -1,5 +1,6 @@
 const OneOfInSlot = require('slots/OneOfInSlot')
 const { OneOfInSlotSeeder } = require('seeders/slots')
+const InSlot = require('../../src/slots/InSlot')
 
 describe('the OneOfInSlot class', () => {
   describe('.constructor', () => {
@@ -21,5 +22,8 @@ describe('the OneOfInSlot class', () => {
       const slot = new OneOfInSlot(slotData)
       expect(slot.defaultValue).toBeNull()
     })
+
+
+
   })
 })
