@@ -26,7 +26,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"cee4ac2c-20ab-409b-af99-bd7c5300478a",
@@ -56,7 +58,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"d7cf0c99-3a13-462f-9240-0c7eb865ca47",
@@ -86,7 +90,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"97eedc45-208e-4419-9090-4e607ab91c7f",
@@ -116,7 +122,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"609ba1c3-5ecb-4a4c-b3f5-0bac9e55951d",
@@ -146,7 +154,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"322d81ad-624c-4723-aa1b-7cede686d56b",
@@ -172,7 +182,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"83507d47-3a19-4df9-92af-81b116bdaaac",
@@ -198,7 +210,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"b033511c-0bb9-4484-9508-2826cff3d1aa",
@@ -228,7 +242,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"3698d565-9260-4ea9-9de1-c43f49ab173d",
@@ -254,7 +270,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"3b4d8f77-7473-4969-ae5b-16bc5e9a2910",
@@ -284,7 +302,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"c12e97d1-4d1b-410c-babf-5c636a29f449",
@@ -310,7 +330,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"4078a4d4-c9b2-4564-8097-9c9b417759a3",
@@ -340,7 +362,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"b5df059b-d1d1-4ce8-bc77-abeed6e5ae21",
@@ -366,7 +390,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"85beb665-f85e-4e8b-932c-0e1c7cb8aeb7",
@@ -396,7 +422,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"87c631b0-de94-46ea-939b-b421ef35ab16",
@@ -422,7 +450,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"4e529a7b-4772-4531-9091-9f8c49ccc3ef",
@@ -452,7 +482,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"450aaeac-e56f-442b-b85f-e2d33eb55f6f",
@@ -478,7 +510,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"02e456c5-1c9e-4ecf-8be2-b9543747691d",
@@ -508,7 +542,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"97f3fdb3-adfb-4478-ba43-11465bd56831",
@@ -534,7 +570,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"175aea6c-b2c1-4a9c-822b-cfbaa2bd582b",
@@ -560,7 +598,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"22e90407-cf04-42da-ba24-108328070bfa",
@@ -586,7 +626,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"d5307b0d-57b5-4009-896b-8a0e9f93106a",
@@ -612,7 +654,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"09a61ae7-34cd-4724-b0c8-d96e05bf1b78",
@@ -638,7 +682,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"3685d537-c805-4e02-b817-4aff54628c50",
@@ -664,7 +710,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"3f898031-534b-43b7-bfe1-d3e29f57a6dd",
@@ -690,7 +738,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"5e18a48c-54f0-4687-aa9f-47ea620addc6",
@@ -716,7 +766,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"f7fd5c88-feb0-497a-961c-791e08d3294e",
@@ -742,7 +794,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"2da76f09-487f-4f1a-ab73-7520bbfe5078",
@@ -768,7 +822,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"7fe72e87-6491-43e0-9f03-643cc73db54f",
@@ -794,7 +850,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"673a0ec0-5de0-4636-add9-151c1255ec7f",
@@ -820,7 +878,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"164e00e3-c5b0-471c-9b55-7292f67926cb",
@@ -846,7 +906,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"9c129246-2326-45d4-a8d2-0da1ebe46497",
@@ -872,7 +934,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"86c8f63f-b652-4bd4-a7ec-3a7bb372c309",
@@ -898,7 +962,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"bc2885a5-9e5d-49cc-84f2-79d7ea713a21",
@@ -924,7 +990,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"83bc2ea6-07af-4027-912d-6afe7b4b40d9",
@@ -954,7 +1022,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"8a2996d1-ba1c-4168-acd6-96f64ed3b47a",
@@ -984,7 +1054,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"3eb05f86-144d-417a-aead-17a731909f55",
@@ -1014,7 +1086,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"118e6da7-9f57-49e7-b10a-95b7288cd2d5",
@@ -1044,7 +1118,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"a220855a-9545-47fc-b2ea-a040b1aa6120",
@@ -1074,7 +1150,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"65ad7c27-013e-48c3-9bf3-15dee94deea7",
@@ -1104,7 +1182,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"946e7b0b-ac0a-4e8a-b76f-c90b48b81d0c",
@@ -1134,7 +1214,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"f5ffefed-fdc5-4157-8cac-1b0fa512b1a4",
@@ -1164,7 +1246,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"0ea71785-db32-43d4-befe-dfc6984b676e",
@@ -1194,7 +1278,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"7452df3f-bb2e-441d-8067-1f943ba3b976",
@@ -1224,7 +1310,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"5799edbb-842e-45ca-b53c-3c9e6860c389",
@@ -1254,7 +1342,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"37fcfbc2-a7a0-4dcf-b9ba-59c135ee0654",
@@ -1284,7 +1374,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"aecefd8e-ba67-45f6-9df8-5240f3288788",
@@ -1314,7 +1406,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"4acf2734-69e9-4343-9e67-23f8c26753d3",
@@ -1344,7 +1438,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"b3b44fd5-1aa8-45e0-8c8a-717963790e69",
@@ -1374,7 +1470,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"d1653c8f-a161-43e5-839b-2ea5be5e0f9e",
@@ -1404,7 +1502,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"3134ddd4-9f64-434a-8502-619cbcf698fd",
@@ -1434,7 +1534,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"bfea5140-91b5-4e8a-9e17-6f30fc657bbb",
@@ -1464,7 +1566,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"fd65ab84-a3e2-4844-989b-aee1ba9e3d0a",
@@ -1494,7 +1598,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"427326c3-c084-4f06-96d9-15ce76b873bc",
@@ -1524,7 +1630,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"73d8a4af-c98d-48c6-9dfa-19bc43ffc7c6",
@@ -1554,7 +1662,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"712b9c99-386f-4c05-8f19-ed10d2fa789f",
@@ -1584,7 +1694,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"ab01aabb-089c-4fd4-b9e9-82e02b8763cf",
@@ -1614,7 +1726,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"fe431d17-1c0e-44e7-ae91-5546deff69f2",
@@ -1644,7 +1758,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"8617bfae-478f-4d94-b851-30dcebd245f7",
@@ -1674,7 +1790,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"dd701faf-b3f1-446c-9f20-32b55ec391f5",
@@ -1700,7 +1818,9 @@ module.exports = {
           "type":"OutSlot"
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"3bbf354a-36ea-4ac7-8129-137a66f586a3",
@@ -1730,7 +1850,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
     {
       "id":"088109bf-d147-4102-a094-5a9052ea334f",
@@ -1760,7 +1882,9 @@ module.exports = {
           "tareable":false
         }
       ],
-      "isVirtual":false
+      "isVirtual":false,
+      "firmwareBlackBox":{},
+      "ports":[]
     },
   {
     "id":"02a3a49e-c34c-4707-9cf1-1030cf1a340a",
@@ -1790,7 +1914,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"6383c128-492c-4f87-a5db-7897b1e83fd8",
@@ -1820,7 +1946,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"97ef5a94-d2c0-4193-a4c6-b6f7a9c9e5fa",
@@ -1850,7 +1978,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"61279da1-3f6c-4ea5-a673-1bc96bd3825e",
@@ -1880,7 +2010,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"9d17c351-834e-4793-aa04-b6f87d7a28b7",
@@ -1910,7 +2042,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"129e27ba-7f24-4669-917c-61d7d35ca133",
@@ -1936,7 +2070,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"a692b8a2-a056-40e6-a6d3-d6255ebfd9a2",
@@ -1962,7 +2098,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"74f36f09-8be4-4822-9af9-e26407c23e97",
@@ -1989,7 +2127,9 @@ module.exports = {
         "type":"InSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"e1d7780b-ded5-47a5-aa84-782800ecd803",
@@ -2015,7 +2155,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"6486b195-f687-4f76-8870-b490c512afdf",
@@ -2041,7 +2183,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"e3f7ed38-6ff2-430c-8b08-4feee5aabd60",
@@ -2071,7 +2215,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"0f803ac5-f030-4440-92ce-cf0aaf8bc4f9",
@@ -2101,7 +2247,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"fbb6b701-4ad9-4f8d-93c1-d8015f83f674",
@@ -2131,7 +2279,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"6413dc94-fc30-47c5-9e7b-055830ffe8c4",
@@ -2161,7 +2311,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"07bd7147-fae3-4222-a81c-745d6418ee0a",
@@ -2191,7 +2343,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"199492d4-a1cf-4d50-90ac-a78d442b5228",
@@ -2217,7 +2371,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"bae2a8a3-edc9-4e0f-8e5a-4a07f547f441",
@@ -2243,7 +2399,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"72157af5-d239-452f-ba63-8230e765d24a",
@@ -2273,7 +2431,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"7dcc1b0f-ccd6-4bd4-ba02-1882d07a8c77",
@@ -2303,7 +2463,9 @@ module.exports = {
         "tareable":false
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"2953d7de-8b3c-46a5-84c3-932f4e970dcc",
@@ -2329,7 +2491,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"0f35fd08-0c86-4fb5-861f-b91823351df5",
@@ -2355,7 +2519,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"a01ac2d2-eb12-4a08-8b04-d4ddec42401e",
@@ -2381,7 +2547,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"e45449e6-e729-4618-aeaa-be22480c9720",
@@ -2407,7 +2575,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":false
+    "isVirtual":false,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"98e62d7c-a8d2-4490-be72-0bfaa96a4eaf",
@@ -2437,7 +2607,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"a538251f-c225-4268-86ae-e1fd3f6081b2",
@@ -2467,7 +2639,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"3375f8ea-f6bd-46ed-8894-326f243908a4",
@@ -2497,7 +2671,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"5241e266-8d80-4d6e-ace7-bcc8b221dd36",
@@ -2527,7 +2703,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"cece00bb-0de4-4357-925f-3165d9cc434f",
@@ -2557,7 +2735,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"fc27de0d-1b73-46cf-b047-25666ff0f395",
@@ -2587,7 +2767,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"5a76a7cc-0f68-4425-b47f-f292ea351b9e",
@@ -2617,7 +2799,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"85e75c00-6290-4c39-9c42-1f44a905c380",
@@ -2647,7 +2831,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"92cc4508-13e3-498d-9d7b-6361dcf9b1b1",
@@ -2677,7 +2863,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"72df58d6-035d-4a9d-ba6a-bf8a254ced30",
@@ -2707,7 +2895,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"e20dfa88-81d4-442f-8c5c-5cb3a581d4b9",
@@ -2737,7 +2927,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"0e58d862-396c-4222-8696-8ab2f7cf1954",
@@ -2767,7 +2959,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"21d39d94-8b0c-425b-bd73-d1635d3f9277",
@@ -2797,7 +2991,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"349cddb9-ad03-409a-8bec-b4ffe53b970f",
@@ -2827,7 +3023,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"349d726f-a910-499e-9b03-cabe5d68e056",
@@ -2857,7 +3055,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"8823fb05-eba2-4907-8509-75ae03023b72",
@@ -2887,7 +3087,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"3c09a7c3-4a90-40ae-9acc-43ce6dbaa679",
@@ -2917,7 +3119,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"981e06b2-b9dd-44db-94e6-db2f93f9e91a",
@@ -2947,7 +3151,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"5d30def6-d572-4193-b754-6f746aa45fbc",
@@ -2977,7 +3183,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"f436ffa1-12fc-49b4-92c2-be91dce17d93",
@@ -3007,7 +3215,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"77e43620-ed0b-4bb3-8ae4-4d9a73b44b1f",
@@ -3037,7 +3247,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"d885c9da-76a7-4a30-a975-d3c0c3143bdb",
@@ -3067,7 +3279,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"fd6ed7a1-c0bb-4331-91a3-0e0d91cb6885",
@@ -3097,7 +3311,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"f6fe0cff-ab91-473a-ace2-cafda27fbb1e",
@@ -3127,7 +3343,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"73bfe273-d4ff-4da8-b7e3-a5fba23c92a0",
@@ -3157,7 +3375,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"529fdd13-0549-43ee-8527-039415128696",
@@ -3187,7 +3407,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"a13ab3b2-7391-4731-9406-3e0ffabf97ac",
@@ -3217,7 +3439,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"3f87df17-4e63-40b3-9751-7e000d7a4f76",
@@ -3247,7 +3471,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"37adec84-f98f-41bd-89db-334733ff5ab4",
@@ -3277,7 +3503,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"50233310-641d-4598-bc97-a1687cacffa8",
@@ -3307,7 +3535,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"7885f8c5-4321-4c7d-ab2e-80397dd7a4b8",
@@ -3337,7 +3567,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"051b01c4-0cb1-4c86-b537-cf7a118cd617",
@@ -3367,7 +3599,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"d99a2169-8828-4813-8260-65ef9721847c",
@@ -3397,7 +3631,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"385aa2db-d78e-413d-9ff7-1d5f610b0707",
@@ -3427,7 +3663,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"22faec8f-6585-49ed-8576-3eb05daa33a4",
@@ -3457,7 +3695,9 @@ module.exports = {
         "defaultValue":null
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"e68ce5a3-eb91-408b-9a1f-9637eb3a2e6b",
@@ -3483,7 +3723,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"4192ff61-f848-4cc9-92b4-4b04f2a5b230",
@@ -3509,7 +3751,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"85c7fcd8-b4ac-4600-a859-1c08c1ea1ef9",
@@ -3535,7 +3779,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"9fd3ff94-5a5b-4aa4-a907-c778061c60a7",
@@ -3561,7 +3807,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"ad594a10-f4cd-4cff-badb-9c3623044c5f",
@@ -3587,7 +3835,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"b58eab3a-9fcb-439f-b9a1-06adb1753624",
@@ -3613,7 +3863,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"fdfb1528-a222-4c2a-b27d-bb13c31d42b7",
@@ -3639,7 +3891,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"fd3d6da8-70de-4907-b574-44fb15ef7293",
@@ -3665,7 +3919,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"b212c3c6-f85f-45b9-a4e2-43d8f8c9c088",
@@ -3691,7 +3947,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"46ff79d1-ef54-4462-8ab9-9b965ceb4879",
@@ -3717,7 +3975,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"d77c303d-0793-4020-b1ab-997403d1786a",
@@ -3743,7 +4003,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"691803f9-0f83-4527-860b-91af4dfe1e02",
@@ -3769,7 +4031,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"3f2ceb23-ac1f-45a4-b6f3-330f38408d04",
@@ -3795,7 +4059,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"9f82f6cf-b586-49d8-8448-dd0da705b0a4",
@@ -3821,7 +4087,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"93054b46-b624-4039-8f3c-3465b3576d56",
@@ -3847,7 +4115,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"961efb36-95f8-439e-aadb-1b51da3303b7",
@@ -3873,7 +4143,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"bf2063fe-1686-462b-9660-e2d3d84ff486",
@@ -3899,7 +4171,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"5e554d8b-6bec-4422-a0fd-c6014a250b2f",
@@ -3925,7 +4199,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"c73f94d2-2ac3-401a-bc97-8fcbd63a17a8",
@@ -3951,7 +4227,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"fb3b852d-58b1-40f1-8788-a4572376cf70",
@@ -3977,7 +4255,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"0010cb74-fd21-427d-b017-2ab4cfa3fb19",
@@ -4003,7 +4283,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"9355f1b3-d311-4eba-b261-3dc3e8fda711",
@@ -4029,7 +4311,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"2c461252-b20e-4cee-b84f-e7551c557e82",
@@ -4055,7 +4339,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"33ac3df5-3bae-4896-82e9-2d7e098866de",
@@ -4081,7 +4367,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"da542842-c5f5-4431-8c69-8cb613063b8f",
@@ -4107,7 +4395,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"d46e92a4-0686-44dd-9bee-8a31e718a7fd",
@@ -4133,7 +4423,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"07338da8-8ea8-421d-b8f9-4e0da8531fc4",
@@ -4159,7 +4451,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"6ae400b7-435c-4398-a95c-09dacbc1b833",
@@ -4185,7 +4479,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"31b3d9bf-f451-4871-ba11-be607e364673",
@@ -4211,7 +4507,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"f7a2f729-28db-407c-90bb-6c90024ccd8b",
@@ -4237,7 +4535,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"cda7851b-fb5f-4d6e-b13c-854209fdd28e",
@@ -4263,7 +4563,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"3e436996-d02e-4926-858e-56defffa9a77",
@@ -4289,7 +4591,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"5b921780-4cf3-4a51-bed8-675d6f251bc5",
@@ -4315,7 +4619,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"0e857748-837a-4c47-84ec-c6f3f26096e3",
@@ -4341,7 +4647,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"7c42e3b0-a1cd-44b2-a592-4ea1eea76f1f",
@@ -4367,7 +4675,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"a687fc36-bf1c-4c20-9cb3-b1204bae4a91",
@@ -4393,7 +4703,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"8176705a-0ff5-4921-96ef-6534e5ae7d97",
@@ -4419,7 +4731,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"4a842099-453d-4213-a10f-37c730b24ece",
@@ -4445,7 +4759,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"b3177cf2-d426-4533-b7f2-d065787bf787",
@@ -4471,7 +4787,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"181578dc-7dba-4f67-af6d-141d3da52a14",
@@ -4497,7 +4815,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"8de8d221-3eee-4b92-a30f-e4b96660cabb",
@@ -4523,7 +4843,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"af57cc0b-c979-4dba-98b9-b3fe1b705601",
@@ -4549,7 +4871,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"fb862324-2267-4f96-b374-f44281b3e58e",
@@ -4575,7 +4899,9 @@ module.exports = {
         "type":"OutSlot",
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"b1e82d1d-152d-495b-a52e-413d8da33f70",
@@ -4601,7 +4927,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"73d2dd82-3060-44f6-99e8-5fcd41d616ba",
@@ -4627,7 +4955,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"b533a25d-4aa6-472b-ad3d-2e452ce30461",
@@ -4653,7 +4983,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"c16d7e46-4409-4c23-9654-ea537df28be7",
@@ -4679,7 +5011,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"a42b752b-d6fd-4f9f-9ba8-de52e6b5d78d",
@@ -4705,7 +5039,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"e526d91d-2b3d-4221-83e6-a21e7f178fd7",
@@ -4731,7 +5067,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   },
   {
     "id":"3a140bc8-458a-4711-b0aa-e8ec510f77d7",
@@ -4757,7 +5095,9 @@ module.exports = {
         "type":"OutSlot"
       }
     ],
-    "isVirtual":true
+    "isVirtual":true,
+    "firmwareBlackBox":{},
+    "ports":[]
   }
 ],
 "deviceDefault":false,

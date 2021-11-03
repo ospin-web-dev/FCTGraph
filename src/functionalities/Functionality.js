@@ -87,12 +87,16 @@ class Functionality {
     name,
     fctGraph,
     isVirtual = false,
+    ports = [],
+    firmwareBlackBox = {},
     slots: slotsData,
   }) {
     this.id = id
     this.name = name
     this.fctGraph = fctGraph
     this.isVirtual = isVirtual
+    this.ports = ports
+    this.firmwareBlackBox = firmwareBlackBox
     this.slots = []
 
     if (slotsData) this._addSlotsByDataOrThrow(slotsData)
@@ -105,6 +109,8 @@ class Functionality {
       type: this.type,
       subType: this.subType,
       isVirtual: this.isVirtual,
+      ports: this.ports,
+      firmwareBlackBox: this.firmwareBlackBox,
       slots: this.slots.map(slot => slot.serialize()),
     }
   }
