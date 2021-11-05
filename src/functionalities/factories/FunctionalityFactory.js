@@ -4,6 +4,7 @@ const TemperatureSensor = require('../TemperatureSensor')
 const UnknownSensor = require('../UnknownSensor')
 const UnknownActuator = require('../UnknownActuator')
 const PIDController = require('../PIDController')
+const HysteresisController = require('../HysteresisController')
 const HeaterActuator = require('../HeaterActuator')
 const IntervalOut = require('../IntervalOut')
 const PumpActuator = require('../PumpActuator')
@@ -11,6 +12,7 @@ const HeidolphPump = require('../HeidolphPump')
 const StirrerActuator = require('../StirrerActuator')
 const HeidolphMagneticStirrer = require('../HeidolphMagneticStirrer')
 const HeidolphOverheadStirrer = require('../HeidolphOverheadStirrer')
+const HeidolphPumpByTorqueHysteresisController = require('../HeidolphPumpByTorqueHysteresisController')
 const PushOut = require('../PushOut')
 const PushIn = require('../PushIn')
 
@@ -22,6 +24,7 @@ class FunctionalityFactory {
       UnknownSensor,
       UnknownActuator,
       PIDController,
+      HysteresisController,
       HeaterActuator,
       IntervalOut,
       PumpActuator,
@@ -29,6 +32,7 @@ class FunctionalityFactory {
       StirrerActuator,
       HeidolphMagneticStirrer,
       HeidolphOverheadStirrer,
+      HeidolphPumpByTorqueHysteresisController,
       PushOut,
       PushIn,
     })
