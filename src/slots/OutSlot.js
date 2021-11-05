@@ -53,6 +53,11 @@ class OutSlot extends Slot {
 
   get isOutSlot() { return this.type === OutSlot.TYPE }
 
+  get derivedUnit() {
+    const derivedUnit = super.derivedUnit
+    return derivedUnit || this.unit
+  }
+
   _assertHasRoomForConnectionTo() { // eslint-disable-line
     // outslots are currently unlimited in the dataStreams they send out
     return true

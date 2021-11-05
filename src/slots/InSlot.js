@@ -45,7 +45,16 @@ class InSlot extends Slot {
     }
   }
 
+  get sourceSlot() {
+    return super.connectedSlots[0]
+  }
+
   get isInSlot() { return this.type === InSlot.TYPE }
+
+  get derivedUnit() {
+    const derivedUnit = super.derivedUnit
+    return derivedUnit || (this.sourceSlot && this.sourceSlot.derivedUnit) || this.unit
+  }
 
 }
 

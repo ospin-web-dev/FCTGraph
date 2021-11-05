@@ -99,6 +99,12 @@ class Slot {
 
   get functionalityId() { return this.functionality.id }
 
+  get derivedUnit() {
+    return this.unit === Slot.ANY_UNIT_STRING
+      ? this.functionality.resolveInterSlotUnit(this)
+      : this.unit
+  }
+
   get isEmpty() { return this.dataStreams.length === 0 }
 
   serialize() {

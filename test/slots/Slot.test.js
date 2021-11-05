@@ -349,6 +349,5 @@ describe('the Slot class', () => {
       expect(slotA.dataStreams).toHaveLength(0)
       expect(slotB.dataStreams).toHaveLength(0)
     })
-
   })
 })
