@@ -15,30 +15,8 @@ class Slot {
    * **************************************************************** */
   static get ANY_UNIT_STRING() { return 'any' }
 
-  static get UNIT_TYPES() {
-    return {
-      TEMPERATURE: 'temperature',
-      ROTATIONAL_SPEED: 'rotationalSpeed',
-      PERCENTAGE: 'percentage',
-      UNITLESS: 'unitless',
-    }
-  }
+  static get UNITLESS_UNIT() { return '-' }
 
-  static get UNIT_TYPE_UNIT_OPTIONS() {
-    return {
-      [Slot.UNIT_TYPES.TEMPERATURE]: ['K', '°C', '°F'],
-      [Slot.UNIT_TYPES.ROTATIONAL_SPEED]: ['rpm'],
-      [Slot.UNIT_TYPES.PERCENTAGE]: ['%'],
-      [Slot.UNIT_TYPES.UNITLESS]: ['-'],
-    }
-  }
-
-  static get UNITLESS_UNIT() { return Slot.UNIT_TYPE_UNIT_OPTIONS[Slot.UNIT_TYPES.UNITLESS][0] }
-
-  static get ALL_UNIT_VALUES() {
-    return Object.values(this.UNIT_TYPE_UNIT_OPTIONS)
-      .reduce((acc, opts) => ([ ...acc, ...opts ]), [])
-  }
   /* **************************************************************** */
 
   static _assertSlotDataTypesCompatible(slotA, slotB) {
@@ -98,7 +76,7 @@ class Slot {
       name: Joi.string().required(),
       displayType: Joi.string().allow(null).required(),
       dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
-      unit: Joi.string().allow(...this.ALL_UNIT_VALUES).required(),
+      unit: Joi.string().required(),
     })
   }
 
