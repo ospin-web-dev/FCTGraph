@@ -36,11 +36,13 @@ describe('fctGraph module entry point)', () => {
       HeaterActuator: 'Class',
       IntervalOut: 'Class',
       PIDController: 'Class',
+      HysteresisController: 'Class',
       PushOut: 'Class',
       PushIn: 'Class',
       HeidolphOverheadStirrer: 'Class',
       HeidolphMagneticStirrer: 'Class',
       HeidolphPump: 'Class',
+      HeidolphPumpByTorqueHysteresisController: 'Class',
     },
     functionalitySeeders: {
       StirrerActuatorSeeder: 'Class',
@@ -51,11 +53,13 @@ describe('fctGraph module entry point)', () => {
       HeaterActuatorSeeder: 'Class',
       IntervalOutSeeder: 'Class',
       PIDControllerSeeder: 'Class',
+      HysteresisControllerSeeder: 'Class',
       PushOutSeeder: 'Class',
       PushInSeeder: 'Class',
       HeidolphOverheadStirrerSeeder: 'Class',
       HeidolphMagneticStirrerSeeder: 'Class',
       HeidolphPumpSeeder: 'Class',
+      HeidolphPumpByTorqueHysteresisControllerSeeder: 'Class',
     },
 
     slots: {

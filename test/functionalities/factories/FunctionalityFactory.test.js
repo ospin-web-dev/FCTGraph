@@ -14,6 +14,8 @@ const {
   HeidolphOverheadStirrerSeeder,
   UnknownSensorSeeder,
   UnknownActuatorSeeder,
+  HysteresisControllerSeeder,
+  HeidolphPumpByTorqueHysteresisControllerSeeder,
 } = require('seeders/functionalities')
 const functionalitiesIndex = require('functionalities')
 
@@ -31,6 +33,8 @@ const {
   HeidolphOverheadStirrer,
   UnknownSensor,
   UnknownActuator,
+  HysteresisController,
+  HeidolphPumpByTorqueHysteresisController,
 } = functionalitiesIndex
 
 describe('the functionality factory', () => {
@@ -145,6 +149,16 @@ describe('the functionality factory', () => {
         SubClass: HeidolphPump,
         SubClassSeeder: HeidolphPumpSeeder,
         expectedIsVirtual: false,
+      },
+      {
+        SubClass: HysteresisController,
+        SubClassSeeder: HysteresisControllerSeeder,
+        expectedIsVirtual: true,
+      },
+      {
+        SubClass: HeidolphPumpByTorqueHysteresisController,
+        SubClassSeeder: HeidolphPumpByTorqueHysteresisControllerSeeder,
+        expectedIsVirtual: true,
       },
     ]
 
