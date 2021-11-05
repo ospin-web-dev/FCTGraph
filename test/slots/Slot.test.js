@@ -209,14 +209,43 @@ describe('the Slot class', () => {
       expect(inToInErrorMsgm).toContain('must have complimentary types')
     })
 
-    it('returns an error when the slot units are incompatible', () => {
-      const slotA = FloatOutSlotSeeder.seedCelsiusOut()
-      const slotB = FloatInSlotSeeder.seedKelvinIn()
+    describe('when the units are not matching', () => {
+      it('returns an error when the slot units are incompatible', () => {
+        const slotA = FloatOutSlotSeeder.seedCelsiusOut()
+        const slotB = FloatInSlotSeeder.seedKelvinIn()
 
-      const { error, errorMsg } = slotA.connectTo(slotB)
+        const { error, errorMsg } = slotA.connectTo(slotB)
 
-      expect(error).toBe(true)
-      expect(errorMsg).toContain('units must match between slots')
+        expect(error).toBe(true)
+        expect(errorMsg).toContain('units must match between slots')
+      })
+
+      it(`does NOT return an error when slotA has ${Slot.ANY_UNIT_STRING} as unit`, () => {
+        const slotA = FloatOutSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
+        const slotB = FloatInSlotSeeder.seedKelvinIn()
+
+        const { error } = slotA.connectTo(slotB)
+
+        expect(error).toBe(false)
+      })
+
+      it(`does NOT return an error when slotB has ${Slot.ANY_UNIT_STRING} as unit`, () => {
+        const slotA = FloatInSlotSeeder.seedKelvinIn()
+        const slotB = FloatOutSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
+
+        const { error } = slotA.connectTo(slotB)
+
+        expect(error).toBe(false)
+      })
+
+      it(`does NOT return an error when slotA and slotB have ${Slot.ANY_UNIT_STRING} as unit`, () => {
+        const slotA = FloatInSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
+        const slotB = FloatOutSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
+
+        const { error } = slotA.connectTo(slotB)
+
+        expect(error).toBe(false)
+      })
     })
 
     it('returns an error when the slots already have a connection between them', () => {

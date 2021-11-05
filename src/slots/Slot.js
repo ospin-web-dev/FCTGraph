@@ -13,6 +13,8 @@ class Slot {
   /* *******************************************************************
    * UNITS
    * **************************************************************** */
+  static get ANY_UNIT_STRING() { return 'any' }
+
   static get UNIT_TYPES() {
     return {
       TEMPERATURE: 'temperature',
@@ -48,6 +50,8 @@ class Slot {
   static _assertSlotUnitsCompatible(slotA, slotB) {
     if (
       slotA.unit !== slotB.unit
+      && slotA.unit !== Slot.ANY_UNIT_STRING
+      && slotB.unit !== Slot.ANY_UNIT_STRING
     ) {
       throw new SlotConnectionError(slotA, slotB, 'units must match between slots')
     }
