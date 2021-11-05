@@ -9,11 +9,13 @@ const IntervalOutSeeder = require('./IntervalOutSeeder')
 const PIDControllerSeeder = require('./PIDControllerSeeder')
 const PushOutSeeder = require('./PushOutSeeder')
 const PushInSeeder = require('./PushInSeeder')
+const HysteresisControllerSeeder = require('./HysteresisControllerSeeder')
 
 // sub-types which inherit from other sub-types
 const HeidolphOverheadStirrerSeeder = require('./HeidolphOverheadStirrerSeeder')
 const HeidolphMagneticStirrerSeeder = require('./HeidolphMagneticStirrerSeeder')
 const HeidolphPumpSeeder = require('./HeidolphPumpSeeder')
+const HeidolphPumpByTorqueHysteresisControllerSeeder = require('./HeidolphPumpByTorqueHysteresisControllerSeeder')
 
 module.exports = {
   // sub-types which inherit from types (valid fcts)
@@ -27,9 +29,11 @@ module.exports = {
   PIDControllerSeeder,
   PushOutSeeder,
   PushInSeeder,
+  HysteresisControllerSeeder,
 
   // sub-types which inherit from other sub-types (valid fcts)
   HeidolphOverheadStirrerSeeder,
   HeidolphMagneticStirrerSeeder,
   HeidolphPumpSeeder,
+  HeidolphPumpByTorqueHysteresisControllerSeeder,
 }

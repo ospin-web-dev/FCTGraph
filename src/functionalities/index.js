@@ -19,6 +19,7 @@ const PumpActuator = require('./PumpActuator')
 const HeaterActuator = require('./HeaterActuator')
 const IntervalOut = require('./IntervalOut')
 const PIDController = require('./PIDController')
+const HysteresisController = require('./HysteresisController')
 const PushOut = require('./PushOut')
 const PushIn = require('./PushIn')
 
@@ -26,6 +27,7 @@ const PushIn = require('./PushIn')
 const HeidolphOverheadStirrer = require('./HeidolphOverheadStirrer')
 const HeidolphMagneticStirrer = require('./HeidolphMagneticStirrer')
 const HeidolphPump = require('./HeidolphPump')
+const HeidolphPumpByTorqueHysteresisController = require('./HeidolphPumpByTorqueHysteresisController')
 
 module.exports = {
   FunctionalityFactory,
@@ -50,9 +52,11 @@ module.exports = {
   PIDController,
   PushOut,
   PushIn,
+  HysteresisController,
 
   // sub-types which inherit from other sub-types (valid fcts)
   HeidolphOverheadStirrer,
   HeidolphMagneticStirrer,
   HeidolphPump,
+  HeidolphPumpByTorqueHysteresisController,
 }
