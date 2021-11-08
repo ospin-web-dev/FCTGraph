@@ -188,6 +188,10 @@ class FCTGraph {
     return this.functionalities.find(({ id }) => id === fctId)
   }
 
+  getFctsByName(fctName) {
+    return this.functionalities.filter(({ name }) => name === fctName)
+  }
+
   getSlotByFctIdAndSlotName(fctId, slotName) {
     const fct = this.getFctById(fctId)
     return fct && fct.getSlotByName(slotName)
