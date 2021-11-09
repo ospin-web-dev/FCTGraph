@@ -3,6 +3,10 @@ const addPushOutFctForAllOutSlotsWhichHaveNone = require('fctGraph/Utils/mutator
 
 describe('addPushOutFctForAllOutSlotsWhichHaveNone', () => {
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   it('adds a PushOut fct for all out slots which have none', () => {
     const fctGraph = FCTGraphSeeder.seedOne()
 
@@ -22,4 +26,15 @@ describe('addPushOutFctForAllOutSlotsWhichHaveNone', () => {
     )
   })
 
+  it('shows a warning when "customData" is used', () => {
+    const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
+    const fctGraph = FCTGraphSeeder.seedOne()
+
+    addPushOutFctForAllOutSlotsWhichHaveNone(
+      fctGraph,
+      { customData: { name: 'putin-spy' } },
+    )
+
+    expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
+  })
 })

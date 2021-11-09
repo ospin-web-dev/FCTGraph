@@ -4,6 +4,10 @@ const addPushInFctForAllInSlotsWhichHaveNone = require('fctGraph/Utils/mutators/
 
 describe('addPushInFctForAllInSlotsWhichHaveNone', () => {
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   it('adds a PushOut fct for all out slots which have none', () => {
     const fctGraph = FCTGraphSeeder.seedOne()
 
@@ -30,7 +34,7 @@ describe('addPushInFctForAllInSlotsWhichHaveNone', () => {
 
     addPushInFctForAllInSlotsWhichHaveNone(
       fctGraph,
-      { customData: { source } },
+      { fctData: { source } },
     )
 
     const pushInNodes = fctGraph.functionalities.filter(fct => (
@@ -43,15 +47,23 @@ describe('addPushInFctForAllInSlotsWhichHaveNone', () => {
     })
   })
 
-  it('sets the correct slot name', () => {
-    const source = { name: 'ospin-webapp' }
+  it('shows a warning when "customData" is used', () => {
+    const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
     const fctGraph = FCTGraphSeeder.seedOne()
-    const fctIdsPreInsertion = fctGraph.functionalities.map(fct => fct.id)
 
     addPushInFctForAllInSlotsWhichHaveNone(
       fctGraph,
-      { customData: { source } },
+      { customData: { name: 'putin-spy' } },
     )
+
+    expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
+  })
+
+  it('sets the correct slot name', () => {
+    const fctGraph = FCTGraphSeeder.seedOne()
+    const fctIdsPreInsertion = fctGraph.functionalities.map(fct => fct.id)
+
+    addPushInFctForAllInSlotsWhichHaveNone(fctGraph)
 
     const pushInNodes = fctGraph.functionalities.filter(fct => (
       !fctIdsPreInsertion.includes(fct.id)
@@ -62,5 +74,4 @@ describe('addPushInFctForAllInSlotsWhichHaveNone', () => {
       expect(pushInNode.slots[0].name).toBe(PushIn.SLOT_NAME)
     })
   })
-
 })

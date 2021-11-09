@@ -7,6 +7,10 @@ const addPushInFctForInSlotWhichHasNone = require('fctGraph/Utils/mutators/addPu
 
 describe('addPushInFctForInSlotWhichHasNone', () => {
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   describe('given invalid arguments', () => {
     it('throws error if the first argument is not a fctGraph instance', () => {
       const fctGraphData = FCTGraphSeeder.generate()
@@ -96,5 +100,4 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
       expect(heaterActuator.isConnectedToFct(pushIn)).toBe(true)
     })
   })
-
 })

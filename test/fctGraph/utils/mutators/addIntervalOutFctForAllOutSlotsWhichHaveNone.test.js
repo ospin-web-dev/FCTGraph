@@ -4,6 +4,10 @@ const addIntervalOutFctForAllOutSlotsWhichHaveNone = require('fctGraph/Utils/mut
 
 describe('addIntervalOutFctForAllOutSlotsWhichHaveNone', () => {
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   it('adds a IntervalOut fct for all out slots which have none', () => {
     const fctGraph = FCTGraphSeeder.seedOne()
 
@@ -30,7 +34,7 @@ describe('addIntervalOutFctForAllOutSlotsWhichHaveNone', () => {
 
     addIntervalOutFctForAllOutSlotsWhichHaveNone(
       fctGraph,
-      { customData: { destination } },
+      { fctData: { destination } },
     )
 
     const intervalOutNodes = fctGraph.functionalities.filter(fct => (
@@ -43,15 +47,23 @@ describe('addIntervalOutFctForAllOutSlotsWhichHaveNone', () => {
     })
   })
 
-  it('sets the slot name correctly', () => {
-    const destination = { name: 'ospin-webapp' }
+  it('shows a warning when "customData" is used', () => {
+    const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
     const fctGraph = FCTGraphSeeder.seedOne()
-    const fctIdsPreInsertion = fctGraph.functionalities.map(fct => fct.id)
 
     addIntervalOutFctForAllOutSlotsWhichHaveNone(
       fctGraph,
-      { customData: { destination } },
+      { customData: { name: 'putin-spy' } },
     )
+
+    expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
+  })
+
+  it('sets the slot name correctly', () => {
+    const fctGraph = FCTGraphSeeder.seedOne()
+    const fctIdsPreInsertion = fctGraph.functionalities.map(fct => fct.id)
+
+    addIntervalOutFctForAllOutSlotsWhichHaveNone(fctGraph)
 
     const intervalOutNodes = fctGraph.functionalities.filter(fct => (
       !fctIdsPreInsertion.includes(fct.id)
