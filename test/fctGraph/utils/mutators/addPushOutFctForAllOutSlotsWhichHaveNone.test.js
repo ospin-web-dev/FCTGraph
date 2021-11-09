@@ -3,6 +3,10 @@ const addPushOutFctForAllOutSlotsWhichHaveNone = require('fctGraph/Utils/mutator
 
 describe('addPushOutFctForAllOutSlotsWhichHaveNone', () => {
 
+  afterAll(() => {
+    jest.restoreAllMocks()
+  })
+
   it('adds a PushOut fct for all out slots which have none', () => {
     const fctGraph = FCTGraphSeeder.seedOne()
 
@@ -21,5 +25,4 @@ describe('addPushOutFctForAllOutSlotsWhichHaveNone', () => {
       preFctsLength + outSlotsWithoutOutputNodes.length,
     )
   })
-
 })

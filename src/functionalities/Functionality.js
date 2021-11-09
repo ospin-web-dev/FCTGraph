@@ -15,13 +15,6 @@ class Functionality {
 
   static get SUB_TYPE() { return null }
 
-  static get PORT_SCHEMA() {
-    return Joi.object({
-      name: Joi.string().required(),
-      purpose: Joi.string().required(),
-    })
-  }
-
   static get SCHEMA() {
     return Joi.object({
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
@@ -32,7 +25,6 @@ class Functionality {
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
       )).required(),
       isVirtual: Joi.boolean().required(),
-      ports: Joi.array().items(this.PORT_SCHEMA),
       firmwareBlackBox: Joi.object(),
     })
   }
@@ -87,7 +79,6 @@ class Functionality {
     name,
     fctGraph,
     isVirtual = false,
-    ports = [],
     firmwareBlackBox = {},
     slots: slotsData,
   }) {
@@ -95,7 +86,6 @@ class Functionality {
     this.name = name
     this.fctGraph = fctGraph
     this.isVirtual = isVirtual
-    this.ports = ports
     this.firmwareBlackBox = firmwareBlackBox
     this.slots = []
 
@@ -109,7 +99,6 @@ class Functionality {
       type: this.type,
       subType: this.subType,
       isVirtual: this.isVirtual,
-      ports: this.ports,
       firmwareBlackBox: this.firmwareBlackBox,
       slots: this.slots.map(slot => slot.serialize()),
     }

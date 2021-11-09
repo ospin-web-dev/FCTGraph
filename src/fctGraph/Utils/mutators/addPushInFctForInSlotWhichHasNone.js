@@ -39,11 +39,15 @@ function safeAddPushInAndConnect(fctGraph, inSlot, pushInFct) {
 }
 
 const DEFAULT_OPTS = {
-  customData: {},
+  fctData: {},
 }
 
 function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS) {
   assertPrerequisites(fctGraph, inSlot)
+
+  if ("customData" in opts) {
+    console.warn('DEPRECATION WARNING: "customData" key is deprecated. Please use "fctData" instead')
+  }
 
   const functionalityId = uuidv4()
 
@@ -61,6 +65,7 @@ function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS
     id: functionalityId,
     name: 'Push In',
     ...opts.customData,
+    ...opts.fctData,
     slots: [ outSlotData ],
   })
 

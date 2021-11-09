@@ -9,7 +9,7 @@ class IntervalOut extends OutputNode {
     return 'IntervalOut'
   }
 
-  static get DEFAULT_PUBLISH_INTERVAL() { return 5000 }
+  static get DEFAULT_PUBLISH_INTERVAL() { return 1000 }
 
   static get MIN_PUBLISH_INTERVAL() { return 1 }
 

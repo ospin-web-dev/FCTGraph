@@ -1,5 +1,6 @@
 const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
 const { TemperatureSensorSeeder, IntervalOutSeeder } = require('seeders/functionalities')
+const IntervalOut = require('functionalities/IntervalOut')
 const { IntegerInSlotSeeder, IntegerOutSlotSeeder } = require('seeders/slots')
 
 const addIntervalOutFctForOutSlotWhichHasNone = require('fctGraph/Utils/mutators/addIntervalOutFctForOutSlotWhichHasNone')
@@ -94,6 +95,73 @@ describe('addIntervalOutFctForOutSlotWhichHasNone', () => {
       const [ temperatureSensor, intervalOut ] = fctGraph.functionalities
       expect(temperatureSensor.isConnectedToFct(intervalOut)).toBe(true)
     })
-  })
 
+    it('sets the desired destination if one is provided', () => {
+      const destination = { name: 'ospin-webapp' }
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          TemperatureSensorSeeder.generate(),
+        ],
+      })
+
+      const tempSensor = fctGraph.functionalities[0]
+      const tempSensorOutSlot = tempSensor.getOutSlots()[0]
+
+      expect(fctGraph.functionalities).toHaveLength(1)
+
+      addIntervalOutFctForOutSlotWhichHasNone(
+        fctGraph,
+        tempSensorOutSlot,
+        { fctData: { destination } },
+      )
+
+      const intervalOutNodes = fctGraph.getIntervalOutFcts()
+
+      expect(intervalOutNodes).toHaveLength(1)
+      expect(intervalOutNodes[0].destination.name).toBe(destination.name)
+    })
+
+    it('sets the slot name correctly', () => {
+      const destination = { name: 'ospin-webapp' }
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          TemperatureSensorSeeder.generate(),
+        ],
+      })
+
+      const tempSensor = fctGraph.functionalities[0]
+      const tempSensorOutSlot = tempSensor.getOutSlots()[0]
+
+      expect(fctGraph.functionalities).toHaveLength(1)
+
+      addIntervalOutFctForOutSlotWhichHasNone(
+        fctGraph,
+        tempSensorOutSlot,
+        { fctData: { destination } },
+      )
+
+      const intervalOutNodes = fctGraph.getIntervalOutFcts()
+      expect(intervalOutNodes[0].slots[0].name).toBe(IntervalOut.SLOT_NAME)
+    })
+
+    it('shows a warning when "customData" is used', () => {
+      const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          TemperatureSensorSeeder.generate(),
+        ],
+      })
+
+      const tempSensor = fctGraph.functionalities[0]
+      const tempSensorOutSlot = tempSensor.getOutSlots()[0]
+
+      addIntervalOutFctForOutSlotWhichHasNone(
+        fctGraph,
+        tempSensorOutSlot,
+        { customData: { name: 'Putin-Spy' } },
+      )
+
+      expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
+    })
+  })
 })

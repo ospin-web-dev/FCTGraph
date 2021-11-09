@@ -3,7 +3,7 @@ const addOutputFctForOutSlotWhichHasNone = require('./addOutputFctForOutSlotWhic
 const PushOut = require('../../../functionalities/PushOut')
 
 const DEFAULT_OPTS = {
-  customData: {},
+  fctData: {},
 }
 
 function addPushOutFctForOutSlotWhichHasNone(fctGraph, outSlot, opts = DEFAULT_OPTS) {
