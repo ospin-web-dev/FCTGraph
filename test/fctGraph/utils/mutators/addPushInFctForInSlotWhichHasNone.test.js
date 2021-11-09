@@ -99,5 +99,71 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
       const [ heaterActuator, pushIn ] = fctGraph.functionalities
       expect(heaterActuator.isConnectedToFct(pushIn)).toBe(true)
     })
+
+    it('sets the desired source if one is provided', () => {
+      const source = { name: 'ospin-webapp' }
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          HeaterActuatorSeeder.generate(),
+        ],
+      })
+
+      const heatActuator = fctGraph.functionalities[0]
+      const heatActuatorInSlot = heatActuator.getInSlots()[0]
+
+      addPushInFctForInSlotWhichHasNone(
+        fctGraph,
+        heatActuatorInSlot,
+        { fctData: { source } },
+      )
+
+      const pushInNodes = fctGraph.getPushInFcts()
+
+      expect(pushInNodes).toHaveLength(1)
+      expect(pushInNodes[0].source.name).toBe(source.name)
+    })
+
+    it('sets the correct slot name', () => {
+      const source = { name: 'ospin-webapp' }
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          HeaterActuatorSeeder.generate(),
+        ],
+      })
+
+      const heatActuator = fctGraph.functionalities[0]
+      const heatActuatorInSlot = heatActuator.getInSlots()[0]
+
+      addPushInFctForInSlotWhichHasNone(
+        fctGraph,
+        heatActuatorInSlot,
+        { fctData: { source } },
+      )
+
+      const pushInNodes = fctGraph.getPushInFcts()
+
+      expect(pushInNodes).toHaveLength(1)
+      expect(pushInNodes[0].slots[0].name).toBe(PushIn.SLOT_NAME)
+    })
+
+    it('shows a warning when "customData" is used', () => {
+      const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          HeaterActuatorSeeder.generate(),
+        ],
+      })
+
+      const heatActuator = fctGraph.functionalities[0]
+      const heatActuatorInSlot = heatActuator.getInSlots()[0]
+
+      addPushInFctForInSlotWhichHasNone(
+        fctGraph,
+        heatActuatorInSlot,
+        { customData: { name: 'putin-spy' } },
+      )
+
+      expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
+    })
   })
 })

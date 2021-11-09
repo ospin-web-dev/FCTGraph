@@ -4,7 +4,7 @@ const addOutputFctForOutSlotWhichHasNone = require('./addOutputFctForOutSlotWhic
 
 const DEFAULT_OPTS = {
   fctData: {},
-  inSlotData: {},
+  slotData: {},
 }
 
 function addIntervalOutFctForOutSlotWhichHasNone(fctGraph, outSlot, opts = DEFAULT_OPTS) {

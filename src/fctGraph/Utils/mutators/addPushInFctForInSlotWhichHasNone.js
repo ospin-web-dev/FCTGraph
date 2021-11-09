@@ -40,7 +40,6 @@ function safeAddPushInAndConnect(fctGraph, inSlot, pushInFct) {
 
 const DEFAULT_OPTS = {
   fctData: {},
-  outSlotData: {},
 }
 
 function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS) {
@@ -60,7 +59,6 @@ function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS
     displayType: inSlot.displayType,
     unit: inSlot.unit,
     dataStreams: [],
-    ...opts.outSlotData,
   }
 
   const pushInFct = PushIn.newAndAssertStructure({

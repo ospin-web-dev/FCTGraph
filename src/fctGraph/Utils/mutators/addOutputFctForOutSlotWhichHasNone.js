@@ -1,5 +1,4 @@
 const { v4: uuidv4 } = require('uuid')
-
 const assertFCTGraphFirstArgument = require('../helpers/assertFCTGraphFirstArgument')
 const InSlot = require('../../../slots/InSlot')
 const OutSlot = require('../../../slots/OutSlot')
@@ -55,7 +54,6 @@ function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, subTypeClass, opt
     displayType: outSlot.displayType,
     unit: outSlot.unit,
     dataStreams: [],
-    ...opts.inSlotData,
   }
 
   const outputFct = subTypeClass.newAndAssertStructure({

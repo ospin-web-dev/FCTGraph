@@ -1,4 +1,5 @@
 const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
+const PushOut = require('functionalities/PushOut')
 const { TemperatureSensorSeeder, PushOutSeeder } = require('seeders/functionalities')
 const { IntegerInSlotSeeder, IntegerOutSlotSeeder } = require('seeders/slots')
 
@@ -93,6 +94,74 @@ describe('addPushOutFctForOutSlotWhichHasNone', () => {
 
       const [ temperatureSensor, pushOut ] = fctGraph.functionalities
       expect(temperatureSensor.isConnectedToFct(pushOut)).toBe(true)
+    })
+
+    it('sets the desired destination if one is provided', () => {
+      const destination = { name: 'ospin-webapp' }
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          TemperatureSensorSeeder.generate(),
+        ],
+      })
+
+      const tempSensor = fctGraph.functionalities[0]
+      const tempSensorOutSlot = tempSensor.getOutSlots()[0]
+
+      expect(fctGraph.functionalities).toHaveLength(1)
+
+      addPushOutFctForOutSlotWhichHasNone(
+        fctGraph,
+        tempSensorOutSlot,
+        { fctData: { destination } },
+      )
+
+      const intervalOutNodes = fctGraph.getPushOutFcts()
+
+      expect(intervalOutNodes).toHaveLength(1)
+      expect(intervalOutNodes[0].destination.name).toBe(destination.name)
+    })
+
+    it('sets the slot name correctly', () => {
+      const destination = { name: 'ospin-webapp' }
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          TemperatureSensorSeeder.generate(),
+        ],
+      })
+
+      const tempSensor = fctGraph.functionalities[0]
+      const tempSensorOutSlot = tempSensor.getOutSlots()[0]
+
+      expect(fctGraph.functionalities).toHaveLength(1)
+
+      addPushOutFctForOutSlotWhichHasNone(
+        fctGraph,
+        tempSensorOutSlot,
+        { fctData: { destination } },
+      )
+
+      const intervalOutNodes = fctGraph.getPushOutFcts()
+      expect(intervalOutNodes[0].slots[0].name).toBe(PushOut.SLOT_NAME)
+    })
+
+    it('shows a warning when "customData" is used', () => {
+      const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
+      const fctGraph = FCTGraphSeeder.seedOne({
+        functionalities: [
+          TemperatureSensorSeeder.generate(),
+        ],
+      })
+
+      const tempSensor = fctGraph.functionalities[0]
+      const tempSensorOutSlot = tempSensor.getOutSlots()[0]
+
+      addPushOutFctForOutSlotWhichHasNone(
+        fctGraph,
+        tempSensorOutSlot,
+        { customData: { name: 'Putin-Spy' } },
+      )
+
+      expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
     })
   })
 
