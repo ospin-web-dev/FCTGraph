@@ -291,12 +291,33 @@ describe('the FCTGraph class', () => {
 
   describe('getFctById', () => {
     it('returns a functionality by id', () => {
-      const fctGraph = FCTGraphSeeder.seedOne()
-      const fct = fctGraph.functionalities[0]
+      const sensor = TemperatureSensorSeeder.seedOne()
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [ sensor.serialize() ] })
 
-      const res = fctGraph.getFctById(fct.id)
+      const res = fctGraph.getFctById(sensor.id)
 
-      expect(res).toStrictEqual(fct)
+      expect(res).toStrictEqual(sensor)
+    })
+  })
+
+  describe('getFctsByName', () => {
+    it('returns an array of all fcts that match the name', () => {
+      const commonName = 'TempSensor'
+      const sensor1 = TemperatureSensorSeeder.seedOne({ name: commonName })
+      const sensor2 = TemperatureSensorSeeder.seedOne({ name: commonName })
+      const sensor3 = TemperatureSensorSeeder.seedOne({ name: 'SpecialT' })
+      const fctGraph = FCTGraphSeeder
+        .seedOne({ functionalities: [
+          sensor1.serialize(),
+          sensor2.serialize(),
+          sensor3.serialize(),
+        ] })
+
+      const fcts = fctGraph.getFctsByName(commonName)
+
+      expect(fcts).toHaveLength(2)
+      fcts.forEach(({ name }) => name === commonName)
     })
   })
 

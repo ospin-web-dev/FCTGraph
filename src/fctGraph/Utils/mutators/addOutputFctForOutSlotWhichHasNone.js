@@ -1,5 +1,4 @@
 const { v4: uuidv4 } = require('uuid')
-
 const assertFCTGraphFirstArgument = require('../helpers/assertFCTGraphFirstArgument')
 const InSlot = require('../../../slots/InSlot')
 const OutSlot = require('../../../slots/OutSlot')
@@ -41,6 +40,10 @@ function safeAddOutputFctAndConnect(fctGraph, outSlot, outputFct) {
 function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, subTypeClass, opts) {
   assertPrerequisites(fctGraph, outSlot)
 
+  if ("customData" in opts) {
+    console.warn('DEPRECATION WARNING: "customData" key is deprecated. Please use "fctData" instead')
+  }
+
   const functionalityId = uuidv4()
 
   const inSlotData = {
@@ -57,6 +60,7 @@ function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, subTypeClass, opt
     id: functionalityId,
     name: 'Output',
     ...opts.customData,
+    ...opts.fctData,
     slots: [ inSlotData ],
 
   })
