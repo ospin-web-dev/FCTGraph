@@ -21,7 +21,6 @@ class FunctionalitySeeder {
       id: faker.datatype.uuid(),
       name: faker.hacker.noun(),
       isVirtual: faker.datatype.boolean(),
-      ports: [],
       firmwareBlackBox: {},
       ...data,
     }

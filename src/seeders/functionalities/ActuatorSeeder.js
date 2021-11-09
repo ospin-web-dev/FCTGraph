@@ -1,7 +1,7 @@
-const FunctionalitySeeder = require('./FunctionalitySeeder')
+const PhysicalFunctionalitySeeder = require('./PhysicalFunctionalitySeeder')
 const Actuator = require('../../functionalities/Actuator')
 
-class ActuatorSeeder extends FunctionalitySeeder {
+class ActuatorSeeder extends PhysicalFunctionalitySeeder {
 
   static generate(data) {
     return {

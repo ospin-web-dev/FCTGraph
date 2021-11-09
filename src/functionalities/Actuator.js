@@ -1,16 +1,9 @@
-const Functionality = require('./Functionality')
+const PhysicalFunctionality = require('./PhysicalFunctionality')
 
-class Actuator extends Functionality {
+class Actuator extends PhysicalFunctionality {
 
   static get TYPE() {
     return 'Actuator'
-  }
-
-  constructor(functionalityData) {
-    super({
-      isVirtual: false,
-      ...functionalityData,
-    })
   }
 
 }
