@@ -14,15 +14,37 @@ const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 
 class FCTGraph {
 
+  static get FUNCTIONALITY_VALIDATOR() {
+    /* This custom validator creates a more detailed error when a functionality fails validation;
+     * Without it, the error message would be only "functionalities[index] does not match any type"
+     */
+    return (fct, helpers) => {
+      try {
+        FunctionalityFactory.assertTypeAndSubTypeAreSupported(fct)
+        const schema = FunctionalityFactory
+          .getSchemaFromSubType(fct.subType)
+        Joi.assert(fct, schema)
+      } catch (error) {
+        return helpers.error(error)
+      }
+      return fct
+    }
+  }
+
   static get SCHEMA() {
     return Joi.object({
       id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       deviceId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
       deviceDefault: Joi.boolean().strict().required(),
       name: Joi.string().min(1).max(255).required(),
-      functionalities: Joi.array().items(Joi.alternatives().try(
-        ...FunctionalityFactory.SUPPORTED_CLASSES_SCHEMAS,
-      )).required(),
+      functionalities: Joi.array().items(Joi.object()
+        .custom(FCTGraph.FUNCTIONALITY_VALIDATOR)).required()
+        .error(errors => {
+          const { state: { path }, code: { details } } = errors[0]
+          const fctValidatioError = details[0].message
+          const message = `${path[0]}[${path[1]}]: ${fctValidatioError}`
+          return new Error(message)
+        }),
     })
   }
 

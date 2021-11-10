@@ -39,6 +39,30 @@ describe('the FCTGraph class', () => {
       }).toThrow(/"deviceId" is required/)
     })
 
+    it('throws a detailed error when a functionality fails the type validation', () => {
+      expect(() => {
+        const tempSensor = TemperatureSensorSeeder.generate({ type: 'test' })
+        const fctGraphData = FCTGraphSeeder.generate({ functionalities: [ tempSensor ] })
+        FCTGraph.newAndAssertStructure(fctGraphData)
+      }).toThrow(/type not supported/)
+    })
+
+    it('throws a detailed error when a functionality fails the subType validation', () => {
+      expect(() => {
+        const tempSensor = TemperatureSensorSeeder.generate({ subType: 'test' })
+        const fctGraphData = FCTGraphSeeder.generate({ functionalities: [ tempSensor ] })
+        FCTGraph.newAndAssertStructure(fctGraphData)
+      }).toThrow(/subType not supported/)
+    })
+
+    it('throws a detailed error when a functionality fails the data validation', () => {
+      expect(() => {
+        const tempSensor = TemperatureSensorSeeder.generate({ ports: 'test' })
+        const fctGraphData = FCTGraphSeeder.generate({ functionalities: [ tempSensor ] })
+        FCTGraph.newAndAssertStructure(fctGraphData)
+      }).toThrow(/functionalities\[0\]: "ports" must be an array/)
+    })
+
     it('creates an instance', () => {
       const fctGraphData = FCTGraphSeeder.generate({ })
       const fctGraph = new FCTGraph(fctGraphData)

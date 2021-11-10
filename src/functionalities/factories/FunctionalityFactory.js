@@ -60,6 +60,10 @@ class FunctionalityFactory {
     )
   }
 
+  static getSchemaFromSubType(subType) {
+    return FunctionalityFactory.SUB_TYPE_TO_CLASS[subType].SCHEMA
+  }
+
   static assertTypeAndSubTypeAreSupported(funcData) {
     const { type, subType } = funcData
 
