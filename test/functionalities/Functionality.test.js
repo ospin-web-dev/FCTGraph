@@ -314,7 +314,7 @@ describe('the Functionality class', () => {
         })
 
         describe('when it has a connection', () => {
-          it('returns the unit of its source', () => {
+          it('returns the derivedUnit of its source', () => {
             const unit = 'any'
             const sensorSlotUnit = '°C'
             const slot = FloatInSlotSeeder.seedOne({ unit })
@@ -328,7 +328,7 @@ describe('the Functionality class', () => {
 
             sensorSlotWithinFct.connectTo(controllerSlotWithinFct)
 
-            expect(controllerSlotWithinFct.derivedUnit).toBe(sensorSlotUnit)
+            expect(controllerSlotWithinFct.derivedUnit).toBe(sensorSlot.derivedUnit)
           })
         })
       })
