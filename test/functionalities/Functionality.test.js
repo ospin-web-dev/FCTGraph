@@ -22,6 +22,7 @@ const {
 } = require('seeders/functionalities')
 const {
   FloatInSlotSeeder,
+  FloatOutSlotSeeder,
   IntegerInSlotSeeder,
 } = require('seeders/slots')
 
@@ -283,7 +284,67 @@ describe('the Functionality class', () => {
         ])
       })
     })
+  })
 
+  describe('when calling .deriveUnit on a slot', () => {
+    describe('on a slot that has NOT "any" as unit', () => {
+      it('returns the unit of the slot', () => {
+        const unit = '°C'
+        const slot = FloatInSlotSeeder.seedOne({ unit })
+        const heater = HeaterActuatorSeeder.seedOne({ slots: [ slot ] })
+
+        const slotWithinFct = heater.getSlotByName(slot.name)
+
+        expect(slotWithinFct.derivedUnit).toBe(unit)
+      })
+    })
+
+    describe('on a slot that has "any" as unit', () => {
+      describe('when the slot is an InSlot', () => {
+        describe('when it has no connection', () => {
+          it('returns "any"', () => {
+            const unit = 'any'
+            const slot = FloatInSlotSeeder.seedOne({ unit })
+            const controller = PIDControllerSeeder.seedOne({ slots: [ slot ] })
+
+            const slotWithinFct = controller.getSlotByName(slot.name)
+
+            expect(slotWithinFct.derivedUnit).toBe(unit)
+          })
+        })
+
+        describe('when it has a connection', () => {
+          it('returns the derivedUnit of its source', () => {
+            const unit = 'any'
+            const sensorSlotUnit = '°C'
+            const slot = FloatInSlotSeeder.seedOne({ unit })
+            const sensorSlot = FloatOutSlotSeeder.seedOne({ unit: sensorSlotUnit })
+
+            const controller = PIDControllerSeeder.seedOne({ slots: [ slot ] })
+            const sensor = TemperatureSensorSeeder.seedOne({ slots: [ sensorSlot ] })
+
+            const controllerSlotWithinFct = controller.getSlotByName(slot.name)
+            const sensorSlotWithinFct = sensor.getSlotByName(sensorSlot.name)
+
+            sensorSlotWithinFct.connectTo(controllerSlotWithinFct)
+
+            expect(controllerSlotWithinFct.derivedUnit).toBe(sensorSlot.derivedUnit)
+          })
+        })
+      })
+
+      describe('when the slot is an OutSlot', () => {
+        it('returns "any"', () => {
+          const unit = 'any'
+          const slot = FloatOutSlotSeeder.seedOne({ unit })
+          const controller = PIDControllerSeeder.seedOne({ slots: [ slot ] })
+
+          const slotWithinFct = controller.getSlotByName(slot.name)
+
+          expect(slotWithinFct.derivedUnit).toBe(unit)
+        })
+      })
+    })
   })
 
 })
