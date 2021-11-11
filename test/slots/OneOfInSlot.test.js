@@ -15,7 +15,7 @@ describe('the OneOfInSlot class', () => {
       forbiddenKeys.forEach(key => expect(key in slot).toBe(false))
     })
 
-    it('default the defaultValue to null when none is provided', () => {
+    it('defaults the defaultValue to null when none is provided', () => {
       const slotData = OneOfInSlotSeeder.generate()
       delete slotData.defaultValue
 
@@ -23,7 +23,12 @@ describe('the OneOfInSlot class', () => {
       expect(slot.defaultValue).toBeNull()
     })
 
+    it('defaults the selectOptions to an empty array when none are provided', () => {
+      const slotData = OneOfInSlotSeeder.generate()
+      delete slotData.selectOptions
 
-
+      const slot = new OneOfInSlot(slotData)
+      expect(slot.selectOptions).toStrictEqual([])
+    })
   })
 })

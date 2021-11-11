@@ -17,7 +17,7 @@ class OneOfInSlot extends InSlot {
     }).concat(super.SCHEMA)
   }
 
-  constructor({ defaultValue = null, selectOptions, ...slotData }) {
+  constructor({ defaultValue = null, selectOptions = [], ...slotData }) {
     super(slotData)
     this.dataType = OneOfInSlot.DATA_TYPE
     this.defaultValue = defaultValue
