@@ -230,6 +230,10 @@ class Functionality {
 
   disconnectAll() { this.slots.forEach(slot => slot.disconnectAll()) }
 
+  resolveInterSlotUnit() {
+    return null
+  }
+
 }
 
 module.exports = Functionality

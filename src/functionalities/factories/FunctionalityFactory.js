@@ -54,12 +54,6 @@ class FunctionalityFactory {
     )
   }
 
-  static get SUPPORTED_CLASSES_SCHEMAS() {
-    return FunctionalityFactory.SUPPORTED_CLASSES.map(
-      SupportedClass => SupportedClass.SCHEMA,
-    )
-  }
-
   static getSchemaFromSubType(subType) {
     return FunctionalityFactory.SUB_TYPE_TO_CLASS[subType].SCHEMA
   }
