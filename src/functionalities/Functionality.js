@@ -23,8 +23,8 @@ class Functionality {
       subType: Joi.string().allow(this.SUB_TYPE).required(),
       slots: Joi.array().items(Joi.alternatives().try(
         ...SlotFactory.SUPPORTED_CLASSES_SCHEMAS,
-      )).required(),
-      isVirtual: Joi.boolean().required(),
+      )),
+      isVirtual: Joi.boolean(),
       firmwareBlackBox: Joi.object(),
     })
   }
@@ -61,7 +61,6 @@ class Functionality {
 
   _addSlotByDataOrThrow(slotData) {
     const newSlot = SlotFactory.new({ ...slotData, functionality: this })
-    newSlot.assertStructure()
 
     this._assertSlotCanBeAdded(newSlot)
     this.slots.push(newSlot)
@@ -80,7 +79,7 @@ class Functionality {
     fctGraph,
     isVirtual = false,
     firmwareBlackBox = {},
-    slots: slotsData,
+    slots: slotsData = [],
   }) {
     this.id = id
     this.name = name
@@ -89,7 +88,7 @@ class Functionality {
     this.firmwareBlackBox = firmwareBlackBox
     this.slots = []
 
-    if (slotsData) this._addSlotsByDataOrThrow(slotsData)
+    if (slotsData.length > 0) this._addSlotsByDataOrThrow(slotsData)
   }
 
   serialize() {

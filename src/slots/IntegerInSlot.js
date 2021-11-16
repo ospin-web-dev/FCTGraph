@@ -11,7 +11,6 @@ class IntegerInSlot extends InSlot {
 
   static get SCHEMA() {
     return Joi.object({
-      dataType: Joi.string().allow(IntegerInSlot.DATA_TYPE).required(),
       min: Joi.number().integer().strict().allow(null),
       max: Joi.number().integer().strict().allow(null)
         .when('min', {
@@ -27,7 +26,7 @@ class IntegerInSlot extends InSlot {
           is: Joi.number().strict(),
           then: Joi.number().integer().max(Joi.ref('max')),
         }),
-      tareable: Joi.boolean().required(),
+      tareable: Joi.boolean(),
     }).concat(super.SCHEMA)
   }
 
@@ -39,7 +38,6 @@ class IntegerInSlot extends InSlot {
     ...slotData
   }) {
     super(slotData)
-    this.dataType = IntegerInSlot.DATA_TYPE
     this.min = min
     this.max = max
     this.defaultValue = defaultValue
@@ -48,7 +46,6 @@ class IntegerInSlot extends InSlot {
 
   serialize() {
     const dataObj = {
-      dataType: this.dataType,
       min: this.min,
       max: this.max,
       defaultValue: this.defaultValue,

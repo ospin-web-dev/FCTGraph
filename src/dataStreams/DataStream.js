@@ -16,7 +16,6 @@ class DataStream {
         .number()
         .integer()
         .min(0)
-        .required()
         .strict(),
     })
   }
@@ -25,12 +24,12 @@ class DataStream {
     id,
     sourceSlot,
     sinkSlot,
-    averagingWindowSize,
+    averagingWindowSize = 0,
   }) {
     this.id = id
     this.sourceSlot = sourceSlot
     this.sinkSlot = sinkSlot
-    this.averagingWindowSize = averagingWindowSize || 0
+    this.averagingWindowSize = averagingWindowSize
   }
 
   get sourceFctId() { return this.sourceSlot.functionalityId }

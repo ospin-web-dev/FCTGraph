@@ -74,9 +74,9 @@ class FunctionalityFactory {
     }
   }
 
-  static assertClassHasNewAndAssertStructure(Class) {
-    if (!Class.newAndAssertStructure) {
-      throw new Error(`FunctionalityFactory found class: ${Class.name} must have a 'newAndAssertStructure' method. It should be a JOIous, which composes this method.`)
+  static assertClassHasAssertValidDataAndNew(Class) {
+    if (!Class.assertValidDataAndNew) {
+      throw new Error(`FunctionalityFactory found class: ${Class.name} must have a 'assertValidDataAndNew' method. The class should be a JOIous, which composes this method.`)
     }
   }
 
@@ -96,11 +96,11 @@ class FunctionalityFactory {
     })
   }
 
-  static newAndAssertStructure(funcData) {
+  static assertValidDataAndNew(funcData) {
     const Class = FunctionalityFactory.findClassFromFuncData(funcData)
-    FunctionalityFactory.assertClassHasNewAndAssertStructure(Class)
+    FunctionalityFactory.assertClassHasAssertValidDataAndNew(Class)
 
-    return Class.newAndAssertStructure({
+    return Class.assertValidDataAndNew({
       id: uuidv4(),
       ...funcData,
     })

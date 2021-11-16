@@ -32,26 +32,11 @@ class OutSlot extends Slot {
 
   static get SCHEMA() {
     return Joi.object({
-      type: Joi.string().allow(OutSlot.TYPE).required(),
       calibrations: OutSlot.CALIBRATIONS_SCHEMA,
     }).concat(super.SCHEMA)
   }
 
-  constructor({ type, dataType, ...slotData }) {
-    super(slotData)
-    this.type = OutSlot.TYPE
-    this.dataType = dataType
-  }
-
-  serialize() {
-    return {
-      ...super.serialize(),
-      type: this.type,
-      dataType: this.dataType,
-    }
-  }
-
-  get isOutSlot() { return this.type === OutSlot.TYPE }
+  get isOutSlot() { return true } // eslint-disable-line
 
   get derivedUnit() {
     const derivedUnit = super.derivedUnit
