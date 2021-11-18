@@ -74,8 +74,10 @@ class Slot {
   static get SCHEMA() {
     return Joi.object({
       name: Joi.string().required(),
-      displayType: Joi.string().allow(null).required(),
-      dataStreams: Joi.array().items(DataStream.SCHEMA).required(),
+      type: Joi.string().allow(this.TYPE).required(),
+      dataType: Joi.string().allow(this.DATA_TYPE).required(),
+      displayType: Joi.string().allow(null),
+      dataStreams: Joi.array().items(DataStream.SCHEMA),
       unit: Joi.string().required(),
     })
   }
@@ -95,7 +97,12 @@ class Slot {
     this.displayType = displayType
     this.unit = unit
     this.dataStreams = []
+    // NOTE: can you blow up on this.constructor.name === Slot.name?
   }
+
+  get dataType() { return this.constructor.DATA_TYPE }
+
+  get type() { return this.constructor.TYPE }
 
   get functionalityId() { return this.functionality.id }
 
@@ -110,6 +117,8 @@ class Slot {
   serialize() {
     return {
       name: this.name,
+      type: this.type,
+      dataType: this.dataType,
       displayType: this.displayType,
       dataStreams: this.dataStreams.map(ds => ds.serialize()),
       unit: this.unit,
@@ -123,11 +132,6 @@ class Slot {
     )
 
     return serializedSlotTemplate
-  }
-
-  assertStructure() {
-    // Virtual
-    throw new Error(`${this.constructor.name} requires an .assertStructure method to mutate. See mixin 'JOIous'`)
   }
 
   isUnitless() { return this.unit === Slot.UNITLESS_UNIT }
@@ -229,6 +233,11 @@ class Slot {
     return this.connectedFunctionalities.some(connectedFunctionality => (
       connectedFunctionality.isInputNode
     ))
+  }
+
+  serializeAndAssert() {
+    // Virtual
+    throw new Error(`${this.constructor.name} requires an .serializeAndAssert method to mutate. See mixin 'JOIous'`)
   }
 
   _removeDataStreamTo(otherSlot) {

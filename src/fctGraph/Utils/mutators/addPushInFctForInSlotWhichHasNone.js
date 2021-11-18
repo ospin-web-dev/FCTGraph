@@ -45,8 +45,8 @@ const DEFAULT_OPTS = {
 function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS) {
   assertPrerequisites(fctGraph, inSlot)
 
-  if ("customData" in opts) {
-    console.warn('DEPRECATION WARNING: "customData" key is deprecated. Please use "fctData" instead')
+  if ('customData' in opts) {
+    throw new Error('"customData" key is no longer supported. Please use "fctData" instead')
   }
 
   const functionalityId = uuidv4()
@@ -55,14 +55,15 @@ function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS
     type: OutSlot.TYPE,
     dataType: inSlot.dataType,
     name: PushIn.SLOT_NAME,
-    functionalityId,
     displayType: inSlot.displayType,
     unit: inSlot.unit,
     dataStreams: [],
   }
 
-  const pushInFct = PushIn.newAndAssertStructure({
+  const pushInFct = PushIn.assertValidDataAndNew({
     id: functionalityId,
+    type: PushIn.TYPE,
+    subType: PushIn.SUB_TYPE,
     name: 'Push In',
     ...opts.customData,
     ...opts.fctData,

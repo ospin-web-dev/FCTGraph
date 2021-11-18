@@ -9,24 +9,6 @@ class OneOfOutSlot extends OutSlot {
     return 'oneOf'
   }
 
-  static get SCHEMA() {
-    return Joi.object({
-      dataType: Joi.string().allow(OneOfOutSlot.DATA_TYPE).required(),
-    }).concat(super.SCHEMA)
-  }
-
-  constructor(slotData) {
-    super(slotData)
-    this.dataType = OneOfOutSlot.DATA_TYPE
-  }
-
-  serialize() {
-    return {
-      dataType: this.dataType,
-      ...super.serialize(),
-    }
-  }
-
 }
 
 module.exports = (

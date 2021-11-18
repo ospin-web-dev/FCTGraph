@@ -9,6 +9,7 @@ const OutputNode = require('../functionalities/OutputNode')
 const PushOut = require('../functionalities/PushOut')
 const IntervalOut = require('../functionalities/IntervalOut')
 const PushIn = require('../functionalities/PushIn')
+const DataStream = require('../dataStreams/DataStream')
 const RegexUtils = require('../utils/RegexUtils')
 const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 
@@ -16,13 +17,14 @@ class FCTGraph {
 
   static get SCHEMA() {
     return Joi.object({
-      id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
+      id: Joi.string().pattern(RegexUtils.UUIDV4),
       deviceId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
-      deviceDefault: Joi.boolean().strict().required(),
+      deviceDefault: Joi.boolean().strict(),
       name: Joi.string().min(1).max(255).required(),
       functionalities: Joi.array().items(Joi.alternatives().try(
         ...FunctionalityFactory.SUPPORTED_CLASSES_SCHEMAS,
-      )).required(),
+      )),
+      dataStreams: Joi.array().items(DataStream.SCHEMA),
     })
   }
 
@@ -73,6 +75,7 @@ class FCTGraph {
     functionalities: functionalitiesData = [],
     deviceDefault = false,
     name,
+    dataStreams: dataStreamsData = [],
   }) {
     this.id = id
     this.deviceId = deviceId
@@ -80,20 +83,18 @@ class FCTGraph {
     this.deviceDefault = deviceDefault
     this.functionalities = []
     functionalitiesData.map(fctData => this._addFunctionalityByData(fctData))
-    this._populateConnectionsFromFctData(functionalitiesData)
+
+    // NOTE: update readme with this
+    if (dataStreamsData.length > 0) {
+      this._addManyConnectionsViaDataStreamsData(dataStreamsData)
+    } else {
+      this._populateConnectionsFromFctData(functionalitiesData)
+    }
   }
 
-  static newWithDataStreamsTopLevel({ dataStreams: dataStreamsData, ...newData }) {
-    /* this method is a helper for FW who wants to make use of a top level
-     * dataStreams key as opposed to using the dataStreams data nested down
-     * in the slots */
-    if (!Array.isArray(dataStreamsData)) throw Error('key of "dataStreams" must be present and an array')
-
-    // calling `new FCTGraph` won't use the composed methods!
-    const fctGraph = new this.prototype.constructor(newData)
-    fctGraph._addManyConnectionsViaDataStreamsData(dataStreamsData)
-
-    return fctGraph
+  static newWithDataStreamsTopLevel(newData) {
+    // DEPRECATED: keep for legacy firmware reasons
+    return this.assertValidDataAndNew(newData)
   }
 
   serialize() {
@@ -127,7 +128,7 @@ class FCTGraph {
 
   addFunctionalityByData(fctData) {
     try {
-      const newFct = FunctionalityFactory.newAndAssertStructure(fctData)
+      const newFct = FunctionalityFactory.assertValidDataAndNew(fctData)
       return this.addFunctionality(newFct)
     } catch (e) {
       return publicErrorRes({ errorMsg: e.message, functionality: fctData })

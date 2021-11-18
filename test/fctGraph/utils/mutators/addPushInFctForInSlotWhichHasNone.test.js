@@ -146,8 +146,7 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
       expect(pushInNodes[0].slots[0].name).toBe(PushIn.SLOT_NAME)
     })
 
-    it('shows a warning when "customData" is used', () => {
-      const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
+    it('throws when "customData" is used', () => {
       const fctGraph = FCTGraphSeeder.seedOne({
         functionalities: [
           HeaterActuatorSeeder.generate(),
@@ -157,13 +156,13 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
       const heatActuator = fctGraph.functionalities[0]
       const heatActuatorInSlot = heatActuator.getInSlots()[0]
 
-      addPushInFctForInSlotWhichHasNone(
-        fctGraph,
-        heatActuatorInSlot,
-        { customData: { name: 'putin-spy' } },
-      )
-
-      expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
+      expect(() => {
+        addPushInFctForInSlotWhichHasNone(
+          fctGraph,
+          heatActuatorInSlot,
+          { customData: { name: 'putin-spy' } },
+        )
+      }).toThrow(/"customData" key is no longer supported/)
     })
   })
 })

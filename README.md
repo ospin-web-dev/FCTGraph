@@ -49,7 +49,7 @@ const tempInSlotData = { name: 'temp in', type: 'InSlot', ... } /* see InSlot.SC
 const pidControllerData = { slots: [ tempInSlotData ], ... }  /* see PIDController.SCHEMA */
 
 // ...and instantiate our FCTGraph
-const fctGraph = FCTGraph.newAndAssertStructure({
+const fctGraph = FCTGraph.assertValidDataAndNew({
   functionalities: [ tempSensorData, pidControllerData ],
   ..., /* see FCTGraph.SCHEMA */
 })
@@ -66,16 +66,15 @@ fctGraph.functionalities
 Alternative instantiation with dataStreams passed in as a top level key on the fctGraph data:
 
 ```js
-const fctGraph = FCTGraph.newWithDataStreamsTopLevel({
+const fctGraph = new FCTGraph({
   functionalities: [ tempSensorData, pidControllerData ],
   dataStreams: [ dataStreamData, ... ],
   ..., /* see FCTGraph.SCHEMA */
 })
 
-/* NOTE: Datastreams found deeply nested within slots will be added first
- * and if a duplicate connection is found within `dataStreams` it will
- * _not_ overwrite the connection with any conflicting values, such as a
- * different `dataStream.averagingWindowSize` */
+/* NOTE: if Datastreams are found in the dataStreams array, only
+ * they will be added. Any nested dataStream data in the slots
+ * will be ignored! */
 ```
 
 #### <a name="Action">Action!
@@ -183,7 +182,7 @@ DataStream
 ```
 
 All non-virtual classes (e.g. HeaterActuator, IntegerInSlot, etc.) compose the **JOIous** module, which provides the following:
-- **`static newAndAssertStructure`** - uses the constructor and asserts the instance's data against the JOI SCHEMA (which provides nested data validation) as a final step. This used to be the default behavior for every JOIous constructor, but JOI was significantly slowing down the construction of large FCTGraphs from JSON -> instances. This is now best used on an `FCTGraph`'s instantiation at critical moments, e.g. before persisting to the DB after receiving JSON, when instantiating new functionalities/dataStreams from user provided data, etc. Whenever speed is _not_ a critical concern or data fidelity is _not_ guaranteed, use `newAndAssertStructure` instead of the `.new` method
+- **`static assertValidDataAndNew`** - uses the constructor and asserts the instance's data against the JOI SCHEMA (which provides nested data validation) as a final step. This used to be the default behavior for every JOIous constructor, but JOI was significantly slowing down the construction of large FCTGraphs from JSON -> instances. This is now best used on an `FCTGraph`'s instantiation at critical moments, e.g. before persisting to the DB after receiving JSON, when instantiating new functionalities/dataStreams from user provided data, etc. Whenever speed is _not_ a critical concern or data fidelity is _not_ guaranteed, use `assertValidDataAndNew` instead of the `.new` method
 - **`.serialize`** (virtual) - blows up - informing the user that the class that composed JOIous needs a `.serialize` method
 - **`.sortAndSerialize`** - uses `.serialize` returns the (deeply) sorted object
 - **`.toJSON`** - uses `.sortAndSerialize`
@@ -291,7 +290,3 @@ Available types:
  - revert: Reverts a previous commit
 
 ---
-
-## Upcoming:
-- reject setting properties on the core classes that should not change throughout the lifetime of an object (`name`, `anything else that is missing`.)
-

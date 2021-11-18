@@ -37,11 +37,11 @@ function safeAddOutputFctAndConnect(fctGraph, outSlot, outputFct) {
   return addConnectionResponse
 }
 
-function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, subTypeClass, opts) {
+function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, SubTypeClass, opts) {
   assertPrerequisites(fctGraph, outSlot)
 
-  if ("customData" in opts) {
-    console.warn('DEPRECATION WARNING: "customData" key is deprecated. Please use "fctData" instead')
+  if ('customData' in opts) {
+    throw new Error('"customData" key is no longer supported. Please use "fctData" instead')
   }
 
   const functionalityId = uuidv4()
@@ -50,19 +50,19 @@ function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, subTypeClass, opt
     type: InSlot.TYPE,
     dataType: outSlot.dataType,
     name: OutputNode.SLOT_NAME,
-    functionalityId,
     displayType: outSlot.displayType,
     unit: outSlot.unit,
     dataStreams: [],
   }
 
-  const outputFct = subTypeClass.newAndAssertStructure({
+  const outputFct = SubTypeClass.assertValidDataAndNew({
     id: functionalityId,
+    type: SubTypeClass.TYPE,
+    subType: SubTypeClass.SUB_TYPE,
     name: 'Output',
     ...opts.customData,
     ...opts.fctData,
     slots: [ inSlotData ],
-
   })
 
   return safeAddOutputFctAndConnect(fctGraph, outSlot, outputFct)

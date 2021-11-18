@@ -144,8 +144,7 @@ describe('addPushOutFctForOutSlotWhichHasNone', () => {
       expect(intervalOutNodes[0].slots[0].name).toBe(PushOut.SLOT_NAME)
     })
 
-    it('shows a warning when "customData" is used', () => {
-      const spy = jest.spyOn(global.console, 'warn').mockImplementation(() => {})
+    it('throws when "customData" is used', () => {
       const fctGraph = FCTGraphSeeder.seedOne({
         functionalities: [
           TemperatureSensorSeeder.generate(),
@@ -155,13 +154,13 @@ describe('addPushOutFctForOutSlotWhichHasNone', () => {
       const tempSensor = fctGraph.functionalities[0]
       const tempSensorOutSlot = tempSensor.getOutSlots()[0]
 
-      addPushOutFctForOutSlotWhichHasNone(
-        fctGraph,
-        tempSensorOutSlot,
-        { customData: { name: 'Putin-Spy' } },
-      )
-
-      expect(spy).toHaveBeenCalledWith(expect.stringMatching(/key is deprecated/))
+      expect(() => {
+        addPushOutFctForOutSlotWhichHasNone(
+          fctGraph,
+          tempSensorOutSlot,
+          { customData: { name: 'Putin-Spy' } },
+        )
+      }).toThrow(/"customData" key is no longer supported/)
     })
   })
 

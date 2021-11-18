@@ -15,24 +15,8 @@ class InSlot extends Slot {
 
   static get SCHEMA() {
     return super.SCHEMA.concat(Joi.object({
-      type: Joi.string().allow(InSlot.TYPE).required(),
       dataStreams: super.SCHEMA.extract('dataStreams').max(1),
-      displayType: super.SCHEMA.extract('displayType'),
     }))
-  }
-
-  constructor(slotData) {
-    super(slotData)
-    this.type = InSlot.TYPE
-  }
-
-  serialize() {
-    const dataObj = {
-      type: this.type,
-      ...super.serialize(),
-    }
-
-    return dataObj
   }
 
   get isControllerParameter() {
@@ -49,7 +33,7 @@ class InSlot extends Slot {
     return super.connectedSlots[0]
   }
 
-  get isInSlot() { return this.type === InSlot.TYPE }
+  get isInSlot() { return true } // eslint-disable-line
 
   get derivedUnit() {
     const derivedUnit = super.derivedUnit

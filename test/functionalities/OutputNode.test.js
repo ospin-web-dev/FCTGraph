@@ -92,10 +92,10 @@ describe('the OutputNode virtual class', () => {
 
   describe('getSourceFct', () => {
     it('returns the sole source functionality', () => {
-      const inSlot = FloatInSlotSeeder.seedCelsiusIn()
-      const outSlot = FloatOutSlotSeeder.seedCelsiusOut()
-      const sensorFct = TemperatureSensorSeeder.seedOne({ slots: [ outSlot ] })
-      const pushOutFct = PushOutSeeder.seedOne({ slots: [ inSlot ] })
+      const inSlotData = FloatInSlotSeeder.generateCelsiusIn()
+      const outSlotData = FloatOutSlotSeeder.generateCelsiusOut()
+      const sensorFct = TemperatureSensorSeeder.seedOne({ slots: [ outSlotData ] })
+      const pushOutFct = PushOutSeeder.seedOne({ slots: [ inSlotData ] })
 
       pushOutFct.inSlots[0].connectTo(sensorFct.outSlots[0])
 
@@ -107,10 +107,10 @@ describe('the OutputNode virtual class', () => {
 
   describe('getConnectingSourceSlot', () => {
     it('returns the connecting slot of the source fct', () => {
-      const inSlot = FloatInSlotSeeder.seedCelsiusIn()
-      const outSlot = FloatOutSlotSeeder.seedCelsiusOut()
-      const sensorFct = TemperatureSensorSeeder.seedOne({ slots: [ outSlot ] })
-      const pushOutFct = PushOutSeeder.seedOne({ slots: [ inSlot ] })
+      const inSlotData = FloatInSlotSeeder.generateCelsiusIn()
+      const outSlotData = FloatOutSlotSeeder.generateCelsiusOut()
+      const sensorFct = TemperatureSensorSeeder.seedOne({ slots: [ outSlotData ] })
+      const pushOutFct = PushOutSeeder.seedOne({ slots: [ inSlotData ] })
 
       pushOutFct.inSlots[0].connectTo(sensorFct.outSlots[0])
 

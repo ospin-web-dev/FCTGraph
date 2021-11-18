@@ -190,13 +190,13 @@ describe('the functionality factory', () => {
         const fctSubClassData = SubClassSeeder.generate()
         const fct = FunctionalityFactory.new(fctSubClassData)
 
-        describe('with .newAndAssertStructure', () => {
+        describe('with .assertValidDataAndNew', () => {
           it('throws error if it gets bogus data', () => {
             const bogusName = 666
             const badBadData = SubClassSeeder.generate({ name: bogusName })
 
             expect(() => {
-              FunctionalityFactory.newAndAssertStructure(badBadData)
+              FunctionalityFactory.assertValidDataAndNew(badBadData)
             }).toThrow('"name" must be a string')
           })
         })
@@ -237,14 +237,14 @@ describe('the functionality factory', () => {
     })
   })
 
-  describe('assertClassHasNewAndAssertStructure', () => {
-    it('blows up if a class is found that does not have the .assertClassHasNewAndAssertStructure method aka does not compose JOIous', () => {
+  describe('assertClassHasAssertValidDataAndNew', () => {
+    it('blows up if a class is found that does not have the .assertClassHasAssertValidDataAndNew method aka does not compose JOIous', () => {
       const Class = FunctionalityFactory.SUB_TYPE_TO_CLASS.TemperatureSensor
-      delete Class.newAndAssertStructure
+      delete Class.assertValidDataAndNew
 
       expect(() => {
-        FunctionalityFactory.newAndAssertStructure(TemperatureSensorSeeder.generate())
-      }).toThrow('must have a \'newAndAssertStructure\' method')
+        FunctionalityFactory.assertValidDataAndNew(TemperatureSensorSeeder.generate())
+      }).toThrow('must have a \'assertValidDataAndNew\' method')
     })
   })
 })

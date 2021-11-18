@@ -10,10 +10,10 @@ const {
 describe('the PushIn Functionality', () => {
   describe('getSinkFct', () => {
     it('returns the sole sink functionality', () => {
-      const inSlot = FloatInSlotSeeder.seedCelsiusIn()
-      const outSlot = FloatOutSlotSeeder.seedCelsiusOut()
-      const heaterFct = HeaterActuatorSeeder.seedOne({ slots: [ inSlot ] })
-      const pushInFct = PushInSeeder.seedOne({ slots: [ outSlot ] })
+      const inSlotData = FloatInSlotSeeder.generateCelsiusIn()
+      const outSlotData = FloatOutSlotSeeder.generateCelsiusOut()
+      const heaterFct = HeaterActuatorSeeder.seedOne({ slots: [ inSlotData ] })
+      const pushInFct = PushInSeeder.seedOne({ slots: [ outSlotData ] })
 
       pushInFct.outSlots[0].connectTo(heaterFct.inSlots[0])
 

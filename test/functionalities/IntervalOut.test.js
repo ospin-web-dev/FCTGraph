@@ -26,7 +26,7 @@ describe('the IntervalOut class', () => {
     })
   })
 
-  describe('.newAndAssertStructure', () => {
+  describe('.assertValidDataAndNew', () => {
     it('will not accept 0 or a negative value as a publishIntervalMs', () => {
       const invalidVals = [ 0, -1, -1000 ]
       const intervalOutData = IntervalOutSeeder.generate({})
@@ -34,7 +34,7 @@ describe('the IntervalOut class', () => {
       for (const val of invalidVals) { // eslint-disable-line
         expect(() => {
           intervalOutData.publishIntervalMs = val
-          IntervalOut.newAndAssertStructure(intervalOutData)
+          IntervalOut.assertValidDataAndNew(intervalOutData)
         }).toThrow(/"publishIntervalMs" must be greater than or equal to/)
       }
     })

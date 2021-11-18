@@ -5,7 +5,7 @@ const InSlot = require('../../src/slots/InSlot')
 
 describe('the FloatInSlot class', () => {
 
-  describe('.assertStructure', () => {
+  describe('.serializeAndAssert', () => {
     it('throws if more than one dataStream is present', () => {
       const slot = FloatInSlotSeeder.seedOne()
       const dataStreams = [ DataStreamSeeder.seedOne(), DataStreamSeeder.seedOne() ]
@@ -13,18 +13,18 @@ describe('the FloatInSlot class', () => {
       slot.dataStreams = dataStreams
 
       expect(() => {
-        slot.assertStructure()
+        slot.serializeAndAssert()
       }).toThrow(/"dataStreams" must contain less than or equal to 1 items/)
     })
   })
 
-  describe('.newAndAssertStructure', () => {
+  describe('.assertValidDataAndNew', () => {
     it('throws when max is below min', () => {
       const slotData = FloatInSlotSeeder.generate()
       slotData.max = 100.1
       slotData.min = 200.2
 
-      expect(() => FloatInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+      expect(() => FloatInSlot.assertValidDataAndNew(slotData)).toThrow(/max/)
     })
 
     it('throws when defaultValue is above max', () => {
@@ -32,7 +32,7 @@ describe('the FloatInSlot class', () => {
       slotData.max = 100.1
       slotData.defaultValue = 200.1
 
-      expect(() => FloatInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+      expect(() => FloatInSlot.assertValidDataAndNew(slotData)).toThrow(/max/)
     })
 
     it('throws when defaultValue is below min', () => {
@@ -40,7 +40,7 @@ describe('the FloatInSlot class', () => {
       slotData.min = 300.1
       slotData.defaultValue = 200.1
 
-      expect(() => FloatInSlot.newAndAssertStructure(slotData)).toThrow(/min/)
+      expect(() => FloatInSlot.assertValidDataAndNew(slotData)).toThrow(/min/)
     })
   })
 

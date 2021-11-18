@@ -71,14 +71,14 @@ describe('the Slot class', () => {
     })
   })
 
-  describe('.assertStructure', () => {
+  describe('.serializeAndAssert', () => {
 
     it('blows up because Slot is a virtual class and it wants to kindly tell you that a mistake was likely made in a child that has not defined the method', () => {
       const slot = new Slot(SlotSeeder.generate())
 
       expect(() => {
-        slot.assertStructure()
-      }).toThrow(/requires an \.assertStructure method/)
+        slot.serializeAndAssert()
+      }).toThrow(/requires an \.serializeAndAssert method/)
     })
   })
 
@@ -185,9 +185,7 @@ describe('the Slot class', () => {
 
     it('returns an error when the slot types are incompatible', () => {
       const slotA = FloatOutSlotSeeder.seedCelsiusOut()
-      const slotB = FloatInSlotSeeder.seedCelsiusIn()
-      slotA.type = OutSlot.TYPE
-      slotB.type = OutSlot.TYPE
+      const slotB = FloatOutSlotSeeder.seedCelsiusOut()
 
       const {
         error: outToOutError,
@@ -197,13 +195,13 @@ describe('the Slot class', () => {
       expect(outToOutError).toBe(true)
       expect(outToOutErrorMsg).toContain('must have complimentary types')
 
-      slotA.type = InSlot.TYPE
-      slotB.type = InSlot.TYPE
+      const slot1 = FloatInSlotSeeder.seedCelsiusIn()
+      const slot2 = FloatInSlotSeeder.seedCelsiusIn()
 
       const {
         error: inToInError,
         errorMsg: inToInErrorMsgm,
-      } = slotA.connectTo(slotB)
+      } = slot1.connectTo(slot2)
 
       expect(inToInError).toBe(true)
       expect(inToInErrorMsgm).toContain('must have complimentary types')

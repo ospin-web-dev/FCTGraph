@@ -290,10 +290,10 @@ describe('the Functionality class', () => {
     describe('on a slot that has NOT "any" as unit', () => {
       it('returns the unit of the slot', () => {
         const unit = '°C'
-        const slot = FloatInSlotSeeder.seedOne({ unit })
-        const heater = HeaterActuatorSeeder.seedOne({ slots: [ slot ] })
+        const slotData = FloatInSlotSeeder.generate({ unit })
+        const heater = HeaterActuatorSeeder.seedOne({ slots: [ slotData ] })
 
-        const slotWithinFct = heater.getSlotByName(slot.name)
+        const slotWithinFct = heater.getSlotByName(slotData.name)
 
         expect(slotWithinFct.derivedUnit).toBe(unit)
       })
@@ -304,10 +304,10 @@ describe('the Functionality class', () => {
         describe('when it has no connection', () => {
           it('returns "any"', () => {
             const unit = 'any'
-            const slot = FloatInSlotSeeder.seedOne({ unit })
-            const controller = PIDControllerSeeder.seedOne({ slots: [ slot ] })
+            const slotData = FloatInSlotSeeder.generate({ unit })
+            const controller = PIDControllerSeeder.seedOne({ slots: [ slotData ] })
 
-            const slotWithinFct = controller.getSlotByName(slot.name)
+            const slotWithinFct = controller.getSlotByName(slotData.name)
 
             expect(slotWithinFct.derivedUnit).toBe(unit)
           })
@@ -317,18 +317,18 @@ describe('the Functionality class', () => {
           it('returns the derivedUnit of its source', () => {
             const unit = 'any'
             const sensorSlotUnit = '°C'
-            const slot = FloatInSlotSeeder.seedOne({ unit })
-            const sensorSlot = FloatOutSlotSeeder.seedOne({ unit: sensorSlotUnit })
+            const inSlotData = FloatInSlotSeeder.generate({ unit })
+            const outSlotData = FloatOutSlotSeeder.generate({ unit: sensorSlotUnit })
 
-            const controller = PIDControllerSeeder.seedOne({ slots: [ slot ] })
-            const sensor = TemperatureSensorSeeder.seedOne({ slots: [ sensorSlot ] })
+            const controller = PIDControllerSeeder.seedOne({ slots: [ inSlotData ] })
+            const sensor = TemperatureSensorSeeder.seedOne({ slots: [ outSlotData ] })
 
-            const controllerSlotWithinFct = controller.getSlotByName(slot.name)
-            const sensorSlotWithinFct = sensor.getSlotByName(sensorSlot.name)
+            const outSensorSlot = sensor.getSlotByName(outSlotData.name)
+            const inControllerSlot = controller.getSlotByName(inSlotData.name)
 
-            sensorSlotWithinFct.connectTo(controllerSlotWithinFct)
+            outSensorSlot.connectTo(inControllerSlot)
 
-            expect(controllerSlotWithinFct.derivedUnit).toBe(sensorSlot.derivedUnit)
+            expect(inControllerSlot.derivedUnit).toBe(outSensorSlot.derivedUnit)
           })
         })
       })
@@ -336,10 +336,10 @@ describe('the Functionality class', () => {
       describe('when the slot is an OutSlot', () => {
         it('returns "any"', () => {
           const unit = 'any'
-          const slot = FloatOutSlotSeeder.seedOne({ unit })
-          const controller = PIDControllerSeeder.seedOne({ slots: [ slot ] })
+          const slotData = FloatOutSlotSeeder.generate({ unit })
+          const controller = PIDControllerSeeder.seedOne({ slots: [ slotData ] })
 
-          const slotWithinFct = controller.getSlotByName(slot.name)
+          const slotWithinFct = controller.getSlotByName(slotData.name)
 
           expect(slotWithinFct.derivedUnit).toBe(unit)
         })

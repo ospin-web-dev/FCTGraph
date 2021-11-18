@@ -2,13 +2,13 @@ const IntegerInSlot = require('slots/IntegerInSlot')
 const { IntegerInSlotSeeder } = require('seeders/slots')
 
 describe('the IntegerInSlot class', () => {
-  describe('.newAndAssertStructure', () => {
+  describe('.assertValidDataAndNew', () => {
     it('throws when max is below min', () => {
       const slotData = IntegerInSlotSeeder.generate()
       slotData.max = 100
       slotData.min = 200
 
-      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+      expect(() => IntegerInSlot.assertValidDataAndNew(slotData)).toThrow(/max/)
     })
 
     it('throws when defaultValue is above max', () => {
@@ -16,7 +16,7 @@ describe('the IntegerInSlot class', () => {
       slotData.max = 100
       slotData.defaultValue = 200
 
-      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+      expect(() => IntegerInSlot.assertValidDataAndNew(slotData)).toThrow(/max/)
     })
 
     it('throws when defaultValue is below min', () => {
@@ -24,28 +24,28 @@ describe('the IntegerInSlot class', () => {
       slotData.min = 300
       slotData.defaultValue = 200
 
-      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/min/)
+      expect(() => IntegerInSlot.assertValidDataAndNew(slotData)).toThrow(/min/)
     })
 
     it('throws when defaultValue is a float number', () => {
       const slotData = IntegerInSlotSeeder.generate()
       slotData.defaultValue = 200.1
 
-      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/defaultValue/)
+      expect(() => IntegerInSlot.assertValidDataAndNew(slotData)).toThrow(/defaultValue/)
     })
 
     it('throws when min is a float number', () => {
       const slotData = IntegerInSlotSeeder.generate()
       slotData.min = 200.1
 
-      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/min/)
+      expect(() => IntegerInSlot.assertValidDataAndNew(slotData)).toThrow(/min/)
     })
 
     it('throws when max is a float number', () => {
       const slotData = IntegerInSlotSeeder.generate()
       slotData.max = 200.1
 
-      expect(() => IntegerInSlot.newAndAssertStructure(slotData)).toThrow(/max/)
+      expect(() => IntegerInSlot.assertValidDataAndNew(slotData)).toThrow(/max/)
     })
   })
 

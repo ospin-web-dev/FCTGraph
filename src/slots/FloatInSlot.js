@@ -11,7 +11,6 @@ class FloatInSlot extends InSlot {
 
   static get SCHEMA() {
     return Joi.object({
-      dataType: Joi.string().allow(FloatInSlot.DATA_TYPE).required(),
       min: Joi.number().strict().allow(null),
       max: Joi.number().strict().allow(null)
         .when('min', {
@@ -27,7 +26,7 @@ class FloatInSlot extends InSlot {
           is: Joi.number().strict(),
           then: Joi.number().max(Joi.ref('max')),
         }),
-      tareable: Joi.boolean().required(),
+      tareable: Joi.boolean(),
     }).concat(super.SCHEMA)
   }
 
@@ -39,7 +38,6 @@ class FloatInSlot extends InSlot {
     ...slotData
   }) {
     super(slotData)
-    this.dataType = FloatInSlot.DATA_TYPE
     this.min = min
     this.max = max
     this.defaultValue = defaultValue
@@ -48,7 +46,6 @@ class FloatInSlot extends InSlot {
 
   serialize() {
     const dataObj = {
-      dataType: this.dataType,
       min: this.min,
       max: this.max,
       defaultValue: this.defaultValue,

@@ -9,8 +9,9 @@ const ObjUtils = require('../../utils/ObjUtils')
  * JOIous is doing a few kind things for us related to data validation
  * and serialization to/from JSON for instances
  *
- * on newAndAssertStructure, JOIous asserts the result of the .serialize method
- * against the Class' joi SCHEMA
+ * on assertValidDataAndNew, JOIous asserts the dataprovided
+ * against the Class' joi SCHEMA and instantiates down from there
+ * without assertion
  *
  * on toJSON (aka what JSON.stringify calls) it will sort by key
  *
@@ -34,20 +35,37 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     error.message = `JOI error in ${this.name}:\n\n${error.annotate()}`
   }
 
-  static newAndAssertStructure(...args) {
-    /* here, 'this' is a reference to the class that has been made JOIous
-     * So if the ReceivingClass is FCTGraph, 'this' is the FCTGraph.
-     * This enables us call the constructor from the static
-     * method without naming the class. */
-    const instance = new this(...args)
+  static assertValidData(data) {
+    if (!this.SCHEMA) {
+      throw new Error(`${this.name} requires a static .SCHEMA method`)
+    }
 
-    instance.assertStructure()
-    return instance
+    try {
+      Joi.attempt(data, this.SCHEMA)
+    } catch (e) {
+      if (e.isJoi) { this.enrichJoiValidationError(e) }
+      throw e
+    }
+  }
+
+  static assertValidDataAndNew(data) {
+    /* here, 'this' is a reference to the class that composes JOIous
+     * So if the ReceivingClass is FCTGraph, 'this' is the FCTGraph.
+     * This enables us to call the constructor from the static
+     * method without naming the class. */
+    this.assertValidData(data)
+
+    return new this(data)
   }
 
   clone() {
     const data = this.serialize()
     return new this.constructor(data)
+  }
+
+  static enrichBadSerializedInstanceData(error) {
+    // eslint-disable-next-line
+    error.message = 'The instance serialized with invalid data:\n\n' + error.message
   }
 
   serialize() {
@@ -56,23 +74,29 @@ const JOIous = ReceivingClass => class extends ReceivingClass {
     if (!super.serialize) {
       throw new Error(`${this.constructor.name} requires a .serialize method`)
     }
+
     return super.serialize()
   }
 
-  assertStructure() {
+  serializeAndAssert() {
+    const serializedData = this.serialize()
+
     try {
-      Joi.attempt(
-        this.serialize(),
-        ReceivingClass.SCHEMA,
-      )
+      this.constructor.assertValidData(serializedData)
     } catch (e) {
-      if (e.isJoi) { this.constructor.enrichJoiValidationError(e) }
+      this.constructor.enrichBadSerializedInstanceData(e)
       throw e
     }
+
+    return serializedData
   }
 
   sortAndSerialize() {
     return ObjUtils.sortByKeys(this.serialize())
+  }
+
+  sortAndSerializeAndAssert() {
+    return ObjUtils.sortByKeys(this.serializeAndAssert())
   }
 
   toJSON() {

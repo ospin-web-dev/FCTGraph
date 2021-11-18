@@ -24,18 +24,18 @@ describe('the FCTGraph class', () => {
     expect(FCTGraph.isJOIous).toBe(true)
   })
 
-  describe('.newAndAssertStructure', () => {
+  describe('.assertValidDataAndNew', () => {
     it('assigns an id if none is provided', () => {
       const fctGraphData = FCTGraphSeeder.generate({ })
       delete fctGraphData.id
 
-      const fctGraph = FCTGraph.newAndAssertStructure(fctGraphData)
+      const fctGraph = FCTGraph.assertValidDataAndNew(fctGraphData)
       expect(fctGraph.id).toMatch(RegexUtils.UUIDV4)
     })
 
     it('throws if given an invalid data object', () => {
       expect(() => {
-        FCTGraph.newAndAssertStructure({ id: uuidv4() }) // eslint-disable-line
+        FCTGraph.assertValidDataAndNew({ id: uuidv4() }) // eslint-disable-line
       }).toThrow(/"deviceId" is required/)
     })
 
@@ -53,6 +53,17 @@ describe('the FCTGraph class', () => {
       const fctGraph = new FCTGraph(fctGraphData)
 
       expect(fctGraph instanceof FCTGraph).toBe(true)
+    })
+
+    it('assigns expected defaults when none are provided', () => {
+      const fctGraphData = FCTGraphSeeder.generate({ })
+      delete fctGraphData.functionalities
+      delete fctGraphData.deviceDefault
+
+      const fctGraph = new FCTGraph(fctGraphData)
+
+      expect(fctGraph.functionalities).toStrictEqual([])
+      expect(fctGraph.deviceDefault).toBe(false)
     })
 
     describe('when given an actual fctGraph that has been serialized', () => {
@@ -77,15 +88,19 @@ describe('the FCTGraph class', () => {
   })
 
   describe('.newWithDataStreamsTopLevel', () => {
-    it('throws if given an invalid or absent dataStreams value', () => {
+    it('does not throw if given an absent dataStreams value', () => {
       const fctGraphData = FCTGraphSeeder.generate()
       expect(() => {
         FCTGraph.newWithDataStreamsTopLevel(fctGraphData) // eslint-disable-line
-      }).toThrow(/"dataStreams" must be present and an array/)
+      }).not.toThrow()
+    })
+
+    it('throws if given an invalid dataStreams value', () => {
+      const fctGraphData = FCTGraphSeeder.generate()
 
       expect(() => {
         FCTGraph.newWithDataStreamsTopLevel({ dataStreams: 3, ...fctGraphData }) // eslint-disable-line
-      }).toThrow(/"dataStreams" must be present and an array/)
+      }).toThrow(/"dataStreams" must be an array/)
     })
 
     it('creates an instance', () => {
