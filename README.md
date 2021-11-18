@@ -289,4 +289,6 @@ Available types:
  - chore: Other changes that don't modify src or test files
  - revert: Reverts a previous commit
 
+[More info and how to bump major version found here](https://www.conventionalcommits.org/en/v1.0.0/)
+
 ---
