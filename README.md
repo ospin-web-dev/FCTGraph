@@ -292,4 +292,3 @@ Available types:
 [More info and how to bump major version found here](https://www.conventionalcommits.org/en/v1.0.0/)
 
 ---
-
