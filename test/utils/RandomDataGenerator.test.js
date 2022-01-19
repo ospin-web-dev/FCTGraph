@@ -67,15 +67,6 @@ describe('the RandomDataGenerator', () => {
       })
     })
 
-    describe('when given a precision', () => {
-      it('should generate a float with the matching amount of decimals', () => {
-        for (let index = 0; index < numberOfTestRuns; index++) {
-          const precision = faker.datatype.number({ min: 1, max: 8 })
-          const generatedNumber = RandomDataGenerator.float({ precision })
-          expect(generatedNumber.toString().split('.')[1]).toHaveLength(precision)
-        }
-      })
-    })
   })
 
   describe('.frog', () => {

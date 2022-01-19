@@ -13,16 +13,14 @@ class RandomDataGenerator {
   static integer(options = {}) {
     const min = options.min || 0
     const max = Number.isInteger(options.max) ? options.max : 1000
-
-    return Math.floor(Math.random() * (max - min + 1) + min)
+    return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
   static float(options = {}) {
     const min = options.min || 0
-    const max = Number.isInteger(options.max) ? options.max : 1000
-    const precision = Number.isInteger(options.precision) ? options.precision : 5
-
-    return parseFloat((RandomDataGenerator.integer({ min, max: max - 1 }) + Math.random()).toFixed(precision))
+    const max = options.max ? options.max : 1000
+    const float = Math.random() * (max - min + 1) + min
+    return float
   }
 
   static frog() {
