@@ -5,6 +5,7 @@ const FactorySeeder = require('../FactorySeeder')
 const SlotFactory = require('../../slots/factories/SlotFactory')
 const Slot = require('../../slots/Slot')
 const FunctionalitySeeder = require('../functionalities/FunctionalitySeeder')
+const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 
 class SlotSeeder {
 
@@ -28,10 +29,10 @@ class SlotSeeder {
 
   static generate(data = {}) {
     return {
-      name: faker.animal.lion(),
-      displayType: faker.random.arrayElement(SlotSeeder.DISPLAY_TYPES),
+      name: RandomDataGenerator.frog(),
+      displayType: RandomDataGenerator.arrayItem(SlotSeeder.DISPLAY_TYPES),
       dataStreams: [],
-      unit: faker.random.arrayElement(Slot.ALL_UNIT_VALUES),
+      unit: RandomDataGenerator.arrayItem(Slot.ALL_UNIT_VALUES),
       ...data,
     }
   }

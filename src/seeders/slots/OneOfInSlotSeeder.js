@@ -1,4 +1,4 @@
-const faker = require('faker')
+const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 
 const OneOfInSlot = require('../../slots/OneOfInSlot')
 const InSlotSeeder = require('./InSlotSeeder')
@@ -10,7 +10,7 @@ class OneOfInSlotSeeder extends InSlotSeeder {
 
     const appliedDefaultValue = (defaultValue !== null && defaultValue !== undefined)
       ? defaultValue
-      : faker.random.arrayElement(options)
+      : RandomDataGenerator.arrayItem(options)
 
     return {
       selectOptions: selectOptions || ['angela', 'merkel'],
