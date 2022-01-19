@@ -19,7 +19,7 @@ class RandomDataGenerator {
   static float(options = {}) {
     const min = options.min || 0
     const max = options.max ? options.max : 1000
-    const float = Math.random() * (max - min + 1) + min
+    const float = Math.random() * (max - min) + min
     return float
   }
 
