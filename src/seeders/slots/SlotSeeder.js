@@ -32,7 +32,7 @@ class SlotSeeder {
       name: RandomDataGenerator.frog(),
       displayType: RandomDataGenerator.arrayItem(SlotSeeder.DISPLAY_TYPES),
       dataStreams: [],
-      unit: RandomDataGenerator.arrayItem(Slot.ALL_UNIT_VALUES),
+      unit: RandomDataGenerator.arrayItem(Slot.ALL_UNIT_VALUES || ['a', 'b', 'c']),
       ...data,
     }
   }
