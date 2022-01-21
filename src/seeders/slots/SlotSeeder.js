@@ -1,9 +1,7 @@
-const faker = require('faker')
 const compose = require('@choux/compose')
 
 const FactorySeeder = require('../FactorySeeder')
 const SlotFactory = require('../../slots/factories/SlotFactory')
-const Slot = require('../../slots/Slot')
 const FunctionalitySeeder = require('../functionalities/FunctionalitySeeder')
 const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 

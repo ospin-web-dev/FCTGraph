@@ -1,4 +1,3 @@
-const faker = require('faker')
 const compose = require('@choux/compose')
 
 const FCTGraph = require('../../fctGraph/FCTGraph')
