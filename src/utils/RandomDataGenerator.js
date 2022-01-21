@@ -10,17 +10,12 @@ class RandomDataGenerator {
     return Math.random() <= 0.5
   }
 
-  static integer(options = {}) {
-    const min = options.min || 0
-    const max = Number.isInteger(options.max) ? options.max : 1000
-    return Math.floor(Math.random() * (max - min + 1)) + min
+  static integer({ min = 0, max = 1000 } = {}) {
+    return Math.floor(Math.random() * (max - min + 1) + min)
   }
 
-  static float(options = {}) {
-    const min = options.min || 0
-    const max = options.max ? options.max : 1000
-    const float = Math.random() * (max - min) + min
-    return float
+  static float({ min = 0, max = 1000 } = {}) {
+    return Math.random() * (max - min) + min
   }
 
   static frog() {
