@@ -2581,7 +2581,7 @@ module.exports = {
   },
   {
     "id":"98e62d7c-a8d2-4490-be72-0bfaa96a4eaf",
-    "name":"WebconnectedFCTGraphData",
+    "name":"WebReporter",
     "type":"OutputNode",
     "subType":"PushOut",
     "slots":[
