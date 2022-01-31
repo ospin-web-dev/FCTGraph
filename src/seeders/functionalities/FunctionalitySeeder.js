@@ -1,8 +1,8 @@
-const faker = require('faker')
 const compose = require('@choux/compose')
 
 const FunctionalityFactory = require('../../functionalities/factories/FunctionalityFactory')
 const FactorySeeder = require('../FactorySeeder')
+const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 
 class FunctionalitySeeder {
 
@@ -18,9 +18,9 @@ class FunctionalitySeeder {
 
   static generate(data) {
     return {
-      id: faker.datatype.uuid(),
-      name: faker.hacker.noun(),
-      isVirtual: faker.datatype.boolean(),
+      id: RandomDataGenerator.uuid(),
+      name: RandomDataGenerator.hackerNoun(),
+      isVirtual: RandomDataGenerator.boolean(),
       firmwareBlackBox: {},
       ...data,
     }

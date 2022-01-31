@@ -1,5 +1,4 @@
-const faker = require('faker')
-
+const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 const IntegerInSlot = require('../../slots/IntegerInSlot')
 const InSlotSeeder = require('./InSlotSeeder')
 
@@ -10,8 +9,8 @@ class IntegerInSlotSeeder extends InSlotSeeder {
   static get MAX_BOUNDS() { return { min: 11, max: 111 } }
 
   static generateMinMax(min, max, defaultValue) {
-    const generatedMin = Math.round(min || faker.datatype.float(this.MIN_BOUNDS))
-    const generatedMax = Math.round(max || faker.datatype.float(this.MAX_BOUNDS))
+    const generatedMin = Math.round(min || RandomDataGenerator.float(this.MIN_BOUNDS))
+    const generatedMax = Math.round(max || RandomDataGenerator.float(this.MAX_BOUNDS))
 
     return {
       min: defaultValue < generatedMin ? defaultValue : generatedMin,
@@ -24,7 +23,7 @@ class IntegerInSlotSeeder extends InSlotSeeder {
       .generateMinMax(min, max, defaultValue)
     const integerDefault = (
       defaultValue
-      || faker.datatype.number({ min: integerMin, max: integerMax })
+      || RandomDataGenerator.integer({ min: integerMin, max: integerMax })
     )
 
     return {
@@ -39,7 +38,7 @@ class IntegerInSlotSeeder extends InSlotSeeder {
 
     return {
       ...slotData,
-      tareable: faker.datatype.boolean(),
+      tareable: RandomDataGenerator.boolean(),
       dataType: IntegerInSlot.DATA_TYPE,
       ...IntegerInSlotSeeder.generateMinMaxDefaultValue(slotData),
       ...data,

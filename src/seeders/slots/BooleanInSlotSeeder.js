@@ -1,7 +1,7 @@
-const faker = require('faker')
 
 const BooleanInSlot = require('../../slots/BooleanInSlot')
 const InSlotSeeder = require('./InSlotSeeder')
+const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 
 class BooleanInSlotSeeder extends InSlotSeeder {
 
@@ -10,7 +10,7 @@ class BooleanInSlotSeeder extends InSlotSeeder {
 
     return {
       ...slotData,
-      defaultValue: faker.datatype.boolean(),
+      defaultValue: RandomDataGenerator.boolean(),
       dataType: BooleanInSlot.DATA_TYPE,
       ...data,
     }
