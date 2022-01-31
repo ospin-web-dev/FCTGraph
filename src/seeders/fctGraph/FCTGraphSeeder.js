@@ -1,4 +1,3 @@
-const faker = require('faker')
 const compose = require('@choux/compose')
 
 const FCTGraph = require('../../fctGraph/FCTGraph')
@@ -10,6 +9,7 @@ const {
   IntervalOutSeeder,
   PushOutSeeder,
 } = require('../functionalities')
+const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 
 class FCTGraphSeeder {
 
@@ -31,10 +31,10 @@ class FCTGraphSeeder {
 
   static generate(data) {
     return {
-      id: faker.datatype.uuid(),
-      deviceId: faker.datatype.uuid(),
-      name: faker.name.jobDescriptor(),
-      deviceDefault: faker.datatype.boolean(),
+      id: RandomDataGenerator.uuid(),
+      deviceId: RandomDataGenerator.uuid(),
+      name: RandomDataGenerator.jobDescriptor(),
+      deviceDefault: RandomDataGenerator.boolean(),
       functionalities: [ ...this.FCT_SEEDS ],
       ...data,
     }
