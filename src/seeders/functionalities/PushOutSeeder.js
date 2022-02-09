@@ -1,15 +1,18 @@
 const OutputNodeSeeder = require('./OutputNodeSeeder')
 const {
   FloatInSlotSeeder,
-  RandomSlotSeeder,
 } = require('../slots')
 const PushOut = require('../../functionalities/PushOut')
+const Slot = require('../../slots/Slot')
 
 class PushOutSeeder extends OutputNodeSeeder {
 
   static generateSlots() {
     return [
-      RandomSlotSeeder.generateRandomInSlot({ name: PushOut.SLOT_NAME }),
+      FloatInSlotSeeder.generate({
+        name: PushOut.SLOT_NAME,
+        unit: Slot.ANY_UNIT_STRING,
+      }),
     ]
   }
 

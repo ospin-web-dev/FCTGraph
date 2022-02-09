@@ -56,7 +56,7 @@ function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS
     dataType: inSlot.dataType,
     name: PushIn.SLOT_NAME,
     displayType: inSlot.displayType,
-    unit: inSlot.unit,
+    unit: InSlot.ANY_UNIT_STRING,
     dataStreams: [],
   }
 
