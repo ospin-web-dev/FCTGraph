@@ -129,7 +129,7 @@ describe('the FCTGraph class', () => {
 
       expect(unconnectedFctGraph.dataStreamsCount).toBe(0)
 
-      const dataStreams = FCTGraph._collectUniqueDataStreamsDataFromFctData(
+      const dataStreams = FCTGraph.collectUniqueDataStreamsDataFromFctData(
         connectedFCTGraphData.functionalities,
       )
 
