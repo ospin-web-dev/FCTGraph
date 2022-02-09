@@ -603,4 +603,28 @@ describe('the FCTGraph class', () => {
       expect(fcts[0].id).toBe(inputFct.id)
     })
   })
+
+  describe('getDisconnectedIONodeFcts', () => {
+    it('should return all disconnected IONode fcts', () => {
+      const inputData = PushInSeeder.generate()
+      const pushOutputData = PushOutSeeder.generateFloatPushOutCelsius()
+      const intervalOutData = IntervalOutSeeder.generate()
+      const tempSensorData = TemperatureSensorSeeder.generateCelsiusFloatProducer()
+
+      const fctGraph = FCTGraphSeeder
+        .seedOne(
+          { functionalities: [ inputData, pushOutputData, intervalOutData, tempSensorData ] },
+        )
+
+      const pushOut = fctGraph.getFctById(pushOutputData.id)
+      const tempSensor = fctGraph.getFctById(tempSensorData.id)
+
+      const tempOutSlot = tempSensor.slots[0]
+      const pushOutSlot = pushOut.slots[0]
+
+      tempOutSlot.connectTo(pushOutSlot)
+
+      expect(fctGraph.getDisconnectedIONodeFcts()).toHaveLength(2)
+    })
+  })
 })

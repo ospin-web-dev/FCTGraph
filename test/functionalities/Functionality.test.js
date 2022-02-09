@@ -163,6 +163,29 @@ describe('the Functionality class', () => {
       })
     })
 
+    describe('.isConnected', () => {
+      it('returns true for a connected fct', () => {
+        const pidController = PIDControllerSeeder.seedOne(
+          PIDControllerSeeder.generateTemperatureControllerCelsius(),
+        )
+        const tempSensor = TemperatureSensorSeeder.seedOne(
+          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
+        )
+
+        tempSensor.outSlots[0].connectTo(pidController.getSlotByName('value in'))
+
+        expect(tempSensor.isConnected).toBe(true)
+      })
+
+      it('returns false for a disconnected fct', () => {
+        const tempSensor = TemperatureSensorSeeder.seedOne(
+          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
+        )
+
+        expect(tempSensor.isConnected).toBe(false)
+      })
+    })
+
     describe('.sources', () => {
       it('all fcts connected via inslots', () => {
         const heater = HeaterActuatorSeeder.seedOne(

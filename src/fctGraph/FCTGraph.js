@@ -246,6 +246,11 @@ class FCTGraph {
     }
   }
 
+  getDisconnectedIONodeFcts() {
+    const fcts = this.getIONodeFcts()
+    return fcts.filter(fct => !fct.isConnected)
+  }
+
 }
 
 module.exports = (
