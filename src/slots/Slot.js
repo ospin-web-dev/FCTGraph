@@ -162,17 +162,12 @@ class Slot {
     otherSlot._addDataStream(dataStream)
   }
 
-  // safe - returns a public response
   connectTo(otherSlot, dataStreamData = {}) {
-    try {
-      Slot._assertConnectionBetweenIsPossible(this, otherSlot)
-      const dataStream = this._createDataStreamTo(otherSlot, dataStreamData)
-      this._connectTo(otherSlot, dataStream)
+    Slot._assertConnectionBetweenIsPossible(this, otherSlot)
+    const dataStream = this._createDataStreamTo(otherSlot, dataStreamData)
+    this._connectTo(otherSlot, dataStream)
 
-      return publicSuccessRes({ thisSlot: this, otherSlot, dataStream })
-    } catch (e) {
-      return publicErrorRes({ errorMsg: e.message, thisSlot: this, otherSlot, dataStream: null })
-    }
+    return { thisSlot: this, otherSlot, dataStream }
   }
 
   filterConnectableSlots(slots) {

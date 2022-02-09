@@ -146,15 +146,8 @@ describe('the Slot class', () => {
       FloatInSlotSeeder.stubOwningFct(slotB)
 
       const dataStreamOpts = { averagingWindowSize: 10 }
-      const {
-        error,
-        errorMsg,
-        thisSlot,
-        otherSlot,
-      } = slotA.connectTo(slotB, dataStreamOpts)
+      const { thisSlot, otherSlot } = slotA.connectTo(slotB, dataStreamOpts)
 
-      expect(error).toBe(false)
-      expect(errorMsg).toBeNull()
       expect(thisSlot.dataStreams).toStrictEqual(otherSlot.dataStreams)
       expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(dataStreamOpts.averagingWindowSize)
     })
@@ -166,10 +159,8 @@ describe('the Slot class', () => {
       FloatOutSlotSeeder.stubOwningFct(slotA)
       FloatInSlotSeeder.stubOwningFct(slotB)
 
-      const { error, errorMsg, thisSlot, otherSlot } = slotB.connectTo(slotA)
+      const { thisSlot, otherSlot } = slotB.connectTo(slotA)
 
-      expect(error).toBe(false)
-      expect(errorMsg).toBeNull()
       expect(thisSlot.dataStreams).toStrictEqual(otherSlot.dataStreams)
     })
 
@@ -177,34 +168,19 @@ describe('the Slot class', () => {
       const slotA = IntegerOutSlotSeeder.seedCelsiusOut()
       const slotB = FloatInSlotSeeder.seedCelsiusIn()
 
-      const { error, errorMsg } = slotA.connectTo(slotB)
-
-      expect(error).toBe(true)
-      expect(errorMsg).toContain('dataTypes must match between slots')
+      expect(() => slotA.connectTo(slotB)).toThrow(/dataTypes must match between slots/)
     })
 
     it('returns an error when the slot types are incompatible', () => {
       const slotA = FloatOutSlotSeeder.seedCelsiusOut()
       const slotB = FloatOutSlotSeeder.seedCelsiusOut()
 
-      const {
-        error: outToOutError,
-        errorMsg: outToOutErrorMsg,
-      } = slotA.connectTo(slotB)
-
-      expect(outToOutError).toBe(true)
-      expect(outToOutErrorMsg).toContain('must have complimentary types')
+      expect(() => slotA.connectTo(slotB)).toThrow(/must have complimentary types/)
 
       const slot1 = FloatInSlotSeeder.seedCelsiusIn()
       const slot2 = FloatInSlotSeeder.seedCelsiusIn()
 
-      const {
-        error: inToInError,
-        errorMsg: inToInErrorMsgm,
-      } = slot1.connectTo(slot2)
-
-      expect(inToInError).toBe(true)
-      expect(inToInErrorMsgm).toContain('must have complimentary types')
+      expect(() => slot1.connectTo(slot2)).toThrow(/must have complimentary types/)
     })
 
     describe('when the units are not matching', () => {
@@ -212,37 +188,28 @@ describe('the Slot class', () => {
         const slotA = FloatOutSlotSeeder.seedCelsiusOut()
         const slotB = FloatInSlotSeeder.seedKelvinIn()
 
-        const { error, errorMsg } = slotA.connectTo(slotB)
-
-        expect(error).toBe(true)
-        expect(errorMsg).toContain('units must match between slots')
+        expect(() => slotA.connectTo(slotB)).toThrow(/units must match between slots/)
       })
 
       it(`does NOT return an error when slotA has ${Slot.ANY_UNIT_STRING} as unit`, () => {
         const slotA = FloatOutSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
         const slotB = FloatInSlotSeeder.seedKelvinIn()
 
-        const { error } = slotA.connectTo(slotB)
-
-        expect(error).toBe(false)
+        expect(() => slotA.connectTo(slotB)).not.toThrow()
       })
 
       it(`does NOT return an error when slotB has ${Slot.ANY_UNIT_STRING} as unit`, () => {
         const slotA = FloatInSlotSeeder.seedKelvinIn()
         const slotB = FloatOutSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
 
-        const { error } = slotA.connectTo(slotB)
-
-        expect(error).toBe(false)
+        expect(() => slotA.connectTo(slotB)).not.toThrow()
       })
 
       it(`does NOT return an error when slotA and slotB have ${Slot.ANY_UNIT_STRING} as unit`, () => {
         const slotA = FloatInSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
         const slotB = FloatOutSlotSeeder.seedOne({ unit: Slot.ANY_UNIT_STRING })
 
-        const { error } = slotA.connectTo(slotB)
-
-        expect(error).toBe(false)
+        expect(() => slotA.connectTo(slotB)).not.toThrow()
       })
     })
 
@@ -255,13 +222,8 @@ describe('the Slot class', () => {
 
       slotA.connectTo(slotB)
 
-      const { error: errorAToB, errorMsg: errorMsgAToB } = slotA.connectTo(slotB)
-      expect(errorAToB).toBe(true)
-      expect(errorMsgAToB).toContain('already connected to target slot')
-
-      const { error: errorBToA, errorMsg: errorMsgBToA } = slotB.connectTo(slotA)
-      expect(errorBToA).toBe(true)
-      expect(errorMsgBToA).toContain('already connected to target slot')
+      expect(() => slotA.connectTo(slotB)).toThrow(/already connected to target slot/)
+      expect(() => slotB.connectTo(slotA)).toThrow(/already connected to target slot/)
     })
 
     it('returns an error when the outslot already has a dataStream', () => {
@@ -274,10 +236,7 @@ describe('the Slot class', () => {
       FloatOutSlotSeeder.stubOwningFct(slotIn)
 
       outSlotA.connectTo(slotIn)
-
-      const { error, errorMsg } = outSlotB.connectTo(slotIn)
-      expect(error).toBe(true)
-      expect(errorMsg).toContain('can only have a single dataStream')
+      expect(() => outSlotB.connectTo(slotIn)).toThrow(/can only have a single dataStream/)
     })
   })
 
