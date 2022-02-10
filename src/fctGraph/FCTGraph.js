@@ -28,7 +28,7 @@ class FCTGraph {
     })
   }
 
-  static _collectUniqueDataStreamsDataFromFctData(functionalitiesData) {
+  static collectUniqueDataStreamsDataFromFctData(functionalitiesData) {
     const uniqueDataStreamsDataById = {}
 
     functionalitiesData.forEach(({ slots }) => {
@@ -64,7 +64,7 @@ class FCTGraph {
   }
 
   _populateConnectionsFromFctData(functionalitiesData) {
-    const dataStreamsData = FCTGraph._collectUniqueDataStreamsDataFromFctData(functionalitiesData)
+    const dataStreamsData = FCTGraph.collectUniqueDataStreamsDataFromFctData(functionalitiesData)
 
     this._addManyConnectionsViaDataStreamsData(dataStreamsData)
   }
@@ -244,6 +244,11 @@ class FCTGraph {
     } catch (e) {
       return publicErrorRes({ errorMsg: e.message, functionality: fct })
     }
+  }
+
+  getDisconnectedIONodeFcts() {
+    const fcts = this.getIONodeFcts()
+    return fcts.filter(fct => !fct.isConnected)
   }
 
 }

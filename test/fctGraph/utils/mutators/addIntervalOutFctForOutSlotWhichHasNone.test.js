@@ -46,7 +46,6 @@ describe('addIntervalOutFctForOutSlotWhichHasNone', () => {
       const [ temperatureSensor, intervalOutFct ] = fctGraph.functionalities
       const { error } = temperatureSensor.outSlots[0].connectTo(intervalOutFct.inSlots[0])
 
-      expect(error).toBe(false)
       expect(
         () => addIntervalOutFctForOutSlotWhichHasNone(fctGraph, temperatureSensor.outSlots[0]),
       ).toThrow(/already has a connected OutputNode/)
@@ -65,12 +64,8 @@ describe('addIntervalOutFctForOutSlotWhichHasNone', () => {
         const errorMsg = 'no!'
         tempSensorOutSlot._connectTo = () => { throw new Error(errorMsg) }
 
-        const { error, errorMsg: receivedErrorMsg } = (
-          addIntervalOutFctForOutSlotWhichHasNone(fctGraph, tempSensorOutSlot)
-        )
-
-        expect(error).toBe(true)
-        expect(receivedErrorMsg).toStrictEqual(errorMsg)
+        expect(() => addIntervalOutFctForOutSlotWhichHasNone(fctGraph, tempSensorOutSlot))
+          .toThrow(errorMsg)
       })
     })
   })

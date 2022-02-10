@@ -48,9 +48,8 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
       })
 
       const [ heaterActuator, pushInFct ] = fctGraph.functionalities
-      const { error } = heaterActuator.inSlots[0].connectTo(pushInFct.outSlots[0])
+      heaterActuator.inSlots[0].connectTo(pushInFct.outSlots[0])
 
-      expect(error).toBe(false)
       expect(
         () => addPushInFctForInSlotWhichHasNone(fctGraph, heaterActuator.inSlots[0]),
       ).toThrow(/already has a connected InputNode/)
@@ -69,12 +68,8 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
         const errorMsg = 'no!'
         heatActuatorInSlot._connectTo = () => { throw new Error(errorMsg) }
 
-        const { error, errorMsg: receivedErrorMsg } = (
-          addPushInFctForInSlotWhichHasNone(fctGraph, heatActuatorInSlot)
-        )
-
-        expect(error).toBe(true)
-        expect(receivedErrorMsg).toStrictEqual(errorMsg)
+        expect(() => addPushInFctForInSlotWhichHasNone(fctGraph, heatActuatorInSlot))
+          .toThrow(errorMsg)
       })
     })
   })

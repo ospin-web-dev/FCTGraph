@@ -196,6 +196,10 @@ class Functionality {
     return this._getConnectedFcts()
   }
 
+  get isConnected() {
+    return this.connectedFcts.length > 0
+  }
+
   get sources() {
     return this._getConnectedFcts(this.inSlots)
   }
