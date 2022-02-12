@@ -10,7 +10,7 @@ class FloatInSlot extends InSlot {
   }
 
   static get SCHEMA() {
-    return Joi.object({
+    return super.SCHEMA.concat(Joi.object({
       min: Joi.number().strict().allow(null),
       max: Joi.number().strict().allow(null)
         .when('min', {
@@ -27,7 +27,8 @@ class FloatInSlot extends InSlot {
           then: Joi.number().max(Joi.ref('max')),
         }),
       tareable: Joi.boolean(),
-    }).concat(super.SCHEMA)
+      dataType: Joi.string().allow(this.DATA_TYPE).required(),
+    }))
   }
 
   constructor({

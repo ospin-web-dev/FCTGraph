@@ -10,10 +10,11 @@ class OneOfInSlot extends InSlot {
   }
 
   static get SCHEMA() {
-    return Joi.object({
+    return super.SCHEMA.concat(Joi.object({
       defaultValue: Joi.any().valid(Joi.in('selectOptions')).allow(null),
       selectOptions: Joi.array(),
-    }).concat(super.SCHEMA)
+      dataType: Joi.string().allow(this.DATA_TYPE).required(),
+    }))
   }
 
   constructor({ defaultValue = null, selectOptions = [], ...slotData }) {

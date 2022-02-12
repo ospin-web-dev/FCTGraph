@@ -15,6 +15,7 @@ class InSlot extends Slot {
 
   static get SCHEMA() {
     return super.SCHEMA.concat(Joi.object({
+      type: Joi.string().allow(this.TYPE).required(),
       dataStreams: super.SCHEMA.extract('dataStreams').max(1),
     }))
   }
