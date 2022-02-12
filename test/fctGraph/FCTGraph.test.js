@@ -14,6 +14,8 @@ const {
 const { FloatInSlotSeeder, FloatOutSlotSeeder } = require('seeders/slots')
 
 const FCTGraph = require('fctGraph/FCTGraph')
+const { TemperatureSensor } = require('functionalities')
+const { FloatOutSlot } = require('slots')
 const DataStream = require('dataStreams/DataStream')
 const connectedFCTGraphData = require('./seeds/connectedFCTGraphData')
 const connectedPIDFCTGraphData = require('./seeds/connectedPIDFctGraphData')
@@ -103,7 +105,7 @@ describe('the FCTGraph class', () => {
       }).toThrow(/"dataStreams" must be an array/)
     })
 
-    it('creates an instance', () => {
+    it('creates a graph instance', () => {
       const fctGraphData = FCTGraphSeeder.generate({})
       fctGraphData.dataStreams = []
 
@@ -111,7 +113,34 @@ describe('the FCTGraph class', () => {
 
       // unfortunately instanceof not working here. due to this I believe
       // https://github.com/facebook/jest/issues/2549
-      expect(fctGraph.constructor.name).toStrictEqual('FCTGraph')
+      expect(fctGraph.constructor.name).toBe('FCTGraph')
+    })
+
+    it('the created functionalities are instances', () => {
+      const sensor = TemperatureSensorSeeder.seedOne()
+      const fctGraphData = FCTGraphSeeder
+        .generate({ functionalities: [ sensor.serialize() ] })
+      const fctGraph = new FCTGraph(fctGraphData)
+
+      const { functionalities } = fctGraph
+
+      expect(functionalities[0] instanceof TemperatureSensor).toBe(true)
+    })
+
+    it('the created slots are instances', () => {
+      const sensor = TemperatureSensorSeeder.generateCelsiusFloatProducer()
+      const fctGraphData = FCTGraphSeeder
+        .generate({ functionalities: [ sensor ] })
+      const fctGraph = new FCTGraph(fctGraphData)
+
+      const { functionalities } = fctGraph
+      const slot = functionalities[0].slots[0]
+
+      expect(slot instanceof FloatOutSlot).toBe(true)
+      expect(slot.dataType).toBeDefined()
+      expect(slot.dataType).toBe(FloatOutSlot.DATA_TYPE)
+      expect(slot.type).toBeDefined()
+      expect(slot.type).toBe(FloatOutSlot.TYPE)
     })
 
     it('the created instance is joious', () => {
@@ -312,7 +341,8 @@ describe('the FCTGraph class', () => {
 
       const res = fctGraph.getFctById(sensor.id)
 
-      expect(res).toStrictEqual(sensor)
+      expect(res).toBeDefined()
+      expect(res.id).toBe(sensor.id)
     })
   })
 
@@ -443,6 +473,18 @@ describe('the FCTGraph class', () => {
     })
   })
 
+  it('should set the fctGraph on the functionalities', () => {
+    const sensor = TemperatureSensorSeeder.generate()
+    const heater = HeaterActuatorSeeder.generate()
+
+    const fctGraph = FCTGraphSeeder
+      .seedOne({ functionalities: [ heater, sensor ] })
+
+    const { functionalities } = fctGraph
+    functionalities.forEach(({ fctGraph: fctGraphRef }) => {
+      expect(fctGraphRef instanceof FCTGraph).toBe(true)
+    })
+  })
 
   describe('fctsDeepEqual', () => {
     const intervalOutFct = IntervalOutSeeder.generate()
@@ -483,8 +525,6 @@ describe('the FCTGraph class', () => {
             .toStrictEqual(fctGraphB.functionalities[0].slots[0].serialize())
         })
       })
-
-
     })
 
     describe('when the amount of functionalities is different', () => {
@@ -493,24 +533,21 @@ describe('the FCTGraph class', () => {
           .seedOne({ functionalities: [ heater, sensor, intervalOutFct ] })
         expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
 
-      });
-    });
+      })
+    })
 
     describe('when the functionalities are different', () => {
       it('should return false', () => {
-        const fctGraph2 = FCTGraphSeeder.seedOne({ functionalities:[
+        const fctGraph2 = FCTGraphSeeder.seedOne({ functionalities: [
           TemperatureSensorSeeder.generate(),
           HeaterActuatorSeeder.generate(),
-        ]})
+        ] })
 
         expect(fctGraph2.fctsDeepEquals(fctGraph)).toBe(false)
         expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
-
       })
-
     })
-
-  });
+  })
 
   describe('removeFCT', () => {
     it('should remove the fct including any connections', () => {
