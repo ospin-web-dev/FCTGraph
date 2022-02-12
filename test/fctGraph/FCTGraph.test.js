@@ -312,7 +312,8 @@ describe('the FCTGraph class', () => {
 
       const res = fctGraph.getFctById(sensor.id)
 
-      expect(res).toStrictEqual(sensor)
+      expect(res).toBeDefined()
+      expect(res.id).toBe(sensor.id)
     })
   })
 
@@ -443,6 +444,18 @@ describe('the FCTGraph class', () => {
     })
   })
 
+  it('should set the fctGraph on the functionalities', () => {
+    const sensor = TemperatureSensorSeeder.generate()
+    const heater = HeaterActuatorSeeder.generate()
+
+    const fctGraph = FCTGraphSeeder
+      .seedOne({ functionalities: [ heater, sensor ] })
+
+    const { functionalities } = fctGraph
+    functionalities.forEach(({ fctGraph: fctGraphRef }) => {
+      expect(fctGraphRef instanceof FCTGraph).toBe(true)
+    })
+  })
 
   describe('fctsDeepEqual', () => {
     const intervalOutFct = IntervalOutSeeder.generate()
@@ -483,8 +496,6 @@ describe('the FCTGraph class', () => {
             .toStrictEqual(fctGraphB.functionalities[0].slots[0].serialize())
         })
       })
-
-
     })
 
     describe('when the amount of functionalities is different', () => {
@@ -493,24 +504,21 @@ describe('the FCTGraph class', () => {
           .seedOne({ functionalities: [ heater, sensor, intervalOutFct ] })
         expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
 
-      });
-    });
+      })
+    })
 
     describe('when the functionalities are different', () => {
       it('should return false', () => {
-        const fctGraph2 = FCTGraphSeeder.seedOne({ functionalities:[
+        const fctGraph2 = FCTGraphSeeder.seedOne({ functionalities: [
           TemperatureSensorSeeder.generate(),
           HeaterActuatorSeeder.generate(),
-        ]})
+        ] })
 
         expect(fctGraph2.fctsDeepEquals(fctGraph)).toBe(false)
         expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
-
       })
-
     })
-
-  });
+  })
 
   describe('removeFCT', () => {
     it('should remove the fct including any connections', () => {

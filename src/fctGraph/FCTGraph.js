@@ -82,7 +82,7 @@ class FCTGraph {
     this.name = name
     this.deviceDefault = deviceDefault
     this.functionalities = []
-    functionalitiesData.map(fctData => this._addFunctionalityByData(fctData))
+    functionalitiesData.map(fctData => this._addFunctionalityByData({ ...fctData, fctGraph: this }))
 
     // NOTE: update readme with this
     if (dataStreamsData.length > 0) {
