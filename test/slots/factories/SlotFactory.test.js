@@ -1,5 +1,4 @@
 const SlotFactory = require('slots/factories/SlotFactory')
-const InSlot = require('slots/InSlot')
 
 const {
   OneOfInSlot,
@@ -24,7 +23,6 @@ const {
   IntegerOutSlotSeeder,
   OneOfOutSlotSeeder,
 } = require('seeders/slots')
-const OutSlotSeeder = require('seeders/slots/OutSlotSeeder')
 
 describe('the slot factory', () => {
 
