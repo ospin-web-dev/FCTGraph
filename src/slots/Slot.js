@@ -3,7 +3,6 @@ const { v4: uuidv4 } = require('uuid')
 
 const DataStream = require('../dataStreams/DataStream')
 const ObjUtils = require('../utils/ObjUtils')
-const { publicSuccessRes, publicErrorRes } = require('../utils/publicResponses')
 const SlotConnectionError = require('./SlotConnectionError')
 
 class Slot {
@@ -74,8 +73,6 @@ class Slot {
   static get SCHEMA() {
     return Joi.object({
       name: Joi.string().required(),
-      type: Joi.string().allow(this.TYPE).required(),
-      dataType: Joi.string().allow(this.DATA_TYPE).required(),
       displayType: Joi.string().allow(null),
       dataStreams: Joi.array().items(DataStream.SCHEMA),
       unit: Joi.string().required(),

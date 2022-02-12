@@ -10,9 +10,10 @@ class BooleanInSlot extends InSlot {
   }
 
   static get SCHEMA() {
-    return Joi.object({
+    return super.SCHEMA.concat(Joi.object({
       defaultValue: Joi.boolean().allow(null),
-    }).concat(super.SCHEMA)
+      dataType: Joi.string().allow(this.DATA_TYPE).required(),
+    }))
   }
 
   constructor({ defaultValue = null, ...slotData }) {

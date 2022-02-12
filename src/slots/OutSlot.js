@@ -32,6 +32,7 @@ class OutSlot extends Slot {
 
   static get SCHEMA() {
     return Joi.object({
+      type: Joi.string().allow(this.TYPE).required(),
       calibrations: OutSlot.CALIBRATIONS_SCHEMA,
     }).concat(super.SCHEMA)
   }
