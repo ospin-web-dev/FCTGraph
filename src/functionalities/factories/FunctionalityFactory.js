@@ -9,9 +9,15 @@ const HeaterActuator = require('../HeaterActuator')
 const IntervalOut = require('../IntervalOut')
 const PumpActuator = require('../PumpActuator')
 const HeidolphPump = require('../HeidolphPump')
+const HeiFlowUltimate120 = require('../HeiFlowUltimate120')
+const HeiFlowUltimate600 = require('../HeiFlowUltimate600')
 const StirrerActuator = require('../StirrerActuator')
-const HeidolphMagneticStirrer = require('../HeidolphMagneticStirrer')
 const HeidolphOverheadStirrer = require('../HeidolphOverheadStirrer')
+const HeiTorqueUltimate100 = require('../HeiTorqueUltimate100')
+const HeiTorqueUltimate200 = require('../HeiTorqueUltimate200')
+const HeiTorqueUltimate400 = require('../HeiTorqueUltimate400')
+const HeidolphMagneticStirrer = require('../HeidolphMagneticStirrer')
+const HeiConnect = require('../HeiConnect')
 const HeidolphPumpByTorqueHysteresisController = require('../HeidolphPumpByTorqueHysteresisController')
 const PushOut = require('../PushOut')
 const PushIn = require('../PushIn')
@@ -35,6 +41,12 @@ class FunctionalityFactory {
       HeidolphPumpByTorqueHysteresisController,
       PushOut,
       PushIn,
+      HeiFlowUltimate120,
+      HeiFlowUltimate600,
+      HeiTorqueUltimate100,
+      HeiTorqueUltimate200,
+      HeiTorqueUltimate400,
+      HeiConnect,
     })
   }
 

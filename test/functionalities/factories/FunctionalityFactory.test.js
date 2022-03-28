@@ -16,6 +16,12 @@ const {
   UnknownActuatorSeeder,
   HysteresisControllerSeeder,
   HeidolphPumpByTorqueHysteresisControllerSeeder,
+  HeiConnectSeeder,
+  HeiFlowUltimate120Seeder,
+  HeiFlowUltimate600Seeder,
+  HeiTorqueUltimate100Seeder,
+  HeiTorqueUltimate200Seeder,
+  HeiTorqueUltimate400Seeder,
 } = require('seeders/functionalities')
 const functionalitiesIndex = require('functionalities')
 
@@ -35,6 +41,12 @@ const {
   UnknownActuator,
   HysteresisController,
   HeidolphPumpByTorqueHysteresisController,
+  HeiConnect,
+  HeiFlowUltimate120,
+  HeiFlowUltimate600,
+  HeiTorqueUltimate100,
+  HeiTorqueUltimate200,
+  HeiTorqueUltimate400,
 } = functionalitiesIndex
 
 describe('the functionality factory', () => {
@@ -141,13 +153,43 @@ describe('the functionality factory', () => {
         expectedIsVirtual: false,
       },
       {
+        SubClass: HeiConnect,
+        SubClassSeeder: HeiConnectSeeder,
+        expectedIsVirtual: false,
+      },
+      {
         SubClass: HeidolphOverheadStirrer,
         SubClassSeeder: HeidolphOverheadStirrerSeeder,
         expectedIsVirtual: false,
       },
       {
+        SubClass: HeiTorqueUltimate100,
+        SubClassSeeder: HeiTorqueUltimate100Seeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeiTorqueUltimate200,
+        SubClassSeeder: HeiTorqueUltimate200Seeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeiTorqueUltimate400,
+        SubClassSeeder: HeiTorqueUltimate400Seeder,
+        expectedIsVirtual: false,
+      },
+      {
         SubClass: HeidolphPump,
         SubClassSeeder: HeidolphPumpSeeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeiFlowUltimate120,
+        SubClassSeeder: HeiFlowUltimate120Seeder,
+        expectedIsVirtual: false,
+      },
+      {
+        SubClass: HeiFlowUltimate600,
+        SubClassSeeder: HeiFlowUltimate600Seeder,
         expectedIsVirtual: false,
       },
       {
@@ -171,7 +213,7 @@ describe('the functionality factory', () => {
        */
       const NON_SUB_CLASS_EXPORTS = [
         functionalitiesIndex.FunctionalityFactory,
-        functionalitiesIndex.Functionalty,
+        functionalitiesIndex.Functionality,
         functionalitiesIndex.Sensor,
         functionalitiesIndex.Actuator,
         functionalitiesIndex.Controller,

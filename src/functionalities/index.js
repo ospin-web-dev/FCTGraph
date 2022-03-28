@@ -28,6 +28,12 @@ const HeidolphOverheadStirrer = require('./HeidolphOverheadStirrer')
 const HeidolphMagneticStirrer = require('./HeidolphMagneticStirrer')
 const HeidolphPump = require('./HeidolphPump')
 const HeidolphPumpByTorqueHysteresisController = require('./HeidolphPumpByTorqueHysteresisController')
+const HeiConnect = require('./HeiConnect')
+const HeiFlowUltimate120 = require('./HeiFlowUltimate120')
+const HeiFlowUltimate600 = require('./HeiFlowUltimate600')
+const HeiTorqueUltimate100 = require('./HeiTorqueUltimate100')
+const HeiTorqueUltimate200 = require('./HeiTorqueUltimate200')
+const HeiTorqueUltimate400 = require('./HeiTorqueUltimate400')
 
 module.exports = {
   FunctionalityFactory,
@@ -59,4 +65,12 @@ module.exports = {
   HeidolphMagneticStirrer,
   HeidolphPump,
   HeidolphPumpByTorqueHysteresisController,
+
+  HeiConnect,
+  HeiFlowUltimate120,
+  HeiFlowUltimate600,
+  HeiTorqueUltimate100,
+  HeiTorqueUltimate200,
+  HeiTorqueUltimate400,
+
 }
