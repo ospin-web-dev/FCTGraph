@@ -43,6 +43,12 @@ describe('fctGraph module entry point)', () => {
       HeidolphMagneticStirrer: 'Class',
       HeidolphPump: 'Class',
       HeidolphPumpByTorqueHysteresisController: 'Class',
+      HeiConnect: 'Class',
+      HeiFlowUltimate120: 'Class',
+      HeiFlowUltimate600: 'Class',
+      HeiTorqueUltimate100: 'Class',
+      HeiTorqueUltimate200: 'Class',
+      HeiTorqueUltimate400: 'Class',
     },
     functionalitySeeders: {
       StirrerActuatorSeeder: 'Class',
@@ -60,6 +66,12 @@ describe('fctGraph module entry point)', () => {
       HeidolphMagneticStirrerSeeder: 'Class',
       HeidolphPumpSeeder: 'Class',
       HeidolphPumpByTorqueHysteresisControllerSeeder: 'Class',
+      HeiConnectSeeder: 'Class',
+      HeiFlowUltimate120Seeder: 'Class',
+      HeiFlowUltimate600Seeder: 'Class',
+      HeiTorqueUltimate100Seeder: 'Class',
+      HeiTorqueUltimate200Seeder: 'Class',
+      HeiTorqueUltimate400Seeder: 'Class',
     },
 
     slots: {
