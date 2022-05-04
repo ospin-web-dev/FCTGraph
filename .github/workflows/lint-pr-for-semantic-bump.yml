@@ -6,7 +6,7 @@ on:
       - opened
       - edited
       - synchronize
-      - reopend
+      - reopened
 jobs:
   LintPRForSemanticBump:
     runs-on: ubuntu-latest

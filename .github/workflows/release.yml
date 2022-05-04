@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 12
+          node-version: 16
 
       - name: update npm to the latest version to allow scoped packages updates
         run: npm i -g npm@latest
