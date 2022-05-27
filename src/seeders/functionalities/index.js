@@ -10,12 +10,14 @@ const PIDControllerSeeder = require('./PIDControllerSeeder')
 const PushOutSeeder = require('./PushOutSeeder')
 const PushInSeeder = require('./PushInSeeder')
 const HysteresisControllerSeeder = require('./HysteresisControllerSeeder')
+const HamiltonPHArcSensorSeeder = require('./HamiltonPHArcSensorSeeder')
 
 // sub-types which inherit from other sub-types
 const HeidolphOverheadStirrerSeeder = require('./HeidolphOverheadStirrerSeeder')
 const HeidolphMagneticStirrerSeeder = require('./HeidolphMagneticStirrerSeeder')
 const HeidolphPumpSeeder = require('./HeidolphPumpSeeder')
 const HeidolphPumpByTorqueHysteresisControllerSeeder = require('./HeidolphPumpByTorqueHysteresisControllerSeeder')
+const PHControllerHeidolphPumps = require('./PHControllerHeidolphPumpsSeeder')
 const HeiConnectSeeder = require('./HeiConnectSeeder')
 const HeiFlowUltimate120Seeder = require('./HeiFlowUltimate120Seeder')
 const HeiFlowUltimate600Seeder = require('./HeiFlowUltimate600Seeder')
@@ -36,6 +38,7 @@ module.exports = {
   PushOutSeeder,
   PushInSeeder,
   HysteresisControllerSeeder,
+  HamiltonPHArcSensorSeeder,
 
   // sub-types which inherit from other sub-types (valid fcts)
   HeidolphOverheadStirrerSeeder,
@@ -48,4 +51,5 @@ module.exports = {
   HeiTorqueUltimate100Seeder,
   HeiTorqueUltimate200Seeder,
   HeiTorqueUltimate400Seeder,
+  PHControllerHeidolphPumps,
 }

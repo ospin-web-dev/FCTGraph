@@ -17,8 +17,10 @@ const HeiTorqueUltimate100 = require('../HeiTorqueUltimate100')
 const HeiTorqueUltimate200 = require('../HeiTorqueUltimate200')
 const HeiTorqueUltimate400 = require('../HeiTorqueUltimate400')
 const HeidolphMagneticStirrer = require('../HeidolphMagneticStirrer')
+const PHControllerHeidolphPumps = require('../PHControllerHeidolphPumps')
 const HeiConnect = require('../HeiConnect')
 const HeidolphPumpByTorqueHysteresisController = require('../HeidolphPumpByTorqueHysteresisController')
+const HamiltonPHArcSensor = require('../HamiltonPHArcSensor')
 const PushOut = require('../PushOut')
 const PushIn = require('../PushIn')
 
@@ -47,6 +49,8 @@ class FunctionalityFactory {
       HeiTorqueUltimate200,
       HeiTorqueUltimate400,
       HeiConnect,
+      PHControllerHeidolphPumps,
+      HamiltonPHArcSensor,
     })
   }
 

@@ -22,6 +22,8 @@ const {
   HeiTorqueUltimate100Seeder,
   HeiTorqueUltimate200Seeder,
   HeiTorqueUltimate400Seeder,
+  HamiltonPHArcSensorSeeder,
+  PHControllerHeidolphPumpsSeeder,
 } = require('seeders/functionalities')
 const functionalitiesIndex = require('functionalities')
 
@@ -47,6 +49,8 @@ const {
   HeiTorqueUltimate100,
   HeiTorqueUltimate200,
   HeiTorqueUltimate400,
+  HamiltonPHArcSensor,
+  PHControllerHeidolphPumps,
 } = functionalitiesIndex
 
 describe('the functionality factory', () => {
@@ -202,6 +206,15 @@ describe('the functionality factory', () => {
         SubClassSeeder: HeidolphPumpByTorqueHysteresisControllerSeeder,
         expectedIsVirtual: true,
       },
+      {
+        SubClass: HamiltonPHArcSensor,
+        SubClassSeeder: HamiltonPHArcSensorSeeder,
+        expectedIsVirtual: false,
+      },{
+        SubClass: PHControllerHeidolphPumps,
+        SubClassSeeder: PHControllerHeidolphPumpsSeeder,
+        expectedIsVirtual: false,
+      }
     ]
 
     it('has a test for each exported sub functionality', () => {
