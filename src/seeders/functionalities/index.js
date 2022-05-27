@@ -17,7 +17,7 @@ const HeidolphOverheadStirrerSeeder = require('./HeidolphOverheadStirrerSeeder')
 const HeidolphMagneticStirrerSeeder = require('./HeidolphMagneticStirrerSeeder')
 const HeidolphPumpSeeder = require('./HeidolphPumpSeeder')
 const HeidolphPumpByTorqueHysteresisControllerSeeder = require('./HeidolphPumpByTorqueHysteresisControllerSeeder')
-const PHControllerHeidolphPumps = require('./PHControllerHeidolphPumpsSeeder')
+const PHControllerHeidolphPumpsSeeder = require('./PHControllerHeidolphPumpsSeeder')
 const HeiConnectSeeder = require('./HeiConnectSeeder')
 const HeiFlowUltimate120Seeder = require('./HeiFlowUltimate120Seeder')
 const HeiFlowUltimate600Seeder = require('./HeiFlowUltimate600Seeder')
@@ -51,5 +51,5 @@ module.exports = {
   HeiTorqueUltimate100Seeder,
   HeiTorqueUltimate200Seeder,
   HeiTorqueUltimate400Seeder,
-  PHControllerHeidolphPumps,
+  PHControllerHeidolphPumpsSeeder,
 }
