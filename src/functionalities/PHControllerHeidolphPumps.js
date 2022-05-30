@@ -1,7 +1,7 @@
 const JOIous = require('../mixins/instanceMixins/JOIous')
-const PumpActuator = require('./Actuator')
+const Controller = require('./Controller')
 
-class PHControllerHeidolphPumps extends PumpActuator {
+class PHControllerHeidolphPumps extends Controller {
 
   static get SUB_TYPE() {
     return 'PHControllerHeidolphPumps'

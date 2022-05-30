@@ -1,8 +1,8 @@
 const PHControllerHeidolphPumps = require('../../functionalities/PHControllerHeidolphPumps')
-const PumpActuatorSeeder = require('./PumpActuatorSeeder')
+const ControllerSeeder = require('./ControllerSeeder')
 const { FloatInSlotSeeder } = require('../slots')
 
-class PHControllerHeidolphPumpsSeeder extends PumpActuatorSeeder {
+class PHControllerHeidolphPumpsSeeder extends ControllerSeeder {
 
   static generateSlots() {
     return [

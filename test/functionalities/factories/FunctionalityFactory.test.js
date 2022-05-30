@@ -213,7 +213,7 @@ describe('the functionality factory', () => {
       },{
         SubClass: PHControllerHeidolphPumps,
         SubClassSeeder: PHControllerHeidolphPumpsSeeder,
-        expectedIsVirtual: false,
+        expectedIsVirtual: true,
       }
     ]
 
