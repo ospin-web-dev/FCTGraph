@@ -49,6 +49,8 @@ describe('fctGraph module entry point)', () => {
       HeiTorqueUltimate100: 'Class',
       HeiTorqueUltimate200: 'Class',
       HeiTorqueUltimate400: 'Class',
+      HamiltonPHArcSensor: 'Class',
+      PHControllerHeidolphPumps: 'Class',
     },
     functionalitySeeders: {
       StirrerActuatorSeeder: 'Class',
@@ -72,6 +74,8 @@ describe('fctGraph module entry point)', () => {
       HeiTorqueUltimate100Seeder: 'Class',
       HeiTorqueUltimate200Seeder: 'Class',
       HeiTorqueUltimate400Seeder: 'Class',
+      HamiltonPHArcSensorSeeder: 'Class',
+      PHControllerHeidolphPumpsSeeder: 'Class',
     },
 
     slots: {

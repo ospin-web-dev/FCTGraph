@@ -151,9 +151,10 @@ Functionality (virtual)
 │   │   ├── HeidolphOverheadStirrer
 │   │   └── HeidolphMagneticStirrer
 │   ├── PumpActuator
-│   │   └── HeidolphPump
+│   ├── HeidolphPump
 │   └── UnknownActuator
 ├── Controller (virtual)
+│   ├── PHControllerHeidolphPumps
 │   └── PIDController
 ├── InputNode (virtual)
 │   └── PushIn
@@ -162,6 +163,8 @@ Functionality (virtual)
 │   └── IntervalOut
 └── Sensor (virtual)
     ├── TemperatureSensor
+    ├── PHSensor
+    │   └── HamiltonPHArcSensor
     └── UnknownSensor
 
 // a Functionality has many Slots

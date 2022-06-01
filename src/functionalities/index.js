@@ -22,6 +22,7 @@ const PIDController = require('./PIDController')
 const HysteresisController = require('./HysteresisController')
 const PushOut = require('./PushOut')
 const PushIn = require('./PushIn')
+const HamiltonPHArcSensor = require('./HamiltonPHArcSensor')
 
 // sub-types which inherit from other sub-types
 const HeidolphOverheadStirrer = require('./HeidolphOverheadStirrer')
@@ -34,6 +35,7 @@ const HeiFlowUltimate600 = require('./HeiFlowUltimate600')
 const HeiTorqueUltimate100 = require('./HeiTorqueUltimate100')
 const HeiTorqueUltimate200 = require('./HeiTorqueUltimate200')
 const HeiTorqueUltimate400 = require('./HeiTorqueUltimate400')
+const PHControllerHeidolphPumps = require('./PHControllerHeidolphPumps')
 
 module.exports = {
   FunctionalityFactory,
@@ -59,12 +61,14 @@ module.exports = {
   PushOut,
   PushIn,
   HysteresisController,
+  HamiltonPHArcSensor,
 
   // sub-types which inherit from other sub-types (valid fcts)
   HeidolphOverheadStirrer,
   HeidolphMagneticStirrer,
   HeidolphPump,
   HeidolphPumpByTorqueHysteresisController,
+  PHControllerHeidolphPumps,
 
   HeiConnect,
   HeiFlowUltimate120,
