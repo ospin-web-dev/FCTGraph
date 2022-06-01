@@ -151,10 +151,10 @@ Functionality (virtual)
 │   │   ├── HeidolphOverheadStirrer
 │   │   └── HeidolphMagneticStirrer
 │   ├── PumpActuator
-│   │   ├── PHControllerHeidolphPumps
-│   │   └── HeidolphPump
+│   ├── HeidolphPump
 │   └── UnknownActuator
 ├── Controller (virtual)
+│   ├── PHControllerHeidolphPumps
 │   └── PIDController
 ├── InputNode (virtual)
 │   └── PushIn

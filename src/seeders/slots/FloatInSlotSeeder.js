@@ -1,7 +1,7 @@
-
 const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 const FloatInSlot = require('../../slots/FloatInSlot')
 const InSlotSeeder = require('./InSlotSeeder')
+
 class FloatInSlotSeeder extends InSlotSeeder {
 
   static get MIN_BOUNDS() { return { min: -90, max: 10 } }
