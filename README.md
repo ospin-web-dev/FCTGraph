@@ -163,6 +163,7 @@ Functionality (virtual)
 │   └── IntervalOut
 └── Sensor (virtual)
     ├── TemperatureSensor
+    ├── PHSensor
     │   └── HamiltonPHArcSensor
     └── UnknownSensor
 
