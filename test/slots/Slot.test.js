@@ -13,6 +13,10 @@ const {
   FloatInSlotSeeder,
   FloatOutSlotSeeder,
   IntegerOutSlotSeeder,
+  BooleanOutSlotSeeder,
+  BooleanInSlotSeeder,
+  OneOfOutSlotSeeder,
+  OneOfInSlotSeeder,
   RandomSlotSeeder,
 } = require('seeders/slots')
 /* the SlotSeeder is not present in the seeders/slots index because it
@@ -102,7 +106,6 @@ describe('the Slot class', () => {
     it('returns true if connected', () => {
       const slotA = FloatOutSlotSeeder.seedCelsiusOut()
       const slotB = FloatInSlotSeeder.seedCelsiusIn()
-      const slotC = RandomSlotSeeder.seedOne()
 
       SlotSeeder.stubOwningFct(slotA)
       SlotSeeder.stubOwningFct(slotB)
@@ -162,6 +165,66 @@ describe('the Slot class', () => {
       const { thisSlot, otherSlot } = slotB.connectTo(slotA)
 
       expect(thisSlot.dataStreams).toStrictEqual(otherSlot.dataStreams)
+    })
+
+    describe('when connecting boolean slots', () => {
+      describe('when connecting from OutSlot to InSlot', () => {
+        it('sets the averagingWindowSize to 1', () => {
+          const slotA = BooleanOutSlotSeeder.seedOne({ unit: '-' })
+          const slotB = BooleanInSlotSeeder.seedOne({ unit: '-' })
+
+          BooleanOutSlotSeeder.stubOwningFct(slotA)
+          BooleanInSlotSeeder.stubOwningFct(slotB)
+
+          const { thisSlot } = slotB.connectTo(slotA)
+
+          expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(1)
+        })
+      })
+
+      describe('when connecting from InSlot to OutSlot', () => {
+        it('sets the averagingWindowSize to 1', () => {
+          const slotA = BooleanInSlotSeeder.seedOne({ unit: '-' })
+          const slotB = BooleanOutSlotSeeder.seedOne({ unit: '-' })
+
+          BooleanOutSlotSeeder.stubOwningFct(slotA)
+          BooleanInSlotSeeder.stubOwningFct(slotB)
+
+          const { thisSlot: thisSlot } = slotA.connectTo(slotB)
+
+          expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(1)
+        })
+      })
+    })
+
+    describe('when connecting oneOf slots', () => {
+      describe('when connecting from OutSlot to InSlot', () => {
+        it('sets the averagingWindowSize to 1', () => {
+          const slotA = OneOfOutSlotSeeder.seedOne({ unit: '-' })
+          const slotB = OneOfInSlotSeeder.seedOne({ unit: '-' })
+
+          OneOfOutSlotSeeder.stubOwningFct(slotA)
+          OneOfInSlotSeeder.stubOwningFct(slotB)
+
+          const { thisSlot } = slotB.connectTo(slotA)
+
+          expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(1)
+        })
+      })
+
+      describe('when connecting from InSlot to OutSlot', () => {
+        it('sets the averagingWindowSize to 1', () => {
+          const slotA = OneOfInSlotSeeder.seedOne({ unit: '-' })
+          const slotB = OneOfOutSlotSeeder.seedOne({ unit: '-' })
+
+          OneOfInSlotSeeder.stubOwningFct(slotA)
+          OneOfOutSlotSeeder.stubOwningFct(slotB)
+
+          const { thisSlot } = slotB.connectTo(slotA)
+
+          expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(1)
+        })
+      })
     })
 
     it('returns an error response when the slot dataTypes are incompatible', () => {
