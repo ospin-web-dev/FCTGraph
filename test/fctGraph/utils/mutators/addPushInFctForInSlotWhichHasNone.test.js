@@ -66,7 +66,7 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
         const heatActuator = fctGraph.functionalities[0]
         const heatActuatorInSlot = heatActuator.getInSlots()[0]
         const errorMsg = 'no!'
-        heatActuatorInSlot._connectTo = () => { throw new Error(errorMsg) }
+        heatActuatorInSlot.connectTo = () => { throw new Error(errorMsg) }
 
         expect(() => addPushInFctForInSlotWhichHasNone(fctGraph, heatActuatorInSlot))
           .toThrow(errorMsg)

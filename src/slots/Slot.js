@@ -143,13 +143,10 @@ class Slot {
   }
 
   _createDataStreamTo(otherSlot, dataStreamData) {
-    const sourceSlot = this.type === 'OutSlot' ? this : otherSlot
-    const sinkSlot = this.type === 'InSlot' ? this : otherSlot
-
     return new DataStream({
       id: uuidv4(),
-      sinkSlot,
-      sourceSlot,
+      sinkSlot: otherSlot,
+      sourceSlot: this,
       ...dataStreamData,
     })
   }

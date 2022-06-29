@@ -30,14 +30,6 @@ class BooleanInSlot extends InSlot {
     return dataObj
   }
 
-  _createDataStreamTo(otherSlot, dataStreamData) {
-    const extendedDataStreamData = {
-      averagingWindowSize: 1,
-      ...dataStreamData,
-    }
-    return super._createDataStreamTo(otherSlot, extendedDataStreamData)
-  }
-
 }
 
 module.exports = JOIous(BooleanInSlot)

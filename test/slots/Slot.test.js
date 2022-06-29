@@ -168,7 +168,7 @@ describe('the Slot class', () => {
     })
 
     describe('when connecting boolean slots', () => {
-      describe('when connecting from OutSlot to InSlot', () => {
+      describe('when connecting from InSlot to OutSlot', () => {
         it('sets the averagingWindowSize to 1', () => {
           const slotA = BooleanOutSlotSeeder.seedOne({ unit: '-' })
           const slotB = BooleanInSlotSeeder.seedOne({ unit: '-' })
@@ -182,7 +182,7 @@ describe('the Slot class', () => {
         })
       })
 
-      describe('when connecting from InSlot to OutSlot', () => {
+      describe('when connecting from OutSlot to InSlot', () => {
         it('sets the averagingWindowSize to 1', () => {
           const slotA = BooleanInSlotSeeder.seedOne({ unit: '-' })
           const slotB = BooleanOutSlotSeeder.seedOne({ unit: '-' })
@@ -190,7 +190,7 @@ describe('the Slot class', () => {
           BooleanOutSlotSeeder.stubOwningFct(slotA)
           BooleanInSlotSeeder.stubOwningFct(slotB)
 
-          const { thisSlot: thisSlot } = slotA.connectTo(slotB)
+          const { thisSlot } = slotA.connectTo(slotB)
 
           expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(1)
         })
@@ -198,7 +198,7 @@ describe('the Slot class', () => {
     })
 
     describe('when connecting oneOf slots', () => {
-      describe('when connecting from OutSlot to InSlot', () => {
+      describe('when connecting from InSlot to OutSlot', () => {
         it('sets the averagingWindowSize to 1', () => {
           const slotA = OneOfOutSlotSeeder.seedOne({ unit: '-' })
           const slotB = OneOfInSlotSeeder.seedOne({ unit: '-' })
@@ -212,7 +212,7 @@ describe('the Slot class', () => {
         })
       })
 
-      describe('when connecting from InSlot to OutSlot', () => {
+      describe('when connecting from OutSlot to InSlot', () => {
         it('sets the averagingWindowSize to 1', () => {
           const slotA = OneOfInSlotSeeder.seedOne({ unit: '-' })
           const slotB = OneOfOutSlotSeeder.seedOne({ unit: '-' })
