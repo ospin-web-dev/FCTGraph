@@ -41,13 +41,6 @@ class InSlot extends Slot {
     return derivedUnit || (this.sourceSlot && this.sourceSlot.derivedUnit) || this.unit
   }
 
-  connectTo(otherSlot, dataStreamData) {
-    if (otherSlot.type === InSlot.TYPE) {
-      throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
-    }
-    return otherSlot.connectTo(this, dataStreamData)
-  }
-
 }
 
 module.exports = InSlot

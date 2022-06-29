@@ -5,11 +5,13 @@ const {
   BooleanInSlot,
   IntegerInSlot,
   FloatInSlot,
+  AnyInSlot,
 
   OneOfOutSlot,
   BooleanOutSlot,
   IntegerOutSlot,
   FloatOutSlot,
+  AnyOutSlot,
 } = require('slots')
 
 const {
@@ -17,11 +19,13 @@ const {
   FloatInSlotSeeder,
   IntegerInSlotSeeder,
   OneOfInSlotSeeder,
+  AnyInSlotSeeder,
 
   BooleanOutSlotSeeder,
   FloatOutSlotSeeder,
   IntegerOutSlotSeeder,
   OneOfOutSlotSeeder,
+  AnyOutSlotSeeder,
 } = require('seeders/slots')
 
 describe('the slot factory', () => {
@@ -57,6 +61,7 @@ describe('the slot factory', () => {
         [FloatInSlot.DATA_TYPE]: FloatInSlotSeeder,
         [BooleanInSlot.DATA_TYPE]: BooleanInSlotSeeder,
         [OneOfInSlot.DATA_TYPE]: OneOfInSlotSeeder,
+        [AnyInSlot.DATA_TYPE]: AnyInSlotSeeder,
       }
 
       /* this provides us with an object that has the (expected) associated
@@ -94,6 +99,7 @@ describe('the slot factory', () => {
         [FloatOutSlot.DATA_TYPE]: FloatOutSlotSeeder,
         [BooleanOutSlot.DATA_TYPE]: BooleanOutSlotSeeder,
         [OneOfOutSlot.DATA_TYPE]: OneOfOutSlotSeeder,
+        [AnyOutSlot.DATA_TYPE]: AnyOutSlotSeeder,
       }
 
       /* this provides us with an object that has the (expected) associated

@@ -21,6 +21,14 @@ class BooleanInSlot extends InSlot {
     this.defaultValue = defaultValue
   }
 
+  _createDataStreamTo(otherSlot, dataStreamData) {
+    const extendedDataStreamData = {
+      averagingWindowSize: 1,
+      ...dataStreamData,
+    }
+    return super._createDataStreamTo(otherSlot, extendedDataStreamData)
+  }
+
   serialize() {
     const dataObj = {
       defaultValue: this.defaultValue,

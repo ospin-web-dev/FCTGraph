@@ -13,10 +13,13 @@ const {
   FloatInSlotSeeder,
   FloatOutSlotSeeder,
   IntegerOutSlotSeeder,
+  IntegerInSlotSeeder,
   BooleanOutSlotSeeder,
   BooleanInSlotSeeder,
   OneOfOutSlotSeeder,
   OneOfInSlotSeeder,
+  AnyOutSlotSeeder,
+  AnyInSlotSeeder,
   RandomSlotSeeder,
 } = require('seeders/slots')
 /* the SlotSeeder is not present in the seeders/slots index because it
@@ -193,6 +196,124 @@ describe('the Slot class', () => {
           const { thisSlot } = slotA.connectTo(slotB)
 
           expect(thisSlot.dataStreams[0].averagingWindowSize).toBe(1)
+        })
+      })
+    })
+
+    describe('when connecting slots with dataType "any"', () => {
+      describe('when connecting FROM an AnyOutSlot', () => {
+        describe.each([
+          { name: 'FloatInSlot', seeder: FloatInSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'IntegerInSlot', seeder: IntegerInSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'BooleanInSlot', seeder: BooleanInSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'OneOfInSlot', seeder: OneOfInSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'AnyInSlot', seeder: AnyInSlotSeeder, expectedAverageWindowSize: 1 },
+        ])('to a $name', ({ seeder, expectedAverageWindowSize }) => {
+          it('sets the averagingWindowSize correctly', () => {
+            const slotA = AnyOutSlotSeeder.seedOne({ unit: '-' })
+            const slotB = seeder.seedOne({ unit: '-' })
+
+            AnyOutSlotSeeder.stubOwningFct(slotA)
+            seeder.stubOwningFct(slotB)
+
+            const { thisSlot } = slotA.connectTo(slotB)
+
+            expect(thisSlot.dataStreams[0].averagingWindowSize)
+              .toBe(expectedAverageWindowSize)
+          })
+        })
+      })
+
+      describe('when connecting TO an AnyOutSlot', () => {
+        describe.each([
+          { name: 'FloatInSlot', seeder: FloatInSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'IntegerInSlot', seeder: IntegerInSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'BooleanInSlot', seeder: BooleanInSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'OneOfInSlot', seeder: OneOfInSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'AnyInSlot', seeder: AnyInSlotSeeder, expectedAverageWindowSize: 1 },
+        ])('to a $name', ({ seeder, expectedAverageWindowSize }) => {
+          it('sets the averagingWindowSize correctly', () => {
+            const slotA = AnyOutSlotSeeder.seedOne({ unit: '-' })
+            const slotB = seeder.seedOne({ unit: '-' })
+
+            AnyOutSlotSeeder.stubOwningFct(slotA)
+            seeder.stubOwningFct(slotB)
+
+            const { thisSlot } = slotB.connectTo(slotA)
+
+            expect(thisSlot.dataStreams[0].averagingWindowSize)
+              .toBe(expectedAverageWindowSize)
+          })
+        })
+      })
+
+      describe('when connecting two AnyOutSlot with each other', () => {
+        it('throws an error', () => {
+          const slotA = AnyOutSlotSeeder.seedOne({ unit: '-' })
+          const slotB = AnyOutSlotSeeder.seedOne({ unit: '-' })
+
+          AnyOutSlotSeeder.stubOwningFct(slotA)
+          AnyOutSlotSeeder.stubOwningFct(slotB)
+
+          expect(() => slotA.connectTo(slotB)).toThrow(/complimentary/)
+        })
+      })
+
+      describe('when connecting FROM an AnyInSlot', () => {
+        describe.each([
+          { name: 'FloatOutSlot', seeder: FloatOutSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'IntegerOutSlot', seeder: IntegerOutSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'BooleanOutSlot', seeder: BooleanOutSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'OneOfOutSlot', seeder: OneOfOutSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'AnyOutSlot', seeder: AnyOutSlotSeeder, expectedAverageWindowSize: 1 },
+        ])('to a $name', ({ seeder, expectedAverageWindowSize }) => {
+          it('sets the averagingWindowSize correctly', () => {
+            const slotA = AnyInSlotSeeder.seedOne({ unit: '-' })
+            const slotB = seeder.seedOne({ unit: '-' })
+
+            AnyInSlotSeeder.stubOwningFct(slotA)
+            seeder.stubOwningFct(slotB)
+
+            const { thisSlot } = slotA.connectTo(slotB)
+
+            expect(thisSlot.dataStreams[0].averagingWindowSize)
+              .toBe(expectedAverageWindowSize)
+          })
+        })
+      })
+
+      describe('when connecting TO an AnyInSlot', () => {
+        describe.each([
+          { name: 'FloatOutSlot', seeder: FloatOutSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'IntegerOutSlot', seeder: IntegerOutSlotSeeder, expectedAverageWindowSize: 0 },
+          { name: 'BooleanOutSlot', seeder: BooleanOutSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'OneOfOutSlot', seeder: OneOfOutSlotSeeder, expectedAverageWindowSize: 1 },
+          { name: 'AnyOutSlot', seeder: AnyOutSlotSeeder, expectedAverageWindowSize: 1 },
+        ])('to a $name', ({ seeder, expectedAverageWindowSize }) => {
+          it('sets the averagingWindowSize correctly', () => {
+            const slotA = AnyInSlotSeeder.seedOne({ unit: '-' })
+            const slotB = seeder.seedOne({ unit: '-' })
+
+            AnyInSlotSeeder.stubOwningFct(slotA)
+            seeder.stubOwningFct(slotB)
+
+            const { thisSlot } = slotB.connectTo(slotA)
+
+            expect(thisSlot.dataStreams[0].averagingWindowSize)
+              .toBe(expectedAverageWindowSize)
+          })
+        })
+      })
+
+      describe('when connecting two AnyInSlot with each other', () => {
+        it('throws an error', () => {
+          const slotA = AnyInSlotSeeder.seedOne({ unit: '-' })
+          const slotB = AnyInSlotSeeder.seedOne({ unit: '-' })
+
+          AnyInSlotSeeder.stubOwningFct(slotA)
+          AnyInSlotSeeder.stubOwningFct(slotB)
+
+          expect(() => slotA.connectTo(slotB)).toThrow(/complimentary/)
         })
       })
     })

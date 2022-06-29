@@ -2,11 +2,13 @@ const FloatInSlot = require('../FloatInSlot')
 const IntegerInSlot = require('../IntegerInSlot')
 const BooleanInSlot = require('../BooleanInSlot')
 const OneOfInSlot = require('../OneOfInSlot')
+const AnyInSlot = require('../AnyInSlot')
 
 const FloatOutSlot = require('../FloatOutSlot')
 const IntegerOutSlot = require('../IntegerOutSlot')
 const BooleanOutSlot = require('../BooleanOutSlot')
 const OneOfOutSlot = require('../OneOfOutSlot')
+const AnyOutSlot = require('../AnyOutSlot')
 
 class SlotFactory {
 
@@ -16,6 +18,7 @@ class SlotFactory {
       IntegerInSlot,
       BooleanInSlot,
       OneOfInSlot,
+      AnyInSlot,
     ]
   }
 
@@ -25,6 +28,7 @@ class SlotFactory {
       IntegerOutSlot,
       BooleanOutSlot,
       OneOfOutSlot,
+      AnyOutSlot,
     ]
   }
 
@@ -51,6 +55,7 @@ class SlotFactory {
       [FloatInSlot.DATA_TYPE]: FloatInSlot,
       [BooleanInSlot.DATA_TYPE]: BooleanInSlot,
       [OneOfInSlot.DATA_TYPE]: OneOfInSlot,
+      [AnyInSlot.DATA_TYPE]: AnyInSlot,
     }
   }
 
@@ -60,6 +65,7 @@ class SlotFactory {
       [FloatOutSlot.DATA_TYPE]: FloatOutSlot,
       [BooleanOutSlot.DATA_TYPE]: BooleanOutSlot,
       [OneOfOutSlot.DATA_TYPE]: OneOfOutSlot,
+      [AnyOutSlot.DATA_TYPE]: AnyOutSlot,
     }
   }
 
