@@ -51,7 +51,7 @@ function addOutputFctForOutSlotWhichHasNone(fctGraph, outSlot, SubTypeClass, opt
     type: InSlot.TYPE,
     dataType: AnyInSlot.DATA_TYPE,
     name: OutputNode.SLOT_NAME,
-    displayType: outSlot.displayType,
+    displayType: null,
     unit: OutSlot.ANY_UNIT_STRING,
     dataStreams: [],
   }
