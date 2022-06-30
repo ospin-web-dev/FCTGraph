@@ -14,12 +14,18 @@ class Slot {
    * **************************************************************** */
   static get ANY_UNIT_STRING() { return 'any' }
 
+  static get ANY_DATA_TYPE() { return 'any' }
+
   static get UNITLESS_UNIT() { return '-' }
 
   /* **************************************************************** */
 
   static _assertSlotDataTypesCompatible(slotA, slotB) {
-    if (slotA.dataType !== slotB.dataType) {
+    if (
+      slotA.dataType !== slotB.dataType
+      && slotA.dataType !== Slot.ANY_DATA_TYPE
+      && slotB.dataType !== Slot.ANY_DATA_TYPE
+    ) {
       throw new SlotConnectionError(slotA, slotB, 'dataTypes must match between slots')
     }
   }

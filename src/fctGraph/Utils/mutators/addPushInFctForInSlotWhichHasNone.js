@@ -4,6 +4,7 @@ const assertFCTGraphFirstArgument = require('../helpers/assertFCTGraphFirstArgum
 const PushIn = require('../../../functionalities/PushIn')
 const InSlot = require('../../../slots/InSlot')
 const OutSlot = require('../../../slots/OutSlot')
+const AnyOutSlot = require('../../../slots/AnyOutSlot')
 
 function assertIsInSlot(slot) {
   if (!(slot instanceof InSlot)) {
@@ -53,9 +54,9 @@ function addPushInFctForInSlotWhichHasNone(fctGraph, inSlot, opts = DEFAULT_OPTS
 
   const outSlotData = {
     type: OutSlot.TYPE,
-    dataType: inSlot.dataType,
+    dataType: AnyOutSlot.DATA_TYPE,
     name: PushIn.SLOT_NAME,
-    displayType: inSlot.displayType,
+    displayType: null,
     unit: InSlot.ANY_UNIT_STRING,
     dataStreams: [],
   }
