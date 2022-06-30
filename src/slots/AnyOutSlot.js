@@ -17,24 +17,26 @@ class AnyOutSlot extends OutSlot {
   }
 
   connectTo(otherSlot, dataStreamData) {
-    /* this is a workaround that allows setting the default values
-     * for the dataStreams based in the connected dataType
-     * for the "any" dataType
+    /* datastream default values (e.g. averagingWindowSize) depend on the dataType
+     * of the slot; when connectTo is called on the "any" dataType slot, we simply
+     * check if the other slot is not of dataType "any" and if so, we simply call connnectTo
+     * on the other slot, which then will set the proper default values;
+     *
+     * the default case prevents an infinite loop when connecting two "any" slots
      */
     if (otherSlot.type === OutSlot.TYPE) {
       throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
     }
 
-    if (otherSlot.dataType === AnyOutSlot.DATA_TYPE) {
-      /* prevent infinite loop when connecting to an AnyInSlot */
-      const extendedDataStreamData = {
-        averagingWindowSize: 1,
-        ...dataStreamData,
-      }
-      return super.connectTo(otherSlot, extendedDataStreamData)
+    if (otherSlot.dataType !== AnyOutSlot.DATA_TYPE) {
+      return otherSlot.connectTo(this, dataStreamData)
     }
 
-    return otherSlot.connectTo(this, dataStreamData)
+    const extendedDataStreamData = {
+      averagingWindowSize: 1,
+      ...dataStreamData,
+    }
+    return super.connectTo(otherSlot, extendedDataStreamData)
   }
 
 }
