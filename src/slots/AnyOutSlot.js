@@ -24,10 +24,6 @@ class AnyOutSlot extends OutSlot {
      *
      * the default case prevents an infinite loop when connecting two "any" slots
      */
-    if (otherSlot.type === OutSlot.TYPE) {
-      throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
-    }
-
     if (otherSlot.dataType !== AnyOutSlot.DATA_TYPE) {
       return otherSlot.connectTo(this, dataStreamData)
     }

@@ -2,7 +2,6 @@ const Joi = require('joi')
 
 const JOIous = require('../mixins/instanceMixins/JOIous')
 const InSlot = require('./InSlot')
-const SlotConnectionError = require('./SlotConnectionError')
 
 class AnyInSlot extends InSlot {
 
@@ -24,10 +23,6 @@ class AnyInSlot extends InSlot {
      *
      * the default case prevents an infinite loop when connecting two "any" slots
      */
-    if (otherSlot.type === InSlot.TYPE) {
-      throw new SlotConnectionError(this, otherSlot, 'must have complimentary types')
-    }
-
     if (otherSlot.dataType !== AnyInSlot.DATA_TYPE) {
       return otherSlot.connectTo(this, dataStreamData)
     }
