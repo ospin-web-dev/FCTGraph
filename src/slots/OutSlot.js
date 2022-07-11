@@ -1,5 +1,4 @@
 const Joi = require('joi')
-//const OutputNode = require('../functionalities/OutputNode')
 
 const Slot = require('./Slot')
 
