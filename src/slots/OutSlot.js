@@ -1,5 +1,5 @@
 const Joi = require('joi')
-const OutputNode = require('../functionalities/OutputNode')
+//const OutputNode = require('../functionalities/OutputNode')
 
 const Slot = require('./Slot')
 
@@ -48,7 +48,7 @@ class OutSlot extends Slot {
   get reporterFctId() {
     const reporterFct = this.connectedFunctionalities
       .find(({ type, destination }) => (
-        type === OutputNode.TYPE && destination === OutputNode.VALID_DESTINATIONS.OSPIN_WEBAPP))
+        type === 'OutputNode' && destination.name === 'ospin-webapp'))
     return reporterFct ? reporterFct.id : null
   }
 
