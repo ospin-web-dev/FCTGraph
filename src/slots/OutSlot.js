@@ -56,7 +56,6 @@ class OutSlot extends Slot {
     return true
   }
 
-
 }
 
 module.exports = OutSlot
