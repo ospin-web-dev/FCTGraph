@@ -1,4 +1,5 @@
 const Joi = require('joi')
+const OutputNode = require('../functionalities/OutputNode')
 
 const Slot = require('./Slot')
 
@@ -44,10 +45,18 @@ class OutSlot extends Slot {
     return derivedUnit || this.unit
   }
 
+  get reporterFctId() {
+    const reporterFct = this.connectedFunctionalities
+      .find(({ type, destination }) => (
+        type === OutputNode.TYPE && destination === OutputNode.VALID_DESTINATIONS.OSPIN_WEBAPP))
+    return reporterFct ? reporterFct.id : null
+  }
+
   _assertHasRoomForConnectionTo() { // eslint-disable-line
     // outslots are currently unlimited in the dataStreams they send out
     return true
   }
+
 
 }
 

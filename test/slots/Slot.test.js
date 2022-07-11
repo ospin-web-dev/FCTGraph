@@ -491,4 +491,5 @@ describe('the Slot class', () => {
       expect(slotB.dataStreams).toHaveLength(0)
     })
   })
+
 })
