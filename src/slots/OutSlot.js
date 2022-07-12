@@ -1,5 +1,4 @@
 const Joi = require('joi')
-//const OutputNode = require('../functionalities/OutputNode')
 
 const Slot = require('./Slot')
 
@@ -56,7 +55,6 @@ class OutSlot extends Slot {
     // outslots are currently unlimited in the dataStreams they send out
     return true
   }
-
 
 }
 
