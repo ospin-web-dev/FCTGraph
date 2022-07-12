@@ -10,10 +10,10 @@ const { mutators: { addPushInFctForAllInSlotsWhichHaveNone } } = require('fctGra
 
 describe('Inslot', () => {
 
-  describe('.InputNodeId', () => {
-    describe('with a InputNodeId', () => {
+  describe('.inputNodeId', () => {
+    describe('with a inputNodeId', () => {
 
-      it('should return the InputNodeId', () => {
+      it('should return the inputNodeId', () => {
         const slotname = 'value'
         const fct = TemperatureSensorSeeder.generate(
           { slots: [ IntegerInSlotSeeder.generate({ name: slotname }) ] },
@@ -22,7 +22,7 @@ describe('Inslot', () => {
 
         addPushInFctForAllInSlotsWhichHaveNone(fctGraph, { fctData: { source: { name: 'ospin-webapp' } } })
 
-        expect(fctGraph.getSlotByFctIdAndSlotName(fct.id, slotname).InputNodeId)
+        expect(fctGraph.getSlotByFctIdAndSlotName(fct.id, slotname).inputNodeId)
           .toBe(fctGraph.functionalities[1].id)
         expect(fctGraph.functionalities[1].type).toBe('InputNode')
       })
@@ -37,7 +37,7 @@ describe('Inslot', () => {
         )
         const fctGraph = new FCTGraph({ functionalities: [ fct ] })
 
-        expect(fctGraph.getSlotByFctIdAndSlotName(fct.id, slotname).InputNodeId)
+        expect(fctGraph.getSlotByFctIdAndSlotName(fct.id, slotname).inputNodeId)
           .toBeNull()
       })
 

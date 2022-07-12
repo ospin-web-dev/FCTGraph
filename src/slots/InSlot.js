@@ -41,7 +41,7 @@ class InSlot extends Slot {
     return derivedUnit || (this.sourceSlot && this.sourceSlot.derivedUnit) || this.unit
   }
 
-  get InputNodeId(){
+  get inputNodeId(){
       const inputNode = this.connectedFunctionalities
         .find(({ type, source }) => (
           type === 'InputNode' && source.name === 'ospin-webapp'))
