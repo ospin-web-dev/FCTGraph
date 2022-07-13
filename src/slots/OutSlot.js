@@ -44,6 +44,13 @@ class OutSlot extends Slot {
     return derivedUnit || this.unit
   }
 
+  get reporterFctId() {
+    const reporterFct = this.connectedFunctionalities
+      .find(({ type, destination }) => (
+        type === 'OutputNode' && destination.name === 'ospin-webapp'))
+    return reporterFct ? reporterFct.id : null
+  }
+
   _assertHasRoomForConnectionTo() { // eslint-disable-line
     // outslots are currently unlimited in the dataStreams they send out
     return true
