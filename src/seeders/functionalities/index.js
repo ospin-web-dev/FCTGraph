@@ -11,6 +11,7 @@ const PushOutSeeder = require('./PushOutSeeder')
 const PushInSeeder = require('./PushInSeeder')
 const HysteresisControllerSeeder = require('./HysteresisControllerSeeder')
 const HamiltonPHArcSensorSeeder = require('./HamiltonPHArcSensorSeeder')
+const KernRS232ScaleSeeder = require('./KernRS232ScaleSeeder')
 
 // sub-types which inherit from other sub-types
 const HeidolphOverheadStirrerSeeder = require('./HeidolphOverheadStirrerSeeder')
@@ -39,6 +40,7 @@ module.exports = {
   PushInSeeder,
   HysteresisControllerSeeder,
   HamiltonPHArcSensorSeeder,
+  KernRS232ScaleSeeder,
 
   // sub-types which inherit from other sub-types (valid fcts)
   HeidolphOverheadStirrerSeeder,

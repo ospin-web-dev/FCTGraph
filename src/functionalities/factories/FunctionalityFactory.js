@@ -21,6 +21,7 @@ const PHControllerHeidolphPumps = require('../PHControllerHeidolphPumps')
 const HeiConnect = require('../HeiConnect')
 const HeidolphPumpByTorqueHysteresisController = require('../HeidolphPumpByTorqueHysteresisController')
 const HamiltonPHArcSensor = require('../HamiltonPHArcSensor')
+const KernRS232Scale = require('../KernRS232Scale')
 const PushOut = require('../PushOut')
 const PushIn = require('../PushIn')
 
@@ -51,6 +52,7 @@ class FunctionalityFactory {
       HeiConnect,
       PHControllerHeidolphPumps,
       HamiltonPHArcSensor,
+      KernRS232Scale,
     })
   }
 
