@@ -23,6 +23,7 @@ const HysteresisController = require('./HysteresisController')
 const PushOut = require('./PushOut')
 const PushIn = require('./PushIn')
 const HamiltonPHArcSensor = require('./HamiltonPHArcSensor')
+const KernRS232Scale = require('./KernRS232Scale')
 
 // sub-types which inherit from other sub-types
 const HeidolphOverheadStirrer = require('./HeidolphOverheadStirrer')
@@ -62,6 +63,7 @@ module.exports = {
   PushIn,
   HysteresisController,
   HamiltonPHArcSensor,
+  KernRS232Scale,
 
   // sub-types which inherit from other sub-types (valid fcts)
   HeidolphOverheadStirrer,
