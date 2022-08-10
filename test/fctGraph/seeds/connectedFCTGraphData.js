@@ -7,6 +7,7 @@ module.exports = {
       "name":"Heating plate temperature sensor",
       "type":"Sensor",
       "subType":"UnknownSensor",
+      "outputIntervalMs": 1000,
       "slots":[
         {
           "name":"value",

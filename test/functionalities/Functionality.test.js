@@ -29,6 +29,16 @@ const {
 describe('the Functionality class', () => {
 
   describe('.constructor', () => {
+
+    it('allows adding the outputIntervalMs property', () => {
+      const functionalityData = TemperatureSensorSeeder.generate()
+      functionalityData.outputIntervalMs = 1000
+
+      const functionality = new Functionality(functionalityData)
+
+      expect(functionality.outputIntervalMs).toBe(1000)
+    })
+
     describe('re: assigning default values', () => {
       it('assigns `isVirtual` to false', () => {
         const functionalityData = TemperatureSensorSeeder.generate()

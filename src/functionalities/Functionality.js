@@ -26,6 +26,10 @@ class Functionality {
       )),
       isVirtual: Joi.boolean(),
       firmwareBlackBox: Joi.object(),
+      outputIntervalMs: Joi.number()
+        .integer()
+        .strict()
+        .min(0),
     })
   }
 
@@ -80,6 +84,7 @@ class Functionality {
     isVirtual = false,
     firmwareBlackBox = {},
     slots: slotsData = [],
+    outputIntervalMs,
   }) {
     this.id = id
     this.name = name
@@ -87,12 +92,15 @@ class Functionality {
     this.isVirtual = isVirtual
     this.firmwareBlackBox = firmwareBlackBox
     this.slots = []
+    if (outputIntervalMs !== undefined) {
+      this.outputIntervalMs = outputIntervalMs
+    }
 
     if (slotsData.length > 0) this._addSlotsByDataOrThrow(slotsData)
   }
 
   serialize() {
-    return {
+    const common = {
       id: this.id,
       name: this.name,
       type: this.type,
@@ -101,6 +109,12 @@ class Functionality {
       firmwareBlackBox: this.firmwareBlackBox,
       slots: this.slots.map(slot => slot.serialize()),
     }
+
+    if (this.outputIntervalMs !== undefined) {
+      common.outputIntervalMs = this.outputIntervalMs
+    }
+
+    return common
   }
 
   serializeToTemplate() {
