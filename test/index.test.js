@@ -7,8 +7,6 @@ describe('fctGraph module entry point)', () => {
     FCTGraphSeeder: 'Class',
     FCTGraphUtils: {
       mutators: {
-        addPushOutFctForOutSlotWhichHasNone: 'function',
-        addPushOutFctForAllOutSlotsWhichHaveNone: 'function',
         addIntervalOutFctForOutSlotWhichHasNone: 'function',
         addIntervalOutFctForAllOutSlotsWhichHaveNone: 'function',
         addPushInFctForInSlotWhichHasNone: 'function',

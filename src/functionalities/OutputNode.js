@@ -12,35 +12,17 @@ class OutputNode extends Functionality {
     return 'OutputNode'
   }
 
-  static get VALID_DESTINATIONS() {
-    return {
-      OSPIN_WEBAPP: { name: 'ospin-webapp' },
-      UNSPECIFIED: { name: 'unspecified' },
-    }
-  }
-
-  static get VALID_DESTINATION_NAMES() {
-    return Object.values(OutputNode.VALID_DESTINATIONS).map(({ name }) => name)
-  }
-
-  static get DEFAULT_DESTINATION() {
-    return OutputNode.VALID_DESTINATIONS.UNSPECIFIED
-  }
-
   static get SCHEMA() {
     return Joi.object({
-      destination: Joi.object({
-        name: Joi.string().allow(...OutputNode.VALID_DESTINATION_NAMES).required(),
-      }),
+      // deprecated, will be removed after DB migration
+      destination: Joi.object({ name: Joi.string() }),
     }).concat(super.SCHEMA)
   }
 
   constructor({
-    destination = OutputNode.DEFAULT_DESTINATION,
     ...functionalityData
   }) {
     super({ isVirtual: true, ...functionalityData })
-    this.destination = destination
   }
 
   get isOutputNode() { return true }
@@ -48,7 +30,6 @@ class OutputNode extends Functionality {
   serialize() {
     return {
       ...super.serialize(),
-      destination: this.destination,
     }
   }
 

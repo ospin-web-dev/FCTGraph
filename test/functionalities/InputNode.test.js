@@ -10,31 +10,6 @@ const {
 } = require('seeders/slots')
 
 describe('the InputNode Functionality', () => {
-  describe('.constructor', () => {
-    describe('re: assigning default values', () => {
-      it('assigns `source` to the class default if none is provided', () => {
-        const inputNodeData = InputNodeSeeder.generate()
-        delete inputNodeData.destination
-
-        const inputNode = new InputNode(inputNodeData)
-
-        expect(inputNode.source).toStrictEqual(
-          InputNode.DEFAULT_SOURCE,
-        )
-      })
-    })
-  })
-
-  describe('.serialize', () => {
-    it('serializes with the source included', () => {
-      const source = { name: 'bauer sucht frau' }
-      const inputNodeData = InputNodeSeeder.generate({ source })
-
-      const inputNode = new InputNode(inputNodeData)
-
-      expect(inputNode.serialize().source).toStrictEqual(source)
-    })
-  })
 
   describe('getSinkFct', () => {
     it('returns the sole sink functionality', () => {

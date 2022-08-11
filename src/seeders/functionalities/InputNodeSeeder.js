@@ -7,7 +7,6 @@ class InputNodeSeeder extends FunctionalitySeeder {
     return {
       ...super.generate(data),
       type: InputNode.TYPE,
-      source: InputNode.DEFAULT_SOURCE,
       ...data,
     }
   }

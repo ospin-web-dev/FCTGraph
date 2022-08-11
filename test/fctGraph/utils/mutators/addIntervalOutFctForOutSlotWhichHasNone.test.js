@@ -91,33 +91,7 @@ describe('addIntervalOutFctForOutSlotWhichHasNone', () => {
       expect(temperatureSensor.isConnectedToFct(intervalOut)).toBe(true)
     })
 
-    it('sets the desired destination if one is provided', () => {
-      const destination = { name: 'ospin-webapp' }
-      const fctGraph = FCTGraphSeeder.seedOne({
-        functionalities: [
-          TemperatureSensorSeeder.generate(),
-        ],
-      })
-
-      const tempSensor = fctGraph.functionalities[0]
-      const tempSensorOutSlot = tempSensor.getOutSlots()[0]
-
-      expect(fctGraph.functionalities).toHaveLength(1)
-
-      addIntervalOutFctForOutSlotWhichHasNone(
-        fctGraph,
-        tempSensorOutSlot,
-        { fctData: { destination } },
-      )
-
-      const intervalOutNodes = fctGraph.getIntervalOutFcts()
-
-      expect(intervalOutNodes).toHaveLength(1)
-      expect(intervalOutNodes[0].destination.name).toBe(destination.name)
-    })
-
     it('sets the slot name correctly', () => {
-      const destination = { name: 'ospin-webapp' }
       const fctGraph = FCTGraphSeeder.seedOne({
         functionalities: [
           TemperatureSensorSeeder.generate(),
@@ -132,7 +106,6 @@ describe('addIntervalOutFctForOutSlotWhichHasNone', () => {
       addIntervalOutFctForOutSlotWhichHasNone(
         fctGraph,
         tempSensorOutSlot,
-        { fctData: { destination } },
       )
 
       const intervalOutNodes = fctGraph.getIntervalOutFcts()

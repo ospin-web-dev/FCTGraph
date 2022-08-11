@@ -608,39 +608,6 @@ describe('the FCTGraph class', () => {
     })
   })
 
-  describe('getOutputFctsByDestinationName', () => {
-    it('returns the IntervalOut output fcts with the requested destination name', () => {
-      const inputFct = PushInSeeder.generate()
-      const intervalOutFct = IntervalOutSeeder
-        .generate({ destination: { name: 'ospin-webapp' } })
-      const intervalOutFct2 = IntervalOutSeeder
-        .generate({ destination: { name: 'unspecified' } })
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, intervalOutFct, intervalOutFct2 ] })
-
-      const fcts = fctGraph.getOutputFctsByDestinationName('ospin-webapp')
-
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(intervalOutFct.id)
-    })
-  })
-
-  describe('getInputFctsBySourceName', () => {
-    it('returns the PushIn input fcts with the requested source name', () => {
-      const inputFct = PushInSeeder.generate({ source: { name: 'ospin-webapp' } })
-      const inputFct2 = PushInSeeder.generate({ source: { name: 'unspecified' } })
-      const outputFct = PushOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder.seedOne({
-        functionalities: [ inputFct, inputFct2, outputFct ],
-      })
-
-      const fcts = fctGraph.getInputFctsBySourceName('ospin-webapp')
-
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(inputFct.id)
-    })
-  })
-
   describe('getDisconnectedIONodeFcts', () => {
     it('should return all disconnected IONode fcts', () => {
       const inputData = PushInSeeder.generate()
