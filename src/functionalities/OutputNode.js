@@ -1,5 +1,3 @@
-const Joi = require('joi')
-
 const Functionality = require('./Functionality')
 
 class OutputNode extends Functionality {
@@ -10,13 +8,6 @@ class OutputNode extends Functionality {
 
   static get TYPE() {
     return 'OutputNode'
-  }
-
-  static get SCHEMA() {
-    return Joi.object({
-      // deprecated, will be removed after DB migration
-      destination: Joi.object({ name: Joi.string() }),
-    }).concat(super.SCHEMA)
   }
 
   constructor({
