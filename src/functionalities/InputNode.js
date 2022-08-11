@@ -12,38 +12,20 @@ class InputNode extends Functionality {
     return 'InputNode'
   }
 
-  static get VALID_SOURCES() {
-    return {
-      OSPIN_WEBAPP: { name: 'ospin-webapp' },
-      UNSPECIFIED: { name: 'unspecified' },
-    }
-  }
-
-  static get VALID_SOURCE_NAMES() {
-    return Object.values(InputNode.VALID_SOURCES).map(({ name }) => name)
-  }
-
-  static get DEFAULT_SOURCE() {
-    return InputNode.VALID_SOURCES.UNSPECIFIED
-  }
-
   static get SCHEMA() {
     return Joi.object({
-      source: Joi.object({
-        name: Joi.string().allow(...InputNode.VALID_SOURCE_NAMES).required(),
-      }),
+      // deprecated, will be removed after DB migration
+      source: Joi.object({ name: Joi.string() }),
     }).concat(super.SCHEMA)
   }
 
   constructor({
-    source = InputNode.DEFAULT_SOURCE,
     ...functionalityData
   }) {
     super({
       isVirtual: true,
       ...functionalityData,
     })
-    this.source = source
   }
 
   get isInputNode() { return true }
@@ -59,7 +41,6 @@ class InputNode extends Functionality {
   serialize() {
     return {
       ...super.serialize(),
-      source: this.source,
     }
   }
 

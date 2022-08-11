@@ -95,31 +95,7 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
       expect(heaterActuator.isConnectedToFct(pushIn)).toBe(true)
     })
 
-    it('sets the desired source if one is provided', () => {
-      const source = { name: 'ospin-webapp' }
-      const fctGraph = FCTGraphSeeder.seedOne({
-        functionalities: [
-          HeaterActuatorSeeder.generate(),
-        ],
-      })
-
-      const heatActuator = fctGraph.functionalities[0]
-      const heatActuatorInSlot = heatActuator.getInSlots()[0]
-
-      addPushInFctForInSlotWhichHasNone(
-        fctGraph,
-        heatActuatorInSlot,
-        { fctData: { source } },
-      )
-
-      const pushInNodes = fctGraph.getPushInFcts()
-
-      expect(pushInNodes).toHaveLength(1)
-      expect(pushInNodes[0].source.name).toBe(source.name)
-    })
-
     it('sets the correct slot name', () => {
-      const source = { name: 'ospin-webapp' }
       const fctGraph = FCTGraphSeeder.seedOne({
         functionalities: [
           HeaterActuatorSeeder.generate(),
@@ -132,7 +108,6 @@ describe('addPushInFctForInSlotWhichHasNone', () => {
       addPushInFctForInSlotWhichHasNone(
         fctGraph,
         heatActuatorInSlot,
-        { fctData: { source } },
       )
 
       const pushInNodes = fctGraph.getPushInFcts()

@@ -8,7 +8,7 @@ const {
 const FCTGraph = require('fctGraph/FCTGraph')
 const { mutators: { addPushInFctForAllInSlotsWhichHaveNone } } = require('fctGraph/Utils')
 
-describe('Inslot', () => {
+describe('InSlot', () => {
 
   describe('.inputNodeId', () => {
     describe('with a inputNodeId', () => {
@@ -20,7 +20,7 @@ describe('Inslot', () => {
         )
         const fctGraph = new FCTGraph({ functionalities: [ fct ] })
 
-        addPushInFctForAllInSlotsWhichHaveNone(fctGraph, { fctData: { source: { name: 'ospin-webapp' } } })
+        addPushInFctForAllInSlotsWhichHaveNone(fctGraph)
 
         expect(fctGraph.getSlotByFctIdAndSlotName(fct.id, slotname).inputNodeId)
           .toBe(fctGraph.functionalities[1].id)

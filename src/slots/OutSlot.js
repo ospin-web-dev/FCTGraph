@@ -46,8 +46,8 @@ class OutSlot extends Slot {
 
   get reporterFctId() {
     const reporterFct = this.connectedFunctionalities
-      .find(({ type, destination }) => (
-        type === 'OutputNode' && destination.name === 'ospin-webapp'))
+      .find(({ type, subType }) => (
+        type === 'OutputNode' && subType === 'IntervalOut'))
     return reporterFct ? reporterFct.id : null
   }
 

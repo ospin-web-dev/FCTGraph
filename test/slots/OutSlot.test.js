@@ -6,7 +6,7 @@ const {
 } = require('seeders/functionalities')
 
 const FCTGraph = require('fctGraph/FCTGraph')
-const { mutators: { addPushOutFctForAllOutSlotsWhichHaveNone } } = require('fctGraph/Utils')
+const { mutators: { addIntervalOutFctForAllOutSlotsWhichHaveNone } } = require('fctGraph/Utils')
 
 describe('outslot', () => {
 
@@ -20,7 +20,7 @@ describe('outslot', () => {
         )
         const fctGraph = new FCTGraph({ functionalities: [ fct ] })
 
-        addPushOutFctForAllOutSlotsWhichHaveNone(fctGraph, { fctData: { destination: { name: 'ospin-webapp' } } })
+        addIntervalOutFctForAllOutSlotsWhichHaveNone(fctGraph)
 
         expect(fctGraph.getSlotByFctIdAndSlotName(fct.id, slotname).reporterFctId)
           .toBe(fctGraph.functionalities[1].id)
