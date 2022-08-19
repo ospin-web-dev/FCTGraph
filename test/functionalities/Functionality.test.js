@@ -1,383 +1,405 @@
-const {
-  Functionality,
-  Controller,
-  Actuator,
-  Sensor,
-  InputNode,
-  OutputNode,
-  TemperatureSensor,
-} = require('functionalities')
-// this is exported separately from the index below we don't want to expose it publicly in the package
-const FunctionalitySeeder = require('seeders/functionalities/FunctionalitySeeder')
-const ControllerSeeder = require('seeders/functionalities/ControllerSeeder')
-const ActuatorSeeder = require('seeders/functionalities/ActuatorSeeder')
-const SensorSeeder = require('seeders/functionalities/SensorSeeder')
-const InputNodeSeeder = require('seeders/functionalities/InputNodeSeeder')
-const OutputNodeSeeder = require('seeders/functionalities/OutputNodeSeeder')
-const {
-  HeaterActuatorSeeder,
-  PIDControllerSeeder,
-  TemperatureSensorSeeder,
-  PushOutSeeder,
-} = require('seeders/functionalities')
-const {
-  FloatInSlotSeeder,
-  FloatOutSlotSeeder,
-  IntegerInSlotSeeder,
-} = require('seeders/slots')
+const faker = require('faker')
+const Functionality = require('../../src/functionalities/Functionality')
+const FunctionalitySeeder = require('../../src/seeders/functionalities/FunctionalitySeeder')
+const SlotSeeder = require('../../src/seeders/slots/SlotSeeder')
+const DataStreamSeeder = require('../../src/seeders/dataStreams/DataStreamSeeder')
 
-describe('the Functionality class', () => {
+describe('Functionality', () => {
 
-  describe('.constructor', () => {
+  describe('create', () => {
 
-    it('allows adding the outputIntervalMs property', () => {
-      const functionalityData = TemperatureSensorSeeder.generate()
-      functionalityData.outputIntervalMs = 1000
-
-      const functionality = new Functionality(functionalityData)
-
-      expect(functionality.outputIntervalMs).toBe(1000)
+    const generateMinimalDataSet = () => ({
+      id: faker.datatype.uuid(),
+      name: faker.random.word(),
+      type: faker.random.word(),
+      subType: faker.random.word(),
     })
 
-    describe('re: assigning default values', () => {
-      it('assigns `isVirtual` to false', () => {
-        const functionalityData = TemperatureSensorSeeder.generate()
-        delete functionalityData.isVirtual
+    it('sets all default values', () => {
+      const res = Functionality.create(generateMinimalDataSet())
 
-        const functionality = new Functionality(functionalityData)
+      expect(res).toStrictEqual(expect.objectContaining({
+        slots: [],
+        isVirtual: false,
+        firmwareBlackBox: {},
+      }))
+    })
 
-        expect(functionality.isVirtual).toBe(false)
+    it('allows setting optional values', () => {
+      const optional = {
+        outputIntervalMs: faker.datatype.number({ min: 0 }),
+        ports: [
+          { name: faker.random.word(), purpose: faker.random.word() },
+        ],
+      }
+
+      const res = Functionality.create({ ...generateMinimalDataSet(), ...optional })
+
+      expect(res).toStrictEqual(expect.objectContaining(optional))
+    })
+
+    describe('when two slots have the same name', () => {
+      it('should throw', () => {
+        const data = {
+          slots: [
+            SlotSeeder.generateIntegerInSlot({ name: 'A' }),
+            SlotSeeder.generateIntegerInSlot({ name: 'A' }),
+          ],
+        }
+
+        expect(() => Functionality.create({ ...generateMinimalDataSet(), ...data }))
+          .toThrow(/duplicate value/)
       })
     })
 
-    describe('when creating its slots', () => {
-      it('will throw error if given slots data containing duplicate data', () => {
-        const DUPLICATE_NAME = 'jabrone'
-        const UNIQUE_NAME = 'frank reynolds'
-        const slotA = FloatInSlotSeeder.generate({ name: DUPLICATE_NAME })
-        const slotB = IntegerInSlotSeeder.generate({ name: UNIQUE_NAME })
-        const slotC = IntegerInSlotSeeder.generate({ name: DUPLICATE_NAME })
+    describe('when creating an INTERVAL_OUT node', () => {
+      it('allows setting the "publishIntervalMs" property', () => {
+        const nodeSpecific = {
+          type: Functionality.FIXED_TYPES.OUTPUT_NODE,
+          subType: Functionality.FIXED_SUB_TYPES.INTERVAL_OUT,
+          publishIntervalMs: faker.datatype.number({ min: 1, max: 1000 * 60 * 60 * 24 }),
+        }
 
-        const fctData = TemperatureSensorSeeder.generate({ slots: [ slotA, slotB, slotC ] })
+        const res = Functionality.create({ ...generateMinimalDataSet(), ...nodeSpecific })
 
-        expect(() => new Functionality(fctData)).toThrow(
-          /already has a slot with the same name/,
-        )
+        expect(res).toStrictEqual(expect.objectContaining(nodeSpecific))
+      })
+    })
+
+    describe('when NOT creating an INTERVAL_OUT node', () => {
+      it('throw an error when try to set "publishIntervalMs"', () => {
+        const nodeSpecific = {
+          publishIntervalMs: faker.datatype.number({ min: 1, max: 1000 * 60 * 60 * 24 }),
+        }
+
+        expect(() => Functionality.create({ ...generateMinimalDataSet(), ...nodeSpecific }))
+          .toThrow(/publishIntervalMs/)
+      })
+    })
+
+  })
+
+  describe('update', () => {
+    it('updates a functionality', () => {
+      const fct = FunctionalitySeeder.generate()
+      const update = { slots: [ SlotSeeder.generateIntegerInSlot() ] }
+
+      const updatedFct = Functionality.update(fct, update)
+
+      expect(updatedFct).toStrictEqual(expect.objectContaining(update))
+    })
+  })
+
+  describe('updateSlotByName', () => {
+    it('updates a functionality', () => {
+      const slot = SlotSeeder.generateIntegerInSlot()
+      const fct = FunctionalitySeeder.generate({ slots: [ slot ] })
+      const update = {
+        dataStreams: [
+          DataStreamSeeder.generate({
+            sourceSlotName: slot.name,
+            sourceFctId: fct.id,
+          }),
+        ],
+      }
+
+      const updatedFct = Functionality.updateSlotByName(fct, slot.name, update)
+
+      expect(updatedFct.slots[0]).toStrictEqual(expect.objectContaining(update))
+    })
+  })
+
+  describe('isInputNode', () => {
+    describe('when fct is an INPUT_NODE', () => {
+      it('should return true', () => {
+        const fct = FunctionalitySeeder.generatePushIn()
+
+        const res = Functionality.isInputNode(fct)
+
+        expect(res).toBe(true)
+      })
+    })
+
+    describe('when fct is NOT an INPUT_NODE', () => {
+      it('should return false', () => {
+        const fct = FunctionalitySeeder.generate()
+
+        const res = Functionality.isInputNode(fct)
+
+        expect(res).toBe(false)
       })
     })
   })
 
-  describe('protected instance properties throw when attempted to be set', () => {
-    const PROTECTED_PROPERTY_NAMES = [ 'subType', 'type' ]
+  describe('isOutputNode', () => {
+    describe('when fct is an OUTPUT_NODE', () => {
+      it('should return true', () => {
+        const fct = FunctionalitySeeder.generateIntervalOut()
 
-    PROTECTED_PROPERTY_NAMES.forEach(propName => {
-      describe(`set .${propName}`, () => {
-        it('throws error', () => {
-          const fct = new Functionality(FunctionalitySeeder.generate())
+        const res = Functionality.isOutputNode(fct)
 
-          const newPropVal = 'jabroni'
-          const expectedErrorString = new RegExp(
-            `Can not set protected property on fct ${fct.name}: ${propName}`,
-          )
+        expect(res).toBe(true)
+      })
+    })
 
-          expect(() => {
-            fct[propName] = newPropVal
-          }).toThrow(expectedErrorString)
+    describe('when fct is NOT an OUTPUT_NODE', () => {
+      it('should return false', () => {
+        const fct = FunctionalitySeeder.generate()
+
+        const res = Functionality.isOutputNode(fct)
+
+        expect(res).toBe(false)
+      })
+    })
+  })
+
+  describe('isPhysical', () => {
+    describe('when fct is NOT virtual', () => {
+      it('should return true', () => {
+        const fct = FunctionalitySeeder.generate({ isVirtual: false })
+
+        const res = Functionality.isPhysical(fct)
+
+        expect(res).toBe(true)
+      })
+    })
+
+    describe('when fct is virtual', () => {
+      it('should return false', () => {
+        const fct = FunctionalitySeeder.generate({ isVirtual: true })
+
+        const res = Functionality.isPhysical(fct)
+
+        expect(res).toBe(false)
+      })
+    })
+  })
+
+  describe('getSlotNames', () => {
+    it('should return all slot names of functionality', () => {
+      const slotA = SlotSeeder.generateIntegerInSlot({ name: 'slotA' })
+      const slotB = SlotSeeder.generateIntegerOutSlot({ name: 'slotB' })
+      const fct = FunctionalitySeeder.generate({ slots: [slotA, slotB] })
+
+      const res = Functionality.getSlotNames(fct)
+
+      expect(res).toStrictEqual(expect.arrayContaining([slotA.name, slotB.name]))
+    })
+  })
+
+  describe('getInSlots', () => {
+    it('should return all IN slots of functionality', () => {
+      const slotA = SlotSeeder.generateIntegerInSlot({ name: 'slotA' })
+      const slotB = SlotSeeder.generateIntegerInSlot({ name: 'slotB' })
+      const slotC = SlotSeeder.generateIntegerOutSlot({ name: 'slotC' })
+      const fct = FunctionalitySeeder.generate({ slots: [slotA, slotB, slotC] })
+
+      const res = Functionality.getInSlots(fct)
+
+      expect(res).toStrictEqual(expect.arrayContaining([slotA, slotB]))
+    })
+  })
+
+  describe('getOutSlots', () => {
+    it('should return all OUT slots of functionality', () => {
+      const slotA = SlotSeeder.generateIntegerInSlot({ name: 'slotA' })
+      const slotB = SlotSeeder.generateIntegerOutSlot({ name: 'slotB' })
+      const slotC = SlotSeeder.generateIntegerOutSlot({ name: 'slotC' })
+      const fct = FunctionalitySeeder.generate({ slots: [slotA, slotB, slotC] })
+
+      const res = Functionality.getOutSlots(fct)
+
+      expect(res).toStrictEqual(expect.arrayContaining([slotB, slotC]))
+    })
+  })
+
+  describe('getSlotByName', () => {
+    it('should return the desired slot', () => {
+      const slotA = SlotSeeder.generateIntegerInSlot({ name: 'slotA' })
+      const slotB = SlotSeeder.generateIntegerOutSlot({ name: 'slotB' })
+      const fct = FunctionalitySeeder.generate({ slots: [slotA, slotB] })
+
+      const res = Functionality.getSlotByName(fct, slotA.name)
+
+      expect(res).toStrictEqual(slotA)
+    })
+  })
+
+  describe('when working with connected fcts', () => {
+
+    const creatDefaultSetup = () => {
+      const fctId = faker.datatype.uuid()
+      const ds1 = DataStreamSeeder.generate({ sinkSlotName: 'slotA', sinkFctId: fctId })
+      const ds2 = DataStreamSeeder.generate({ sourceSlotName: 'slotB', sourceFctId: fctId })
+      const slotA = SlotSeeder
+        .generateIntegerInSlot({ name: ds1.sinkSlotName, dataStreams: [ds1] })
+      const slotB = SlotSeeder
+        .generateIntegerOutSlot({ name: ds2.sourceSlotName, dataStreams: [ds2] })
+      const fct = FunctionalitySeeder.generate({ id: fctId, slots: [slotA, slotB] })
+
+      return { fct, ds1, ds2, slotA, slotB }
+    }
+
+    describe('getAllDataStreams', () => {
+      it('should return all datastreams of all slots as flat array', () => {
+        const { ds1, ds2, fct } = creatDefaultSetup()
+
+        const res = Functionality.getAllDataStreams(fct)
+
+        expect(res).toStrictEqual(expect.arrayContaining([ds1, ds2]))
+      })
+    })
+
+    describe('getDataStreamsCount', () => {
+      it('should return the number of datastreams from all slots of the fct', () => {
+        const { fct } = creatDefaultSetup()
+
+        const res = Functionality.getDataStreamsCount(fct)
+
+        expect(res).toBe(2)
+      })
+    })
+
+    describe('getConnectedFctIds', () => {
+      it('should return the ids of all connected fcts', () => {
+        const { fct, ds1, ds2 } = creatDefaultSetup()
+
+        const res = Functionality.getConnectedFctIds(fct)
+
+        expect(res).toStrictEqual(expect.arrayContaining([
+          ds1.sourceFctId,
+          ds2.sinkFctId,
+        ]))
+      })
+    })
+
+    describe('getConnectedSourceFctIds', () => {
+      it('should return the ids of all fcts that have a data stream TO the given fct', () => {
+        const { fct, ds1 } = creatDefaultSetup()
+
+        const res = Functionality.getConnectedSourceFctIds(fct)
+
+        expect(res).toHaveLength(1)
+        expect(res).toStrictEqual(expect.arrayContaining([ ds1.sourceFctId ]))
+      })
+    })
+
+    describe('getConnectedSinkFctIds', () => {
+      it('should return the ids of all fcts that have a data stream FROM the given fct', () => {
+        const { fct, ds2 } = creatDefaultSetup()
+
+        const res = Functionality.getConnectedSinkFctIds(fct)
+
+        expect(res).toHaveLength(1)
+        expect(res).toStrictEqual(expect.arrayContaining([ ds2.sinkFctId ]))
+      })
+    })
+
+    describe('isConnectedToFct', () => {
+      describe('when the fcts are connected', () => {
+        it('should return true', () => {
+          const { fct, ds2 } = creatDefaultSetup()
+
+          const res = Functionality.isConnectedToFct(fct, ds2.sinkFctId)
+
+          expect(res).toBe(true)
+        })
+      })
+
+      describe('when the fcts are NOT connected', () => {
+        it('should return false', () => {
+          const { fct } = creatDefaultSetup()
+
+          const res = Functionality.isConnectedToFct(fct, faker.datatype.uuid)
+
+          expect(res).toBe(false)
+        })
+      })
+    })
+
+    describe('connectsToFctSlot', () => {
+      describe('when the fct is connected to the specific slot', () => {
+        it('should return true', () => {
+          const { fct, ds2 } = creatDefaultSetup()
+
+          const res = Functionality.connectsToFctSlot(fct, ds2.sinkFctId, ds2.sinkSlotName)
+
+          expect(res).toBe(true)
+        })
+      })
+
+      describe('when the fct is NOT connected to the specific slot', () => {
+        it('should return false', () => {
+          const { fct, ds2 } = creatDefaultSetup()
+
+          const res = Functionality.connectsToFctSlot(fct, ds2.sinkFctId, 'some other slot')
+
+          expect(res).toBe(false)
+        })
+      })
+    })
+
+    describe('isConnected', () => {
+      describe('when the fct is connected', () => {
+        it('should return true', () => {
+          const { fct } = creatDefaultSetup()
+
+          const res = Functionality.isConnected(fct)
+
+          expect(res).toBe(true)
+        })
+      })
+
+      describe('when the fct is NOT connected', () => {
+        it('should return false', () => {
+          const fct = FunctionalitySeeder.generate()
+
+          const res = Functionality.isConnected(fct)
+
+          expect(res).toBe(false)
         })
       })
     })
   })
 
-  describe('.subType', () => {
-    it('is null for plain functionalities', () => {
-      const fct = new Functionality(FunctionalitySeeder.generate())
-      const controller = new Controller(ControllerSeeder.generate())
-      const actuator = new Actuator(ActuatorSeeder.generate())
-      const sensor = new Sensor(SensorSeeder.generate())
-      const inputNode = new InputNode(InputNodeSeeder.generate())
-      const outputNode = new OutputNode(OutputNodeSeeder.generate())
+  describe('isDeepEqual', () => {
+    describe('when the fcts are completely equal', () => {
+      it('should return true', () => {
+        const ds = DataStreamSeeder.generate()
+        const slot = SlotSeeder
+          .generateIntegerInSlot({ name: ds.sinkSlotName, dataStreams: [ ds ] })
+        const fct = FunctionalitySeeder.generate({ id: ds.sinkFctId, slots: [ slot ] })
 
-      expect(fct.subType).toBeNull()
-      expect(controller.subType).toBeNull()
-      expect(actuator.subType).toBeNull()
-      expect(sensor.subType).toBeNull()
-      expect(inputNode.subType).toBeNull()
-      expect(outputNode.subType).toBeNull()
-    })
-  })
+        const res = Functionality.isDeepEqual(fct, fct)
 
-  describe('.isSubType', () => {
-    it('returns true when the subType matches', () => {
-      const heater = HeaterActuatorSeeder.seedOne()
-      const pidController = PIDControllerSeeder.seedOne()
-      const tempSensor = TemperatureSensorSeeder.seedOne()
-
-      expect(heater.isSubType('HeaterActuator')).toBe(true)
-      expect(heater.isSubType('PIDController')).toBe(false)
-      expect(pidController.isSubType('PIDController')).toBe(true)
-      expect(pidController.isSubType('TemperatureSensor')).toBe(false)
-      expect(tempSensor.isSubType('TemperatureSensor')).toBe(true)
-      expect(tempSensor.isSubType('HeaterActuator')).toBe(false)
-    })
-  })
-
-  describe('.isPhysical', () => {
-    it('returns the inverse of .isVirtual', () => {
-      const virtualSensor = TemperatureSensorSeeder.seedOne({ isVirtual: true })
-      expect(virtualSensor.isVirtual).toBe(true)
-
-      const physicalSensor = TemperatureSensorSeeder.seedOne({ isVirtual: false })
-      expect(physicalSensor.isVirtual).toBe(false)
-
-      expect(virtualSensor.isPhysical).toBe(!virtualSensor.isVirtual)
-      expect(physicalSensor.isPhysical).toBe(!physicalSensor.isVirtual)
-    })
-  })
-
-  describe('getting connected fcts', () => {
-    describe('.connectedFcts', () => {
-      it('returns all connected fcts', () => {
-        const heater = HeaterActuatorSeeder.seedOne(
-          HeaterActuatorSeeder.generateCelsiusHeater(),
-        )
-        const pidController = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius(),
-        )
-        const tempSensor = TemperatureSensorSeeder.seedOne(
-          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        )
-
-        expect(tempSensor.connectedFcts).toHaveLength(0)
-        expect(heater.connectedFcts).toHaveLength(0)
-        expect(pidController.connectedFcts).toHaveLength(0)
-
-        tempSensor.outSlots[0].connectTo(pidController.getSlotByName('value in'))
-
-        expect(heater.connectedFcts).toHaveLength(0)
-        expect(tempSensor.connectedFcts).toHaveLength(1)
-        expect(pidController.connectedFcts).toHaveLength(1)
-        expect(tempSensor.connectedFcts[0]).toBe(pidController)
-        expect(pidController.connectedFcts[0]).toBe(tempSensor)
-
-        pidController.outSlots[0].connectTo(heater.inSlots[0])
-
-        expect(heater.connectedFcts).toHaveLength(1)
-        expect(tempSensor.connectedFcts).toHaveLength(1)
-        expect(pidController.connectedFcts).toHaveLength(2)
-        expect(heater.connectedFcts[0]).toBe(pidController)
-        expect(pidController.connectedFcts).toStrictEqual([
-          tempSensor, heater,
-        ])
-
-        expect(pidController.dataStreamsCount).toBe(2)
+        expect(res).toBe(true)
       })
     })
 
-    describe('.isConnected', () => {
-      it('returns true for a connected fct', () => {
-        const pidController = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius(),
-        )
-        const tempSensor = TemperatureSensorSeeder.seedOne(
-          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        )
+    describe('when the fcts are NOT completely equal', () => {
+      it('should return false', () => {
+        const ds = DataStreamSeeder.generate()
+        const slot = SlotSeeder
+          .generateIntegerInSlot({ name: ds.sinkSlotName, dataStreams: [ ds ] })
+        const fct1 = FunctionalitySeeder.generate({ id: ds.sinkFctId, slots: [ slot ] })
+        const fct2 = FunctionalitySeeder.generate()
 
-        tempSensor.outSlots[0].connectTo(pidController.getSlotByName('value in'))
+        const res = Functionality.isDeepEqual(fct1, fct2)
 
-        expect(tempSensor.isConnected).toBe(true)
-      })
-
-      it('returns false for a disconnected fct', () => {
-        const tempSensor = TemperatureSensorSeeder.seedOne(
-          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        )
-
-        expect(tempSensor.isConnected).toBe(false)
-      })
-    })
-
-    describe('.sources', () => {
-      it('all fcts connected via inslots', () => {
-        const heater = HeaterActuatorSeeder.seedOne(
-          HeaterActuatorSeeder.generateCelsiusHeater(),
-        )
-        const pidController = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius(),
-        )
-        const tempSensor = TemperatureSensorSeeder.seedOne(
-          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        )
-
-        tempSensor.outSlots[0].connectTo(pidController.getSlotByName('value in'))
-        pidController.outSlots[0].connectTo(heater.inSlots[0])
-
-        expect(pidController.sources).toStrictEqual([ tempSensor ])
-        expect(heater.sources).toStrictEqual([ pidController ])
-      })
-    })
-
-    describe('.connectedPushOutNodes', () => {
-      it('returns all fcts connected which are of type OutputNode', () => {
-        const heaterA = HeaterActuatorSeeder.seedOne(
-          HeaterActuatorSeeder.generateCelsiusHeater(),
-        )
-        const reporterA = PushOutSeeder.seedOne(
-          PushOutSeeder.generateFloatPushOutCelsius(),
-        )
-        const reporterB = PushOutSeeder.seedOne(
-          PushOutSeeder.generateFloatPushOutCelsius(),
-        )
-        const pidController = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius(),
-        )
-        pidController.outSlots[0].connectTo(heaterA.inSlots[0])
-        pidController.outSlots[0].connectTo(reporterA.inSlots[0])
-        pidController.outSlots[0].connectTo(reporterB.inSlots[0])
-
-        expect(heaterA.connectedPushOutNodes).toStrictEqual([])
-        expect(pidController.connectedPushOutNodes).toStrictEqual([
-          reporterA, reporterB,
-        ])
-      })
-    })
-
-    describe('.sinks', () => {
-      it('returns all fcts connected via outslots', () => {
-        const heaterA = HeaterActuatorSeeder.seedOne(
-          HeaterActuatorSeeder.generateCelsiusHeater(),
-        )
-        const heaterB = HeaterActuatorSeeder.seedOne(
-          HeaterActuatorSeeder.generateCelsiusHeater(),
-        )
-        const pidController = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius(),
-        )
-        const tempSensor = TemperatureSensorSeeder.seedOne(
-          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        )
-
-        tempSensor.outSlots[0].connectTo(pidController.getSlotByName('value in'))
-        pidController.outSlots[0].connectTo(heaterA.inSlots[0])
-        pidController.outSlots[0].connectTo(heaterB.inSlots[0])
-
-        expect(tempSensor.sinks).toStrictEqual([ pidController ])
-        expect(heaterA.sinks).toStrictEqual([])
-        expect(pidController.sinks).toStrictEqual([
-          heaterA, heaterB,
-        ])
-      })
-    })
-
-    describe('getConnectedFctsByName', () => {
-      it('returns all fcts connected that match the specific name', () => {
-        const CONTROLLER_NAME = 'pid controller'
-        const REPORTER_NAME = 'web reporter'
-
-        const tempSensorA = TemperatureSensorSeeder.seedOne(
-          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        )
-        const tempSensorB = TemperatureSensorSeeder.seedOne(
-          TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        )
-        const pidControllerA1 = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius({ name: CONTROLLER_NAME }),
-        )
-        const pidControllerA2 = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius({ name: CONTROLLER_NAME }),
-        )
-        const pidControllerB1 = PIDControllerSeeder.seedOne(
-          PIDControllerSeeder.generateTemperatureControllerCelsius({ name: CONTROLLER_NAME }),
-        )
-        const webReporterA1 = PushOutSeeder.seedOne(
-          PushOutSeeder.generateFloatPushOutCelsius({ name: REPORTER_NAME }),
-        )
-        const webReporterA2 = PushOutSeeder.seedOne(
-          PushOutSeeder.generateFloatPushOutCelsius({ name: REPORTER_NAME }),
-        )
-
-        tempSensorA.outSlots[0].connectTo(pidControllerA1.getSlotByName('value in'))
-        tempSensorA.outSlots[0].connectTo(pidControllerA2.getSlotByName('value in'))
-        tempSensorA.outSlots[0].connectTo(webReporterA1.getSlotByName('value in'))
-        tempSensorA.outSlots[0].connectTo(webReporterA2.getSlotByName('value in'))
-
-        tempSensorB.outSlots[0].connectTo(pidControllerB1.getSlotByName('value in'))
-
-        expect(tempSensorA.getConnectedFctsByName(CONTROLLER_NAME)).toStrictEqual([
-          pidControllerA1,
-          pidControllerA2,
-        ])
-
-        expect(tempSensorA.getConnectedFctsByName(REPORTER_NAME)).toStrictEqual([
-          webReporterA1,
-          webReporterA2,
-        ])
-
-        expect(tempSensorB.getConnectedFctsByName(CONTROLLER_NAME)).toStrictEqual([
-          pidControllerB1,
-        ])
+        expect(res).toBe(false)
       })
     })
   })
 
-  describe('when calling .deriveUnit on a slot', () => {
-    describe('on a slot that has NOT "any" as unit', () => {
-      it('returns the unit of the slot', () => {
-        const unit = '°C'
-        const slotData = FloatInSlotSeeder.generate({ unit })
-        const heater = HeaterActuatorSeeder.seedOne({ slots: [ slotData ] })
-
-        const slotWithinFct = heater.getSlotByName(slotData.name)
-
-        expect(slotWithinFct.derivedUnit).toBe(unit)
-      })
-    })
-
-    describe('on a slot that has "any" as unit', () => {
-      describe('when the slot is an InSlot', () => {
-        describe('when it has no connection', () => {
-          it('returns "any"', () => {
-            const unit = 'any'
-            const slotData = FloatInSlotSeeder.generate({ unit })
-            const controller = PIDControllerSeeder.seedOne({ slots: [ slotData ] })
-
-            const slotWithinFct = controller.getSlotByName(slotData.name)
-
-            expect(slotWithinFct.derivedUnit).toBe(unit)
-          })
-        })
-
-        describe('when it has a connection', () => {
-          it('returns the derivedUnit of its source', () => {
-            const unit = 'any'
-            const sensorSlotUnit = '°C'
-            const inSlotData = FloatInSlotSeeder.generate({ unit })
-            const outSlotData = FloatOutSlotSeeder.generate({ unit: sensorSlotUnit })
-
-            const controller = PIDControllerSeeder.seedOne({ slots: [ inSlotData ] })
-            const sensor = TemperatureSensorSeeder.seedOne({ slots: [ outSlotData ] })
-
-            const outSensorSlot = sensor.getSlotByName(outSlotData.name)
-            const inControllerSlot = controller.getSlotByName(inSlotData.name)
-
-            outSensorSlot.connectTo(inControllerSlot)
-
-            expect(inControllerSlot.derivedUnit).toBe(outSensorSlot.derivedUnit)
-          })
-        })
-      })
-
-      describe('when the slot is an OutSlot', () => {
-        it('returns "any"', () => {
-          const unit = 'any'
-          const slotData = FloatOutSlotSeeder.generate({ unit })
-          const controller = PIDControllerSeeder.seedOne({ slots: [ slotData ] })
-
-          const slotWithinFct = controller.getSlotByName(slotData.name)
-
-          expect(slotWithinFct.derivedUnit).toBe(unit)
-        })
-      })
+  describe('OUTPUT_NODE_SLOT_NAME', () => {
+    it('returns the default slot name for OUTPUT_NODE', () => {
+      expect(Functionality.OUTPUT_NODE_SLOT_NAME).toBe('input')
     })
   })
 
+  describe('INPUT_NODE_SLOT_NAME', () => {
+    it('returns the default slot name for INPUT_NODE', () => {
+      expect(Functionality.INPUT_NODE_SLOT_NAME).toBe('output')
+    })
+  })
 })

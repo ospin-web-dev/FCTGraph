@@ -1,31 +1,61 @@
-const compose = require('@choux/compose')
-
-const FunctionalityFactory = require('../../functionalities/factories/FunctionalityFactory')
-const FactorySeeder = require('../FactorySeeder')
 const RandomDataGenerator = require('../../utils/RandomDataGenerator')
+const Functionality = require('../../functionalities/Functionality')
 
-class FunctionalitySeeder {
+const generate = (data = {}) => (
+  Functionality.create({
+    id: RandomDataGenerator.uuid(),
+    type: `${RandomDataGenerator.frog()} Type`,
+    subType: `${RandomDataGenerator.frog()} SubType`,
+    name: RandomDataGenerator.hackerNoun(),
+    isVirtual: RandomDataGenerator.boolean(),
+    firmwareBlackBox: {},
+    ...data,
+  })
+)
 
-  static get SEED_METHOD() { return FunctionalityFactory.new }
+const generatePushIn = (data = {}) => (
+  Functionality.createPushIn(data)
+)
 
-  static get SLOT_SEED_TYPES() {
-    if (!Array.isArray(this.generateSlots())) {
-      throw new Error(`${this.name} must have a .generateSlots method to use .SLOT_SEED_TYPES`)
-    }
+const generateIntervalOut = (data = {}) => (
+  Functionality.createIntervalOut(data)
+)
 
-    return this.generateSlots().map(({ type }) => type)
-  }
+const generateActuator = (data = {}) => (
+  generate({
+    type: 'Actuator',
+    subType: `${RandomDataGenerator.frog()} SubType`,
+    slots: [],
+    isVirtual: false,
+    ...data,
+  })
+)
 
-  static generate(data) {
-    return {
-      id: RandomDataGenerator.uuid(),
-      name: RandomDataGenerator.hackerNoun(),
-      isVirtual: RandomDataGenerator.boolean(),
-      firmwareBlackBox: {},
-      ...data,
-    }
-  }
+const generateSensor = (data = {}) => (
+  generate({
+    type: 'Sensor',
+    subType: `${RandomDataGenerator.frog()} SubType`,
+    slots: [],
+    isVirtual: false,
+    ...data,
+  })
+)
 
+const generateController = (data = {}) => (
+  generate({
+    type: 'Controller',
+    subType: `${RandomDataGenerator.frog()} SubType`,
+    slots: [],
+    isVirtual: true,
+    ...data,
+  })
+)
+
+module.exports = {
+  generate,
+  generatePushIn,
+  generateIntervalOut,
+  generateActuator,
+  generateSensor,
+  generateController,
 }
-
-module.exports = compose([ FactorySeeder ])(FunctionalitySeeder)

@@ -30,5 +30,6 @@ module.exports = {
     "jest/no-hooks": "off",
     "jest/consistent-test-it": "warn",
     "jest/prefer-expect-assertions": "off",
+    "jest/lowercase-name": "off",
   },
 }

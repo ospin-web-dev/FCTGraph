@@ -1,634 +1,677 @@
-const { v4: uuidv4 } = require('uuid')
+const faker = require('faker')
 
-const ObjUtils = require('utils/ObjUtils')
-const RegexUtils = require('utils/RegexUtils')
-const FCTGraphSeeder = require('seeders/fctGraph/FCTGraphSeeder')
-const {
-  TemperatureSensorSeeder,
-  HeaterActuatorSeeder,
-  PIDControllerSeeder,
-  PushOutSeeder,
-  IntervalOutSeeder,
-  PushInSeeder,
-} = require('seeders/functionalities')
-const { FloatInSlotSeeder, FloatOutSlotSeeder } = require('seeders/slots')
+const FCTGraph = require('../../src/fctGraph/FCTGraph')
+const Slot = require('../../src/slots/Slot')
+const Functionality = require('../../src/functionalities/Functionality')
 
-const FCTGraph = require('fctGraph/FCTGraph')
-const { TemperatureSensor } = require('functionalities')
-const { FloatOutSlot } = require('slots')
-const DataStream = require('dataStreams/DataStream')
-const connectedFCTGraphData = require('./seeds/connectedFCTGraphData')
-const connectedPIDFCTGraphData = require('./seeds/connectedPIDFctGraphData')
+const FCTGraphSeeder = require('../../src/seeders/fctGraph/FCTGraphSeeder')
+const FunctionalitySeeder = require('../../src/seeders/functionalities/FunctionalitySeeder')
+const SlotSeeder = require('../../src/seeders/slots/SlotSeeder')
+const DataStreamSeeder = require('../../src/seeders/dataStreams/DataStreamSeeder')
 
-describe('the FCTGraph class', () => {
+describe('FCTGraph', () => {
 
-  it('is JOIous', () => {
-    expect(FCTGraph.isJOIous).toBe(true)
-  })
+  describe('create', () => {
+    it('sets all default values', () => {
+      const data = {
+        id: faker.datatype.uuid(),
+        deviceId: faker.datatype.uuid(),
+        name: faker.random.word(),
+      }
 
-  describe('.assertValidDataAndNew', () => {
-    it('assigns an id if none is provided', () => {
-      const fctGraphData = FCTGraphSeeder.generate({ })
-      delete fctGraphData.id
+      const res = FCTGraph.create(data)
 
-      const fctGraph = FCTGraph.assertValidDataAndNew(fctGraphData)
-      expect(fctGraph.id).toMatch(RegexUtils.UUIDV4)
-    })
-
-    it('throws if given an invalid data object', () => {
-      expect(() => {
-        FCTGraph.assertValidDataAndNew({ id: uuidv4() }) // eslint-disable-line
-      }).toThrow(/"deviceId" is required/)
-    })
-
-    it('creates an instance', () => {
-      const fctGraphData = FCTGraphSeeder.generate({ })
-      const fctGraph = new FCTGraph(fctGraphData)
-
-      expect(fctGraph instanceof FCTGraph).toBe(true)
-    })
-
-    it('creates an instance when a slot is missing a datastream key', () => {
-      const fctGraphData = FCTGraphSeeder.generate({ })
-      delete fctGraphData.functionalities[0].slots[0].dataStreams
-
-      const fctGraph = new FCTGraph(fctGraphData)
-
-      expect(fctGraph instanceof FCTGraph).toBe(true)
-    })
-
-    it('assigns expected defaults when none are provided', () => {
-      const fctGraphData = FCTGraphSeeder.generate({ })
-      delete fctGraphData.functionalities
-      delete fctGraphData.deviceDefault
-
-      const fctGraph = new FCTGraph(fctGraphData)
-
-      expect(fctGraph.functionalities).toStrictEqual([])
-      expect(fctGraph.deviceDefault).toBe(false)
-    })
-
-    describe('when given an actual fctGraph that has been serialized', () => {
-      it('creates the deeply nested dataStreams', () => {
-        const fctGraph = new FCTGraph(connectedFCTGraphData)
-
-        expect(fctGraph.dataStreamsCount).toBe(85)
-      })
-    })
-
-    describe('when given a connected PID FctGraph', () => {
-      it('should serialize the FCTGraph', () => {
-        const fctGraph = new FCTGraph(connectedPIDFCTGraphData)
-        expect(fctGraph instanceof FCTGraph).toBe(true)
-      })
-
-      it('should populate the datastreams', () => {
-        const fctGraph = new FCTGraph(connectedPIDFCTGraphData)
-        expect(fctGraph.dataStreamsCount).toBe(6)
-      })
+      expect(res).toStrictEqual(expect.objectContaining({
+        functionalities: [],
+        imageURL: null,
+        templateId: null,
+      }))
     })
   })
 
-  describe('.newWithDataStreamsTopLevel', () => {
-    it('does not throw if given an absent dataStreams value', () => {
-      const fctGraphData = FCTGraphSeeder.generate()
-      expect(() => {
-        FCTGraph.newWithDataStreamsTopLevel(fctGraphData) // eslint-disable-line
-      }).not.toThrow()
-    })
+  describe('update', () => {
+    it('updates the fctGraph', () => {
+      const graph = FCTGraphSeeder.generate()
+      const update = { functionalities: [ FunctionalitySeeder.generate() ] }
 
-    it('throws if given an invalid dataStreams value', () => {
-      const fctGraphData = FCTGraphSeeder.generate()
+      const updatedGraph = FCTGraph.update(graph, update)
 
-      expect(() => {
-        FCTGraph.newWithDataStreamsTopLevel({ dataStreams: 3, ...fctGraphData }) // eslint-disable-line
-      }).toThrow(/"dataStreams" must be an array/)
-    })
-
-    it('creates a graph instance', () => {
-      const fctGraphData = FCTGraphSeeder.generate({})
-      fctGraphData.dataStreams = []
-
-      const fctGraph = FCTGraph.newWithDataStreamsTopLevel(fctGraphData)
-
-      // unfortunately instanceof not working here. due to this I believe
-      // https://github.com/facebook/jest/issues/2549
-      expect(fctGraph.constructor.name).toBe('FCTGraph')
-    })
-
-    it('the created functionalities are instances', () => {
-      const sensor = TemperatureSensorSeeder.seedOne()
-      const fctGraphData = FCTGraphSeeder
-        .generate({ functionalities: [ sensor.serialize() ] })
-      const fctGraph = new FCTGraph(fctGraphData)
-
-      const { functionalities } = fctGraph
-
-      expect(functionalities[0] instanceof TemperatureSensor).toBe(true)
-    })
-
-    it('the created slots are instances', () => {
-      const sensor = TemperatureSensorSeeder.generateCelsiusFloatProducer()
-      const fctGraphData = FCTGraphSeeder
-        .generate({ functionalities: [ sensor ] })
-      const fctGraph = new FCTGraph(fctGraphData)
-
-      const { functionalities } = fctGraph
-      const slot = functionalities[0].slots[0]
-
-      expect(slot instanceof FloatOutSlot).toBe(true)
-      expect(slot.dataType).toBeDefined()
-      expect(slot.dataType).toBe(FloatOutSlot.DATA_TYPE)
-      expect(slot.type).toBeDefined()
-      expect(slot.type).toBe(FloatOutSlot.TYPE)
-    })
-
-    it('the created instance is joious', () => {
-      const fctGraphData = FCTGraphSeeder.generate({})
-      fctGraphData.dataStreams = []
-
-      const fctGraph = FCTGraph.newWithDataStreamsTopLevel(fctGraphData)
-
-      expect(fctGraph.constructor.isJOIous).toBe(true)
-    })
-
-    it('instantiates with the connections', () => {
-      const unconnectedFctGraph = new FCTGraph(connectedFCTGraphData)
-      unconnectedFctGraph.disconnectAll()
-
-      expect(unconnectedFctGraph.dataStreamsCount).toBe(0)
-
-      const dataStreams = FCTGraph.collectUniqueDataStreamsDataFromFctData(
-        connectedFCTGraphData.functionalities,
-      )
-
-      expect(dataStreams.length).toBeGreaterThan(0)
-
-      const fctGraphTraditional = new FCTGraph(connectedFCTGraphData)
-      const fctGraphAltConstruction = FCTGraph.newWithDataStreamsTopLevel({
-        ...unconnectedFctGraph.serialize(),
-        dataStreams,
-      })
-
-      expect(
-        FCTGraph.deepEquals(fctGraphTraditional, fctGraphAltConstruction),
-      ).toBe(true)
-    })
-
-  })
-
-  describe('.deepEquals', () => {
-    describe('when the fctGraphs deep equal', () => {
-      it('returns true', () => {
-        const fctGraphData = FCTGraphSeeder.generate()
-        const fctGraphA = new FCTGraph(fctGraphData)
-        const fctGraphB = new FCTGraph(fctGraphData)
-
-        const result = FCTGraph.deepEquals(fctGraphA, fctGraphB)
-        expect(result).toBe(true)
-      })
-    })
-
-    describe('when the fctGraphs do not equal', () => {
-      it('returns false', () => {
-        const fctGraphA = FCTGraphSeeder.seedOne()
-        const fctGraphB = FCTGraphSeeder.seedOne()
-
-        const result = FCTGraph.deepEquals(fctGraphA, fctGraphB)
-        expect(result).toStrictEqual(false)
-      })
-    })
-  })
-
-  describe('.serialize', () => {
-    it('serializes back to the original data object with a simple graph', () => {
-      const fctGraphData = FCTGraphSeeder.generate()
-      const fctGraph = new FCTGraph(fctGraphData)
-
-      expect(fctGraph.serialize()).toStrictEqual(fctGraphData)
-    })
-  })
-
-  describe('.toJSON', () => {
-    it('returns the expected serialized JSON string', () => {
-      const fctGraphData = FCTGraphSeeder.generate()
-      const fctGraph = new FCTGraph(fctGraphData)
-      const sortedJSONData = JSON.stringify(
-        ObjUtils.sortByKeys(fctGraphData),
-      )
-
-      expect(JSON.stringify(fctGraph)).toStrictEqual(sortedJSONData)
-    })
-  })
-
-  /* *******************************************************************
-   * GRAPH ACTIONS
-   * **************************************************************** */
-  describe('.getConnectableFctsToTargetFct', () => {
-    it('returns all FCTGraph fcts which can be connected to the given fct', () => {
-      /* it is expected that the tempSensor (which has an outslot which
-       * produces float values) can only connect to other functionalities
-       * which have an un-occupied inslot that receives float values
-       */
-      const functionalities = [
-        TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        PIDControllerSeeder.generateTemperatureControllerCelsius(),
-        HeaterActuatorSeeder.generateKelvinHeater(),
-        PushOutSeeder.generateFloatPushOutCelsius(),
-        PushInSeeder.generateIntegerPushIn(),
-      ]
-
-      const fctGraph = FCTGraphSeeder.seedOne({ functionalities })
-      // eslint-disable-next-line
-      const [ tempSensor, pidController, __, pushOut, ___ ] = fctGraph.functionalities
-
-      const connectableFcts = fctGraph.getConnectableFctsToTargetFct(tempSensor)
-      const connectableFctsIds = connectableFcts.map(({ id }) => id)
-
-      expect(connectableFctsIds).toStrictEqual([ pidController.id, pushOut.id ])
-      expect(connectableFcts).toStrictEqual([ pidController, pushOut ])
-    })
-
-    it('will provide fcts with slots that will connect', () => {
-      const functionalities = [
-        TemperatureSensorSeeder.generateCelsiusFloatProducer(),
-        PushOutSeeder.generateFloatPushOutCelsius(),
-      ]
-
-      const fctGraph = FCTGraphSeeder.seedOne({ functionalities })
-
-      const [ tempSensor, pushOut ] = fctGraph.functionalities
-      const [ returnedFct ] = fctGraph.getConnectableFctsToTargetFct(tempSensor)
-
-      expect(returnedFct).toStrictEqual(pushOut)
-      expect(tempSensor.slots).toHaveLength(1)
-      expect(pushOut.slots).toHaveLength(1)
-
-      const tempOutSlot = tempSensor.slots[0]
-      const pushOutSlot = pushOut.slots[0]
-
-      const { dataStream } = tempOutSlot.connectTo(pushOutSlot)
-      expect(dataStream instanceof DataStream).toBe(true)
-    })
-  })
-
-  describe('.addFunctionalityByData', () => {
-    it('returns a result.error === false when valid data is given', () => {
-      const fctGraph = FCTGraphSeeder.seedOne()
-      const pushOutData = PushOutSeeder.generate()
-      delete pushOutData.id
-
-      const { error } = fctGraph.addFunctionalityByData(pushOutData)
-
-      expect(error).toBe(false)
-    })
-
-    it('returns result.error === true when invalid data is given, along with a result.errorMsg', () => {
-      const fctGraph = FCTGraphSeeder.seedOne()
-      const badId = 12345
-      const pushOutData = PushOutSeeder.generate({ id: badId })
-
-      const { error, errorMsg } = fctGraph.addFunctionalityByData(pushOutData)
-
-      expect(error).toBe(true)
-      expect(errorMsg).toContain('"id" must be a string')
-    })
-
-    it('returns the result.functionality with its newly assigned id as a UUIDv4', () => {
-      const fctGraph = FCTGraphSeeder.seedOne()
-      const pushOutData = PushOutSeeder.generate()
-      delete pushOutData.id
-
-      const { functionality } = fctGraph.addFunctionalityByData(pushOutData)
-
-      expect(functionality.id).toMatch(RegexUtils.UUIDV4)
-    })
-
-    it('an unrelated fct does not get removed if the fct addition fails', () => {
-      const fctGraph = FCTGraphSeeder.seedOne()
-      const preLength = fctGraph.functionalities.length
-      const pushOutData = PushOutSeeder.generate()
-      delete pushOutData.name
-
-      const { error } = fctGraph.addFunctionalityByData(pushOutData)
-
-      expect(error).toBe(true)
-      expect(fctGraph.functionalities).toHaveLength(preLength)
-    })
-  })
-
-  describe('getFctsWithoutIONodes', () => {
-    it('returns all fcts which are not an input or output node', () => {
-      const inputFct = PushInSeeder.generate()
-      const outputFct = PushOutSeeder.generate()
-      const sensor = TemperatureSensorSeeder.generate()
-
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, outputFct, sensor ] })
-
-      const fcts = fctGraph.getFctsWithoutIONodes()
-
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(sensor.id)
+      expect(updatedGraph).toStrictEqual(expect.objectContaining(update))
     })
   })
 
   describe('getFctById', () => {
-    it('returns a functionality by id', () => {
-      const sensor = TemperatureSensorSeeder.seedOne()
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ sensor.serialize() ] })
+    it('returns the fct', () => {
+      const fct = FunctionalitySeeder.generate()
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct ] })
 
-      const res = fctGraph.getFctById(sensor.id)
+      const res = FCTGraph.getFctById(graph, fct.id)
 
-      expect(res).toBeDefined()
-      expect(res.id).toBe(sensor.id)
+      expect(res).toStrictEqual(fct)
     })
   })
 
-  describe('getFctsByName', () => {
-    it('returns an array of all fcts that match the name', () => {
-      const commonName = 'TempSensor'
-      const sensor1 = TemperatureSensorSeeder.seedOne({ name: commonName })
-      const sensor2 = TemperatureSensorSeeder.seedOne({ name: commonName })
-      const sensor3 = TemperatureSensorSeeder.seedOne({ name: 'SpecialT' })
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [
-          sensor1.serialize(),
-          sensor2.serialize(),
-          sensor3.serialize(),
-        ] })
+  describe('when querying for mutliple functionalities', () => {
 
-      const fcts = fctGraph.getFctsByName(commonName)
+    const createDefaultSetup = () => {
+      const pushIn = FunctionalitySeeder.generatePushIn({ name: 'A' })
+      const intervalOut = FunctionalitySeeder.generateIntervalOut({ name: 'B' })
+      const sensor = FunctionalitySeeder.generateSensor({ name: 'C' })
+      const actuator = FunctionalitySeeder.generateActuator({ name: 'D' })
+      const graph = FCTGraphSeeder
+        .generate({ functionalities: [ pushIn, intervalOut, sensor, actuator ] })
 
-      expect(fcts).toHaveLength(2)
-      fcts.forEach(({ name }) => name === commonName)
-    })
-  })
+      return { graph, pushIn, intervalOut, sensor, actuator }
+    }
 
-  describe('getInputFcts', () => {
-    it('returns the input fcts', () => {
-      const inputFct = PushInSeeder.generate()
-      const outputFct = PushOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder.seedOne({ functionalities: [ inputFct, outputFct ] })
+    describe('getFctsWithoutIONodes', () => {
+      it('returns all non-IO fcts', () => {
+        const { graph, actuator, sensor } = createDefaultSetup()
 
-      const fcts = fctGraph.getInputFcts()
+        const res = FCTGraph.getFctsWithoutIONodes(graph)
 
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(inputFct.id)
-    })
-  })
-
-  describe('getPushInFcts', () => {
-    it('returns the PushIn input fcts', () => {
-      const inputFct = PushInSeeder.generate()
-      const outputFct = PushOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder.seedOne({ functionalities: [ inputFct, outputFct ] })
-
-      const fcts = fctGraph.getPushInFcts()
-
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(inputFct.id)
-    })
-  })
-
-  describe('getOutputFcts', () => {
-    it('returns the output fcts', () => {
-      const inputFct = PushInSeeder.generate()
-      const outputFct = PushOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder.seedOne({ functionalities: [ inputFct, outputFct ] })
-
-      const fcts = fctGraph.getOutputFcts()
-
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(outputFct.id)
-    })
-  })
-
-  describe('getPushOutFcts', () => {
-    it('returns the PushOut output fcts', () => {
-      const inputFct = PushInSeeder.generate()
-      const pushOutputFct = PushOutSeeder.generate()
-      const intervalOutFct = IntervalOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
-
-      const fcts = fctGraph.getPushOutFcts()
-
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(pushOutputFct.id)
-    })
-  })
-
-  describe('getIONodeFcts', () => {
-    it('should return the input and output nodes', () => {
-      const inputFct = PushInSeeder.generate()
-      const pushOutputFct = PushOutSeeder.generate()
-      const sensor = TemperatureSensorSeeder.generate()
-      const heater = HeaterActuatorSeeder.generate()
-
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, pushOutputFct, heater,sensor ] })
-
-      const fcts = fctGraph.getIONodeFcts()
-
-      expect(fcts).toHaveLength(2)
-
-    });
-  });
-
-  describe('getIntervalOutFcts', () => {
-    it('returns the IntervalOut ushOut output fcts', () => {
-      const inputFct = PushInSeeder.generate()
-      const pushOutputFct = PushOutSeeder.generate()
-      const intervalOutFct = IntervalOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
-
-      const fcts = fctGraph.getIntervalOutFcts()
-
-      expect(fcts).toHaveLength(1)
-      expect(fcts[0].id).toBe(intervalOutFct.id)
-    })
-  })
-
-  describe('clone', () => {
-    const inputFct = PushInSeeder.generate()
-    const pushOutputFct = PushOutSeeder.generate()
-    const intervalOutFct = IntervalOutSeeder.generate()
-    const fctGraph = FCTGraphSeeder
-      .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
-
-    it('returns a carbon copy', () => {
-      const fctGraphCopy = fctGraph.clone()
-
-      expect(FCTGraph.deepEquals(fctGraphCopy, fctGraph)).toBe(true)
-
-    })
-
-    it('does not return the original', () => {
-      const fctGraphCopy = fctGraph.clone()
-
-      expect(fctGraphCopy).not.toBe(fctGraph)
-    })
-  })
-
-  it('should set the fctGraph on the functionalities', () => {
-    const sensor = TemperatureSensorSeeder.generate()
-    const heater = HeaterActuatorSeeder.generate()
-
-    const fctGraph = FCTGraphSeeder
-      .seedOne({ functionalities: [ heater, sensor ] })
-
-    const { functionalities } = fctGraph
-    functionalities.forEach(({ fctGraph: fctGraphRef }) => {
-      expect(fctGraphRef instanceof FCTGraph).toBe(true)
-    })
-  })
-
-  describe('fctsDeepEqual', () => {
-    const intervalOutFct = IntervalOutSeeder.generate()
-    const sensor = TemperatureSensorSeeder.generate()
-    const heater = HeaterActuatorSeeder.generate()
-
-    const fctGraph = FCTGraphSeeder
-      .seedOne({ functionalities: [ sensor, heater ] })
-
-    describe('when functionalities are the same', () => {
-      it('should return true', () => {
-        expect(fctGraph.fctsDeepEquals(fctGraph)).toBe(true)
+        expect(res).toHaveLength(2)
+        expect(res).toStrictEqual(expect.arrayContaining([sensor, actuator]))
       })
     })
 
-    describe('when functionalities are the same but in a different order', () => {
-      it('should return true', () => {
-        const fctGraph2 = FCTGraphSeeder
-          .seedOne({ functionalities: [ heater, sensor ] })
-        expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(true)
+    describe('getPushInFcts', () => {
+      it('returns all PushIn fcts', () => {
+        const { graph, pushIn } = createDefaultSetup()
+
+        const res = FCTGraph.getPushInFcts(graph)
+
+        expect(res).toHaveLength(1)
+        expect(res).toStrictEqual(expect.arrayContaining([pushIn]))
+      })
+    })
+
+    describe('getIntervalOutFcts', () => {
+      it('returns all IntervalOut fcts', () => {
+        const { graph, intervalOut } = createDefaultSetup()
+
+        const res = FCTGraph.getIntervalOutFcts(graph)
+
+        expect(res).toHaveLength(1)
+        expect(res).toStrictEqual(expect.arrayContaining([intervalOut]))
+      })
+    })
+
+    describe('getFctsByType', () => {
+      it('returns all fcts matching the type', () => {
+        const { graph, sensor } = createDefaultSetup()
+
+        const res = FCTGraph.getFctsByType(graph, sensor.type)
+
+        expect(res).toHaveLength(1)
+        expect(res).toStrictEqual(expect.arrayContaining([sensor]))
+      })
+    })
+  })
+
+  describe('getAllDataStreams', () => {
+    it('returns all datastreams of graph', () => {
+      const ds1 = DataStreamSeeder.generate()
+      const ds2 = DataStreamSeeder.generate()
+
+      const slot1 = SlotSeeder.generateIntegerInSlot({ dataStreams: [ ds1 ] })
+      const slot2 = SlotSeeder.generateIntegerInSlot({ dataStreams: [ ds2 ] })
+
+      const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+      const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+      const res = FCTGraph.getAllDataStreams(graph)
+
+      expect(res).toHaveLength(2)
+      expect(res).toStrictEqual(expect.arrayContaining([ds1, ds2]))
+    })
+  })
+
+  describe('when connecting functionalities', () => {
+
+    const createDefaultSetup = (slotData1 = {}, slotData2 = {}) => {
+      const slot1 = SlotSeeder.generateBooleanInSlot({ unit: 'rpm', ...slotData1 })
+      const slot2 = SlotSeeder.generateBooleanOutSlot({ unit: 'rpm', ...slotData2 })
+
+      const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+      const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+      return { graph, fct1, slot1, fct2, slot2 }
+    }
+
+    describe('connect', () => {
+      it('creates a data stream in the involved slots', () => {
+        const { graph, fct1, fct2, slot1, slot2 } = createDefaultSetup()
+
+        const connected = FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name)
+
+        expect(connected.functionalities[0].slots[0].dataStreams[0]).toBeDefined()
+        expect(connected.functionalities[0].slots[0].dataStreams[0])
+          .toStrictEqual(connected.functionalities[1].slots[0].dataStreams[0])
       })
 
-      describe('when the slots are in a different order', () => {
-        it('should return true', () => {
-          const Slot1 = FloatInSlotSeeder.generateUnitlessIn({ name: 'D' })
-          const Slot2 = FloatOutSlotSeeder.generateCelsiusOut({ name: 'value out' })
-          const basefct = PIDControllerSeeder.generate()
-          const fctData1 = { ...basefct, slots: [Slot1, Slot2 ] }
-          const fctData2 = { ...basefct, slots: [Slot2, Slot1 ] }
-          const fctGraphA = FCTGraphSeeder.seedOne({ functionalities: [fctData1] })
-          const fctGraphB = FCTGraphSeeder.seedOne({ functionalities: [fctData2] })
+      describe('when the slot units are different', () => {
+        describe('when none of the units is the "any" unit', () => {
+          it('throws an error', () => {
+            const { graph, fct1, fct2, slot1, slot2 } = createDefaultSetup(
+              { unit: 'rpm' },
+              { unit: '%' },
+            )
 
-          expect(fctGraphA.functionalities[0].slots[1].serialize())
-            .toStrictEqual(fctGraphB.functionalities[0].slots[0].serialize())
-          expect(fctGraphA.fctsDeepEquals(fctGraphB)).toBe(true)
+            expect(() => FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name))
+              .toThrow(/units must match/)
+          })
+        })
 
-          expect(fctGraphA.functionalities[0].slots[1].serialize())
-            .toStrictEqual(fctGraphB.functionalities[0].slots[0].serialize())
+        describe('when one of the units is the "any" unit', () => {
+          it('does NOT throw an error', () => {
+            const { graph, fct1, fct2, slot1, slot2 } = createDefaultSetup(
+              { unit: 'rpm' },
+              { unit: Slot.ANY_UNIT_STRING },
+            )
+
+            expect(() => FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name))
+              .not.toThrow()
+          })
+        })
+      })
+
+      describe('when the slot types are equal', () => {
+        it('throws an error', () => {
+          const { graph, fct1, fct2, slot1, slot2 } = createDefaultSetup(
+            { type: Slot.TYPES.IN_SLOT },
+            { type: Slot.TYPES.IN_SLOT },
+          )
+
+          expect(() => FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name))
+            .toThrow(/must have complimentary types/)
+        })
+      })
+
+      describe('when the slot dataTypes are different', () => {
+        describe('when none of the dataTypes is "any"', () => {
+          it('throws an error', () => {
+            const slot1 = SlotSeeder.generateIntegerInSlot({ unit: 'rpm' })
+            const slot2 = SlotSeeder.generateFloatOutSlot({ unit: 'rpm' })
+
+            const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+            const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+            const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+            expect(() => FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name))
+              .toThrow(/dataTypes must match/)
+          })
+        })
+
+        describe('when one of the dataTypes is "any"', () => {
+          it('does NOT throw an error', () => {
+            const slot1 = SlotSeeder.generateBooleanInSlot()
+            const slot2 = SlotSeeder.generateAnyOutSlot()
+
+            const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+            const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+            const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+            expect(() => FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name))
+              .not.toThrow()
+          })
+        })
+      })
+
+      describe('when the slots already have a connection', () => {
+        it('throws an error', () => {
+          const { graph, fct1, fct2, slot1, slot2 } = createDefaultSetup()
+
+          const alreadyConnectedGraph = FCTGraph
+            .connect(graph, fct1.id, slot1.name, fct2.id, slot2.name)
+
+          expect(() => FCTGraph
+            .connect(alreadyConnectedGraph, fct1.id, slot1.name, fct2.id, slot2.name))
+            .toThrow(/slots are already connected/)
+        })
+      })
+
+      describe('when the InSlot already has a connection', () => {
+        it('throws an error', () => {
+          const slot1 = SlotSeeder.generateIntegerInSlot({ unit: 'rpm' })
+          const slot2 = SlotSeeder.generateIntegerOutSlot({ unit: 'rpm', name: 'A' })
+          const slot3 = SlotSeeder.generateIntegerOutSlot({ unit: 'rpm', name: 'B' })
+
+          const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+          const fct2 = FunctionalitySeeder.generate({ slots: [ slot2, slot3 ] })
+
+          const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+          const alreadyConnectedGraph = FCTGraph
+            .connect(graph, fct1.id, slot1.name, fct2.id, slot2.name)
+
+          expect(() => FCTGraph
+            .connect(alreadyConnectedGraph, fct1.id, slot1.name, fct2.id, slot3.name))
+            .toThrow(/InSlot can only have a single dataStream/)
+        })
+      })
+
+      describe.each([
+        { dataType: 'Integer', averagingWindowSize: 0 },
+        { dataType: 'Float', averagingWindowSize: 0 },
+        { dataType: 'Boolean', averagingWindowSize: 1 },
+        { dataType: 'OneOf', averagingWindowSize: 1 },
+        { dataType: 'Any', averagingWindowSize: 1 },
+      ])('for $dataType slots', ({ dataType, averagingWindowSize }) => {
+        it(`set the averagingWindowSize for the datastream to ${averagingWindowSize}`, () => {
+          const slot1 = SlotSeeder[`generate${dataType}InSlot`]({ unit: 'rpm' })
+          const slot2 = SlotSeeder[`generate${dataType}OutSlot`]({ unit: 'rpm' })
+
+          const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+          const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+          const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+          const connectedGraph = FCTGraph
+            .connect(graph, fct1.id, slot1.name, fct2.id, slot2.name)
+
+          expect(connectedGraph.functionalities[0].slots[0].dataStreams[0].averagingWindowSize)
+            .toBe(averagingWindowSize)
+        })
+      })
+    })
+  })
+
+  describe('when querying connected functionalities', () => {
+
+    const createDefaultSetup = (slotData1 = {}, slotData2 = {}) => {
+      const fctSlot1 = SlotSeeder.generateIntegerInSlot({ name: 'A', ...slotData1 })
+      const fctSlot2 = SlotSeeder.generateIntegerOutSlot({ name: 'B', ...slotData2 })
+      const pushInSlot = SlotSeeder.generateAnyOutSlot()
+      const intervalOutSlot = SlotSeeder.generateAnyInSlot()
+
+      const fct = FunctionalitySeeder.generate({ slots: [ fctSlot1, fctSlot2 ] })
+      const pushIn = FunctionalitySeeder.generatePushIn({ slots: [ pushInSlot ] })
+      const intervalOut = FunctionalitySeeder.generateIntervalOut({ slots: [ intervalOutSlot ] })
+
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct, pushIn, intervalOut ] })
+      const graphWithOneConnection = FCTGraph
+        .connect(graph, fct.id, fctSlot1.name, pushIn.id, pushInSlot.name)
+
+      const fullyConnectedGraph = FCTGraph.connect(
+        graphWithOneConnection, fct.id, fctSlot2.name, intervalOut.id, intervalOutSlot.name)
+
+      const fctFinal = FCTGraph.getFctById(fullyConnectedGraph, fct.id)
+      const fctSlot1Final = fctFinal.slots[0]
+      const fctSlot2Final = fctFinal.slots[1]
+
+      const pushInFinal = FCTGraph.getFctById(fullyConnectedGraph, pushIn.id)
+      const pushInSlotFinal = pushInFinal.slots[0]
+
+      const intervalOutFinal = FCTGraph.getFctById(fullyConnectedGraph, intervalOut.id)
+      const intervalOutSlotFinal = intervalOutFinal.slots[0]
+
+      return {
+        graph: fullyConnectedGraph,
+        fct: fctFinal,
+        fctSlot1: fctSlot1Final,
+        fctSlot2: fctSlot2Final,
+        pushIn: pushInFinal,
+        pushInSlot: pushInSlotFinal,
+        intervalOut: intervalOutFinal,
+        intervalOutSlot: intervalOutSlotFinal,
+      }
+    }
+
+    describe('getConnectedFctsForFct', () => {
+      it('returns an array of all connected fcts', () => {
+        const { fct, pushIn, intervalOut, graph } = createDefaultSetup()
+
+        const res = FCTGraph.getConnectedFctsForFct(graph, fct.id)
+
+        expect(res).toStrictEqual(expect.arrayContaining([pushIn, intervalOut]))
+      })
+    })
+
+    describe('getConnectedSourcesForFct', () => {
+      it('returns an array of all connected fcts with data streams going TO the fct', () => {
+        const { fct, pushIn, graph } = createDefaultSetup()
+
+        const res = FCTGraph.getConnectedSourcesForFct(graph, fct.id)
+
+        expect(res).toStrictEqual(expect.arrayContaining([pushIn]))
+      })
+    })
+
+    describe('getConnectedSinksForFct', () => {
+      it('returns an array of all connected fcts with data streams going FROM the fct', () => {
+        const { fct, intervalOut, graph } = createDefaultSetup()
+
+        const res = FCTGraph.getConnectedSinksForFct(graph, fct.id)
+
+        expect(res).toStrictEqual(expect.arrayContaining([intervalOut]))
+      })
+    })
+
+    describe('getSinkFct', () => {
+      it('returns the sink fct for an InputNode', () => {
+        const { fct, pushIn, graph } = createDefaultSetup()
+
+        const res = FCTGraph.getSinkFct(graph, pushIn.id)
+
+        expect(res).toStrictEqual(fct)
+      })
+
+      describe('when used with a fct that is not of type InputNode', () => {
+        it('throws an error', () => {
+          const { intervalOut, graph } = createDefaultSetup()
+
+          expect(() => FCTGraph.getSinkFct(graph, intervalOut.id)).toThrow(/is only allowed/)
         })
       })
     })
 
-    describe('when the amount of functionalities is different', () => {
-      it('should return false', () => {
-        const fctGraph2 = FCTGraphSeeder
-          .seedOne({ functionalities: [ heater, sensor, intervalOutFct ] })
-        expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
+    describe('getConnectingSinkSlot', () => {
+      it('returns the sink slot for an InputNode', () => {
+        const { fctSlot1, pushIn, graph } = createDefaultSetup()
 
+        const res = FCTGraph.getConnectingSinkSlot(graph, pushIn.id)
+
+        expect(res).toStrictEqual(fctSlot1)
       })
     })
 
-    describe('when the functionalities are different', () => {
-      it('should return false', () => {
-        const fctGraph2 = FCTGraphSeeder.seedOne({ functionalities: [
-          TemperatureSensorSeeder.generate(),
-          HeaterActuatorSeeder.generate(),
-        ] })
+    describe('getSourceFct', () => {
+      it('returns the source fct for an OutputNode', () => {
+        const { fct, intervalOut, graph } = createDefaultSetup()
 
-        expect(fctGraph2.fctsDeepEquals(fctGraph)).toBe(false)
-        expect(fctGraph.fctsDeepEquals(fctGraph2)).toBe(false)
+        const res = FCTGraph.getSourceFct(graph, intervalOut.id)
+
+        expect(res).toStrictEqual(fct)
+      })
+
+      describe('when used with a fct that is not of type OutputNode', () => {
+        it('throws an error', () => {
+          const { pushIn, graph } = createDefaultSetup()
+
+          expect(() => FCTGraph.getSourceFct(graph, pushIn.id)).toThrow(/is only allowed/)
+        })
+      })
+    })
+
+    describe('getConnectingSourceSlot', () => {
+      it('returns the source slot for an OutputNode', () => {
+        const { fctSlot2, intervalOut, graph } = createDefaultSetup()
+
+        const res = FCTGraph.getConnectingSourceSlot(graph, intervalOut.id)
+
+        expect(res).toStrictEqual(fctSlot2)
+      })
+    })
+
+    describe('getReporterFctIdForSlot', () => {
+      describe('when the functionality is connected', () => {
+        describe('to a OutputNode (aka Reporter)', () => {
+          it('returns the intervalOutFctId', () => {
+            const { fct, fctSlot2, graph, intervalOut } = createDefaultSetup()
+
+            const res = FCTGraph.getReporterFctIdForSlot(graph, fct.id, fctSlot2.name)
+
+            expect(res).toStrictEqual(intervalOut.id)
+          })
+        })
+
+        describe('not to a OutputNode (aka Reporter)', () => {
+          it('returns null', () => {
+            const slot1 = SlotSeeder.generateIntegerOutSlot({ unit: 'rpm' })
+            const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+
+            const slot2 = SlotSeeder.generateIntegerInSlot({ unit: 'rpm' })
+            const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+            const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+            const connected = FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name)
+
+            const res = FCTGraph.getReporterFctIdForSlot(connected, fct1.id, slot1.name)
+
+            expect(res).toBeNull()
+          })
+        })
+      })
+
+      describe('when the functionality is NOT connected', () => {
+        it('returns null', () => {
+          const slot = SlotSeeder.generateIntegerInSlot()
+          const fct = FunctionalitySeeder.generate({ slots: [ slot ] })
+          const graph = FCTGraphSeeder.generate({ functionalities: [ fct ] })
+
+          const res = FCTGraph.getReporterFctIdForSlot(graph, fct.id, slot.name)
+
+          expect(res).toBeNull()
+        })
+      })
+    })
+
+    describe('getInputNodeFctIdForSlot', () => {
+      describe('when the functionality is connected', () => {
+        describe('to an InputNode', () => {
+          it('returns the fctId of the PushIn', () => {
+            const { fct, fctSlot1, graph, pushIn } = createDefaultSetup()
+
+            const res = FCTGraph.getInputNodeFctIdForSlot(graph, fct.id, fctSlot1.name)
+
+            expect(res).toStrictEqual(pushIn.id)
+          })
+        })
+
+        describe('not to an InputNode', () => {
+          it('returns null', () => {
+            const slot1 = SlotSeeder.generateIntegerInSlot({ unit: 'rpm' })
+            const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+
+            const slot2 = SlotSeeder.generateIntegerOutSlot({ unit: 'rpm' })
+            const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+            const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+            const connected = FCTGraph.connect(graph, fct1.id, slot1.name, fct2.id, slot2.name)
+
+            const res = FCTGraph.getInputNodeFctIdForSlot(connected, fct1.id, slot1.name)
+
+            expect(res).toBeNull()
+          })
+        })
+      })
+
+      describe('when the functionality is NOT connected', () => {
+        it('returns null', () => {
+          const slot = SlotSeeder.generateIntegerInSlot()
+          const fct = FunctionalitySeeder.generate({ slots: [ slot ] })
+          const graph = FCTGraphSeeder.generate({ functionalities: [ fct ] })
+
+          const res = FCTGraph.getInputNodeFctIdForSlot(graph, fct.id, slot.name)
+
+          expect(res).toBeNull()
+        })
+      })
+    })
+
+    describe('getConnectedSlotsForSlot', () => {
+      it('returns all slots that are connected to the given slot', () => {
+        const { fct, fctSlot1, graph, pushInSlot } = createDefaultSetup()
+
+        const res = FCTGraph.getConnectedSlotsForSlot(graph, fct.id, fctSlot1.name)
+
+        expect(res).toStrictEqual(expect.arrayContaining([pushInSlot]))
+      })
+    })
+
+    describe('getConnectedFctsForSlot', () => {
+      it('returns all functionalities that are connected to the given slot', () => {
+        const { fct, fctSlot1, graph, pushIn } = createDefaultSetup()
+
+        const res = FCTGraph.getConnectedFctsForSlot(graph, fct.id, fctSlot1.name)
+
+        expect(res).toStrictEqual(expect.arrayContaining([pushIn]))
+      })
+    })
+
+    describe('slotIsConnectedToOutputNode', () => {
+      describe('when the slot is connected to an output node', () => {
+        it('returns true', () => {
+          const { fct, fctSlot2, graph } = createDefaultSetup()
+
+          const res = FCTGraph.slotIsConnectedToOutputNode(graph, fct.id, fctSlot2.name)
+
+          expect(res).toBe(true)
+        })
+      })
+
+      describe('when the slot is NOT connected to an output node', () => {
+        it('returns false', () => {
+          const { fct, fctSlot1, graph } = createDefaultSetup()
+
+          const res = FCTGraph.slotIsConnectedToOutputNode(graph, fct.id, fctSlot1.name)
+
+          expect(res).toBe(false)
+        })
+      })
+    })
+
+    describe('slotIsConnectedToInputNode', () => {
+      describe('when the slot is connected to an input node', () => {
+        it('returns true', () => {
+          const { fct, fctSlot1, graph } = createDefaultSetup()
+
+          const res = FCTGraph.slotIsConnectedToInputNode(graph, fct.id, fctSlot1.name)
+
+          expect(res).toBe(true)
+        })
+      })
+
+      describe('when the slot is NOT connected to an input node', () => {
+        it('returns false', () => {
+          const { fct, fctSlot2, graph } = createDefaultSetup()
+
+          const res = FCTGraph.slotIsConnectedToInputNode(graph, fct.id, fctSlot2.name)
+
+          expect(res).toBe(false)
+        })
       })
     })
   })
 
-  describe('removeFCT', () => {
-    it('should remove the fct including any connections', () => {
-      const inputData = PushInSeeder.generate()
-      const pushOutputData = PushOutSeeder.generateFloatPushOutCelsius()
-      const intervalOutData = IntervalOutSeeder.generate()
-      const tempSensorData = TemperatureSensorSeeder.generateCelsiusFloatProducer()
+  describe('populatePushInNodes', () => {
+    it('puts PushIn nodes into all IN_SLOTS that are not connected yet', () => {
+      /* fct has two in slots, of which one is already occupied,
+       * fct2 has one in slot, that is still free */
+      const fctSlot1 = SlotSeeder.generateIntegerInSlot({ name: 'A' })
+      const fctSlot2 = SlotSeeder.generateIntegerOutSlot({ name: 'B' })
+      const fctSlot3 = SlotSeeder.generateIntegerInSlot({ name: 'C' })
 
-      const fctGraph = FCTGraphSeeder
-        .seedOne(
-          { functionalities: [ inputData, pushOutputData, intervalOutData, tempSensorData ] },
-        )
+      const fct2Slot = SlotSeeder.generateIntegerInSlot()
 
-      const pushOut = fctGraph.getFctById(pushOutputData.id)
-      const tempSensor = fctGraph.getFctById(tempSensorData.id)
+      const pushInSlot = SlotSeeder.generateAnyOutSlot()
+      const intervalOutSlot = SlotSeeder.generateAnyInSlot()
 
-      const tempOutSlot = tempSensor.slots[0]
-      const pushOutSlot = pushOut.slots[0]
+      const fct = FunctionalitySeeder.generate({ slots: [ fctSlot1, fctSlot2, fctSlot3 ] })
+      const fct2 = FunctionalitySeeder.generate({ slots: [ fct2Slot ] })
+      const pushIn = FunctionalitySeeder.generatePushIn({ slots: [ pushInSlot ] })
+      const intervalOut = FunctionalitySeeder.generateIntervalOut({ slots: [ intervalOutSlot ] })
 
-      const { dataStream } = tempOutSlot.connectTo(pushOutSlot)
-      expect(dataStream instanceof DataStream).toBe(true)
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct, fct2, pushIn, intervalOut ] })
+      const graphWithOneConnection = FCTGraph
+        .connect(graph, fct.id, fctSlot1.name, pushIn.id, pushInSlot.name)
 
-      expect(fctGraph.functionalities).toHaveLength(4)
+      const fullyConnectedGraph = FCTGraph.connect(
+        graphWithOneConnection, fct.id, fctSlot2.name, intervalOut.id, intervalOutSlot.name)
 
-      fctGraph.removeFct(pushOut)
+      const res = FCTGraph.populatePushInNodes(fullyConnectedGraph)
 
-      expect(fctGraph.functionalities).toHaveLength(3)
-
-      expect(fctGraph.getFctById(pushOut.id)).toBeUndefined()
-    })
-
-    it('should throw an error if the fct can not be found', () => {
-      const inputFct = PushInSeeder.generate()
-      const pushOutputFct = PushOutSeeder.generate()
-      const intervalOutFct = IntervalOutSeeder.generate()
-      const nonFoundInputFct = PushInSeeder.seedOne()
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
-
-      const { error, errorMsg } = fctGraph.removeFct(nonFoundInputFct)
-
-      expect(error).toBe(true)
-      expect(errorMsg).toBe('Fct can not be found on the graph')
-
-    })
-
-    it('should return the removed fct', () => {
-      const inputFct = PushInSeeder.generate()
-      const pushOutputFct = PushOutSeeder.generate()
-      const intervalOutFct = IntervalOutSeeder.generate()
-      const fctGraph = FCTGraphSeeder
-        .seedOne({ functionalities: [ inputFct, pushOutputFct, intervalOutFct ] })
-      const fctToBeRemoved = fctGraph.getFctById(pushOutputFct.id)
-
-      const { removedFct } = fctGraph.removeFct(fctToBeRemoved)
-
-      expect(removedFct).toBe(fctToBeRemoved)
+      expect(res.functionalities
+        .filter(aFct => !Functionality.isOutputNode(aFct) && !Functionality.isInputNode(aFct))
+        .every(aFct => aFct.slots
+          .filter(slot => slot.type === Slot.TYPES.IN_SLOT)
+          .every(slot => FCTGraph.slotIsConnectedToInputNode(res, aFct.id, slot.name))))
+        .toBe(true)
     })
   })
 
-  describe('getDisconnectedIONodeFcts', () => {
-    it('should return all disconnected IONode fcts', () => {
-      const inputData = PushInSeeder.generate()
-      const pushOutputData = PushOutSeeder.generateFloatPushOutCelsius()
-      const intervalOutData = IntervalOutSeeder.generate()
-      const tempSensorData = TemperatureSensorSeeder.generateCelsiusFloatProducer()
+  describe('populateIntervalOutNodes', () => {
+    it('puts IntervalOut nodes into all OUT_SLOTS that are not connected yet', () => {
+      /* fct has two out slots, of which one is already connected,
+       * fct2 has one out slot, that is still free */
+      const fctSlot1 = SlotSeeder.generateIntegerInSlot({ name: 'A' })
+      const fctSlot2 = SlotSeeder.generateIntegerOutSlot({ name: 'B' })
+      const fctSlot3 = SlotSeeder.generateIntegerOutSlot({ name: 'C' })
 
-      const fctGraph = FCTGraphSeeder
-        .seedOne(
-          { functionalities: [ inputData, pushOutputData, intervalOutData, tempSensorData ] },
-        )
+      const fct2Slot = SlotSeeder.generateIntegerOutSlot()
 
-      const pushOut = fctGraph.getFctById(pushOutputData.id)
-      const tempSensor = fctGraph.getFctById(tempSensorData.id)
+      const pushInSlot = SlotSeeder.generateAnyOutSlot()
+      const intervalOutSlot = SlotSeeder.generateAnyInSlot()
 
-      const tempOutSlot = tempSensor.slots[0]
-      const pushOutSlot = pushOut.slots[0]
+      const fct = FunctionalitySeeder.generate({ slots: [ fctSlot1, fctSlot2, fctSlot3 ] })
+      const fct2 = FunctionalitySeeder.generate({ slots: [ fct2Slot ] })
+      const pushIn = FunctionalitySeeder.generatePushIn({ slots: [ pushInSlot ] })
+      const intervalOut = FunctionalitySeeder.generateIntervalOut({ slots: [ intervalOutSlot ] })
 
-      tempOutSlot.connectTo(pushOutSlot)
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct, fct2, pushIn, intervalOut ] })
+      const graphWithOneConnection = FCTGraph
+        .connect(graph, fct.id, fctSlot1.name, pushIn.id, pushInSlot.name)
 
-      expect(fctGraph.getDisconnectedIONodeFcts()).toHaveLength(2)
+      const fullyConnectedGraph = FCTGraph.connect(
+        graphWithOneConnection, fct.id, fctSlot2.name, intervalOut.id, intervalOutSlot.name)
+
+      const res = FCTGraph.populateIntervalOutNodes(fullyConnectedGraph)
+
+      expect(res.functionalities
+        .filter(aFct => !Functionality.isOutputNode(aFct) && !Functionality.isInputNode(aFct))
+        .every(aFct => aFct.slots
+          .filter(slot => slot.type === Slot.TYPES.OUT_SLOT)
+          .every(slot => FCTGraph.slotIsConnectedToOutputNode(res, aFct.id, slot.name))))
+        .toBe(true)
+    })
+  })
+
+  describe('fctsDeepEquals', () => {
+    describe('when the graphs have the same fcts', () => {
+      it('returns true', () => {
+        const slot1 = SlotSeeder.generateIntegerInSlot({ name: 'A' })
+        const slot2 = SlotSeeder.generateIntegerOutSlot({ name: 'B' })
+        const slot3 = SlotSeeder.generateIntegerOutSlot()
+        const slot4 = SlotSeeder.generateIntegerInSlot()
+
+        const fct1 = FunctionalitySeeder.generate({ slots: [ slot1, slot2 ] })
+        const fct2 = FunctionalitySeeder.generate({ slots: [ slot3 ] })
+        const fct3 = FunctionalitySeeder.generate({ slots: [ slot4 ] })
+
+        const g1 = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2, fct3 ] })
+        const g2 = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2, fct3 ] })
+
+        const res = FCTGraph.fctsDeepEquals(g1, g2)
+
+        expect(res).toBe(true)
+      })
+    })
+
+    describe('when the graphs do NOT have the same fcts', () => {
+      it('returns false', () => {
+        const slot1 = SlotSeeder.generateIntegerInSlot({ name: 'A' })
+        const slot2 = SlotSeeder.generateIntegerOutSlot({ name: 'B' })
+        const slot3 = SlotSeeder.generateIntegerOutSlot()
+        const slot4 = SlotSeeder.generateIntegerInSlot()
+
+        const fct1 = FunctionalitySeeder.generate({ slots: [ slot1, slot2 ] })
+        const fct2 = FunctionalitySeeder.generate({ slots: [ slot3 ] })
+        const fct3 = FunctionalitySeeder.generate({ slots: [ slot4 ] })
+
+        const g1 = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2, fct3 ] })
+        const g2 = FCTGraphSeeder.generate({ functionalities: [ fct2, fct3 ] })
+
+        const res = FCTGraph.fctsDeepEquals(g1, g2)
+
+        expect(res).toBe(false)
+      })
     })
   })
 })
