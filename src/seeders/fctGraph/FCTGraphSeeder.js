@@ -1,7 +1,7 @@
 const FCTGraph = require('../../fctGraph/FCTGraph')
 const RandomDataGenerator = require('../../utils/RandomDataGenerator')
 
-const generate = (data) => (
+const generate = (data = {}) => (
   FCTGraph.create({
     id: RandomDataGenerator.uuid(),
     deviceId: RandomDataGenerator.uuid(),

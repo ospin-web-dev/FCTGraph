@@ -15,69 +15,65 @@ const SCHEMA = Joi.object({
   templateId: Joi.string().pattern(RegexUtils.UUIDV4).default(null).allow(null),
 })
 
-const create = data => {
-  return Joi.attempt(data, SCHEMA)
-}
+const create = data => Joi.attempt(data, SCHEMA)
 
-const update = (fctGraph, data) => {
-  return { ...fctGraph, ...data }
-}
+const update = (fctGraph, data) => ({ ...fctGraph, ...data })
 
-const addFunctionality = (fctGraph, fct) => {
-  return update(fctGraph, {
+const addFunctionality = (fctGraph, fct) => (
+  update(fctGraph, {
     functionalities: [
       ...fctGraph.functionalities,
       fct,
     ],
   })
-}
+)
 
-const getFctByQuery = (fctGraph, query) => {
-  return fctGraph.functionalities.find(fct => (
+const getFctByQuery = (fctGraph, query) => (
+  fctGraph.functionalities.find(fct => (
     Object.keys(query).every(key => query[key] === fct[key])
   ))
-}
+)
 
-const getFctById = (fctGraph, fctId) => {
-  return getFctByQuery(fctGraph, { id: fctId })
-}
+const getFctById = (fctGraph, fctId) => (
+  getFctByQuery(fctGraph, { id: fctId })
+)
 
-const getFctsWithoutIONodes = fctGraph => {
-  return fctGraph.functionalities.filter(fct => (
+const getFctsWithoutIONodes = fctGraph => (
+  fctGraph.functionalities.filter(fct => (
     fct.type !== Functionality.FIXED_TYPES.INPUT_NODE
       && fct.type !== Functionality.FIXED_TYPES.OUTPUT_NODE
   ))
-}
+)
 
-const getFctsByQuery = (fctGraph, query) => {
-  return fctGraph.functionalities.filter(fct => (
+const getFctsByQuery = (fctGraph, query) => (
+  fctGraph.functionalities.filter(fct => (
     Object.keys(query).every(key => query[key] === fct[key])
   ))
-}
+)
 
-const getFctsByType = (fctGraph, targetType) => {
-  return getFctsByQuery(fctGraph, { type: targetType })
-}
+const getFctsByType = (fctGraph, targetType) => (
+  getFctsByQuery(fctGraph, { type: targetType })
+)
 
-const getFctsBySubType = (fctGraph, targetSubType) => {
-  return getFctsByQuery(fctGraph, { subType: targetSubType })
-}
+const getFctsBySubType = (fctGraph, targetSubType) => (
+  getFctsByQuery(fctGraph, { subType: targetSubType })
+)
 
-const getPushInFcts = fctGraph => {
-  return getFctsBySubType(fctGraph, Functionality.FIXED_SUB_TYPES.PUSH_IN)
-}
+const getPushInFcts = fctGraph => (
+  getFctsBySubType(fctGraph, Functionality.FIXED_SUB_TYPES.PUSH_IN)
+)
 
-const getIntervalOutFcts = fctGraph => {
-  return getFctsBySubType(fctGraph, Functionality.FIXED_SUB_TYPES.INTERVAL_OUT)
-}
+const getIntervalOutFcts = fctGraph => (
+  getFctsBySubType(fctGraph, Functionality.FIXED_SUB_TYPES.INTERVAL_OUT)
+)
 
-const getAllDataStreams = fctGraph => {
-  return Array.from(
+const getAllDataStreams = fctGraph => (
+  Array.from(
     fctGraph.functionalities.reduce((graphDataStreams, fct) => (
       [ ...graphDataStreams, ...Functionality.getAllDataStreams(fct) ]
     ), []),
   )
-}
+)
 
 const getConnectedFctsForFct = (fctGraph, fctId) => {
   const fct = getFctById(fctGraph, fctId)
