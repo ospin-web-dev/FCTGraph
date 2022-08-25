@@ -1,6 +1,6 @@
 {
   "name": "@ospin/fct-graph",
-  "author": "danielseehausen",
+  "author": "OSPIN webapp team",
   "version": "2.4.6",
   "description": "Graph data structure with conditional edges via 'slots' on nodes. Intended to represent physical and virtual functionalities on a device.",
   "main": "index.js",
@@ -33,8 +33,6 @@
     "src/"
   ],
   "dependencies": {
-    "@choux/array-utils": "^0.0.3",
-    "@choux/compose": "^1.0.4",
     "deep-clone": "^3.0.3",
     "deep-diff": "^1.0.2",
     "joi": "^17.6.0",

@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const deepClone = require('deep-clone')
-const ArrayUtils = require('@choux/array-utils')
+const ArrayUtils = require('../utils/ArrayUtils')
 const Functionality = require('../functionalities/Functionality')
 const Slot = require('../slots/Slot')
 const RegexUtils = require('../utils/RegexUtils')
