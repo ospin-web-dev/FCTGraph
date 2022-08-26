@@ -107,6 +107,7 @@ const getSinkFct = (fctGraph, fctId) => {
 const getConnectingSinkSlot = (fctGraph, fctId) => {
   const fct = getFctById(fctGraph, fctId)
   const sink = getSinkFct(fctGraph, fctId)
+  if (!sink) return
   return Functionality
     .getSlotByName(sink, Functionality.getAllDataStreams(fct)[0].sinkSlotName)
 }
@@ -122,6 +123,7 @@ const getSourceFct = (fctGraph, fctId) => {
 const getConnectingSourceSlot = (fctGraph, fctId) => {
   const fct = getFctById(fctGraph, fctId)
   const source = getSourceFct(fctGraph, fctId)
+  if (!source) return
   return Functionality
     .getSlotByName(source, Functionality.getAllDataStreams(fct)[0].sourceSlotName)
 }

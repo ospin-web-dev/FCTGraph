@@ -380,6 +380,15 @@ describe('FCTGraph', () => {
 
         expect(res).toStrictEqual(fctSlot1)
       })
+
+      it('returns undefined when there is no sink fct for a given PushIn', () => {
+        const pushIn = FunctionalitySeeder.generatePushIn()
+        const graph = FCTGraphSeeder.generate({ functionalities: [ pushIn ] })
+
+        const res = FCTGraph.getConnectingSinkSlot(graph, pushIn.id)
+
+        expect(res).toBeUndefined()
+      })
     })
 
     describe('getSourceFct', () => {
@@ -407,6 +416,15 @@ describe('FCTGraph', () => {
         const res = FCTGraph.getConnectingSourceSlot(graph, intervalOut.id)
 
         expect(res).toStrictEqual(fctSlot2)
+      })
+
+      it('returns undefined when there is no source fct for a given IntervalOut', () => {
+        const intervalOut = FunctionalitySeeder.generateIntervalOut()
+        const graph = FCTGraphSeeder.generate({ functionalities: [ intervalOut ] })
+
+        const res = FCTGraph.getConnectingSourceSlot(graph, intervalOut.id)
+
+        expect(res).toBeUndefined()
       })
     })
 
