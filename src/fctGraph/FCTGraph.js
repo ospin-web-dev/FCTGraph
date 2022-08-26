@@ -75,6 +75,18 @@ const getAllDataStreams = fctGraph => (
   )
 )
 
+const getAllUniqueDataStreams = fctGraph => {
+  /* because datastreams are duplciated on the connected slots */
+  const allDs = getAllDataStreams(fctGraph)
+
+  return allDs.reduce((uniqueDs, currDs) => {
+    if (uniqueDs.some(ds => ds.id === currDs.id)) {
+      return uniqueDs
+    }
+    return [ ...uniqueDs, currDs ]
+  }, [])
+}
+
 const getConnectedFctsForFct = (fctGraph, fctId) => {
   const fct = getFctById(fctGraph, fctId)
   const otherFctsIds = Functionality.getConnectedFctIds(fct)
@@ -312,6 +324,7 @@ module.exports = {
   getPushInFcts,
   getIntervalOutFcts,
   getAllDataStreams,
+  getAllUniqueDataStreams,
   getConnectedFctsForFct,
   getConnectedSourcesForFct,
   getConnectedSinksForFct,

@@ -129,6 +129,25 @@ describe('FCTGraph', () => {
     })
   })
 
+  describe('getAllUniqueDataStreams', () => {
+    it('returns all all unqiue datastreams of graph', () => {
+      const ds1 = DataStreamSeeder.generate()
+
+      const slot1 = SlotSeeder.generateIntegerInSlot({ dataStreams: [ ds1 ] })
+      const slot2 = SlotSeeder.generateIntegerOutSlot({ dataStreams: [ ds1 ] })
+
+      const fct1 = FunctionalitySeeder.generate({ slots: [ slot1 ] })
+      const fct2 = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+      const res = FCTGraph.getAllUniqueDataStreams(graph)
+
+      expect(res).toHaveLength(1)
+      expect(res).toStrictEqual(expect.arrayContaining([ds1]))
+    })
+  })
+
   describe('when connecting functionalities', () => {
 
     const createDefaultSetup = (slotData1 = {}, slotData2 = {}) => {
