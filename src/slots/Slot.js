@@ -20,6 +20,16 @@ const ANY_UNIT_STRING = 'any'
 const UNITLESS_UNIT = '-'
 const CONTROLLER_PARAMETER_DISPLAY_TYPE = 'controller parameter'
 
+const OFFSET_SLOPE_CALIBRATON_TYPE = 'OFFSET_SLOPE'
+
+const CALIBRATIONS_SCHEMA = Joi.array().items(Joi.object({
+  type: Joi.string().allow(OFFSET_SLOPE_CALIBRATON_TYPE).required(),
+  params: Joi.object({
+    offset: Joi.string().allow('float').required(),
+    slope: Joi.string().allow('float').required(),
+  }),
+}))
+
 const SCHEMA = Joi.object({
   name: Joi.string().required(),
   type: Joi.string().valid(...Object.values(TYPES)).required(),
@@ -118,6 +128,20 @@ const SCHEMA = Joi.object({
             is: Joi.number().strict(),
             then: Joi.number().min(Joi.ref('min')),
           }),
+          otherwise: Joi.forbidden(),
+        },
+      ],
+    }),
+    otherwise: Joi.forbidden(),
+  }),
+
+  calibrations: Joi.when('type', {
+    is: TYPES.OUT_SLOT,
+    then: Joi.when('dataType', {
+      switch: [
+        {
+          is: Joi.alternatives().try(DATA_TYPES.INTEGER, DATA_TYPES.FLOAT),
+          then: CALIBRATIONS_SCHEMA,
           otherwise: Joi.forbidden(),
         },
       ],
