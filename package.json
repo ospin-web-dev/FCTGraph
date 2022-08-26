@@ -1,6 +1,6 @@
 {
   "name": "@ospin/fct-graph",
-  "author": "danielseehausen",
+  "author": "OSPIN webapp team",
   "version": "2.4.6",
   "description": "Graph data structure with conditional edges via 'slots' on nodes. Intended to represent physical and virtual functionalities on a device.",
   "main": "index.js",
@@ -33,14 +33,12 @@
     "src/"
   ],
   "dependencies": {
-    "@choux/array-utils": "^0.0.3",
-    "@choux/compose": "^1.0.4",
+    "deep-clone": "^3.0.3",
     "deep-diff": "^1.0.2",
     "joi": "^17.6.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "faker": "^5.5.3",
     "@semantic-release/changelog": "^6.0.1",
     "@semantic-release/git": "^10.0.1",
     "eslint": "^8.14.0",
@@ -49,6 +47,7 @@
     "eslint-plugin-jest": "^26.1.5",
     "eslint-plugin-jest-formatting": "^3.1.0",
     "eslint-plugin-jsdoc": "^39.2.9",
+    "faker": "^5.5.3",
     "jest": "^28.0.3",
     "semantic-release": "^19.0.2"
   },
@@ -61,9 +60,6 @@
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/seeders/**"
-    ],
-    "moduleNameMapper": {
-      "\\.(jpg|ico|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/mocks/assetMock.js"
-    }
+    ]
   }
 }

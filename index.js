@@ -1,21 +1,19 @@
 const FCTGraph = require('./src/fctGraph/FCTGraph')
-const FCTGraphUtils = require('./src/fctGraph/Utils')
 const DataStream = require('./src/dataStreams/DataStream')
-const functionalities = require('./src/functionalities')
-const slots = require('./src/slots')
-const {
-  FCTGraphSeeder,
-  functionalitySeeders,
-  slotSeeders,
-} = require('./src/seeders')
+const Functionality = require('./src/functionalities/Functionality')
+const Slot = require('./src/slots/Slot')
+const FCTGraphSeeder = require('./src/seeders/fctGraph/FCTGraphSeeder')
+const FunctionalitySeeder = require('./src/seeders/functionalities/FunctionalitySeeder')
+const SlotSeeder = require('./src/seeders/slots/SlotSeeder')
+const DataStreamSeeder = require('./src/seeders/dataStreams/DataStreamSeeder')
 
 module.exports = {
   FCTGraph,
-  FCTGraphUtils,
-  functionalities,
-  slots,
-  FCTGraphSeeder,
-  functionalitySeeders,
-  slotSeeders,
+  Functionality,
+  Slot,
   DataStream,
+  FCTGraphSeeder,
+  FunctionalitySeeder,
+  SlotSeeder,
+  DataStreamSeeder,
 }
