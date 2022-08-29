@@ -30,7 +30,7 @@ const SCHEMA = Joi.object({
     .unique('name')
     .default([]),
   isVirtual: Joi.boolean().default(false),
-  firmwareBlackBox: Joi.object().default({}),
+  firmwareBlackBox: Joi.object(),
   outputIntervalMs: Joi.number()
     .integer()
     .strict()

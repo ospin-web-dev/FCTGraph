@@ -21,7 +21,6 @@ describe('Functionality', () => {
       expect(res).toStrictEqual(expect.objectContaining({
         slots: [],
         isVirtual: false,
-        firmwareBlackBox: {},
       }))
     })
 
