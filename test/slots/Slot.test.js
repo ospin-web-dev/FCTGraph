@@ -203,14 +203,13 @@ describe('Slot', () => {
       })
 
       describe.each([
-        { prop: 'min', value: 0 },
-        { prop: 'max', value: 100 },
+        //{ prop: 'min', value: 0 }, // removal has to be coordinated with firmware
+        //{ prop: 'max', value: 100 },
         { prop: 'tareable', value: true },
         { prop: 'selectOptions', value: ['test'] },
       ])('when $prop is provided', ({ prop, value }) => {
         it('throws an error', () => {
           const data = generateDefaultData({ [prop]: value })
-
           expect(() => Slot.create(data)).toThrow(`${prop}`)
         })
       })
