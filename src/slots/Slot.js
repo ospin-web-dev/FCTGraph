@@ -44,6 +44,18 @@ const SCHEMA = Joi.object({
             }),
         },
         {
+          is: DATA_TYPES.ANY,
+          then: Joi
+            .when('min', {
+              is: Joi.number().strict(),
+              then: Joi.number().strict().integer().min(Joi.ref('min')),
+            })
+            .when('max', {
+              is: Joi.number().strict(),
+              then: Joi.number().strict().integer().max(Joi.ref('max')),
+            }),
+        },
+        {
           is: DATA_TYPES.FLOAT,
           then: Joi
             .when('min', {
@@ -92,6 +104,10 @@ const SCHEMA = Joi.object({
           then: Joi.number().integer().strict().allow(null),
         },
         {
+          is: DATA_TYPES.ANY,
+          then: Joi.number().integer().strict().allow(null),
+        },
+        {
           is: DATA_TYPES.FLOAT,
           then: Joi.number().strict().allow(null),
           otherwise: Joi.forbidden(),
@@ -107,6 +123,13 @@ const SCHEMA = Joi.object({
       switch: [
         {
           is: DATA_TYPES.INTEGER,
+          then: Joi.when('min', {
+            is: Joi.number().strict(),
+            then: Joi.number().integer().min(Joi.ref('min')),
+          }),
+        },
+        {
+          is: DATA_TYPES.ANY,
           then: Joi.when('min', {
             is: Joi.number().strict(),
             then: Joi.number().integer().min(Joi.ref('min')),
