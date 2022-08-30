@@ -667,6 +667,10 @@ describe('FCTGraph', () => {
           .filter(slot => slot.type === Slot.TYPES.OUT_SLOT)
           .every(slot => FCTGraph.slotIsConnectedToOutputNode(res, aFct.id, slot.name))))
         .toBe(true)
+
+      expect(res.functionalities
+        .filter(aFct => Functionality.isOutputNode(aFct))
+          .every(aFct => aFct.publishIntervalMs === 1000)).toBe(true)
     })
   })
 
