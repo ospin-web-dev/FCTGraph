@@ -44,7 +44,8 @@ const SCHEMA = Joi.object({
         .integer()
         .strict()
         .min(1)
-        .max(1000 * 60 * 60 * 24),
+        .max(1000 * 60 * 60 * 24)
+        .default(1000),
       otherwise: Joi.forbidden(),
     },
   ),
