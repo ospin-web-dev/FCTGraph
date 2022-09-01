@@ -21,6 +21,15 @@ describe('Functionality', () => {
       expect(res).toStrictEqual(expect.objectContaining({
         slots: [],
         isVirtual: false,
+        ports: [],
+      }))
+    })
+
+    it('does not set the ports for a virtual functionality', () => {
+      const res = Functionality.create({ ...generateMinimalDataSet(), isVirtual: true })
+
+      expect(res).toStrictEqual(expect.not.objectContaining({
+        ports: [],
       }))
     })
 

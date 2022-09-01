@@ -35,7 +35,14 @@ const SCHEMA = Joi.object({
     .integer()
     .strict()
     .min(0),
-  ports: Joi.array().items(PORT_SCHEMA),
+  ports: Joi.when(
+    'isVirtual',
+    {
+      is: false,
+      then: Joi.array().items(PORT_SCHEMA).default([]),
+      otherwise: Joi.forbidden(),
+    },
+  ),
   publishIntervalMs: Joi.when(
     'subType',
     {
