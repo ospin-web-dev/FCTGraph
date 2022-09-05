@@ -6,7 +6,7 @@ const Slot = require('../slots/Slot')
 const RegexUtils = require('../utils/RegexUtils')
 
 const SCHEMA = Joi.object({
-  id: Joi.string().pattern(RegexUtils.UUIDV4),
+  id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
   deviceId: Joi.string().pattern(RegexUtils.UUIDV4).required(),
   deviceDefault: Joi.boolean().strict().default(false),
   name: Joi.string().min(1).max(255).required(),
