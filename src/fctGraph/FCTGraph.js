@@ -200,6 +200,11 @@ const slotIsConnectedToInputNode = (fctGraph, fctId, slotName) => {
   return fcts.some(fct => fct.type === Functionality.FIXED_TYPES.INPUT_NODE)
 }
 
+const requirePublishIntervalMsAdjustment = (fctA, fctB) => (
+  fctA.subType === Functionality.FIXED_SUB_TYPES.INTERVAL_OUT
+    && ('outputIntervalMs' in fctB)
+)
+
 const connect = (
   fctGraph,
   thisFctId,
@@ -218,10 +223,22 @@ const connect = (
     .createDataStreamTo(thisFct, thisSlot, otherFct, otherSlot, dataStreamData)
   const { updatedThisSlot, updatedOtherSlot } = Slot.connectTo(thisSlot, otherSlot, dataStream)
 
-  const updatedThisFct = Functionality
+  let updatedThisFct = Functionality
     .updateSlotByName(thisFct, thisSlot.name, updatedThisSlot)
-  const updatedOtherFct = Functionality
+  let updatedOtherFct = Functionality
     .updateSlotByName(otherFct, otherSlot.name, updatedOtherSlot)
+
+  if (requirePublishIntervalMsAdjustment(updatedThisFct, updatedOtherFct)) {
+    const { outputIntervalMs } = updatedOtherFct
+    updatedThisFct = Functionality
+      .update(updatedThisFct, { publishIntervalMs: outputIntervalMs })
+  }
+
+  if (requirePublishIntervalMsAdjustment(updatedOtherFct, updatedThisFct)) {
+    const { outputIntervalMs } = updatedThisFct
+    updatedOtherFct = Functionality
+      .update(updatedOtherFct, { publishIntervalMs: outputIntervalMs })
+  }
 
   return update(fctGraph, {
     functionalities: fctGraph.functionalities.map(fct => {
