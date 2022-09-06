@@ -300,6 +300,56 @@ describe('FCTGraph', () => {
         })
       })
     })
+
+    describe('when connecting an intervalOut functionality', () => {
+      describe('when the other functionality has a "outputIntervalMs" set', () => {
+        it('sets the publishIntervalMs to mirror the outputIntervalMs', () => {
+          const intervalOut = FunctionalitySeeder.generateIntervalOut()
+          const slot = SlotSeeder.generateFloatOutSlot()
+          const outputIntervalMs = faker.datatype.number()
+          const fct = FunctionalitySeeder.generate({
+            slots: [ slot ],
+            outputIntervalMs,
+          })
+
+          const graph = FCTGraphSeeder.generate({ functionalities: [ intervalOut, fct ] })
+
+          const connectedOneWay = FCTGraph
+            .connect(graph, intervalOut.id, intervalOut.slots[0].name, fct.id, slot.name)
+
+          expect(FCTGraph.getIntervalOutFcts(connectedOneWay)[0].publishIntervalMs)
+            .toBe(outputIntervalMs)
+
+          const connectedTheOtherWay = FCTGraph
+            .connect(graph, fct.id, slot.name, intervalOut.id, intervalOut.slots[0].name)
+
+          expect(FCTGraph.getIntervalOutFcts(connectedTheOtherWay)[0].publishIntervalMs)
+            .toBe(outputIntervalMs)
+        })
+      })
+
+      describe('when the other functionality has NO "outputIntervalMs" set', () => {
+        it('sets the publishIntervalMs to default', () => {
+          const intervalOut = FunctionalitySeeder.generateIntervalOut()
+          const slot = SlotSeeder.generateFloatOutSlot()
+          const fct = FunctionalitySeeder.generate({ slots: [ slot ] })
+
+          const graph = FCTGraphSeeder.generate({ functionalities: [ intervalOut, fct ] })
+
+          const connectedOneWay = FCTGraph
+            .connect(graph, intervalOut.id, intervalOut.slots[0].name, fct.id, slot.name)
+
+          expect(FCTGraph.getIntervalOutFcts(connectedOneWay)[0].publishIntervalMs)
+            .toBe(1000)
+
+          const connectedTheOtherWay = FCTGraph
+            .connect(graph, fct.id, slot.name, intervalOut.id, intervalOut.slots[0].name)
+
+          expect(FCTGraph.getIntervalOutFcts(connectedTheOtherWay)[0].publishIntervalMs)
+            .toBe(1000)
+        })
+      })
+    })
   })
 
   describe('when querying connected functionalities', () => {
