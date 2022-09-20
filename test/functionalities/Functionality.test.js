@@ -410,4 +410,28 @@ describe('Functionality', () => {
       expect(Functionality.INPUT_NODE_SLOT_NAME).toBe('output')
     })
   })
+
+  describe('getPortId', () => {
+    describe('when the port has no "unitId" set', () => {
+      it('returns just the name', () => {
+        const port = { name: 'Serial 1', purpose: 'communication' }
+        const fct = FunctionalitySeeder.generate({ ports: [ port ], isVirtual: false })
+
+        const res = Functionality.getPortId(fct)
+
+        expect(res).toBe(port.name)
+      })
+    })
+
+    describe('when the port has a "unitId" set', () => {
+      it('returns the name and unitId concatenated', () => {
+        const port = { name: 'Serial 1', purpose: 'communication', unitId: '1' }
+        const fct = FunctionalitySeeder.generate({ ports: [ port ], isVirtual: false })
+
+        const res = Functionality.getPortId(fct)
+
+        expect(res).toBe(`${port.name}-${port.unitId}`)
+      })
+    })
+  })
 })

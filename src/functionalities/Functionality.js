@@ -18,6 +18,7 @@ const FIXED_SUB_TYPES = {
 const PORT_SCHEMA = Joi.object({
   name: Joi.string().required(),
   purpose: Joi.string().required(),
+  unitId: Joi.string(), // some devices share a port, so they have to be internally distinguished
 })
 
 const SCHEMA = Joi.object({
@@ -88,6 +89,13 @@ const getInSlots = fct => fct.slots.filter(({ type }) => type === Slot.TYPES.IN_
 const getOutSlots = fct => fct.slots.filter(({ type }) => type === Slot.TYPES.OUT_SLOT)
 
 const getSlotByName = (fct, slotName) => fct.slots.find(({ name }) => name === slotName)
+
+const getPortId = fct => {
+  const [ port ] = fct.ports
+  const { name, unitId } = port
+  if (unitId) return `${name}-${unitId}`
+  return name
+}
 
 const getAllDataStreams = fct => (
   Array.from(
@@ -193,6 +201,7 @@ module.exports = {
   getConnectedFctIds,
   getConnectedSourceFctIds,
   getConnectedSinkFctIds,
+  getPortId,
   isConnectedToFct,
   connectsToFctSlot,
   isConnected,
