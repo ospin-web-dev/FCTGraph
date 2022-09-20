@@ -18,7 +18,8 @@ const FIXED_SUB_TYPES = {
 const PORT_SCHEMA = Joi.object({
   name: Joi.string().required(),
   purpose: Joi.string().required(),
-  unitId: Joi.string(), // some devices share a port, so they have to be internally distinguished
+  // some devices share a port, so they have to be internally distinguished within the port
+  unitId: Joi.string(),
 })
 
 const SCHEMA = Joi.object({
