@@ -2,8 +2,8 @@ const Joi = require('joi')
 const { v4: uuidv4 } = require('uuid')
 
 const RegexUtils = require('../utils/RegexUtils')
-const ObjUtils = require('../utils/ObjUtils')
 const Slot = require('../slots/Slot')
+const ObjUtils = require('../utils/ObjUtils')
 
 const FIXED_TYPES = {
   INPUT_NODE: 'InputNode',
