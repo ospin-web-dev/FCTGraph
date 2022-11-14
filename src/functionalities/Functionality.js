@@ -83,6 +83,8 @@ const isOutputNode = fct => fct.type === FIXED_TYPES.OUTPUT_NODE
 
 const isPhysical = fct => !fct.isVirtual
 
+const isVirtual = fct => fct.isVirtual
+
 const getSlotNames = fct => fct.slots.map(({ name }) => name)
 
 const getInSlots = fct => fct.slots.filter(({ type }) => type === Slot.TYPES.IN_SLOT)
@@ -193,6 +195,7 @@ module.exports = {
   isInputNode,
   isOutputNode,
   isPhysical,
+  isVirtual,
   getSlotNames,
   getInSlots,
   getOutSlots,
