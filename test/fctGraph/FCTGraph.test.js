@@ -97,6 +97,28 @@ describe('FCTGraph', () => {
       })
     })
 
+    describe('getPhysicalFcts', () => {
+      it('returns all IntervalOut fcts', () => {
+        const { graph, sensor, actuator } = createDefaultSetup()
+
+        const res = FCTGraph.getPhysicalFcts(graph)
+
+        expect(res).toHaveLength(2)
+        expect(res).toStrictEqual(expect.arrayContaining([sensor, actuator]))
+      })
+    })
+
+    describe('getVirtualFcts', () => {
+      it('returns all IntervalOut fcts', () => {
+        const { graph, intervalOut, pushIn } = createDefaultSetup()
+
+        const res = FCTGraph.getVirtualFcts(graph)
+
+        expect(res).toHaveLength(2)
+        expect(res).toStrictEqual(expect.arrayContaining([intervalOut, pushIn]))
+      })
+    })
+
     describe('getFctsByType', () => {
       it('returns all fcts matching the type', () => {
         const { graph, sensor } = createDefaultSetup()

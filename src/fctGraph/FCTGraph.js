@@ -67,6 +67,14 @@ const getIntervalOutFcts = fctGraph => (
   getFctsBySubType(fctGraph, Functionality.FIXED_SUB_TYPES.INTERVAL_OUT)
 )
 
+const getPhysicalFcts = fctGraph => (
+  getFctsByQuery(fctGraph, { isVirtual: false })
+)
+
+const getVirtualFcts = fctGraph => (
+  getFctsByQuery(fctGraph, { isVirtual: true })
+)
+
 const getAllDataStreams = fctGraph => (
   Array.from(
     fctGraph.functionalities.reduce((graphDataStreams, fct) => (
@@ -340,6 +348,8 @@ module.exports = {
   getFctsBySubType,
   getPushInFcts,
   getIntervalOutFcts,
+  getPhysicalFcts,
+  getVirtualFcts,
   getAllDataStreams,
   getAllUniqueDataStreams,
   getConnectedFctsForFct,

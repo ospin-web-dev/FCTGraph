@@ -183,6 +183,28 @@ describe('Functionality', () => {
     })
   })
 
+  describe('isVirtual', () => {
+    describe('when fct is NOT virtual', () => {
+      it('should return false', () => {
+        const fct = FunctionalitySeeder.generate({ isVirtual: false })
+
+        const res = Functionality.isVirtual(fct)
+
+        expect(res).toBe(false)
+      })
+    })
+
+    describe('when fct is virtual', () => {
+      it('should return true', () => {
+        const fct = FunctionalitySeeder.generate({ isVirtual: true })
+
+        const res = Functionality.isVirtual(fct)
+
+        expect(res).toBe(true)
+      })
+    })
+  })
+
   describe('getSlotNames', () => {
     it('should return all slot names of functionality', () => {
       const slotA = SlotSeeder.generateIntegerInSlot({ name: 'slotA' })
