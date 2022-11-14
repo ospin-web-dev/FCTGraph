@@ -3,6 +3,7 @@ const deepClone = require('deep-clone')
 const ArrayUtils = require('../utils/ArrayUtils')
 const Functionality = require('../functionalities/Functionality')
 const Slot = require('../slots/Slot')
+const DataStream = require('../dataStreams/DataStream')
 const RegexUtils = require('../utils/RegexUtils')
 
 const SCHEMA = Joi.object({
@@ -335,6 +336,33 @@ const fctsDeepEquals = (fctGraphA, fctGraphB) => {
     .some((fct, index) => !Functionality.isDeepEqual(fct, sortedFctGraphs[1][index]))
 }
 
+const removeFunctionality = (fctGraph, fctId) => {
+  const graphWithoutFct = update(fctGraph, {
+    functionalities: fctGraph.functionalities.filter(fct => fct.id !== fctId),
+  })
+
+  /* removing all connections to that fct */
+  return update(graphWithoutFct, {
+    functionalities: graphWithoutFct.functionalities.map(fct => ({
+      ...fct,
+      slots: fct.slots.map(slot => ({
+        ...slot,
+        dataStreams: slot.dataStreams.filter(ds => !DataStream.connectsFct(ds, fctId)),
+      })),
+    })),
+  })
+}
+
+const removeIntervalOutNode = (fctGraph, fctId, slotName) => {
+  const intervalOutFctId = getReporterFctIdForSlot(fctGraph, fctId, slotName)
+  return removeFunctionality(fctGraph, intervalOutFctId)
+}
+
+const removePushInNode = (fctGraph, fctId, slotName) => {
+  const pushInFctId = getInputNodeFctIdForSlot(fctGraph, fctId, slotName)
+  return removeFunctionality(fctGraph, pushInFctId)
+}
+
 module.exports = {
   SCHEMA,
   create,
@@ -369,4 +397,7 @@ module.exports = {
   populatePushInNodes,
   populateIntervalOutNodes,
   fctsDeepEquals,
+  removeFunctionality,
+  removeIntervalOutNode,
+  removePushInNode,
 }

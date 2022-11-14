@@ -24,8 +24,13 @@ const connectsToFctSlot = (dataStream, fctId, slotName) => (
     || (dataStream.sinkFctId === fctId && dataStream.sinkSlotName === slotName)
 )
 
+const connectsFct = (dataStream, fctId) => (
+  dataStream.sourceFctId === fctId || dataStream.sinkFctId === fctId
+)
+
 module.exports = {
   SCHEMA,
   create,
+  connectsFct,
   connectsToFctSlot,
 }

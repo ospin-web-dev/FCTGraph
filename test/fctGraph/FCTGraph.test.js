@@ -787,4 +787,122 @@ describe('FCTGraph', () => {
       })
     })
   })
+
+  describe('removeFunctionality', () => {
+    it('removes the fct and all connections to it from other fcts', () => {
+      const slot1 = SlotSeeder.generateIntegerInSlot({ name: 'A', unit: '-' })
+      const slot2 = SlotSeeder.generateIntegerInSlot({ name: 'B', unit: '-' })
+      const slot3 = SlotSeeder.generateIntegerOutSlot({ name: 'C', unit: '-' })
+      const fctToBeDeleted = FunctionalitySeeder.generate({ slots: [ slot1, slot2, slot3 ] })
+
+      const slot4 = SlotSeeder.generateIntegerOutSlot({ name: 'A', unit: '-' })
+      const slot5 = SlotSeeder.generateIntegerInSlot({ name: 'B', unit: '-' })
+
+      const fctToStay1 = FunctionalitySeeder.generate({ slots: [ slot4, slot5 ] })
+
+      const slot6 = SlotSeeder.generateIntegerOutSlot({ name: 'A', unit: '-' })
+      const slot7 = SlotSeeder.generateIntegerInSlot({ name: 'B', unit: '-' })
+      const fctToStay2 = FunctionalitySeeder.generate({ slots: [ slot6, slot7 ] })
+
+      const slot8 = SlotSeeder.generateIntegerOutSlot({ unit: '-' })
+      const fctToStay3 = FunctionalitySeeder.generate({ slots: [ slot8 ] })
+
+      const initGraph = FCTGraphSeeder
+        .generate({ functionalities: [
+          fctToBeDeleted,
+          fctToStay1,
+          fctToStay2,
+          fctToStay3,
+        ] })
+
+      const connections = [
+        [ fctToBeDeleted.id, slot3.name, fctToStay1.id, slot5.name ],
+        [ fctToBeDeleted.id, slot1.name, fctToStay1.id, slot4.name ],
+        [ fctToBeDeleted.id, slot2.name, fctToStay2.id, slot6.name ],
+        [ fctToStay2.id, slot7.name, fctToStay3.id, slot8.name ],
+      ]
+
+      const connectedGraph = connections.reduce((currGraph, con) => (
+        FCTGraph.connect(currGraph, ...con)
+      ), initGraph)
+
+      const resGraph = FCTGraph
+        .removeFunctionality(connectedGraph, fctToBeDeleted.id)
+
+      expect(resGraph.functionalities).toHaveLength(3)
+
+      expect(resGraph.functionalities[0].slots.every(slot => slot.dataStreams.length === 0))
+        .toBe(true)
+
+      expect(resGraph.functionalities[0].slots[0].dataStreams).toHaveLength(0)
+      expect(resGraph.functionalities[0].slots[1].dataStreams).toHaveLength(0)
+      expect(resGraph.functionalities[1].slots[0].dataStreams).toHaveLength(0)
+      expect(resGraph.functionalities[1].slots[1].dataStreams).toHaveLength(1)
+      expect(resGraph.functionalities[2].slots[0].dataStreams).toHaveLength(1)
+    })
+  })
+
+  describe('removeIntervalOutNode', () => {
+    it('removes the fct and all connections to it from other fcts', () => {
+      const slot1 = SlotSeeder.generateIntegerInSlot({ name: 'B', unit: '-' })
+      const fctToBeDeleted = FunctionalitySeeder.generateIntervalOut({ slots: [ slot1 ] })
+
+      const slot2 = SlotSeeder.generateIntegerOutSlot({ name: 'A', unit: '-' })
+      const fctToStay = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+      const initGraph = FCTGraphSeeder
+        .generate({ functionalities: [
+          fctToBeDeleted,
+          fctToStay,
+        ] })
+
+      const connections = [
+        [ fctToBeDeleted.id, slot1.name, fctToStay.id, slot2.name ],
+      ]
+
+      const connectedGraph = connections.reduce((currGraph, con) => (
+        FCTGraph.connect(currGraph, ...con)
+      ), initGraph)
+
+      const resGraph = FCTGraph
+        .removeIntervalOutNode(connectedGraph, fctToStay.id, slot2.name)
+
+      expect(resGraph.functionalities).toHaveLength(1)
+      expect(resGraph.functionalities[0].id).toBe(fctToStay.id)
+      expect(resGraph.functionalities[0].slots.every(slot => slot.dataStreams.length === 0))
+        .toBe(true)
+    })
+  })
+
+  describe('removePushInNode', () => {
+    it('removes the fct and all connections to it from other fcts', () => {
+      const slot1 = SlotSeeder.generateIntegerOutSlot({ name: 'B', unit: '-' })
+      const fctToBeDeleted = FunctionalitySeeder.generatePushIn({ slots: [ slot1 ] })
+
+      const slot2 = SlotSeeder.generateIntegerInSlot({ name: 'A', unit: '-' })
+      const fctToStay = FunctionalitySeeder.generate({ slots: [ slot2 ] })
+
+      const initGraph = FCTGraphSeeder
+        .generate({ functionalities: [
+          fctToBeDeleted,
+          fctToStay,
+        ] })
+
+      const connections = [
+        [ fctToBeDeleted.id, slot1.name, fctToStay.id, slot2.name ],
+      ]
+
+      const connectedGraph = connections.reduce((currGraph, con) => (
+        FCTGraph.connect(currGraph, ...con)
+      ), initGraph)
+
+      const resGraph = FCTGraph
+        .removePushInNode(connectedGraph, fctToStay.id, slot2.name)
+
+      expect(resGraph.functionalities).toHaveLength(1)
+      expect(resGraph.functionalities[0].id).toBe(fctToStay.id)
+      expect(resGraph.functionalities[0].slots.every(slot => slot.dataStreams.length === 0))
+        .toBe(true)
+    })
+  })
 })
