@@ -1,0 +1,61 @@
+name: Test and Release
+on:
+  push:
+  pull_request:
+    types:
+      - opened
+      - reopened
+
+jobs:
+  test:
+    name: Test and Report
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test with Coverage
+        run: npm run test-with-coverage
+
+      - name: Upload to codecov
+        run: npm i -g codecov && codecov
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: test
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: update npm to the latest version to allow scoped packages updates
+        run: npm i -g npm@latest
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test with Coverage
+        run: npm run test-with-coverage
+
+      - name: Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npx semantic-release
