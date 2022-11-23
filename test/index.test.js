@@ -5,6 +5,7 @@ describe('fctGraph module entry point', () => {
   const EXPORTED_NAMESPACES = [
     'FCTGraph',
     'Functionality',
+    'Ports',
     'Slot',
     'DataStream',
     'FCTGraphSeeder',

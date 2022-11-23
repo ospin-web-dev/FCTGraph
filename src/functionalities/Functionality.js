@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid')
 
 const RegexUtils = require('../utils/RegexUtils')
 const Slot = require('../slots/Slot')
+const Ports = require('./Ports')
 const ObjUtils = require('../utils/ObjUtils')
 
 const FIXED_TYPES = {
@@ -14,13 +15,6 @@ const FIXED_SUB_TYPES = {
   INTERVAL_OUT: 'IntervalOut',
   PUSH_IN: 'PushIn',
 }
-
-const PORT_SCHEMA = Joi.object({
-  name: Joi.string().required(),
-  purpose: Joi.string().required(),
-  // some devices share a port, so they have to be internally distinguished within the port
-  unitId: Joi.string(),
-})
 
 const SCHEMA = Joi.object({
   id: Joi.string().pattern(RegexUtils.UUIDV4).required(),
@@ -41,7 +35,7 @@ const SCHEMA = Joi.object({
     'isVirtual',
     {
       is: false,
-      then: Joi.array().items(PORT_SCHEMA).default([]),
+      then: Ports.SCHEMA,
       otherwise: Joi.forbidden(),
     },
   ),
@@ -83,6 +77,8 @@ const isOutputNode = fct => fct.type === FIXED_TYPES.OUTPUT_NODE
 
 const isPhysical = fct => !fct.isVirtual
 
+const isVirtual = fct => fct.isVirtual
+
 const getSlotNames = fct => fct.slots.map(({ name }) => name)
 
 const getInSlots = fct => fct.slots.filter(({ type }) => type === Slot.TYPES.IN_SLOT)
@@ -91,12 +87,7 @@ const getOutSlots = fct => fct.slots.filter(({ type }) => type === Slot.TYPES.OU
 
 const getSlotByName = (fct, slotName) => fct.slots.find(({ name }) => name === slotName)
 
-const getPortId = fct => {
-  const [ port ] = fct.ports
-  const { name, unitId } = port
-  if (unitId) return `${name}-${unitId}`
-  return name
-}
+const getPortId = fct => Ports.getId(fct.ports)
 
 const getAllDataStreams = fct => (
   Array.from(
@@ -183,7 +174,6 @@ const createIntervalOut = (data = {}) => {
 module.exports = {
   FIXED_TYPES,
   FIXED_SUB_TYPES,
-  PORT_SCHEMA,
   SCHEMA,
   create,
   update,
@@ -193,6 +183,7 @@ module.exports = {
   isInputNode,
   isOutputNode,
   isPhysical,
+  isVirtual,
   getSlotNames,
   getInSlots,
   getOutSlots,
