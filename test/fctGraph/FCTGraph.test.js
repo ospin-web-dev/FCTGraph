@@ -51,6 +51,17 @@ describe('FCTGraph', () => {
     })
   })
 
+  describe('getFctByPosId', () => {
+    it('returns the fct', () => {
+      const fct = FunctionalitySeeder.generate({ posId: 1 })
+      const graph = FCTGraphSeeder.generate({ functionalities: [ fct ] })
+
+      const res = FCTGraph.getFctByPosId(graph, 1)
+
+      expect(res).toStrictEqual(fct)
+    })
+  })
+
   describe('when querying for mutliple functionalities', () => {
 
     const createDefaultSetup = () => {

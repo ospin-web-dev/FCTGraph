@@ -39,6 +39,7 @@ describe('Functionality', () => {
         ports: [
           { name: faker.random.word(), purpose: faker.random.word() },
         ],
+        posId: 1,
       }
 
       const res = Functionality.create({ ...generateMinimalDataSet(), ...optional })
