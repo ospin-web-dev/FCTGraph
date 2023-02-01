@@ -52,6 +52,9 @@ const SCHEMA = Joi.object({
       otherwise: Joi.forbidden(),
     },
   ),
+  /* marks the position of a functionality within a functionality
+  /* graph - only to be used for graphs created from the same template!!! */
+  posId: Joi.number().integer().strict(),
 })
 
 const create = data => Joi.attempt(data, SCHEMA)

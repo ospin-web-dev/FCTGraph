@@ -39,6 +39,10 @@ const getFctById = (fctGraph, fctId) => (
   getFctByQuery(fctGraph, { id: fctId })
 )
 
+const getFctByPosId = (fctGraph, posId) => (
+  getFctByQuery(fctGraph, { posId })
+)
+
 const getFctsWithoutIONodes = fctGraph => (
   fctGraph.functionalities.filter(fct => (
     fct.type !== Functionality.FIXED_TYPES.INPUT_NODE
@@ -370,6 +374,7 @@ module.exports = {
   addFunctionality,
   getFctByQuery,
   getFctById,
+  getFctByPosId,
   getFctsWithoutIONodes,
   getFctsByQuery,
   getFctsByType,
