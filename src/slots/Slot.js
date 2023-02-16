@@ -47,12 +47,12 @@ const SCHEMA = Joi.object({
           is: DATA_TYPES.ANY,
           then: Joi
             .when('min', {
-              is: Joi.number().strict(),
-              then: Joi.number().strict().integer().min(Joi.ref('min')),
+              is: Joi.exist(),
+              then: Joi.number().strict().integer().min(Joi.ref('min')).allow(null),
             })
             .when('max', {
-              is: Joi.number().strict(),
-              then: Joi.number().strict().integer().max(Joi.ref('max')),
+              is: Joi.exist(),
+              then: Joi.number().strict().integer().max(Joi.ref('max')).allow(null),
             }),
         },
         {
