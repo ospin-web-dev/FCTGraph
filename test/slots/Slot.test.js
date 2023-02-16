@@ -213,6 +213,14 @@ describe('Slot', () => {
           expect(() => Slot.create(data)).toThrow(`${prop}`)
         })
       })
+
+      describe('when a defaultValue is set, but no min/max', () => {
+        it('does not fail on validation', () => {
+          const data = generateDefaultData({ defaultValue: 0 })
+
+          expect(() => Slot.create(data)).not.toThrow()
+        })
+      })
     })
   })
 
