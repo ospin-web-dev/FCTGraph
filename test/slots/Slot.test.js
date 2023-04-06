@@ -183,12 +183,15 @@ describe('Slot', () => {
       })
     })
 
-    describe('when creating an "any" slot', () => {
+    describe.each([Slot.DATA_TYPES.ANY,Slot.DATA_TYPES.ANY_NUMBER])(
+      'when creating a %p slot',
+      (type) => {
+
 
       const generateDefaultData = (data = {}) => ({
         name: faker.random.word(),
         type: Slot.TYPES.IN_SLOT,
-        dataType: Slot.DATA_TYPES.ANY,
+        dataType: type,
         unit: '-',
         ...data,
       })
@@ -221,7 +224,8 @@ describe('Slot', () => {
           expect(() => Slot.create(data)).not.toThrow()
         })
       })
-    })
+      }
+    );
   })
 
   describe('isEmpty', () => {
