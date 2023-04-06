@@ -274,6 +274,36 @@ describe('FCTGraph', () => {
               .not.toThrow()
           })
         })
+
+        describe.each([{
+          name: 'Float',
+          inSlotGenerator: data => SlotSeeder.generateFloatInSlot(data),
+          outSlotGenerator: data => SlotSeeder.generateFloatOutSlot(data),
+        }, {
+          name: 'Integer',
+          inSlotGenerator: data => SlotSeeder.generateIntegerInSlot(data),
+          outSlotGenerator: data => SlotSeeder.generateIntegerOutSlot(data),
+        }])(
+          'when generating a $name and connecting it to a any_number slot',
+          ({ inSlotGenerator, outSlotGenerator }) => {
+            it('does NOT throw an error', () => {
+              const slotA1 = inSlotGenerator()
+              const slotA2 = SlotSeeder.generateAnyNumberOutSlot()
+              const slotB1 = outSlotGenerator()
+              const slotB2 = SlotSeeder.generateAnyNumberInSlot()
+
+              const fct1 = FunctionalitySeeder.generate({ slots: [ slotA1, slotB1 ] })
+              const fct2 = FunctionalitySeeder.generate({ slots: [ slotA2, slotB2 ] })
+
+              const graph = FCTGraphSeeder.generate({ functionalities: [ fct1, fct2 ] })
+
+              expect(() => FCTGraph.connect(graph, fct1.id, slotA1.name, fct2.id, slotA2.name))
+                .not.toThrow()
+              expect(() => FCTGraph.connect(graph, fct1.id, slotB1.name, fct2.id, slotB2.name))
+                .not.toThrow()
+            })
+          },
+        );
       })
 
       describe('when the slots already have a connection', () => {

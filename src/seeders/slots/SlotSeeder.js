@@ -117,6 +117,24 @@ const generateAnyOutSlot = (data = {}) => (
   })
 )
 
+const generateAnyNumberInSlot = (data = {}) => (
+  _generate({
+    type: Slot.TYPES.IN_SLOT,
+    dataType: Slot.DATA_TYPES.ANY_NUMBER,
+    unit: Slot.ANY_UNIT_STRING,
+    ...data,
+  })
+)
+
+const generateAnyNumberOutSlot = (data = {}) => (
+  _generate({
+    type: Slot.TYPES.OUT_SLOT,
+    dataType: Slot.DATA_TYPES.ANY_NUMBER,
+    unit: Slot.ANY_UNIT_STRING,
+    ...data,
+  })
+)
+
 module.exports = {
   generateIntegerInSlot,
   generateIntegerOutSlot,
@@ -128,4 +146,6 @@ module.exports = {
   generateOneOfOutSlot,
   generateAnyInSlot,
   generateAnyOutSlot,
+  generateAnyNumberInSlot,
+  generateAnyNumberOutSlot
 }

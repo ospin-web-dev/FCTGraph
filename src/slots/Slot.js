@@ -206,7 +206,6 @@ const getIncomingDataStreams = (slot, fctId) => (
 )
 
 const _assertSlotDataTypesCompatible = (slotA, slotB) => {
-  console.log({slotA: slotA.dataType,slotB: slotB.dataType});
 
   const isCompatible = slotA.dataType === slotB.dataType
     || [slotA.dataType,slotB.dataType].includes(DATA_TYPES.ANY)
@@ -214,7 +213,7 @@ const _assertSlotDataTypesCompatible = (slotA, slotB) => {
     || isNumericSlot(slotB) && slotA.dataType === DATA_TYPES.ANY_NUMBER
 
   if (
-    !isCompatible(slotA.dataType,slotB.dataType)
+    !isCompatible
   ) {
     throw new Error('dataTypes must match between slots')
   }
