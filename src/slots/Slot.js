@@ -122,7 +122,6 @@ const SCHEMA = Joi.object({
         {
           is: DATA_TYPES.ANY,
           then: Joi.number().integer().strict().allow(null),
-          otherwise: Joi.forbidden(),
         }, {
           is: DATA_TYPES.ANY_NUMBER,
           then: Joi.number().allow(null),
@@ -150,7 +149,6 @@ const SCHEMA = Joi.object({
             is: Joi.number().strict(),
             then: Joi.number().min(Joi.ref('min')),
           }),
-          otherwise: Joi.forbidden(),
         },
         {
           is: DATA_TYPES.ANY,
@@ -164,6 +162,7 @@ const SCHEMA = Joi.object({
             is: Joi.number().strict(),
             then: Joi.number().min(Joi.ref('min')),
           }),
+          otherwise: Joi.forbidden(),
         },
       ],
     }),
@@ -188,6 +187,8 @@ const isEmpty = slot => slot.dataStreams.length === 0
 
 const isUnitless = slot => slot.unit === UNITLESS_UNIT
 
+const isNumericSlot = slot => [DATA_TYPES.INTEGER,DATA_TYPES.FLOAT].includes(slot.dataType)
+
 const isControllerParameter = slot => slot.displayType === CONTROLLER_PARAMETER_DISPLAY_TYPE
 
 const connectsToFctSlot = (slot, fctId, slotName) => (
@@ -205,10 +206,15 @@ const getIncomingDataStreams = (slot, fctId) => (
 )
 
 const _assertSlotDataTypesCompatible = (slotA, slotB) => {
+  console.log({slotA: slotA.dataType,slotB: slotB.dataType});
+
+  const isCompatible = slotA.dataType === slotB.dataType
+    || [slotA.dataType,slotB.dataType].includes(DATA_TYPES.ANY)
+    || isNumericSlot(slotA) && slotB.dataType === DATA_TYPES.ANY_NUMBER
+    || isNumericSlot(slotB) && slotA.dataType === DATA_TYPES.ANY_NUMBER
+
   if (
-    slotA.dataType !== slotB.dataType
-    && slotA.dataType !== DATA_TYPES.ANY
-    && slotB.dataType !== DATA_TYPES.ANY
+    !isCompatible(slotA.dataType,slotB.dataType)
   ) {
     throw new Error('dataTypes must match between slots')
   }
