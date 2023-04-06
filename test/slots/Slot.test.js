@@ -225,7 +225,7 @@ describe('Slot', () => {
         })
       })
       }
-    );
+    )
   })
 
   describe('isEmpty', () => {
