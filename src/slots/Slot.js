@@ -14,7 +14,7 @@ const DATA_TYPES = {
   FLOAT: 'float',
   ONE_OF: 'oneOf',
   ANY: 'any',
-  ANY_NUMBER: 'anyNumber'
+  NUMBER: 'number',
 }
 
 const ANY_UNIT_STRING = 'any'
@@ -56,7 +56,7 @@ const SCHEMA = Joi.object({
               then: Joi.number().strict().integer().max(Joi.ref('max')).allow(null),
             }),
         }, {
-          is: DATA_TYPES.ANY_NUMBER,
+          is: DATA_TYPES.NUMBER,
           then: Joi
             .when('min', {
               is: Joi.exist(),
@@ -123,8 +123,8 @@ const SCHEMA = Joi.object({
           is: DATA_TYPES.ANY,
           then: Joi.number().integer().strict().allow(null),
         }, {
-          is: DATA_TYPES.ANY_NUMBER,
-          then: Joi.number().allow(null),
+          is: DATA_TYPES.NUMBER,
+          then: Joi.number().strict().allow(null),
           otherwise: Joi.forbidden(),
         },
       ],
@@ -208,9 +208,9 @@ const getIncomingDataStreams = (slot, fctId) => (
 const _assertSlotDataTypesCompatible = (slotA, slotB) => {
 
   const isCompatible = slotA.dataType === slotB.dataType
-    || [slotA.dataType,slotB.dataType].includes(DATA_TYPES.ANY)
-    || isNumericSlot(slotA) && slotB.dataType === DATA_TYPES.ANY_NUMBER
-    || isNumericSlot(slotB) && slotA.dataType === DATA_TYPES.ANY_NUMBER
+    || [slotA.dataType, slotB.dataType].includes(DATA_TYPES.ANY)
+    || (isNumericSlot(slotA) && slotB.dataType === DATA_TYPES.ANY_NUMBER)
+    || (isNumericSlot(slotB) && slotA.dataType === DATA_TYPES.ANY_NUMBER)
 
   if (
     !isCompatible
