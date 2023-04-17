@@ -288,9 +288,9 @@ describe('FCTGraph', () => {
           ({ inSlotGenerator, outSlotGenerator }) => {
             it('does NOT throw an error', () => {
               const slotA1 = inSlotGenerator()
-              const slotA2 = SlotSeeder.generateAnyNumberOutSlot()
+              const slotA2 = SlotSeeder.generateNumberOutSlot()
               const slotB1 = outSlotGenerator()
-              const slotB2 = SlotSeeder.generateAnyNumberInSlot()
+              const slotB2 = SlotSeeder.generateNumberInSlot()
 
               const fct1 = FunctionalitySeeder.generate({ slots: [ slotA1, slotB1 ] })
               const fct2 = FunctionalitySeeder.generate({ slots: [ slotA2, slotB2 ] })

@@ -157,7 +157,7 @@ const SCHEMA = Joi.object({
             then: Joi.number().integer().min(Joi.ref('min')),
           }),
         }, {
-          is: DATA_TYPES.ANY_NUMBER,
+          is: DATA_TYPES.NUMBER,
           then: Joi.when('min', {
             is: Joi.number().strict(),
             then: Joi.number().min(Joi.ref('min')),
@@ -209,8 +209,8 @@ const _assertSlotDataTypesCompatible = (slotA, slotB) => {
 
   const isCompatible = slotA.dataType === slotB.dataType
     || [slotA.dataType, slotB.dataType].includes(DATA_TYPES.ANY)
-    || (isNumericSlot(slotA) && slotB.dataType === DATA_TYPES.ANY_NUMBER)
-    || (isNumericSlot(slotB) && slotA.dataType === DATA_TYPES.ANY_NUMBER)
+    || (isNumericSlot(slotA) && slotB.dataType === DATA_TYPES.NUMBER)
+    || (isNumericSlot(slotB) && slotA.dataType === DATA_TYPES.NUMBER)
 
   if (
     !isCompatible
