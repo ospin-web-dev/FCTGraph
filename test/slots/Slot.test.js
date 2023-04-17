@@ -183,23 +183,24 @@ describe('Slot', () => {
       })
     })
 
-    describe('when creating an "any" slot', () => {
+    describe.each([Slot.DATA_TYPES.ANY, Slot.DATA_TYPES.NUMBER])(
+      'when creating a %p slot',
+      (type) => {
+        const generateDefaultData = (data = {}) => ({
+          name: faker.random.word(),
+          type: Slot.TYPES.IN_SLOT,
+          dataType: type,
+          unit: '-',
+          ...data,
+        })
 
-      const generateDefaultData = (data = {}) => ({
-        name: faker.random.word(),
-        type: Slot.TYPES.IN_SLOT,
-        dataType: Slot.DATA_TYPES.ANY,
-        unit: '-',
-        ...data,
-      })
+        it('sets all default properties', () => {
+          const data = generateDefaultData()
 
-      it('sets all default properties', () => {
-        const data = generateDefaultData()
+          const slot = Slot.create(data)
 
-        const slot = Slot.create(data)
-
-        expect(slot.dataStreams).toStrictEqual([])
-        expect(slot.displayType).toBeNull()
+          expect(slot.dataStreams).toStrictEqual([])
+          expect(slot.displayType).toBeNull()
       })
 
       describe.each([
@@ -221,7 +222,8 @@ describe('Slot', () => {
           expect(() => Slot.create(data)).not.toThrow()
         })
       })
-    })
+      }
+    )
   })
 
   describe('isEmpty', () => {

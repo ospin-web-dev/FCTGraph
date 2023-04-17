@@ -14,6 +14,7 @@ const DATA_TYPES = {
   FLOAT: 'float',
   ONE_OF: 'oneOf',
   ANY: 'any',
+  NUMBER: 'number',
 }
 
 const ANY_UNIT_STRING = 'any'
@@ -53,6 +54,17 @@ const SCHEMA = Joi.object({
             .when('max', {
               is: Joi.exist(),
               then: Joi.number().strict().integer().max(Joi.ref('max')).allow(null),
+            }),
+        }, {
+          is: DATA_TYPES.NUMBER,
+          then: Joi
+            .when('min', {
+              is: Joi.exist(),
+              then: Joi.number().strict().min(Joi.ref('min')).allow(null),
+            })
+            .when('max', {
+              is: Joi.exist(),
+              then: Joi.number().strict().max(Joi.ref('max')).allow(null),
             }),
         },
         {
@@ -104,11 +116,14 @@ const SCHEMA = Joi.object({
           then: Joi.number().integer().strict().allow(null),
         },
         {
-          is: DATA_TYPES.ANY,
-          then: Joi.number().integer().strict().allow(null),
+          is: DATA_TYPES.FLOAT,
+          then: Joi.number().strict().allow(null),
         },
         {
-          is: DATA_TYPES.FLOAT,
+          is: DATA_TYPES.ANY,
+          then: Joi.number().integer().strict().allow(null),
+        }, {
+          is: DATA_TYPES.NUMBER,
           then: Joi.number().strict().allow(null),
           otherwise: Joi.forbidden(),
         },
@@ -129,14 +144,20 @@ const SCHEMA = Joi.object({
           }),
         },
         {
+          is: DATA_TYPES.FLOAT,
+          then: Joi.when('min', {
+            is: Joi.number().strict(),
+            then: Joi.number().min(Joi.ref('min')),
+          }),
+        },
+        {
           is: DATA_TYPES.ANY,
           then: Joi.when('min', {
             is: Joi.number().strict(),
             then: Joi.number().integer().min(Joi.ref('min')),
           }),
-        },
-        {
-          is: DATA_TYPES.FLOAT,
+        }, {
+          is: DATA_TYPES.NUMBER,
           then: Joi.when('min', {
             is: Joi.number().strict(),
             then: Joi.number().min(Joi.ref('min')),
@@ -166,6 +187,8 @@ const isEmpty = slot => slot.dataStreams.length === 0
 
 const isUnitless = slot => slot.unit === UNITLESS_UNIT
 
+const isNumericSlot = slot => [DATA_TYPES.INTEGER,DATA_TYPES.FLOAT].includes(slot.dataType)
+
 const isControllerParameter = slot => slot.displayType === CONTROLLER_PARAMETER_DISPLAY_TYPE
 
 const connectsToFctSlot = (slot, fctId, slotName) => (
@@ -183,10 +206,14 @@ const getIncomingDataStreams = (slot, fctId) => (
 )
 
 const _assertSlotDataTypesCompatible = (slotA, slotB) => {
+
+  const isCompatible = slotA.dataType === slotB.dataType
+    || [slotA.dataType, slotB.dataType].includes(DATA_TYPES.ANY)
+    || (isNumericSlot(slotA) && slotB.dataType === DATA_TYPES.NUMBER)
+    || (isNumericSlot(slotB) && slotA.dataType === DATA_TYPES.NUMBER)
+
   if (
-    slotA.dataType !== slotB.dataType
-    && slotA.dataType !== DATA_TYPES.ANY
-    && slotB.dataType !== DATA_TYPES.ANY
+    !isCompatible
   ) {
     throw new Error('dataTypes must match between slots')
   }
