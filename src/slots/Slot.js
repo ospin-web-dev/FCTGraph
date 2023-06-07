@@ -25,6 +25,7 @@ const SCHEMA = Joi.object({
   name: Joi.string().required(),
   type: Joi.string().valid(...Object.values(TYPES)).required(),
   displayType: Joi.string().allow(null).default(null),
+  displayName: Joi.string().allow(null).optional(),
   dataStreams: Joi.array().items(DataStream.SCHEMA).default([]),
   unit: Joi.string().required(),
   dataType: Joi.string().valid(...Object.values(DATA_TYPES)).required(),
@@ -191,6 +192,8 @@ const isNumericSlot = slot => [DATA_TYPES.INTEGER,DATA_TYPES.FLOAT].includes(slo
 
 const isControllerParameter = slot => slot.displayType === CONTROLLER_PARAMETER_DISPLAY_TYPE
 
+const getDisplayName = slot => slot.displayName || slot.name
+
 const connectsToFctSlot = (slot, fctId, slotName) => (
   slot.dataStreams.some(ds => DataStream.connectsToFctSlot(ds, fctId, slotName))
 )
@@ -339,6 +342,7 @@ module.exports = {
   isEmpty,
   isUnitless,
   isControllerParameter,
+  getDisplayName,
   connectsToFctSlot,
   getOutGoingDataStreams,
   getIncomingDataStreams,

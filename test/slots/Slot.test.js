@@ -293,6 +293,28 @@ describe('Slot', () => {
     })
   })
 
+  describe('getDisplayName', () => {
+    describe('when the slot has no display name set or the display name is null', () => {
+      it('should return the slot name', () => {
+        const slot1 = SlotSeeder.generateIntegerInSlot()
+        const slot2 = SlotSeeder.generateIntegerInSlot({ displayName: null })
+
+        expect(slot1.displayName).toBeUndefined()
+        expect(slot2.displayName).toBeNull()
+
+        expect(Slot.getDisplayName(slot1)).toBe(slot1.name)
+        expect(Slot.getDisplayName(slot2)).toBe(slot2.name)
+      })
+    })
+
+    describe('when there is a displayName set', () => {
+      it('should return the display name', () => {
+        const slot = SlotSeeder.generateIntegerInSlot({ displayName: 'Dieter' })
+        expect(Slot.getDisplayName(slot)).toBe(slot.displayName)
+      })
+    })
+  })
+
   describe('connectsToFctSlot', () => {
     describe('when the slot has a dataStream going to the given fctId + slotName', () => {
       it('returns true', () => {
