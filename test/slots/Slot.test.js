@@ -201,28 +201,28 @@ describe('Slot', () => {
 
           expect(slot.dataStreams).toStrictEqual([])
           expect(slot.displayType).toBeNull()
-      })
-
-      describe.each([
-        //{ prop: 'min', value: 0 }, // removal has to be coordinated with firmware
-        //{ prop: 'max', value: 100 },
-        { prop: 'tareable', value: true },
-        { prop: 'selectOptions', value: ['test'] },
-      ])('when $prop is provided', ({ prop, value }) => {
-        it('throws an error', () => {
-          const data = generateDefaultData({ [prop]: value })
-          expect(() => Slot.create(data)).toThrow(`${prop}`)
         })
-      })
 
-      describe('when a defaultValue is set, but no min/max', () => {
-        it('does not fail on validation', () => {
-          const data = generateDefaultData({ defaultValue: 0 })
-
-          expect(() => Slot.create(data)).not.toThrow()
+        describe.each([
+        // { prop: 'min', value: 0 }, // removal has to be coordinated with firmware
+        // { prop: 'max', value: 100 },
+          { prop: 'tareable', value: true },
+          { prop: 'selectOptions', value: ['test'] },
+        ])('when $prop is provided', ({ prop, value }) => {
+          it('throws an error', () => {
+            const data = generateDefaultData({ [prop]: value })
+            expect(() => Slot.create(data)).toThrow(`${prop}`)
+          })
         })
-      })
-      }
+
+        describe('when a defaultValue is set, but no min/max', () => {
+          it('does not fail on validation', () => {
+            const data = generateDefaultData({ defaultValue: 0 })
+
+            expect(() => Slot.create(data)).not.toThrow()
+          })
+        })
+      },
     )
   })
 

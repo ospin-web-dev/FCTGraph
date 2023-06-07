@@ -287,10 +287,10 @@ describe('FCTGraph', () => {
           'when generating a $name and connecting it to a any_number slot',
           ({ inSlotGenerator, outSlotGenerator }) => {
             it('does NOT throw an error', () => {
-              const slotA1 = inSlotGenerator()
-              const slotA2 = SlotSeeder.generateNumberOutSlot()
-              const slotB1 = outSlotGenerator()
-              const slotB2 = SlotSeeder.generateNumberInSlot()
+              const slotA1 = inSlotGenerator({ name: 'a' })
+              const slotA2 = SlotSeeder.generateNumberOutSlot({ name: 'a' })
+              const slotB1 = outSlotGenerator({ name: 'b' })
+              const slotB2 = SlotSeeder.generateNumberInSlot({ name: 'b' })
 
               const fct1 = FunctionalitySeeder.generate({ slots: [ slotA1, slotB1 ] })
               const fct2 = FunctionalitySeeder.generate({ slots: [ slotA2, slotB2 ] })
