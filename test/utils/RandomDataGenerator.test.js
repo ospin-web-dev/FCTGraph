@@ -1,5 +1,5 @@
 /* eslint no-plusplus: ["error", { "allowForLoopAfterthoughts": true }] */
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const RandomDataGenerator = require('../../src/utils/RandomDataGenerator')
 const RegexUtils = require('../../src/utils/RegexUtils')
 
@@ -35,8 +35,8 @@ describe('the RandomDataGenerator', () => {
     describe('when given a min and max', () => {
       it('should generate numbers between those', () => {
         for (let index = 0; index < numberOfTestRuns; index++) {
-          const min = faker.datatype.number()
-          const max = faker.datatype.number() + min
+          const min = faker.number.int()
+          const max = faker.number.int() + min
           const generatedNumber = RandomDataGenerator.integer({ min, max })
           expect(generatedNumber <= max).toBe(true)
           expect(generatedNumber >= min).toBe(true)
@@ -58,8 +58,8 @@ describe('the RandomDataGenerator', () => {
     describe('when given a min and max', () => {
       it('should generate numbers between those', () => {
         for (let index = 0; index < numberOfTestRuns; index++) {
-          const min = faker.datatype.number()
-          const max = faker.datatype.number() + min
+          const min = faker.number.int()
+          const max = faker.number.int() + min
           const generatedNumber = RandomDataGenerator.float({ min, max })
           expect(generatedNumber <= max).toBe(true)
           expect(generatedNumber >= min).toBe(true)

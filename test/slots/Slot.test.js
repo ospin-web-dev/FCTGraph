@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 
 const Slot = require('../../src/slots/Slot')
 const DataStreamSeeder = require('../../src/seeders/dataStreams/DataStreamSeeder')
@@ -10,7 +10,7 @@ describe('Slot', () => {
     describe('when creating an "integer" slot', () => {
 
       const generateDefaultData = (data = {}) => ({
-        name: faker.random.word(),
+        name: faker.lorem.word(),
         type: Slot.TYPES.IN_SLOT,
         dataType: Slot.DATA_TYPES.INTEGER,
         unit: '-',
@@ -61,7 +61,7 @@ describe('Slot', () => {
     describe('when creating a "float" slot', () => {
 
       const generateDefaultData = (data = {}) => ({
-        name: faker.random.word(),
+        name: faker.lorem.word(),
         type: Slot.TYPES.IN_SLOT,
         dataType: Slot.DATA_TYPES.FLOAT,
         unit: '-',
@@ -112,7 +112,7 @@ describe('Slot', () => {
     describe('when creating a "boolean" slot', () => {
 
       const generateDefaultData = (data = {}) => ({
-        name: faker.random.word(),
+        name: faker.lorem.word(),
         type: Slot.TYPES.IN_SLOT,
         dataType: Slot.DATA_TYPES.BOOLEAN,
         unit: '-',
@@ -146,7 +146,7 @@ describe('Slot', () => {
     describe('when creating an "oneOf" slot', () => {
 
       const generateDefaultData = (data = {}) => ({
-        name: faker.random.word(),
+        name: faker.lorem.word(),
         type: Slot.TYPES.IN_SLOT,
         dataType: Slot.DATA_TYPES.ONE_OF,
         unit: '-',
@@ -187,7 +187,7 @@ describe('Slot', () => {
       'when creating a %p slot',
       (type) => {
         const generateDefaultData = (data = {}) => ({
-          name: faker.random.word(),
+          name: faker.lorem.word(),
           type: Slot.TYPES.IN_SLOT,
           dataType: type,
           unit: '-',
@@ -332,7 +332,7 @@ describe('Slot', () => {
       it('returns false', () => {
         const slot = SlotSeeder.generateIntegerInSlot()
 
-        const res = Slot.connectsToFctSlot(slot, faker.datatype.uuid(), faker.random.word())
+        const res = Slot.connectsToFctSlot(slot, faker.string.uuid(), faker.lorem.word())
 
         expect(res).toBe(false)
       })
