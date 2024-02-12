@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const Functionality = require('../../src/functionalities/Functionality')
 const FunctionalitySeeder = require('../../src/seeders/functionalities/FunctionalitySeeder')
 const SlotSeeder = require('../../src/seeders/slots/SlotSeeder')
@@ -9,10 +9,10 @@ describe('Functionality', () => {
   describe('create', () => {
 
     const generateMinimalDataSet = () => ({
-      id: faker.datatype.uuid(),
-      name: faker.random.word(),
-      type: faker.random.word(),
-      subType: faker.random.word(),
+      id: faker.string.uuid(),
+      name: faker.lorem.word(),
+      type: faker.lorem.word(),
+      subType: faker.lorem.word(),
     })
 
     it('sets all default values', () => {
@@ -35,9 +35,9 @@ describe('Functionality', () => {
 
     it('allows setting optional values', () => {
       const optional = {
-        outputIntervalMs: faker.datatype.number({ min: 0 }),
+        outputIntervalMs: faker.number.int({ min: 0 }),
         ports: [
-          { name: faker.random.word(), purpose: faker.random.word() },
+          { name: faker.lorem.word(), purpose: faker.lorem.word() },
         ],
         posId: 1,
       }
@@ -66,7 +66,7 @@ describe('Functionality', () => {
         const nodeSpecific = {
           type: Functionality.FIXED_TYPES.OUTPUT_NODE,
           subType: Functionality.FIXED_SUB_TYPES.INTERVAL_OUT,
-          publishIntervalMs: faker.datatype.number({ min: 1, max: 1000 * 60 * 60 * 24 }),
+          publishIntervalMs: faker.number.int({ min: 1, max: 1000 * 60 * 60 * 24 }),
         }
 
         const res = Functionality.create({ ...generateMinimalDataSet(), ...nodeSpecific })
@@ -78,7 +78,7 @@ describe('Functionality', () => {
     describe('when NOT creating an INTERVAL_OUT node', () => {
       it('throw an error when try to set "publishIntervalMs"', () => {
         const nodeSpecific = {
-          publishIntervalMs: faker.datatype.number({ min: 1, max: 1000 * 60 * 60 * 24 }),
+          publishIntervalMs: faker.number.int({ min: 1, max: 1000 * 60 * 60 * 24 }),
         }
 
         expect(() => Functionality.create({ ...generateMinimalDataSet(), ...nodeSpecific }))
@@ -259,7 +259,7 @@ describe('Functionality', () => {
   describe('when working with connected fcts', () => {
 
     const creatDefaultSetup = () => {
-      const fctId = faker.datatype.uuid()
+      const fctId = faker.string.uuid()
       const ds1 = DataStreamSeeder.generate({ sinkSlotName: 'slotA', sinkFctId: fctId })
       const ds2 = DataStreamSeeder.generate({ sourceSlotName: 'slotB', sourceFctId: fctId })
       const slotA = SlotSeeder
@@ -341,7 +341,7 @@ describe('Functionality', () => {
         it('should return false', () => {
           const { fct } = creatDefaultSetup()
 
-          const res = Functionality.isConnectedToFct(fct, faker.datatype.uuid)
+          const res = Functionality.isConnectedToFct(fct, faker.string.uuid)
 
           expect(res).toBe(false)
         })

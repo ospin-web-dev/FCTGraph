@@ -1,15 +1,15 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 const DataStream = require('dataStreams/DataStream')
 
 describe('DataStream', () => {
   describe('create', () => {
     it('sets the default values accordingly', () => {
       const data = {
-        id: faker.datatype.uuid(),
-        sourceFctId: faker.datatype.uuid(),
-        sourceSlotName: faker.random.word(),
-        sinkFctId: faker.datatype.uuid(),
-        sinkSlotName: faker.random.word(),
+        id: faker.string.uuid(),
+        sourceFctId: faker.string.uuid(),
+        sourceSlotName: faker.lorem.word(),
+        sinkFctId: faker.string.uuid(),
+        sinkSlotName: faker.lorem.word(),
       }
 
       const dataStream = DataStream.create(data)

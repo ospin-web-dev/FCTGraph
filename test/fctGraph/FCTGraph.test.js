@@ -1,4 +1,4 @@
-const faker = require('faker')
+const { faker } = require('@faker-js/faker')
 
 const FCTGraph = require('../../src/fctGraph/FCTGraph')
 const Slot = require('../../src/slots/Slot')
@@ -14,9 +14,9 @@ describe('FCTGraph', () => {
   describe('create', () => {
     it('sets all default values', () => {
       const data = {
-        id: faker.datatype.uuid(),
-        deviceId: faker.datatype.uuid(),
-        name: faker.random.word(),
+        id: faker.string.uuid(),
+        deviceId: faker.string.uuid(),
+        name: faker.lorem.word(),
       }
 
       const res = FCTGraph.create(data)
@@ -287,10 +287,10 @@ describe('FCTGraph', () => {
           'when generating a $name and connecting it to a any_number slot',
           ({ inSlotGenerator, outSlotGenerator }) => {
             it('does NOT throw an error', () => {
-              const slotA1 = inSlotGenerator()
-              const slotA2 = SlotSeeder.generateNumberOutSlot()
-              const slotB1 = outSlotGenerator()
-              const slotB2 = SlotSeeder.generateNumberInSlot()
+              const slotA1 = inSlotGenerator({name: 'slotA1'})
+              const slotA2 = SlotSeeder.generateNumberOutSlot({name: 'slotA2'})
+              const slotB1 = outSlotGenerator({name: 'slotB'})
+              const slotB2 = SlotSeeder.generateNumberInSlot({name: 'slotB2'})
 
               const fct1 = FunctionalitySeeder.generate({ slots: [ slotA1, slotB1 ] })
               const fct2 = FunctionalitySeeder.generate({ slots: [ slotA2, slotB2 ] })
@@ -369,7 +369,7 @@ describe('FCTGraph', () => {
         it('sets the publishIntervalMs to mirror the outputIntervalMs', () => {
           const intervalOut = FunctionalitySeeder.generateIntervalOut()
           const slot = SlotSeeder.generateFloatOutSlot()
-          const outputIntervalMs = faker.datatype.number()
+          const outputIntervalMs = faker.number.int()
           const fct = FunctionalitySeeder.generate({
             slots: [ slot ],
             outputIntervalMs,
